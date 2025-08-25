@@ -1,6 +1,6 @@
 {
   "name": "beefree-sdk-secure-auth-example",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Secure authentication example for Beefree SDK",
   "main": "server.js",
   "scripts": {
@@ -19,6 +19,6 @@
     "authentication",
     "email-builder"
   ],
-  "author": "",
+  "author": "dev@beefree.io",
   "license": "MIT"
 }
