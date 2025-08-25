@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beefree SDK - Secure Authentication Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .controls {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .builder-container {
+            height: 600px;
+            border-top: 1px solid #eee;
+        }
+        #bee-plugin-container {
+            width: 100%;
+            height: 100%;
+        }
+        .hidden {
+            display: none;
+        }
+        .token-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Secure Authentication</h1>
+            <p>Beefree SDK with Backend Token Management</p>
+        </div>
+
+        <div class="controls">
+            <div class="form-group">
+                <label for="uid">User ID (UID):</label>
+                <input 
+                    type="text" 
+                    id="uid" 
+                    placeholder="Enter a unique user identifier (e.g., user123)"
+                    value="demo-user-123"
+                >
+                <small style="color: #666; font-size: 14px;">
+                    This represents your application's user identifier
+                </small>
+            </div>
+
+            <button id="authenticate-btn" class="btn">
+                🚀 Authenticate & Load Builder
+            </button>
+
+            <div id="status" class="status hidden"></div>
+            
+            <div id="token-info" class="token-info hidden">
+                <strong>Token Information:</strong>
+                <div id="token-details"></div>
+            </div>
+        </div>
+
+        <div class="builder-container">
+            <div id="bee-plugin-container"></div>
+        </div>
+    </div>
+
+    <!-- Beefree SDK -->
+    <script src="https://app-rsrc.getbee.io/plugin/BeePlugin.js" onload="console.log('✅ BeePlugin loaded successfully')" onerror="console.error('❌ Failed to load BeePlugin')"></script>
+    <script>
+        // Wait for DOM and BeePlugin to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if BeePlugin loaded
+            if (typeof BeePlugin === 'undefined') {
+                console.error('❌ BeePlugin not available after DOM load');
+                document.getElementById('status').innerHTML = '<div class="status error">❌ Failed to load Beefree SDK. Please check your internet connection and refresh the page.</div>';
+                document.getElementById('status').classList.remove('hidden');
+            } else {
+                console.log('✅ BeePlugin is available');
+            }
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
