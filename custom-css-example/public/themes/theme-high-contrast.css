@@ -263,3 +263,38 @@ select:focus--cs {
 .beeDynamicImage__description {
   color: var(--main-dark) !important;
 }
+
+.icon--color-base,
+.icon--color-light {
+  opacity: 0.2 !important;
+}
+
+.dropdown-custom--cs .dropdown-toggle {
+  border-width: 3px !important;
+}
+
+.module-empty {
+  background-color: var(--main-background) !important;
+  color: var(--main-dark) !important;
+}
+
+.widgets-section__columns-container {
+  border: none !important;
+}
+
+/* Toggle widget */
+.toggle-slider--cs {
+  box-shadow: 0 0 0 2px var(--main-dark) !important;
+}
+.toggle-slider--cs::before {
+  background-color: var(--main-dark) !important;
+}
+
+.toggle-wrapper--cs input:checked+.toggle-slider--cs::before {
+  background-color: var(--main-light) !important;
+}
+
+/* Number selector */
+.number-selector--cs > div {
+  border: 2px solid var(--main-dark) !important;
+}
