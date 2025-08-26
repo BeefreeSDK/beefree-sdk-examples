@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
-const fetch = require('node-fetch');
 
 // Import shared authentication module
 const { setupAuthEndpoint } = require('../shared/auth.js');

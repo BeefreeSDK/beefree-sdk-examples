@@ -40,6 +40,8 @@
   --padding-preview: var(--main-background) !important;
   --row-border-radius-preview: var(--main-background) !important;
   --sidebar-row-layout-wrapper-background: var(--main-surface) !important;
+
+  --icon-organizer-border-color: var(--main-dark) !important;
 }
 
 
@@ -260,6 +262,7 @@ select:focus--cs {
   border: 3px solid var(--main-dark) !important;
 }
 
+.image-selector-container--cs p,
 .beeDynamicImage__description {
   color: var(--main-dark) !important;
 }
@@ -278,6 +281,8 @@ select:focus--cs {
   color: var(--main-dark) !important;
 }
 
+/* row columns */
+.rowlayout__columns--cs,
 .widgets-section__columns-container {
   border: none !important;
 }
@@ -295,6 +300,30 @@ select:focus--cs {
 }
 
 /* Number selector */
-.number-selector--cs > div {
+.number-selector--cs button,
+.number-selector--cs input {
+  border: 3px solid var(--main-dark) !important;
+  height: 36px !important;
+}
+.number-selector--cs input {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.input-text-boxed--cs label,
+.input-text-boxed--cs input {
   border: 2px solid var(--main-dark) !important;
+}
+
+.widgets-section section > div {
+  border-style: dashed;
+}
+
+/* Stage placeholder */
+.stage-placeholder--cs .stage-placeholder-text--cs {
+  color: var(--main-dark) !important;
+}
+.stage-placeholder--cs .stage-placeholder-icon--cs svg,
+.stage-placeholder--cs .stage-placeholder-icon--cs svg path {
+  fill: var(--main-dark) !important;
 }
