@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently --names 'SERVER,CLIENT' \"npm run server\" \"npm run client\"",
     "start": "npm run build && npm run server",
     "server": "node server.js",
     "client": "vite",

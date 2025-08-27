@@ -67,7 +67,7 @@ template-export-pdf-example/
 
 1. **Install dependencies**:
 ```bash
-npm install
+yarn install
 ```
 
 2. **Configure credentials**:
@@ -79,7 +79,7 @@ cp env.example .env
 
 3. **Start development environment**:
 ```bash
-npm run dev
+yarn dev
 ```
 This runs both the React development server and the Express backend concurrently.
 
@@ -91,13 +91,13 @@ http://localhost:5174
 ## 🚀 Available Scripts
 
 ```bash
-npm run dev        # Start development (client + server)
-npm start          # Build and start production server
-npm run server     # Start Express.js backend only
-npm run client     # Start Vite development server only
-npm run build      # Build for production
-npm run preview    # Preview production build
-npm run type-check # Check TypeScript without emitting
+yarn dev        # Start development (client + server)
+yarn start          # Build and start production server
+yarn server     # Start Express.js backend only
+yarn client     # Start Vite development server only
+yarn build      # Build for production
+yarn preview    # Preview production build
+yarn type-check # Check TypeScript without emitting
 ```
 
 ## 🔐 Environment Variables
