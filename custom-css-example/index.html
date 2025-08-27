@@ -3,66 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beefree SDK - Custom CSS Example</title>
+    <title>Beefree SDK - Custom CSS Example (React + TypeScript)</title>
     <link href="/images/beefree-favicon.png" rel="shortcut icon" type="image/x-icon"/>
-    <link rel="stylesheet" href="/src/styles.css">
+
 </head>
 <body>
-    <div class="demo-container beefree-container">
-        <div class="demo-header">
-            <h1>🎨 Custom CSS Styling</h1>
-            <p>Advanced Beefree SDK Interface Customization</p>
-            <div class="control-group">
-                <label for="theme-selector">🌈 Theme:</label>
-                <select id="theme-selector">
-                    <option value="">Select a theme...</option>
-                    <option value="dark">dark</option>
-                    <option value="default">default</option>
-                    <option value="high-contrast">high-contrast</option>
-                    <option value="coral">coral</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="builder-wrapper">
-            <div id="loading-overlay" class="loading-overlay">
-                <div class="spinner"></div>
-                <span>Loading Beefree SDK...</span>
-            </div>
-            <div id="bee-plugin-container"></div>
-        </div>
-
-        <div class="feature-showcase">
-            <h2>🎯 Customization Features</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>🎨 Theme System</h3>
-                    <p>Multiple pre-built themes with instant switching. Includes light, dark, ocean, sunset, and forest themes.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🖌️ Custom Colors</h3>
-                    <p>CSS custom properties allow easy color customization. Override any color with your brand palette.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>📱 Responsive Design</h3>
-                    <p>Mobile-friendly interface with responsive breakpoints and touch-optimized controls.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>♿ Accessibility</h3>
-                    <p>High contrast mode support, reduced motion preferences, and keyboard navigation enhancements.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔧 Deep Customization</h3>
-                    <p>Advanced CSS selectors target specific Beefree SDK components for granular control.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💾 Theme Persistence</h3>
-                    <p>User theme preferences are saved to localStorage and restored on page reload.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script type="module" src="/src/main.js"></script>
+    <div id="root"></div>
+    <!-- Beefree SDK -->
+    <script src="https://app-rsrc.getbee.io/plugin/BeePlugin.js"></script>
+    <script type="module" src="/src/index.tsx"></script>
 </body>
 </html>
