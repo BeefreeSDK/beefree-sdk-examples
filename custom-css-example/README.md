@@ -1,6 +1,6 @@
-# 🎨 Custom CSS Example
+# 🎨 Custom CSS Example (React + TypeScript)
 
-Demonstrates **advanced interface theming** for Beefree SDK with multiple theme systems, shared authentication, and container-level customization.
+Demonstrates **advanced interface theming** for Beefree SDK with multiple theme systems, modern React architecture, and container-level customization.
 
 ## 📖 Documentation Reference
 - [Configuration Parameters](https://docs.beefree.io/configuration-parameters/)
@@ -9,52 +9,71 @@ Demonstrates **advanced interface theming** for Beefree SDK with multiple theme 
 ## 🎯 What This Example Shows
 - ✅ **Container interface theming** (host application styling)
 - ✅ **Multiple theme system** with instant switching
-- ✅ **Shared authentication module** (`../shared/auth.js`)
+- ✅ **React + TypeScript architecture** with hooks and components
 - ✅ **Theme persistence** with localStorage
-- ✅ **Modern responsive design**
+- ✅ **Modern responsive design** with Vite development
 - ⚠️ **Beefree SDK limitation documentation** (editor iframe isolation)
 
 ## 🚀 Key Features
-- **🌈 5 Pre-built Themes**: Light, Dark, Ocean, Sunset, Forest
-- **🎨 Dynamic Theme Switching**: Instant theme changes with persistence
-- **🔒 Secure Authentication**: Backend token management via shared module
+- **🎨 Theme System**: Multiple pre-built themes with instant switching
+- **🖌️ Custom Colors**: CSS custom properties for easy color customization
 - **📱 Responsive Design**: Mobile-friendly interface with breakpoints
-- **💾 Theme Persistence**: User preferences saved to localStorage
-- **🎯 Educational Footer**: Feature showcase with documentation
+- **♿ Accessibility**: High contrast mode and keyboard navigation
+- **🔧 Deep Customization**: Advanced CSS selectors for granular control
+- **⚛️ React + TypeScript**: Modern architecture with type safety
+- **⚡ Vite Powered**: Lightning-fast development with HMR
 
 ## 📁 Project Structure
 ```
 custom-css-example/
-├── server.js           # Express.js backend with /auth endpoint
-├── index.html          # Themed frontend with feature showcase
-├── app.js             # Beefree SDK integration + theme management
-├── theme-manager.js   # Advanced theme system with 5 themes
-├── styles.css         # Base styles and theme variables
-├── .env               # Your Beefree SDK credentials
-├── .env.example       # Environment variables template
-├── package.json       # Dependencies and scripts
-└── README.md          # This file
-
-../shared/
-└── auth.js            # Shared authentication module
+├── src/
+│   ├── components/
+│   │   ├── App.tsx           # Main React app component
+│   │   ├── ThemeSelector.tsx # Theme selection dropdown
+│   │   ├── BeefreeEditor.tsx # Beefree SDK integration
+│   │   └── FeatureShowcase.tsx # Feature cards display
+│   ├── hooks/
+│   │   └── useThemeManager.ts # Custom hook for theme logic
+│   ├── services/
+│   │   └── beefree.ts        # Beefree SDK service layer
+│   ├── config/
+│   │   └── clientConfig.ts   # Configuration constants
+│   ├── types/
+│   │   └── beefree.d.ts      # TypeScript definitions
+│   ├── styles.css            # Base styles and theme variables
+│   └── main.tsx              # React entry point
+├── public/
+│   ├── themes/               # Theme CSS files
+│   │   ├── theme-default.css
+│   │   ├── theme-dark.css
+│   │   ├── theme-coral.css
+│   │   └── theme-high-contrast.css
+│   └── images/               # Static assets
+├── index.html                # HTML entry point
+├── vite.config.ts            # Vite + React configuration
+├── tsconfig.json             # TypeScript configuration
+├── package.json              # Dependencies and scripts
+└── README.md                 # This file
 ```
 
 ## 🛠️ Quick Start
 
 1. **Install dependencies**:
 ```bash
-npm install
+yarn install
 ```
 
 2. **Configure credentials**:
+Create a `.env` file with your Beefree SDK credentials:
 ```bash
-cp .env.example .env
-# Edit .env with your Beefree SDK credentials from https://developers.beefree.io
+# Required: Get your credentials from https://developers.beefree.io
+VITE_BEEFREE_AUTH_PROXY_URL=your_auth_server_url
+VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 ```
 
-3. **Start the server**:
+3. **Start the development server**:
 ```bash
-npm start
+yarn dev
 ```
 
 4. **Open in browser**:
@@ -62,22 +81,46 @@ npm start
 http://localhost:8081
 ```
 
+## 🚀 Available Scripts
+
+```bash
+yarn dev        # Start development server with HMR
+yarn build      # Build for production
+yarn preview    # Preview production build
+yarn type-check # Check TypeScript without emitting
+```
+
 ## 🎨 Theme System
 
 ### Available Themes
 | Theme | Colors | Description |
 |-------|--------|-------------|
-| **Light** | Blue/White | Clean, minimal design |
+| **Default** | Blue/White | Clean, minimal design |
 | **Dark** | Dark/Purple | Modern dark mode |
-| **Ocean** | Blue/Teal | Ocean-inspired palette |
-| **Sunset** | Orange/Pink | Warm sunset colors |
-| **Forest** | Green/Brown | Nature-inspired theme |
+| **Coral** | Coral/Orange | Warm coral theme |
+| **High Contrast** | Black/White/Yellow | Maximum accessibility contrast |
 
 ### Theme Features
-- **🔄 Instant Switching**: Change themes without page reload
+- **🔄 Instant Switching**: Change themes without page reload via React hooks
 - **💾 Persistence**: Theme choice saved to localStorage
 - **🎯 CSS Variables**: Clean, maintainable theming system
-- **📱 Responsive**: All themes work across device sizes
+- **⚛️ React Integration**: Theme state managed with custom hooks
+
+## ⚛️ React + TypeScript Architecture
+
+### Modern Stack
+- **React 18**: Latest React with hooks and functional components
+- **TypeScript**: Full type safety with strict configuration  
+- **Vite**: Lightning-fast development and optimized builds
+- **Custom Hooks**: `useThemeManager` for theme state management
+- **Component Architecture**: Modular, reusable UI components
+
+### Benefits
+- **Type Safety**: Compile-time error checking prevents runtime issues
+- **Developer Experience**: IntelliSense, auto-completion, and refactoring
+- **Performance**: React's virtual DOM + Vite's HMR for fast development
+- **Maintainability**: Clear component boundaries and typed interfaces
+- **Scalability**: Easy to extend with new themes and components
 
 ## ⚠️ Important Limitation
 
@@ -97,18 +140,20 @@ http://localhost:8081
 
 ## 🧪 Testing
 
-1. **Theme Switching**: Use dropdown to test all 5 themes
-2. **Authentication**: Click "Load Email Builder" for secure auth
-3. **Persistence**: Reload page to verify theme persistence
-4. **Responsive**: Test on different screen sizes
-5. **Editor Loading**: Verify Beefree SDK loads in themed container
+1. **Theme Switching**: Use dropdown to test all 4 themes
+2. **React Components**: Verify hot module replacement works
+3. **TypeScript**: Check type safety and IntelliSense
+4. **Persistence**: Reload page to verify theme persistence
+5. **Responsive**: Test on different screen sizes
+6. **Editor Loading**: Verify Beefree SDK loads in themed container
 
 ## 🔧 Customization Guide
 
 ### Adding New Themes
-1. **Edit `theme-manager.js`**: Add theme to `this.themes` object
-2. **Define CSS Variables**: Set colors for your theme
-3. **Update Dropdown**: Theme automatically appears in selector
+1. **Create CSS file**: Add new theme in `public/themes/theme-{name}.css`
+2. **Define CSS Variables**: Set colors and styling for your theme
+3. **Update ThemeSelector**: Add theme option to `src/components/ThemeSelector.tsx`
+4. **Update Hook**: Add theme type to `src/hooks/useThemeManager.ts`
 
 ### CSS Architecture
 ```css
@@ -125,8 +170,10 @@ http://localhost:8081
 
 ## 🌟 Production Notes
 
+- **React Architecture**: Component-based structure for maintainability
+- **TypeScript Safety**: Compile-time error checking and IntelliSense
 - **Theme System**: Easily extensible for brand customization
-- **Performance**: CSS variables enable efficient theme switching
-- **Accessibility**: High contrast themes support accessibility needs
-- **Scalability**: Shared auth module enables consistent authentication
-- **Documentation**: Feature showcase educates users on capabilities
+- **Performance**: CSS variables + React hooks for efficient updates
+- **Accessibility**: High contrast themes with WCAG compliance
+- **Build Optimization**: Vite provides optimized production builds
+- **Developer Experience**: Hot module replacement and fast development
