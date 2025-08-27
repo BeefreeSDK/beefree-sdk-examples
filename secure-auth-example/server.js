@@ -1,9 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+import dotenv from 'dotenv';
 
-// Import shared authentication module
+// ES module equivalents for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables
+dotenv.config();
+
+// Import shared authentication module (CommonJS)
+const require = createRequire(import.meta.url);
 const { setupAuthEndpoint } = require('../shared/auth.js');
 
 const app = express();
@@ -12,7 +22,16 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+
+// Serve static files from dist in production, current directory in development
+const isProduction = process.env.NODE_ENV === 'production';
+if (isProduction && require('fs').existsSync(path.join(__dirname, 'dist'))) {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  console.log('📦 Serving React build from dist/');
+} else {
+  app.use(express.static(path.join(__dirname)));
+  console.log('🔧 Serving static files from current directory');
+}
 
 // Setup shared authentication endpoint
 setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET);
@@ -33,15 +52,39 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Serve the main page
+// Serve the React app
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  if (isProduction && require('fs').existsSync(path.join(__dirname, 'dist', 'index.html'))) {
+    // Serve React build from dist
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  } else {
+    // Serve React HTML for development
+    res.sendFile(path.join(__dirname, 'index.html'));
+  }
+});
+
+// Route for React app (catch-all for client-side routing)
+app.get('*', (req, res) => {
+  if (isProduction && require('fs').existsSync(path.join(__dirname, 'dist', 'index.html'))) {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  } else {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  }
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📖 Open http://localhost:${PORT} to view the example`);
+  console.log('🚀 Beefree SDK Secure Authentication Example');
+  console.log(`📄 Version: 2.0.0 (React + TypeScript)`);
+  console.log(`🌐 Server running at: http://localhost:${PORT}`);
+  console.log('🔧 API endpoints:');
+  console.log('   • POST /auth/token - Authentication');
+  console.log('   • GET /health - Health Check');
+  console.log('📋 Environment check:');
+  console.log(`   • BEEFREE_CLIENT_ID: ${process.env.BEEFREE_CLIENT_ID ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • BEEFREE_CLIENT_SECRET: ${process.env.BEEFREE_CLIENT_SECRET ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • MODE: ${isProduction ? '🏭 Production' : '🔧 Development'}`);
+  console.log('🎯 Ready for secure authentication!');
   
   // Check if environment variables are set
   if (!process.env.BEEFREE_CLIENT_ID || !process.env.BEEFREE_CLIENT_SECRET) {

@@ -1,0 +1,86 @@
+import BeefreeSDK from '@beefree.io/sdk'
+import { AuthToken } from '../types'
+import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
+
+export class BeefreeService {
+  private beeInstance: any = null
+
+
+
+  async loadTemplate(url: string = DEFAULT_TEMPLATE_URL): Promise<any> {
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`Failed to load template: ${response.status}`)
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('❌ Template loading error:', error)
+      throw error
+    }
+  }
+
+  async initializeSDK(_token: AuthToken, uid: string): Promise<any> {
+    try {
+      // Check if container exists in DOM
+      const container = document.getElementById(BEEFREE_CONFIG.container)
+      if (!container) {
+        throw new Error(`Container element with id '${BEEFREE_CONFIG.container}' not found in DOM`)
+      }
+
+      // Load template first
+      const templateData = await this.loadTemplate()
+      
+      // Get proper IToken by calling auth endpoint (like custom-css-example)
+      const authResponse = await fetch('/auth/token', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uid })
+      })
+      
+      if (!authResponse.ok) {
+        throw new Error(`Auth failed: ${authResponse.status}`)
+      }
+      
+      const properToken = await authResponse.json()
+      
+      // Create SDK instance with the proper IToken
+      this.beeInstance = new BeefreeSDK(properToken)
+      
+      // Client configuration
+      const clientConfig = {
+        container: BEEFREE_CONFIG.container,
+        uid: uid,
+      }
+      
+      // Store reference globally and start SDK
+      window.bee = this.beeInstance
+      this.beeInstance.start(clientConfig, templateData)
+      return this.beeInstance
+
+    } catch (error) {
+      console.error('❌ Beefree SDK initialization failed:', error)
+      throw error
+    }
+  }
+
+  async destroySDK(): Promise<void> {
+    if (this.beeInstance) {
+      try {
+        await this.beeInstance.destroy()
+        this.beeInstance = null
+        window.bee = undefined
+        console.log('🗑️ Beefree SDK destroyed')
+      } catch (error) {
+        console.error('❌ Error destroying SDK:', error)
+      }
+    }
+  }
+
+  getInstance() {
+    return this.beeInstance
+  }
+}

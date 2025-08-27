@@ -1,0 +1,52 @@
+import { AuthToken } from '../types'
+import { AUTH_API_URL } from '../config/constants'
+
+export class AuthService {
+  private tokenRefreshTimer: ReturnType<typeof setInterval> | null = null
+
+  async authenticateUser(uid: string): Promise<AuthToken> {
+    try {
+      const response = await fetch(AUTH_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uid })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.text()
+        throw new Error(`Authentication failed: ${response.status} ${errorData}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('❌ Authentication error:', error)
+      throw error instanceof Error ? error : new Error('Unknown authentication error')
+    }
+  }
+
+  async refreshToken(uid: string): Promise<AuthToken> {
+    return this.authenticateUser(uid)
+  }
+
+  setupTokenRefresh(uid: string, onTokenRefresh: (token: AuthToken) => void, intervalMs: number = 300000) {
+    this.clearTokenRefresh()
+    
+    this.tokenRefreshTimer = setInterval(async () => {
+      try {
+        const newToken = await this.refreshToken(uid)
+        onTokenRefresh(newToken)
+      } catch (error) {
+        console.error('❌ Token refresh failed:', error)
+      }
+    }, intervalMs)
+  }
+
+  clearTokenRefresh() {
+    if (this.tokenRefreshTimer) {
+      clearInterval(this.tokenRefreshTimer)
+      this.tokenRefreshTimer = null
+    }
+  }
+}
