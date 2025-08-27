@@ -1,19 +1,44 @@
 {
   "name": "beefree-sdk-template-export-pdf-example",
-  "version": "1.0.0",
-  "description": "Template export to PDF example for Beefree SDK",
+  "version": "2.0.0",
+  "description": "Template export to PDF example for Beefree SDK with React & TypeScript",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "concurrently --names 'SERVER,CLIENT' \"npm run server\" \"npm run client\"",
+    "start": "npm run build && npm run server",
+    "server": "node server.js",
+    "client": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
+  "keywords": [
+    "beefree",
+    "sdk",
+    "pdf",
+    "export",
+    "content-services-api",
+    "react",
+    "typescript"
+  ],
+  "author": "Beefree SDK Examples",
+  "license": "MIT",
   "dependencies": {
+    "@beefree.io/sdk": "^9.2.1",
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "keywords": ["beefree", "sdk", "pdf", "export", "content-services-api"],
-  "author": "",
-  "license": "MIT"
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0"
+  }
 }

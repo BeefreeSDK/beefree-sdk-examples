@@ -1,10 +1,21 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const multer = require('multer');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import multer from 'multer';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// Import shared authentication module
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Configure dotenv
+dotenv.config();
+
+// Import shared authentication module (will need to be converted to ES modules too)
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const { setupAuthEndpoint } = require('../shared/auth');
 
 const app = express();
@@ -13,7 +24,9 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
-app.use(express.static(path.join(__dirname)));
+
+// Serve static files from dist directory (for production build)
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -21,7 +34,10 @@ const upload = multer({
   storage: multer.memoryStorage()
 });
 
-// Beefree SDK Authentication using shared module
+// Setup Beefree SDK Authentication using shared module
+setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET);
+
+// Beefree SDK Authentication helper
 async function getBeefreeToken() {
   try {
     const { authenticateBeefree } = require('../shared/auth');
@@ -41,6 +57,15 @@ async function getBeefreeToken() {
 app.post('/api/export/pdf', async (req, res) => {
   try {
     const { templateHtml, templateJson, exportOptions = {} } = req.body;
+    
+    console.log('🔍 Received request body:', {
+      hasTemplateHtml: !!templateHtml,
+      hasTemplateJson: !!templateJson,
+      templateJsonType: typeof templateJson,
+      templateJsonLength: templateJson ? JSON.stringify(templateJson).length : 0,
+      templateJsonPreview: templateJson ? JSON.stringify(templateJson).substring(0, 200) : null,
+      exportOptions
+    });
 
     if (!templateHtml && !templateJson) {
       return res.status(400).json({
@@ -49,284 +74,178 @@ app.post('/api/export/pdf', async (req, res) => {
       });
     }
 
-    console.log('📄 Starting PDF export...');
+    // Check if templateJson is empty or invalid
+    if (templateJson && (JSON.stringify(templateJson) === '{}' || Object.keys(templateJson).length === 0)) {
+      return res.status(400).json({
+        error: 'Empty template data',
+        message: 'Template JSON appears to be empty. Please create or modify a template first.'
+      });
+    }
 
-    // Prepare export payload according to Beefree Content Services API
-    const exportPayload = {
-      page_size: exportOptions.pageSize || 'A4',
-      page_orientation: exportOptions.orientation || 'portrait',
-      html: templateHtml
-    };
+    console.log('🔄 Starting PDF export...');
+    console.log('📋 Export options:', exportOptions);
 
-    // Call Content Services API for PDF export using API key authentication  
-    const apiUrl = process.env.BEEFREE_CS_API_URL || 'https://api.getbee.io';
-    const exportResponse = await fetch(`${apiUrl}/v1/message/pdf`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.BEEFREE_CS_API_KEY}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(exportPayload)
+    // Get Beefree token for Content Services API
+    const token = await getBeefreeToken();
+
+    // Prepare export request according to Beefree API format
+    const exportData = {};
+
+    // Add template data - for PDF export, we need HTML or JSON (not both)
+    if (templateHtml) {
+      exportData.html = templateHtml;
+      console.log('📄 Using HTML template for PDF export');
+    } else if (templateJson) {
+      // If we only have JSON, we need to pass it as 'json' field
+      exportData.json = templateJson;
+      console.log('📄 Using JSON template for PDF export');
+    }
+
+    // Add export options according to API documentation (underscore format)
+    if (exportOptions.pageSize) {
+      exportData.page_size = exportOptions.pageSize.toLowerCase(); // API expects page_size with underscore
+    }
+    if (exportOptions.orientation) {
+      exportData.page_orientation = exportOptions.orientation.toLowerCase(); // API expects page_orientation with underscore
+    }
+    
+    console.log('📋 Final export data structure:', {
+      hasHtml: !!exportData.html,
+      hasJson: !!exportData.json,
+      page_size: exportData.page_size,
+      page_orientation: exportData.page_orientation
     });
 
-    if (!exportResponse.ok) {
-      const errorData = await exportResponse.text();
-      console.error('❌ Export API error:', errorData);
+    console.log('🚀 Calling Content Services API...');
+
+    // Call Beefree Content Services API
+    const csApiUrl = process.env.BEEFREE_CS_API_URL || 'https://api.getbee.io';
+    const response = await fetch(`${csApiUrl}/v1/message/pdf`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(exportData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('❌ Content Services API error:', response.status, errorData);
       
-      return res.status(exportResponse.status).json({
-        error: 'PDF export failed',
-        message: 'Content Services API export failed',
+      return res.status(response.status).json({
+        success: false,
+        error: 'Export failed',
+        message: `Content Services API error: ${response.status} ${errorData}`,
         details: errorData
       });
     }
 
-    const exportResult = await exportResponse.json();
-
-    console.log('✅ PDF export successful:', exportResult);
-
-    // The API returns the PDF URL directly in the response
-    const pdfUrl = exportResult.body?.url || exportResult.url || exportResult.downloadUrl;
+    // Handle different response types
+    const contentType = response.headers.get('content-type');
     
-    res.json({
-      success: true,
-      downloadUrl: pdfUrl,
-      status: 'completed',
-      message: 'PDF export completed successfully'
-    });
+    if (contentType && contentType.includes('application/pdf')) {
+      // Direct PDF response - stream it to client
+      console.log('✅ PDF generated successfully, streaming to client...');
+      
+      const filename = generateFilename(exportOptions);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'no-cache');
+      
+      // Stream the PDF data
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      
+      res.send(buffer);
+      
+    } else {
+      // JSON response with download URL or status
+      const result = await response.json();
+      console.log('📄 Export result:', result);
+      
+      if (result.downloadUrl) {
+        // Proxy the download URL if needed
+        const pdfResponse = await fetch(result.downloadUrl);
+        const filename = generateFilename(exportOptions);
+        
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        
+        const arrayBuffer = await pdfResponse.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        res.send(buffer);
+        
+      } else {
+        res.json({
+          success: true,
+          ...result,
+          filename: generateFilename(exportOptions)
+        });
+      }
+    }
 
   } catch (error) {
     console.error('❌ PDF export error:', error);
-    
     res.status(500).json({
-      error: 'Internal server error',
-      message: 'An unexpected error occurred during PDF export',
-      details: error.message
+      success: false,
+      error: 'Export failed',
+      message: error.message,
+      details: error.stack
     });
   }
 });
 
-// Check export status (for async exports)
-app.get('/api/export/status/:exportId', async (req, res) => {
-  try {
-    const { exportId } = req.params;
-    
-    console.log(`🔍 Checking export status: ${exportId}`);
+// Generate filename for PDF export
+function generateFilename(options) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+  const { pageSize = 'A4', orientation = 'Portrait' } = options;
+  return `beefree-template-${pageSize}-${orientation}-${timestamp}.pdf`;
+}
 
-    const token = await getBeefreeToken();
-
-    const statusResponse = await fetch(`${process.env.BEEFREE_CS_API_URL}/v1/export/${exportId}/status`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      }
-    });
-
-    if (!statusResponse.ok) {
-      return res.status(statusResponse.status).json({
-        error: 'Status check failed',
-        message: 'Could not retrieve export status'
-      });
-    }
-
-    const statusData = await statusResponse.json();
-
-    res.json({
-      success: true,
-      exportId: exportId,
-      status: statusData.status,
-      progress: statusData.progress || 0,
-      downloadUrl: statusData.downloadUrl,
-      error: statusData.error,
-      message: statusData.message
-    });
-
-  } catch (error) {
-    console.error('❌ Status check error:', error);
-    
-    res.status(500).json({
-      error: 'Internal server error',
-      message: 'Failed to check export status',
-      details: error.message
-    });
-  }
-});
-
-// Download PDF file
-app.get('/api/export/download/:exportId', async (req, res) => {
-  try {
-    const { exportId } = req.params;
-    
-    console.log(`📥 Downloading PDF: ${exportId}`);
-
-    const token = await getBeefreeToken();
-
-    const downloadResponse = await fetch(`${process.env.BEEFREE_CS_API_URL}/v1/export/${exportId}/download`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!downloadResponse.ok) {
-      return res.status(downloadResponse.status).json({
-        error: 'Download failed',
-        message: 'Could not download PDF file'
-      });
-    }
-
-    // Stream the PDF file to client
-    const filename = `template-${exportId}-${Date.now()}.pdf`;
-    
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-    
-    downloadResponse.body.pipe(res);
-
-  } catch (error) {
-    console.error('❌ Download error:', error);
-    
-    res.status(500).json({
-      error: 'Internal server error',
-      message: 'Failed to download PDF',
-      details: error.message
-    });
-  }
-});
-
-// Batch export multiple templates
-app.post('/api/export/batch', async (req, res) => {
-  try {
-    const { templates, exportOptions = {} } = req.body;
-
-    if (!Array.isArray(templates) || templates.length === 0) {
-      return res.status(400).json({
-        error: 'Invalid templates',
-        message: 'Templates array is required and must not be empty'
-      });
-    }
-
-    console.log(`📄 Starting batch PDF export for ${templates.length} templates...`);
-
-    const token = await getBeefreeToken();
-    const exportResults = [];
-
-    // Process each template
-    for (let i = 0; i < templates.length; i++) {
-      const template = templates[i];
-      
-      try {
-        const exportPayload = {
-          html: template.html,
-          json: template.json,
-          format: 'pdf',
-          options: {
-            pageSize: exportOptions.pageSize || 'A4',
-            orientation: exportOptions.orientation || 'portrait',
-            quality: exportOptions.quality || 'high',
-            margins: exportOptions.margins || {
-              top: '20mm',
-              right: '20mm', 
-              bottom: '20mm',
-              left: '20mm'
-            }
-          }
-        };
-
-        const exportResponse = await fetch(`${process.env.BEEFREE_CS_API_URL}/v1/export`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(exportPayload)
-        });
-
-        if (exportResponse.ok) {
-          const result = await exportResponse.json();
-          exportResults.push({
-            index: i,
-            templateId: template.id || i,
-            success: true,
-            exportId: result.exportId,
-            downloadUrl: result.downloadUrl,
-            status: result.status
-          });
-        } else {
-          exportResults.push({
-            index: i,
-            templateId: template.id || i,
-            success: false,
-            error: `Export failed with status ${exportResponse.status}`
-          });
-        }
-
-      } catch (error) {
-        exportResults.push({
-          index: i,
-          templateId: template.id || i,
-          success: false,
-          error: error.message
-        });
-      }
-    }
-
-    const successCount = exportResults.filter(r => r.success).length;
-    
-    console.log(`✅ Batch export completed: ${successCount}/${templates.length} successful`);
-
-    res.json({
-      success: true,
-      totalTemplates: templates.length,
-      successfulExports: successCount,
-      failedExports: templates.length - successCount,
-      results: exportResults,
-      message: `Batch export completed: ${successCount}/${templates.length} successful`
-    });
-
-  } catch (error) {
-    console.error('❌ Batch export error:', error);
-    
-    res.status(500).json({
-      error: 'Internal server error',
-      message: 'Batch export failed',
-      details: error.message
-    });
-  }
-});
-
-// Setup shared authentication endpoint
-setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET);
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    service: 'Beefree SDK PDF Export Example',
-    timestamp: new Date().toISOString()
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    version: '2.0.0',
+    features: [
+      'PDF Export',
+      'React + TypeScript',
+      'Content Services API',
+      'Shared Authentication'
+    ]
   });
 });
 
-// Serve main page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// Serve React app for all other routes (SPA fallback)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// Error handling middleware
+app.use((error, req, res, next) => {
+  console.error('❌ Server error:', error);
+  res.status(500).json({
+    error: 'Internal server error',
+    message: error.message
+  });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📖 Open http://localhost:${PORT} to view the PDF export example`);
-  
-  // Check environment variables
-  if (!process.env.BEEFREE_CLIENT_ID || !process.env.BEEFREE_CLIENT_SECRET) {
-    console.warn('⚠️  Warning: Beefree SDK credentials not found');
-    console.warn('   Please copy .env.example to .env and add your credentials');
-  }
-  
-  if (!process.env.BEEFREE_CS_API_KEY) {
-    console.warn('⚠️  Warning: Content Services API key not found');
-    console.warn('   PDF export functionality may be limited');
-  }
+  console.log(`\n🚀 Beefree SDK PDF Export Example Server`);
+  console.log(`📄 Version: 2.0.0 (React + TypeScript)`);
+  console.log(`🌐 Server running at: http://localhost:${PORT}`);
+  console.log(`🔧 API endpoints:`);
+  console.log(`   • POST /auth/token - Authentication`);
+  console.log(`   • POST /api/export/pdf - PDF Export`);
+  console.log(`   • GET /api/health - Health Check`);
+  console.log(`\n📋 Environment check:`);
+  console.log(`   • BEEFREE_CLIENT_ID: ${process.env.BEEFREE_CLIENT_ID ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • BEEFREE_CLIENT_SECRET: ${process.env.BEEFREE_CLIENT_SECRET ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • BEEFREE_CS_API_KEY: ${process.env.BEEFREE_CS_API_KEY ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • BEEFREE_CS_API_URL: ${process.env.BEEFREE_CS_API_URL || 'https://api.getbee.io (default)'}`);
+  console.log(`\n🎯 Ready for PDF export operations!`);
 });
