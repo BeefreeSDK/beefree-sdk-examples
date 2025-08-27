@@ -23,10 +23,10 @@ Each example demonstrates production-ready implementation of specific Beefree SD
 - [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE** - Secure backend authentication with shared auth module
 
 ### 🎨 Customization & Styling  
-- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE** - Advanced theming system with 5 themes and container customization
+- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE** - Advanced theming system with React+TypeScript, 5 themes, and modern architecture
 
 ### 📄 Template Management
-- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE** - Export templates to PDF using Beefree Content Services API with auto-download
+- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE** - PDF export with React+TypeScript, advanced options, and progress tracking
 
 ### 🔧 Shared Infrastructure
 - [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE** - Reusable authentication module for all examples
@@ -100,38 +100,52 @@ cp .env.example .env
 4. **Run example**:
 ```bash
 npm start
+# OR for React examples
+yarn dev
 ```
+
+5. **Open in browser**:
+- **secure-auth-example**: `http://localhost:3000`
+- **custom-css-example**: `http://localhost:8081`
+- **template-export-pdf-example**: `http://localhost:5174`
 
 ### 🔐 Environment Variables
 
 Create a `.env` file in each example directory with the required variables:
 
-#### 🔐 secure-auth-example & 🎨 custom-css-example
+#### 🔐 secure-auth-example (Vanilla JS)
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000  # or 8081 for custom-css-example
+PORT=3000
 ```
 
-#### 📄 template-export-pdf-example
+#### 🎨 custom-css-example (React + TypeScript)
+```env
+VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
+```
+
+#### 📄 template-export-pdf-example (React + TypeScript)
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
+VITE_PORT=5174
 ```
 
 **🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. Always use server-side only.
 
 ## 🎯 Example Status
 
-| Example | Status | Port | Features |
-|---------|--------|------|----------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | 3000 | Backend auth, shared module, modern UI |
-| 🎨 **custom-css-example** | ✅ **Ready** | 8081 | 5 themes, persistence, responsive design |
-| 📄 **template-export-pdf-example** | ✅ **Ready** | 3001 | PDF export via CSAPI |
-| 🔧 **shared/auth.js** | ✅ **Ready** | - | Reusable authentication module |
+| Example | Status | Stack | Port | Features |
+|---------|--------|-------|------|----------|
+| 🔐 **secure-auth-example** | ✅ **Ready** | Vanilla JS | 3000 | Backend auth, shared module, modern UI |
+| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | 5 themes, modern architecture, type safety |
+| 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
+| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | Reusable authentication module |
 
 ## 🏗️ Architecture
 
@@ -146,12 +160,26 @@ All examples use the **shared authentication module** (`shared/auth.js`) for:
 ```
 beefree-sdk-examples/
 ├── shared/
-│   └── auth.js              # 🔧 Shared authentication module
-├── secure-auth-example/     # 🔐 Production-ready secure auth
-├── custom-css-example/      # 🎨 Advanced theming system
-├── template-export-pdf-example/  # 📄 PDF export functionality
-└── README.md               # 📖 This file
+│   └── auth.js                    # 🔧 Shared authentication module
+├── secure-auth-example/           # 🔐 Vanilla JS - Production-ready secure auth
+├── custom-css-example/            # 🎨 React+TS - Advanced theming system
+├── template-export-pdf-example/   # 📄 React+TS - PDF export with progress tracking
+└── README.md                     # 📖 This file
 ```
+
+### Architecture Approaches
+
+#### 🟡 **Vanilla JavaScript** (secure-auth-example)
+- **Best for**: Simple integrations, learning, prototyping
+- **Stack**: Plain HTML/CSS/JS + Express.js backend
+- **Pros**: Easy to understand, minimal setup, direct SDK usage
+- **Cons**: No type safety, manual DOM manipulation
+
+#### 🟢 **React + TypeScript** (custom-css-example, template-export-pdf-example)
+- **Best for**: Production applications, complex UIs, team development
+- **Stack**: React 18 + TypeScript + Vite + Express.js backend
+- **Pros**: Type safety, component architecture, modern tooling, scalability
+- **Cons**: More complex setup, build step required
 
 ## 📚 Documentation & Resources
 
@@ -170,16 +198,20 @@ beefree-sdk-examples/
 
 ### 🎨 Customization & Theming
 - **Multiple theme system** (5 pre-built themes)
-- **CSS variable architecture**
+- **React + TypeScript architecture** with modern development stack
+- **CSS variable architecture** for maintainable theming
 - **Theme persistence** with localStorage
 - **Container-level customization** (Beefree editor iframe isolation documented)
 
 ### 📄 Export & Integration
 - **PDF export** via Beefree Content Services API
+- **React + TypeScript architecture** with type-safe development
+- **Advanced export options** (page size, orientation, quality, scale)
+- **Real-time progress tracking** with visual indicators
+- **Export history management** with success/failure tracking
 - **Template management** with onSave callback integration
 - **Auto-download functionality** to browser Downloads folder
-- **Export options** (page size, orientation, quality, scale)
-- **Modern responsive UI**
+- **Modern responsive UI** with accessibility support
 
 ## 🤝 Contributing
 
@@ -187,8 +219,10 @@ Each example follows these principles:
 - ✅ **Production-ready code** with proper error handling
 - ✅ **Comprehensive documentation** with setup instructions
 - ✅ **Shared modules** for consistency across examples
-- ✅ **Modern JavaScript** (ES6+) with clear comments
+- ✅ **Modern development** with clear architecture choices
 - ✅ **Security best practices** (server-side credentials only)
+- ✅ **Type safety** (React+TypeScript examples with full typing)
+- ✅ **Accessibility** (WCAG-compliant UI components)
 
 ## 📄 License
 

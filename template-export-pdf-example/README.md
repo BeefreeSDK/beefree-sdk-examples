@@ -1,42 +1,66 @@
-# 📄 Template Export PDF Example
+# 📄 Template Export PDF Example (React + TypeScript)
 
-Demonstrates **production-ready PDF export** for Beefree SDK templates using the Beefree Content Services API with auto-download functionality and shared authentication.
+Demonstrates **production-ready PDF export** for Beefree SDK templates using React, TypeScript, and the Beefree Content Services API with advanced export options and real-time progress tracking.
 
 ## 📖 Documentation Reference
 - [Content Services API](https://docs.beefree.io/beefree-sdk/apis/content-services-api)
 - [Export to PDF](https://docs.beefree.io/beefree-sdk/apis/content-services-api/export)
+- [Beefree SDK Configuration](https://docs.beefree.io/configuration-parameters/)
 
 ## 🎯 What This Example Shows
 - ✅ **PDF export** for Beefree SDK templates via Content Services API
+- ✅ **React + TypeScript architecture** with modern development stack
+- ✅ **Advanced export options** (page size, orientation, quality, scale)
+- ✅ **Real-time progress tracking** with visual indicators
+- ✅ **Export history management** with success/failure tracking
 - ✅ **Auto-download functionality** to browser Downloads folder
-- ✅ **Shared authentication module** (`../shared/auth.js`)
-- ✅ **Export options** (page size, orientation, quality, scale)
-- ✅ **Production-ready error handling** and user feedback
-- ✅ **onSave callback integration** for reliable template data retrieval
+- ✅ **Shared authentication module** integration
+- ✅ **Type-safe development** with official Beefree SDK types
+- ✅ **Modern UI/UX** with responsive design and accessibility
 
 ## 🚀 Key Features
 - **📄 PDF Export**: Convert Beefree templates to PDF using Content Services API
-- **⚙️ Export Options**: Page size (A4, Letter), orientation (Portrait/Landscape), quality settings
+- **⚛️ React + TypeScript**: Modern development with type safety and component architecture
+- **⚙️ Advanced Export Options**: Configurable page size, orientation, quality, and scaling
+- **📊 Progress Tracking**: Real-time export progress with visual feedback
 - **📥 Auto-Download**: Direct download to browser Downloads folder
+- **📋 Export History**: Track export history with timestamps and options
 - **🔒 Secure Authentication**: Backend API key management with shared auth module
-- **💾 Template Integration**: Uses onSave callback for reliable template data retrieval
-- **⚠️ Error Handling**: Comprehensive error management and user feedback
-- **📱 Modern UI**: Clean, responsive interface with export management panel
+- **🎨 Modern UI**: Clean, responsive interface with collapsible export panel
+- **♿ Accessibility**: WCAG-compliant design with keyboard navigation
 
 ## 📁 Project Structure
 ```
 template-export-pdf-example/
-├── server.js           # Express.js backend with PDF export API
-├── index.html          # Frontend interface with export panel
-├── app.js             # Beefree SDK integration + export management
-├── pdf-exporter.js    # PDF export utility class
-├── .env               # Your Beefree SDK credentials + CS API key
-├── .env.example       # Environment variables template
-├── package.json       # Dependencies and scripts
-└── README.md          # This file
+├── src/
+│   ├── components/
+│   │   ├── App.tsx              # Main React app component
+│   │   ├── BeefreeEditor.tsx    # Beefree SDK integration
+│   │   ├── PDFExportPanel.tsx   # Export controls and history
+│   │   ├── Header.tsx           # Application header
+│   │   └── Footer.tsx           # Application footer
+│   ├── hooks/
+│   │   └── usePDFExport.ts      # Custom hook for export logic
+│   ├── services/
+│   │   ├── beefree.ts           # Beefree SDK service layer
+│   │   └── pdfExport.ts         # PDF export service
+│   ├── config/
+│   │   ├── clientConfig.ts      # Beefree SDK configuration
+│   │   └── constants.ts         # Application constants
+│   ├── types/
+│   │   └── index.ts             # TypeScript type definitions
+│   ├── styles.css               # Application styles
+│   └── main.tsx                 # React entry point
+├── server.js                    # Express.js backend with PDF export API
+├── index.html                   # HTML entry point
+├── vite.config.ts              # Vite + React configuration
+├── tsconfig.json               # TypeScript configuration
+├── package.json                # Dependencies and scripts
+├── env.example                 # Environment variables template
+└── README.md                   # This file
 
 ../shared/
-└── auth.js            # Shared authentication module
+└── auth.js                     # Shared authentication module
 ```
 
 ## 🛠️ Quick Start
@@ -48,19 +72,32 @@ npm install
 
 2. **Configure credentials**:
 ```bash
-cp .env.example .env
+cp env.example .env
 # Edit .env with your Beefree SDK credentials from https://developers.beefree.io
 # Add your Content Services API key
 ```
 
-3. **Start the server**:
+3. **Start development environment**:
 ```bash
-npm start
+npm run dev
 ```
+This runs both the React development server and the Express backend concurrently.
 
 4. **Open in browser**:
 ```
-http://localhost:3001
+http://localhost:5174
+```
+
+## 🚀 Available Scripts
+
+```bash
+npm run dev        # Start development (client + server)
+npm start          # Build and start production server
+npm run server     # Start Express.js backend only
+npm run client     # Start Vite development server only
+npm run build      # Build for production
+npm run preview    # Preview production build
+npm run type-check # Check TypeScript without emitting
 ```
 
 ## 🔐 Environment Variables
@@ -72,45 +109,114 @@ BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
+VITE_PORT=5174
 ```
 
-**🚨 Security**: Never expose Client ID/Secret or API keys in frontend code.
+**🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. All credentials are handled server-side only.
+
+## ⚛️ React + TypeScript Architecture
+
+### Modern Stack
+- **React 18**: Latest React with hooks and functional components
+- **TypeScript**: Full type safety with strict configuration
+- **Vite**: Lightning-fast development and optimized builds
+- **Beefree SDK NPM**: Official `@beefree.io/sdk` package with TypeScript types
+- **Custom Hooks**: `usePDFExport` for export state management
+- **Service Layer**: Clean separation of concerns
+
+### Key Technical Features
+- **Official SDK Types**: Direct import from `@beefree.io/sdk/dist/types/bee`
+- **Modern Initialization**: Uses `new BeefreeSDK(token)` constructor pattern
+- **Type-Safe APIs**: Fully typed export options and responses
+- **Component Architecture**: Modular, reusable UI components
+- **State Management**: React hooks for complex export state
+- **Error Boundaries**: Comprehensive error handling
+
+### Benefits
+- **Type Safety**: Compile-time error checking prevents runtime issues
+- **Developer Experience**: IntelliSense, auto-completion, and refactoring
+- **Performance**: React's virtual DOM + Vite's HMR for fast development
+- **Maintainability**: Clear component boundaries and typed interfaces
+- **Scalability**: Easy to extend with new export features
+- **SDK Integration**: Leverages official Beefree SDK TypeScript support
 
 ## 🔧 Export Options
 - **Page Size**: A4, Letter
 - **Orientation**: Portrait, Landscape
 - **Quality**: High, Medium, Low
-- **Scale**: Custom scaling options
+- **Scale**: Custom scaling options (0.5 - 2.0)
 
 ## 📤 Export Flow
-1. **Template Loading**: Load template in Beefree SDK editor
-2. **Export Trigger**: Click "Export to PDF" button
-3. **Template Save**: Uses onSave callback to get template data
-4. **PDF Generation**: Backend calls Content Services API
-5. **Auto Download**: PDF automatically downloads to browser
+1. **Template Creation**: Create or modify email templates in Beefree SDK editor
+2. **Export Configuration**: Select export options (size, orientation, quality)
+3. **Export Trigger**: Click "Export to PDF" button
+4. **Progress Tracking**: Real-time progress indicator with percentage
+5. **Template Processing**: Backend calls Content Services API with template data
+6. **PDF Generation**: Content Services API generates PDF with specified options
+7. **Auto Download**: PDF automatically downloads to browser Downloads folder
+8. **History Update**: Export added to history with timestamp and options
 
 ## 🧪 Testing
 
+### Core Functionality
 - **✅ Authentication**: Verify Beefree SDK loads with secure backend auth
 - **✅ Template Editing**: Create or modify email templates
-- **✅ PDF Export**: Test export with different options
-- **✅ Auto Download**: Verify PDF downloads to Downloads folder
+- **✅ Export Options**: Test all combinations of size, orientation, and quality
+- **✅ PDF Export**: Verify PDF generation and download
+- **✅ Progress Tracking**: Check real-time progress indicators
+- **✅ Export History**: Verify history tracking and management
+
+### Advanced Testing
 - **✅ Error Handling**: Test with invalid credentials or network issues
+- **✅ Large Templates**: Test export with complex, large templates
+- **✅ Concurrent Exports**: Test multiple export requests
+- **✅ Mobile Responsive**: Test on different screen sizes
+- **✅ Accessibility**: Test keyboard navigation and screen readers
 
 ## 🔧 Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
 | "Authentication failed" | Check `.env` credentials from [Beefree Developer Console](https://developers.beefree.io) |
-| "Export failed" | Verify `BEEFREE_CS_API_KEY` is valid |
-| "Server not running" | Run `npm start` and check port 3001 |
+| "Export failed" | Verify `BEEFREE_CS_API_KEY` is valid and has export permissions |
+| "Server not running" | Run `npm run dev` or `npm run server` and check port 3001 |
 | "Template not saving" | Check browser console for onSave callback errors |
 | "PDF not downloading" | Check browser download settings and popup blockers |
+| "TypeScript errors" | Run `npm run type-check` to identify type issues |
+| "Build fails" | Ensure all dependencies are installed with `npm install` |
 
 ## 🌟 Production Notes
 
+### Architecture
+- **React + TypeScript**: Component-based structure with full type safety
+- **Service Layer**: Clean separation between UI and business logic
+- **Modern Build**: Vite provides optimized production builds with code splitting
 - **API Integration**: Uses Beefree Content Services API with Bearer token authentication
-- **Template Data**: Reliable template retrieval via onSave callback pattern
-- **Security**: API keys managed server-side with shared authentication module
-- **Performance**: Direct PDF download without intermediate polling
-- **Scalability**: Shared auth module enables consistent authentication across examples
+
+### Performance
+- **Code Splitting**: Automatic code splitting for optimal loading
+- **Tree Shaking**: Unused code elimination in production builds
+- **Asset Optimization**: Images and assets optimized during build
+- **Progressive Enhancement**: Works without JavaScript for basic functionality
+
+### Security
+- **Server-side Credentials**: All API keys and secrets handled server-side only
+- **CORS Configuration**: Properly configured cross-origin requests
+- **Input Validation**: Server-side validation of all export parameters
+- **Error Handling**: Comprehensive error handling without exposing sensitive data
+
+### Scalability
+- **Shared Authentication**: Consistent auth module across all examples
+- **Modular Components**: Easy to extend with new export formats
+- **Configuration Management**: Centralized configuration with environment variables
+- **Monitoring Ready**: Structured logging and health check endpoints
+
+## 🔗 Related Examples
+
+- [🔐 secure-auth-example](../secure-auth-example/) - Authentication foundation used by this example
+- [🎨 custom-css-example](../custom-css-example/) - React + TypeScript architecture reference
+- [🔧 shared/auth.js](../shared/) - Shared authentication module
+
+---
+
+**💡 Pro Tip**: This example demonstrates the modern React + TypeScript approach for Beefree SDK integration. Use it as a foundation for building production applications with advanced PDF export capabilities.

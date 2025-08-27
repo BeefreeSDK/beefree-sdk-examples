@@ -1,0 +1,449 @@
+/* Beefree SDK PDF Export Example - React + TypeScript Styles */
+/* Based on custom-css-example styling for consistency */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #243a9d 0%, #4e1488 100%);
+  min-height: 100vh;
+}
+
+.demo-container {
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Header Styles - matching custom-css-example */
+.demo-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-header h1 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+.demo-header p {
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-left {
+  text-align: left;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+.subtitle {
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.export-status {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.export-indicator, .last-export-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.feature-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+}
+
+/* Builder Wrapper - matching custom-css-example */
+.builder-wrapper {
+  height: 700px;
+  position: relative;
+}
+
+#bee-plugin-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading Overlay - matching custom-css-example */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #667eea;
+  z-index: 1000;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.loading-overlay.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* PDF Export Panel - horizontal layout like demo-controls */
+.pdf-export-panel {
+  padding: 20px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.collapse-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.collapse-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.panel-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.panel-content.collapsed {
+  display: none;
+}
+
+/* Export Settings - horizontal layout */
+.export-settings {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group label {
+  font-weight: 500;
+  color: #495057;
+  white-space: nowrap;
+}
+
+.control-group select {
+  padding: 8px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.control-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* Export Button */
+.export-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.export-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.export-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin: 15px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 14px;
+  color: #6c757d;
+  margin-top: 8px;
+}
+
+/* Export History Section - full width */
+.export-history-section {
+  padding: 20px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.export-history {
+  width: 100%;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.history-header h4 {
+  margin: 0;
+  color: #667eea;
+  font-size: 1.1em;
+}
+
+.clear-history-btn {
+  background: none;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-history-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.history-item {
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 4px solid #28a745;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.history-item.failed {
+  border-left-color: #dc3545;
+}
+
+.history-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filename {
+  font-weight: 500;
+  font-size: 13px;
+  color: #495057;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.history-options {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.options-text {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-link {
+  color: #4f46e5;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: rgba(79, 70, 229, 0.1);
+  transition: all 0.2s ease;
+}
+
+.pdf-link:hover {
+  background-color: rgba(79, 70, 229, 0.2);
+  text-decoration: none;
+}
+
+.status-icon {
+  font-size: 12px;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .demo-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .header-right {
+    align-items: center;
+  }
+  
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .pdf-export-panel {
+    width: 100%;
+    height: auto;
+  }
+  
+  .builder-wrapper {
+    height: 500px;
+  }
+}

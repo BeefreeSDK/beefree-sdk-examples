@@ -67,19 +67,18 @@ yarn install
 Create a `.env` file with your Beefree SDK credentials:
 ```bash
 # Required: Get your credentials from https://developers.beefree.io
-VITE_BEEFREE_AUTH_PROXY_URL=your_auth_server_url
+VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 ```
+
+**Note**: This example requires a running authentication server (like `secure-auth-example`) for token management.
 
 3. **Start the development server**:
 ```bash
 yarn dev
 ```
 
-4. **Open in browser**:
-```
-http://localhost:8081
-```
+4. **Open in browser**: `http://localhost:8081`
 
 ## 🚀 Available Scripts
 
@@ -112,8 +111,16 @@ yarn type-check # Check TypeScript without emitting
 - **React 18**: Latest React with hooks and functional components
 - **TypeScript**: Full type safety with strict configuration  
 - **Vite**: Lightning-fast development and optimized builds
+- **Beefree SDK NPM**: Official `@beefree.io/sdk` package with TypeScript types
 - **Custom Hooks**: `useThemeManager` for theme state management
 - **Component Architecture**: Modular, reusable UI components
+
+### Key Technical Features
+- **Official SDK Types**: Direct import from `@beefree.io/sdk/dist/types/bee`
+- **Modern Initialization**: Uses `new BeefreeSDK(token)` constructor pattern
+- **Service Layer**: Clean separation of concerns with `services/beefree.ts`
+- **Configuration Management**: Centralized config with environment variables
+- **Type-Safe Authentication**: Fully typed token and config interfaces
 
 ### Benefits
 - **Type Safety**: Compile-time error checking prevents runtime issues
@@ -121,6 +128,7 @@ yarn type-check # Check TypeScript without emitting
 - **Performance**: React's virtual DOM + Vite's HMR for fast development
 - **Maintainability**: Clear component boundaries and typed interfaces
 - **Scalability**: Easy to extend with new themes and components
+- **SDK Integration**: Leverages official Beefree SDK TypeScript support
 
 ## ⚠️ Important Limitation
 
