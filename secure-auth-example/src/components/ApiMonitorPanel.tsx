@@ -4,7 +4,7 @@ import { ApiMonitorProps, ApiCall } from '../types'
 export const ApiMonitorPanel = ({ apiCalls, onClearHistory }: ApiMonitorProps) => {
   const [selectedCall, setSelectedCall] = useState<ApiCall | null>(null)
 
-  const formatJson = (data: any): string => {
+  const formatJson = (data: unknown): string => {
     if (data === null || data === undefined) return 'null'
     if (typeof data === 'string') return data
     try {
@@ -165,14 +165,14 @@ export const ApiMonitorPanel = ({ apiCalls, onClearHistory }: ApiMonitorProps) =
                   </div>
                 )}
                 
-                {selectedCall.request.body && (
-                  <div className="detail-item">
-                    <strong>Body:</strong>
-                    <pre className="json-display">
-                      {formatJson(selectedCall.request.body)}
-                    </pre>
-                  </div>
-                )}
+                                  {selectedCall.request.body != null && (
+                    <div className="detail-item">
+                      <strong>Body:</strong>
+                      <pre className="json-display">
+                        {formatJson(selectedCall.request.body)}
+                      </pre>
+                    </div>
+                  )}
               </div>
 
               {/* Response Details */}
@@ -206,14 +206,14 @@ export const ApiMonitorPanel = ({ apiCalls, onClearHistory }: ApiMonitorProps) =
                     </div>
                   )}
                   
-                  {selectedCall.response.data && (
-                    <div className="detail-item">
-                      <strong>Data:</strong>
-                      <pre className="json-display">
-                        {formatJson(selectedCall.response.data)}
-                      </pre>
-                    </div>
-                  )}
+                                      {selectedCall.response.data != null && (
+                      <div className="detail-item">
+                        <strong>Data:</strong>
+                        <pre className="json-display">
+                          {formatJson(selectedCall.response.data)}
+                        </pre>
+                      </div>
+                    )}
                   
                   {selectedCall.response.error && (
                     <div className="detail-item">

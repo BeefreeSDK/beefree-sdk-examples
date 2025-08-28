@@ -58,7 +58,7 @@ export const useApiMonitor = () => {
     // Extract request details
     const method = options.method || 'GET'
     const headers = options.headers as Record<string, string> || {}
-    let body: any = options.body
+    let body: unknown = options.body
 
     // Try to parse JSON body for display
     if (typeof body === 'string') {
@@ -84,7 +84,7 @@ export const useApiMonitor = () => {
 
       // Clone response to read body without consuming it
       const responseClone = response.clone()
-      let responseData: any
+      let responseData: unknown
 
       try {
         const contentType = response.headers.get('content-type')

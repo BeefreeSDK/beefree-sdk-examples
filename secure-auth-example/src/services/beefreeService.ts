@@ -1,5 +1,5 @@
 import BeefreeSDK from '@beefree.io/sdk'
-import { AuthToken } from '../types'
+import { AuthToken, IToken, IBeeConfig, IEntityContentJson } from '../types'
 import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
 
 export class BeefreeService {
@@ -12,7 +12,7 @@ export class BeefreeService {
 
 
 
-  async loadTemplate(url: string = DEFAULT_TEMPLATE_URL): Promise<any> {
+  async loadTemplate(url: string = DEFAULT_TEMPLATE_URL): Promise<IEntityContentJson> {
     try {
       const fetchFn = this.monitoredFetch || fetch
       const response = await fetchFn(url)
@@ -52,13 +52,13 @@ export class BeefreeService {
         throw new Error(`Auth failed: ${authResponse.status}`)
       }
       
-      const properToken = await authResponse.json()
+      const properToken: IToken = await authResponse.json()
       
       // Create SDK instance with the proper IToken
       this.beeInstance = new BeefreeSDK(properToken)
       
       // Client configuration
-      const clientConfig = {
+      const clientConfig: IBeeConfig = {
         container: BEEFREE_CONFIG.container,
         uid: uid,
       }
@@ -77,7 +77,11 @@ export class BeefreeService {
   async destroySDK(): Promise<void> {
     if (this.beeInstance) {
       try {
-        await this.beeInstance.destroy()
+        // The official SDK uses a different method name or structure
+        // Check if destroy method exists before calling it
+        if (typeof this.beeInstance.destroy === 'function') {
+          await this.beeInstance.destroy()
+        }
         this.beeInstance = null
         window.bee = undefined
         console.log('🗑️ Beefree SDK destroyed')
@@ -87,7 +91,7 @@ export class BeefreeService {
     }
   }
 
-  getInstance() {
+  getInstance(): any {
     return this.beeInstance
   }
 }

@@ -1,18 +1,44 @@
-// Beefree SDK Types (only import what we actually use)
+// Import official Beefree SDK types
+import { 
+  IToken, 
+  IBeeConfig, 
+  IEntityContentJson,
+  IBeeOptions,
+  BeeSaveOptions,
+  ILanguage,
+  ILoadStageMode,
+  ILoadConfig,
+  LoadWorkspaceOptions,
+  ExecCommands,
+  IExecCommandOptions,
+  ITemplateJson
+} from '@beefree.io/sdk'
 
-// Our custom token structure from auth server
+// Our custom token structure from auth server (maps to IToken)
 export interface AuthToken {
   access_token: string
   v2?: boolean
 }
 
+// Use the official Beefree SDK interface for the instance
 export interface BeefreeInstance {
-  save(): Promise<any>
-  load(template: any): Promise<any>
-  reload(): Promise<any>
-  join(template: any): Promise<any>
-  start(): Promise<any>
-  destroy(): Promise<any>
+  token: IToken
+  instance: any
+  start: (config: IBeeConfig, template: IEntityContentJson | object, bucketDir?: string, options?: IBeeOptions) => Promise<unknown>
+  join: (config: IBeeConfig, sessionId: string, bucketDir?: string) => Promise<unknown>
+  load: (template: IEntityContentJson) => any
+  save: (options?: BeeSaveOptions) => any
+  reload: (template: IEntityContentJson, options?: IBeeOptions) => any
+  loadWorkspace: (type: LoadWorkspaceOptions) => any
+  loadStageMode: (args: ILoadStageMode) => any
+  loadConfig: (args: ILoadConfig) => any
+  updateToken: (updateTokenArgs: IToken) => any
+  getConfig: () => IBeeConfig
+  switchTemplateLanguage: (args: ILanguage) => any
+  switchPreview: (args?: ILanguage) => any
+  execCommand: (command: ExecCommands, options?: IExecCommandOptions) => any
+  getTemplateJson: () => Promise<ITemplateJson>
+  destroy: () => Promise<any>
 }
 
 export interface AuthState {
@@ -53,7 +79,7 @@ export interface ApiRequest {
   method: string
   url: string
   headers?: Record<string, string>
-  body?: any
+  body?: unknown
   status?: 'pending' | 'success' | 'error'
 }
 
@@ -63,7 +89,7 @@ export interface ApiResponse {
   status: number
   statusText: string
   headers?: Record<string, string>
-  data?: any
+  data?: unknown
   error?: string
   duration?: number
 }
@@ -80,5 +106,21 @@ export interface ApiMonitorProps {
   onClearHistory: () => void
 }
 
-// Export only what we need
+// Export both our custom types and official SDK types
 export type { AuthToken, AuthState, BeefreeInstance }
+
+// Re-export useful official SDK types for convenience
+export type {
+  IToken,
+  IBeeConfig,
+  IEntityContentJson,
+  IBeeOptions,
+  BeeSaveOptions,
+  ILanguage,
+  ILoadStageMode,
+  ILoadConfig,
+  LoadWorkspaceOptions,
+  ExecCommands,
+  IExecCommandOptions,
+  ITemplateJson
+} from '@beefree.io/sdk'
