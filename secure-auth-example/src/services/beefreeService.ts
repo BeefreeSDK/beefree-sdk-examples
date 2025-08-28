@@ -1,6 +1,6 @@
 import BeefreeSDK from '@beefree.io/sdk'
 import { AuthToken, IToken, IBeeConfig, IEntityContentJson } from '../types'
-import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
+import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL, AUTH_API_URL } from '../config/constants'
 
 export class BeefreeService {
   private beeInstance: any = null
@@ -9,8 +9,6 @@ export class BeefreeService {
   setMonitoredFetch(monitoredFetch: (url: string, options?: RequestInit) => Promise<Response>) {
     this.monitoredFetch = monitoredFetch
   }
-
-
 
   async loadTemplate(url: string = DEFAULT_TEMPLATE_URL): Promise<IEntityContentJson> {
     try {
@@ -39,7 +37,7 @@ export class BeefreeService {
       
       // Get proper IToken by calling auth endpoint (like custom-css-example)
       const fetchFn = this.monitoredFetch || fetch
-      const authResponse = await fetchFn('/auth/token', {
+      const authResponse = await fetchFn(AUTH_API_URL, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

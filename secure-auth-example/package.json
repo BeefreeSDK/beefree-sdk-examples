@@ -1,11 +1,11 @@
 {
   "name": "beefree-sdk-secure-auth-example",
   "version": "2.0.0",
-  "description": "Secure authentication example for Beefree SDK with React & TypeScript",
+  "description": "Secure authentication example for Beefree SDK with React & TypeScript demo app",
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently --names 'SERVER,CLIENT' \"npm run server\" \"npm run client\"",
     "start": "npm run build && npm run server",
     "server": "node server.js",
     "client": "vite",
