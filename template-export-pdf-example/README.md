@@ -31,8 +31,7 @@ template-export-pdf-example/
 │   │   ├── App.tsx              # Main React app component
 │   │   ├── BeefreeEditor.tsx    # Beefree SDK integration
 │   │   ├── PDFExportPanel.tsx   # Export controls and history
-│   │   ├── Header.tsx           # Application header
-│   │   └── Footer.tsx           # Application footer
+│   │   └── Header.tsx           # Application header
 │   ├── hooks/
 │   │   └── usePDFExport.ts      # Custom hook for export logic
 │   ├── services/
@@ -44,7 +43,7 @@ template-export-pdf-example/
 │   ├── types/
 │   │   └── index.ts             # TypeScript type definitions
 │   ├── styles.css               # Application styles
-│   └── main.tsx                 # React entry point
+│   └── index.tsx                # React entry point
 ├── server.js                    # Express.js backend with PDF export API
 ├── index.html                   # HTML entry point
 ├── vite.config.ts              # Vite + React configuration

@@ -25,6 +25,7 @@ Each example demonstrates production-ready implementation of specific Beefree SD
   - **React + TypeScript** architecture with custom hooks
   - **Backend security** with credential isolation
   - **Production-ready error handling** and state management
+  - **🔍 API Monitor Panel** - Real-time API debugging with request/response inspection
 
 ### 🎨 **Interface Customization**
 - [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE**
@@ -172,7 +173,7 @@ VITE_PORT=5174
 
 | Example | Status | Stack | Ports | Key Features |
 |---------|--------|-------|-------|--------------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS | 8080/3000 | Enterprise auth, token refresh, custom hooks |
+| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS | 8080/3000 | Enterprise auth, API monitor, token refresh, custom hooks |
 | 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
 | 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
 | 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |

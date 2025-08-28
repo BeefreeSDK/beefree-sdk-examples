@@ -23,6 +23,14 @@ This example demonstrates **secure, production-ready authentication** for the Be
 - **Error Recovery**: Graceful handling of auth failures
 - **Session Persistence**: Maintains auth state during development
 
+### 🔍 **API Monitor Panel**
+- **Real-time Request Tracking**: Monitor all API calls with detailed logging
+- **Request/Response Details**: Complete HTTP headers, body, and timing information
+- **JSON Formatting**: Pretty-printed JSON with syntax highlighting
+- **Error Handling**: Detailed error states and network failure tracking
+- **Call History**: Maintains last 50 API calls with clear/filter options
+- **REST API Playground**: Inspect authentication and SDK API interactions
+
 ## 🏗️ Architecture Overview
 
 ### **Project Structure**
@@ -33,10 +41,12 @@ secure-auth-example/
 │   │   ├── App.tsx          # Main application with auth flow
 │   │   ├── Header.tsx       # Header with auth status
 │   │   ├── AuthForm.tsx     # Authentication form
-│   │   └── BeefreeEditor.tsx # SDK editor wrapper
+│   │   ├── BeefreeEditor.tsx # SDK editor wrapper
+│   │   └── ApiMonitorPanel.tsx # API monitoring dashboard
 │   ├── hooks/
 │   │   ├── useAuth.ts       # Authentication state management
-│   │   └── useBeefreeSDK.ts # SDK lifecycle management
+│   │   ├── useBeefreeSDK.ts # SDK lifecycle management
+│   │   └── useApiMonitor.ts # API call tracking and monitoring
 │   ├── services/
 │   │   ├── authService.ts   # Authentication API calls
 │   │   └── beefreeService.ts # Beefree SDK integration
@@ -50,6 +60,47 @@ secure-auth-example/
 ├── tsconfig.json           # TypeScript configuration
 └── package.json            # Dependencies and scripts
 ```
+
+## 🔍 API Monitor Panel
+
+The **API Monitor Panel** provides a comprehensive REST API playground for inspecting all network requests made by the application. This powerful debugging tool helps developers understand the authentication flow and SDK interactions.
+
+### **Key Features**
+
+#### **📊 Real-time Monitoring**
+- **Automatic Interception**: Captures all `fetch` requests automatically
+- **Live Updates**: Shows requests as they happen with status indicators
+- **Request Counting**: Displays total number of API calls with proper pluralization
+
+#### **📋 Detailed Request Information**
+- **HTTP Method & URL**: Color-coded method badges (GET, POST, etc.)
+- **Headers**: Complete request and response headers
+- **Request Body**: Pretty-printed JSON with syntax highlighting
+- **Response Data**: Formatted response body with error handling
+- **Timing Information**: Request duration in milliseconds
+
+#### **🎨 User Interface**
+- **Responsive Design**: Adapts to desktop and mobile screens
+- **Split Layout**: Request list on left, details on right
+- **Status Indicators**: Color-coded status badges (200, 404, 500, etc.)
+- **Empty State**: Helpful hints when no API calls are present
+- **Clear History**: One-click history clearing
+
+#### **🔧 Developer Experience**
+- **JSON Formatting**: Automatic pretty-printing of JSON data
+- **Error Handling**: Graceful display of network errors
+- **History Management**: Keeps last 50 API calls for performance
+- **Sticky Positioning**: Panel stays visible during scrolling
+
+### **How It Works**
+
+The API Monitor uses a custom `useApiMonitor` hook that:
+
+1. **Wraps `fetch`**: Creates a `monitoredFetch` function that intercepts all HTTP requests
+2. **Tracks Requests**: Records method, URL, headers, body, and timing
+3. **Captures Responses**: Clones responses to extract data without consuming streams
+4. **Updates State**: Maintains a reactive list of API calls with real-time updates
+5. **Provides UI**: Renders an interactive panel for inspecting requests/responses
 
 ### **Authentication Flow Architecture**
 
