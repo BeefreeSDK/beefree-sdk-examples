@@ -9,7 +9,11 @@ export const useBeefreeSDK = () => {
   const [error, setError] = useState<string | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
 
-  const initializeSDK = useCallback(async (token: AuthToken, uid: string) => {
+  const initializeSDK = useCallback(async (
+    token: AuthToken, 
+    uid: string, 
+    monitoredFetch?: (url: string, options?: RequestInit) => Promise<Response>
+  ) => {
     if (isInitialized) {
       return
     }
@@ -18,6 +22,9 @@ export const useBeefreeSDK = () => {
     setError(null)
 
     try {
+      if (monitoredFetch) {
+        beefreeService.setMonitoredFetch(monitoredFetch)
+      }
       await beefreeService.initializeSDK(token, uid)
       setIsInitialized(true)
     } catch (err) {

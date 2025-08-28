@@ -4,12 +4,18 @@ import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
 
 export class BeefreeService {
   private beeInstance: any = null
+  private monitoredFetch?: (url: string, options?: RequestInit) => Promise<Response>
+
+  setMonitoredFetch(monitoredFetch: (url: string, options?: RequestInit) => Promise<Response>) {
+    this.monitoredFetch = monitoredFetch
+  }
 
 
 
   async loadTemplate(url: string = DEFAULT_TEMPLATE_URL): Promise<any> {
     try {
-      const response = await fetch(url)
+      const fetchFn = this.monitoredFetch || fetch
+      const response = await fetchFn(url)
       if (!response.ok) {
         throw new Error(`Failed to load template: ${response.status}`)
       }
@@ -32,7 +38,8 @@ export class BeefreeService {
       const templateData = await this.loadTemplate()
       
       // Get proper IToken by calling auth endpoint (like custom-css-example)
-      const authResponse = await fetch('/auth/token', {
+      const fetchFn = this.monitoredFetch || fetch
+      const authResponse = await fetchFn('/auth/token', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

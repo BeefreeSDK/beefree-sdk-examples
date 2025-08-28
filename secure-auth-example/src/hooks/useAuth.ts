@@ -4,7 +4,7 @@ import { AuthService } from '../services/authService'
 
 const authService = new AuthService()
 
-export const useAuth = () => {
+export const useAuth = (monitoredFetch?: (url: string, options?: RequestInit) => Promise<Response>) => {
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     isAuthenticating: false
@@ -18,6 +18,9 @@ export const useAuth = () => {
     }))
 
     try {
+      if (monitoredFetch) {
+        authService.setMonitoredFetch(monitoredFetch)
+      }
       const token = await authService.authenticateUser(uid)
       
       setAuthState({
@@ -43,7 +46,7 @@ export const useAuth = () => {
         error: error instanceof Error ? error.message : 'Authentication failed'
       }))
     }
-  }, [])
+  }, [monitoredFetch])
 
   const logout = useCallback(() => {
     authService.clearTokenRefresh()

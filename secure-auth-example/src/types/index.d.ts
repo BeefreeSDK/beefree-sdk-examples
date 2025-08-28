@@ -30,6 +30,7 @@ export interface AuthFormProps {
 
 export interface BeefreeEditorProps {
   authState: AuthState
+  monitoredFetch: (url: string, options?: RequestInit) => Promise<Response>
 }
 
 export interface HeaderProps {
@@ -43,6 +44,40 @@ declare global {
     bee?: BeefreeInstance
     BeePlugin?: any
   }
+}
+
+// API Monitoring Types
+export interface ApiRequest {
+  id: string
+  timestamp: Date
+  method: string
+  url: string
+  headers?: Record<string, string>
+  body?: any
+  status?: 'pending' | 'success' | 'error'
+}
+
+export interface ApiResponse {
+  id: string
+  timestamp: Date
+  status: number
+  statusText: string
+  headers?: Record<string, string>
+  data?: any
+  error?: string
+  duration?: number
+}
+
+export interface ApiCall {
+  id: string
+  request: ApiRequest
+  response?: ApiResponse
+  duration?: number
+}
+
+export interface ApiMonitorProps {
+  apiCalls: ApiCall[]
+  onClearHistory: () => void
 }
 
 // Export only what we need

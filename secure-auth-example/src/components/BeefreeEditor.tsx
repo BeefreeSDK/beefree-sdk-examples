@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { BeefreeEditorProps } from '../types'
 import { useBeefreeSDK } from '../hooks/useBeefreeSDK'
 
-export const BeefreeEditor = ({ authState }: BeefreeEditorProps) => {
+export const BeefreeEditor = ({ authState, monitoredFetch }: BeefreeEditorProps) => {
   const { initializeSDK, isLoading, error } = useBeefreeSDK()
 
   useEffect(() => {
     if (authState.isAuthenticated && authState.token) {
-      initializeSDK(authState.token, authState.uid!)
+      initializeSDK(authState.token, authState.uid!, monitoredFetch)
     }
-  }, [authState.isAuthenticated, authState.token, authState.uid, initializeSDK])
+  }, [authState.isAuthenticated, authState.token, authState.uid, initializeSDK, monitoredFetch])
 
   if (error) {
     return (

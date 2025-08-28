@@ -3,10 +3,16 @@ import { AUTH_API_URL } from '../config/constants'
 
 export class AuthService {
   private tokenRefreshTimer: ReturnType<typeof setInterval> | null = null
+  private monitoredFetch?: (url: string, options?: RequestInit) => Promise<Response>
+
+  setMonitoredFetch(monitoredFetch: (url: string, options?: RequestInit) => Promise<Response>) {
+    this.monitoredFetch = monitoredFetch
+  }
 
   async authenticateUser(uid: string): Promise<AuthToken> {
     try {
-      const response = await fetch(AUTH_API_URL, {
+      const fetchFn = this.monitoredFetch || fetch
+      const response = await fetchFn(AUTH_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
