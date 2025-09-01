@@ -22,7 +22,7 @@ Each example demonstrates production-ready implementation of specific Beefree SD
 ### 🔐 **Authentication & Security**
 - [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE**
   - **Enterprise-grade authentication** with automatic token refresh
-  - **React + TypeScript** architecture with custom hooks
+  - **Full-stack TypeScript** architecture with React + TypeScript Express.js server
   - **Backend security** with credential isolation
   - **Production-ready error handling** and state management
   - **🔍 API Monitor Panel** - Real-time API debugging with request/response inspection
@@ -173,7 +173,7 @@ VITE_PORT=5174
 
 | Example | Status | Stack | Ports | Key Features |
 |---------|--------|-------|-------|--------------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS | 8080/3000 | Enterprise auth, API monitor, token refresh, custom hooks |
+| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS+TS Server | 8080/3000 | Enterprise auth, API monitor, token refresh, full-stack TypeScript |
 | 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
 | 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
 | 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |
@@ -200,8 +200,8 @@ beefree-sdk-examples/
 
 ### Architecture Approaches
 
-#### 🟢 **React + TypeScript** (All Examples)
-All examples now use a consistent, modern stack:
+#### 🟢 **Full-Stack TypeScript** (All Examples)
+All examples now use a consistent, modern full-stack TypeScript architecture:
 
 **Frontend Stack:**
 - **React 18**: Modern React with hooks and concurrent features
@@ -211,8 +211,9 @@ All examples now use a consistent, modern stack:
 - **Service Layer**: Clean separation of concerns and API management
 
 **Backend Stack:**
-- **Express.js**: Lightweight, secure API server
+- **TypeScript + Express.js**: Type-safe, lightweight API server
 - **ES Modules**: Modern JavaScript module system
+- **tsx Development**: Hot reloading for TypeScript backend development
 - **Shared Auth Module**: Consistent authentication across examples
 - **Environment Variables**: Secure credential management
 

@@ -12,6 +12,7 @@ This example demonstrates **secure, production-ready authentication** for the Be
 
 ### 🏗️ **Modern Architecture**
 - **React 18 + TypeScript**: Type-safe component architecture
+- **TypeScript Backend**: Full-stack TypeScript with Express.js server
 - **Vite**: Lightning-fast development server and build system
 - **Custom Hooks**: `useAuth` and `useBeefreeSDK` for state management
 - **Service Layer**: Clean separation of authentication and SDK logic
@@ -55,7 +56,8 @@ secure-auth-example/
 │   ├── types/
 │   │   └── index.d.ts       # TypeScript type definitions
 │   └── styles.css           # Global application styles
-├── server.js                # Express.js backend server
+├── server.ts                # TypeScript Express.js backend server
+├── tsconfig.server.json     # TypeScript configuration for server
 ├── vite.config.ts           # Vite configuration
 ├── tsconfig.json           # TypeScript configuration
 └── package.json            # Dependencies and scripts
@@ -253,9 +255,9 @@ export class BeefreeService {
 
 ### **Backend Server Architecture**
 
-#### **🛡️ Express.js Server** - Secure Backend
-```javascript
-import express from 'express'
+#### **🛡️ TypeScript Express.js Server** - Secure Backend
+```typescript
+import express, { Request, Response } from 'express'
 import { setupAuthEndpoint } from '../shared/auth.js'
 
 const app = express()
@@ -264,7 +266,7 @@ const app = express()
 setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET)
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'healthy', timestamp: new Date().toISOString() })
 })
 ```
@@ -314,14 +316,14 @@ VITE_PORT=8080
 
 ### **Development**
 ```bash
-# Start both frontend and backend
+# Start both frontend and backend (TypeScript)
 yarn dev
 
 # Or start individually:
-yarn server  # Backend only (port 3000)
-yarn client  # Frontend only (port 8080)
+yarn server:dev  # TypeScript backend with tsx (port 3000)
+yarn client      # Frontend only (port 8080)
 
-# Build for production
+# Build for production (compiles TS server + frontend)
 yarn build
 
 # Type checking
@@ -440,9 +442,11 @@ if (error) {
 - **TypeScript Integration**: Real-time type checking
 
 #### **🧪 Development Tools**
-- **Concurrent Servers**: Frontend and backend run together
+- **Concurrent Servers**: Frontend and backend run together with `concurrently`
+- **TypeScript Development**: Hot reloading with `tsx` for backend development
 - **Environment Validation**: Startup checks for required variables
 - **Comprehensive Logging**: Detailed logs for debugging
+- **Separate TypeScript Config**: Dedicated `tsconfig.server.json` for backend
 
 ## 🎨 Customization Guide
 
@@ -519,11 +523,11 @@ VITE_PORT=8080
 
 ### **Build Process**
 ```bash
-# Build frontend
+# Build TypeScript server + frontend
 yarn build
 
-# Start production server
-yarn start
+# Start production server (compiled JavaScript)
+yarn server
 
 # Files served from dist/ directory
 ```
