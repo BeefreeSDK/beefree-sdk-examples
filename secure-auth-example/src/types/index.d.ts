@@ -1,6 +1,6 @@
-// Import official Beefree SDK types
-import { 
-  IToken, 
+// Re-export official Beefree SDK types for convenience
+export type {
+  IToken,
   IBeeConfig, 
   IEntityContentJson,
   IBeeOptions,
@@ -18,27 +18,6 @@ import {
 export interface AuthToken {
   access_token: string
   v2?: boolean
-}
-
-// Use the official Beefree SDK interface for the instance
-export interface BeefreeInstance {
-  token: IToken
-  instance: any
-  start: (config: IBeeConfig, template: IEntityContentJson | object, bucketDir?: string, options?: IBeeOptions) => Promise<unknown>
-  join: (config: IBeeConfig, sessionId: string, bucketDir?: string) => Promise<unknown>
-  load: (template: IEntityContentJson) => any
-  save: (options?: BeeSaveOptions) => any
-  reload: (template: IEntityContentJson, options?: IBeeOptions) => any
-  loadWorkspace: (type: LoadWorkspaceOptions) => any
-  loadStageMode: (args: ILoadStageMode) => any
-  loadConfig: (args: ILoadConfig) => any
-  updateToken: (updateTokenArgs: IToken) => any
-  getConfig: () => IBeeConfig
-  switchTemplateLanguage: (args: ILanguage) => any
-  switchPreview: (args?: ILanguage) => any
-  execCommand: (command: ExecCommands, options?: IExecCommandOptions) => any
-  getTemplateJson: () => Promise<ITemplateJson>
-  destroy: () => Promise<any>
 }
 
 export interface AuthState {
@@ -62,14 +41,6 @@ export interface BeefreeEditorProps {
 export interface HeaderProps {
   authState: AuthState
   onLogout: () => void
-}
-
-// Global window interface extensions
-declare global {
-  interface Window {
-    bee?: BeefreeInstance
-    BeePlugin?: any
-  }
 }
 
 // API Monitoring Types
@@ -106,21 +77,9 @@ export interface ApiMonitorProps {
   onClearHistory: () => void
 }
 
-// Export both our custom types and official SDK types
-export type { AuthToken, AuthState, BeefreeInstance }
-
-// Re-export useful official SDK types for convenience
-export type {
-  IToken,
-  IBeeConfig,
-  IEntityContentJson,
-  IBeeOptions,
-  BeeSaveOptions,
-  ILanguage,
-  ILoadStageMode,
-  ILoadConfig,
-  LoadWorkspaceOptions,
-  ExecCommands,
-  IExecCommandOptions,
-  ITemplateJson
-} from '@beefree.io/sdk'
+// Global window interface extension for Beefree SDK instance
+declare global {
+  interface Window {
+    bee?: any
+  }
+}

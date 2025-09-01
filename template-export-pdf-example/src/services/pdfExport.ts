@@ -66,25 +66,7 @@ export class PDFExportService {
     }
   }
 
-  private getFilenameFromResponse(response: Response): string | null {
-    const contentDisposition = response.headers.get('content-disposition')
-    if (contentDisposition) {
-      const filenameMatch = contentDisposition.match(/filename="(.+)"/)
-      return filenameMatch ? filenameMatch[1] : null
-    }
-    return null
-  }
 
-  private downloadBlob(blob: Blob, filename: string): void {
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-  }
 
   generateFilename(options: ExportOptions): string {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5)
