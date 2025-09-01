@@ -1,6 +1,6 @@
 import BeefreeSDK from '@beefree.io/sdk'
-import { AuthToken, IToken, IBeeConfig, IEntityContentJson } from '../types'
-import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL, AUTH_API_URL } from '../config/constants'
+import { AuthToken, IBeeConfig, IEntityContentJson, IToken } from '../types'
+import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
 
 export class BeefreeService {
   private beeInstance: any = null
@@ -24,7 +24,7 @@ export class BeefreeService {
     }
   }
 
-  async initializeSDK(_token: AuthToken, uid: string): Promise<any> {
+  async initializeSDK(token: AuthToken, uid: string): Promise<any> {
     try {
       // Check if container exists in DOM
       const container = document.getElementById(BEEFREE_CONFIG.container)
@@ -35,25 +35,16 @@ export class BeefreeService {
       // Load template first
       const templateData = await this.loadTemplate()
       
-      // Get proper IToken by calling auth endpoint (like custom-css-example)
-      const fetchFn = this.monitoredFetch || fetch
-      const authResponse = await fetchFn(AUTH_API_URL, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ uid })
-      })
-      
-      if (!authResponse.ok) {
-        throw new Error(`Auth failed: ${authResponse.status}`)
+      // Convert AuthToken to IToken (add missing required fields)
+      const fullToken: IToken = {
+        access_token: token.access_token,
+        v2: token.v2 || true,
+        status: 'ready' as any, // Default status since backend doesn't provide it
+        shared: false,          // Default to false since backend doesn't provide it
+        coediting_session_id: null // Default to null since backend doesn't provide it
       }
       
-      const properToken: IToken = await authResponse.json()
-      
-      // Create SDK instance with the proper IToken
-      this.beeInstance = new BeefreeSDK(properToken)
+      this.beeInstance = new BeefreeSDK(fullToken)
       
       // Client configuration
       const clientConfig: IBeeConfig = {
