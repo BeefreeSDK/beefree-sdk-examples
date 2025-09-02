@@ -21,7 +21,15 @@ const app = express()
 const PORT: number = parseInt(process.env.PORT || '3000', 10)
 
 // Middleware
-app.use(cors())
+app.use(cors({
+  origin: [
+    'http://localhost:8080',  // secure-auth-example frontend
+    'http://localhost:8081',  // custom-css-example
+    'http://localhost:8082',  // custom-css-example fallback
+    'http://localhost:5174'   // template-export-pdf-example
+  ],
+  credentials: true
+}))
 app.use(express.json())
 
 // Serve static files from dist in production, current directory in development
