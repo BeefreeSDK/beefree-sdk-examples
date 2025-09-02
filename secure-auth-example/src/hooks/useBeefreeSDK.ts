@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { AuthToken } from '../types'
+import { IToken } from '../types'
 import { BeefreeService } from '../services/beefreeService'
 
 const beefreeService = new BeefreeService()
@@ -10,7 +10,7 @@ export const useBeefreeSDK = () => {
   const [isInitialized, setIsInitialized] = useState(false)
 
   const initializeSDK = useCallback(async (
-    token: AuthToken, 
+    token: IToken, 
     uid: string, 
     monitoredFetch?: (url: string, options?: RequestInit) => Promise<Response>
   ) => {

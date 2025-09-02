@@ -2,10 +2,6 @@
 export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 
 // Our custom types for the theming system
-export interface AuthResponse {
-  access_token: string
-}
-
 export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | ''
 
 // Global window interface extension for Beefree SDK instance

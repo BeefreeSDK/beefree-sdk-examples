@@ -1,4 +1,4 @@
-import { AuthToken } from '../types'
+import { IToken } from '../types'
 import { AUTH_API_URL } from '../config/constants'
 
 export class AuthService {
@@ -9,7 +9,7 @@ export class AuthService {
     this.monitoredFetch = monitoredFetch
   }
 
-  async authenticateUser(uid: string): Promise<AuthToken> {
+  async authenticateUser(uid: string): Promise<IToken> {
     try {
       const fetchFn = this.monitoredFetch || fetch
       const response = await fetchFn(AUTH_API_URL, {
@@ -32,11 +32,11 @@ export class AuthService {
     }
   }
 
-  async refreshToken(uid: string): Promise<AuthToken> {
+  async refreshToken(uid: string): Promise<IToken> {
     return this.authenticateUser(uid)
   }
 
-  setupTokenRefresh(uid: string, onTokenRefresh: (token: AuthToken) => void, intervalMs: number = 300000) {
+  setupTokenRefresh(uid: string, onTokenRefresh: (token: IToken) => void, intervalMs: number = 300000) {
     this.clearTokenRefresh()
     
     this.tokenRefreshTimer = setInterval(async () => {

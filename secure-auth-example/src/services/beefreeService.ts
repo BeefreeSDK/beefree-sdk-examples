@@ -1,5 +1,5 @@
 import BeefreeSDK from '@beefree.io/sdk'
-import { AuthToken, IBeeConfig, IEntityContentJson, IToken } from '../types'
+import { IBeeConfig, IEntityContentJson, IToken } from '../types'
 import { BEEFREE_CONFIG, DEFAULT_TEMPLATE_URL } from '../config/constants'
 
 export class BeefreeService {
@@ -24,7 +24,7 @@ export class BeefreeService {
     }
   }
 
-  async initializeSDK(token: AuthToken, uid: string): Promise<any> {
+  async initializeSDK(token: IToken, uid: string): Promise<any> {
     try {
       // Check if container exists in DOM
       const container = document.getElementById(BEEFREE_CONFIG.container)
@@ -35,16 +35,8 @@ export class BeefreeService {
       // Load template first
       const templateData = await this.loadTemplate()
       
-      // Convert AuthToken to IToken (add missing required fields)
-      const fullToken: IToken = {
-        access_token: token.access_token,
-        v2: token.v2 || true,
-        status: 'ready' as any, // Default status since backend doesn't provide it
-        shared: false,          // Default to false since backend doesn't provide it
-        coediting_session_id: null // Default to null since backend doesn't provide it
-      }
-      
-      this.beeInstance = new BeefreeSDK(fullToken)
+      // Use IToken directly from remote auth server - no transformation needed
+      this.beeInstance = new BeefreeSDK(token)
       
       // Client configuration
       const clientConfig: IBeeConfig = {

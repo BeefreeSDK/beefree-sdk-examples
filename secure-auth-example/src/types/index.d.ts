@@ -14,18 +14,12 @@ export type {
   ITemplateJson
 } from '@beefree.io/sdk'
 
-// Custom token type that matches our backend response
-// Note: IToken has additional fields (status, shared, coediting_session_id) that our backend doesn't provide
-export interface AuthToken {
-  access_token: string
-  v2: boolean
-}
-
+// Auth state uses IToken directly from the remote auth server
 export interface AuthState {
   isAuthenticated: boolean
   isAuthenticating: boolean
   uid?: string
-  token?: AuthToken
+  token?: IToken
   error?: string
 }
 

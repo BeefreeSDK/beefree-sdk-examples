@@ -1,11 +1,7 @@
 // Re-export official Beefree SDK types for convenience
 export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 
-// Our custom types for authentication
-export interface AuthResponse {
-  access_token: string
-}
-
+// Our custom types for PDF export
 export interface ExportOptions {
   pageSize?: 'A4' | 'Letter'
   orientation?: 'Portrait' | 'Landscape'
