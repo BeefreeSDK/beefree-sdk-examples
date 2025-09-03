@@ -4,7 +4,6 @@ import { DEFAULT_EXPORT_OPTIONS } from '../config/constants'
 
 export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
   const [exportOptions, setExportOptions] = useState<ExportOptions>(DEFAULT_EXPORT_OPTIONS)
-  const [isCollapsed, setIsCollapsed] = useState(false)
 
   const handleExport = useCallback(async () => {
     try {

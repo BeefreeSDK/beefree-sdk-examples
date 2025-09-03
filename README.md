@@ -17,19 +17,35 @@ Beefree SDK is an embeddable no-code builder that gives your end users the freed
 
 ## ✅ Available Examples
 
-Each example demonstrates production-ready implementation of specific Beefree SDK features:
+Each example demonstrates production-ready implementation of specific Beefree SDK features with modern development practices:
 
-### 🔐 Authentication & Security
-- [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE** - Secure backend authentication with shared auth module
+### 🔐 **Authentication & Security**
+- [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE**
+  - **Enterprise-grade authentication** with automatic token refresh
+  - **Full-stack TypeScript** architecture with React + TypeScript Express.js server
+  - **Backend security** with credential isolation
+  - **Production-ready error handling** and state management
+  - **🔍 API Monitor Panel** - Real-time API debugging with request/response inspection
 
-### 🎨 Customization & Styling  
-- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE** - Advanced theming system with React+TypeScript, 5 themes, and modern architecture
+### 🎨 **Interface Customization**
+- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE**
+  - **Dynamic theming system** with 5 pre-built themes
+  - **Real-time theme switching** with localStorage persistence
+  - **CSS variable architecture** for maintainable styling
+  - **React + TypeScript** with modern development stack
 
-### 📄 Template Management
-- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE** - PDF export with React+TypeScript, advanced options, and progress tracking
+### 📄 **Content Export & Integration**
+- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE**
+  - **Advanced PDF export** via Beefree Content Services API
+  - **Multiple export options** (page size, orientation, quality)
+  - **Real-time progress tracking** with visual indicators
+  - **Export history management** with direct PDF access
 
-### 🔧 Shared Infrastructure
-- [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE** - Reusable authentication module for all examples
+### 🔧 **Shared Infrastructure**
+- [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE**
+  - **Reusable authentication module** for consistency
+  - **JWT token management** with security best practices
+  - **Shared across all examples** for unified auth experience
 
 ### 🚧 Planned Examples (Future Development)
 
@@ -105,33 +121,48 @@ yarn dev
 ```
 
 5. **Open in browser**:
-- **secure-auth-example**: `http://localhost:3000`
-- **custom-css-example**: `http://localhost:8081`
-- **template-export-pdf-example**: `http://localhost:5174`
+- **secure-auth-example**: `http://localhost:8080` (frontend) + `http://localhost:3000` (backend)
+- **custom-css-example**: `http://localhost:8081` (requires secure-auth-example running)
+- **template-export-pdf-example**: `http://localhost:5174` (frontend) + `http://localhost:3001` (backend)
 
 ### 🔐 Environment Variables
 
 Create a `.env` file in each example directory with the required variables:
 
-#### 🔐 secure-auth-example (Vanilla JS)
+#### 🔐 secure-auth-example (React + TypeScript)
 ```env
+# Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Server Configuration
 PORT=3000
+NODE_ENV=development
+
+# Frontend Configuration
+VITE_PORT=8080
 ```
 
 #### 🎨 custom-css-example (React + TypeScript)
 ```env
+# Auth proxy URL (points to secure-auth-example)
 VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+
+# Template URL for default template
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 ```
 
 #### 📄 template-export-pdf-example (React + TypeScript)
 ```env
+# Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Beefree Content Services API
 BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
+
+# Server Configuration
 PORT=3001
 VITE_PORT=5174
 ```
@@ -140,12 +171,12 @@ VITE_PORT=5174
 
 ## 🎯 Example Status
 
-| Example | Status | Stack | Port | Features |
-|---------|--------|-------|------|----------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | Vanilla JS | 3000 | Backend auth, shared module, modern UI |
-| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | 5 themes, modern architecture, type safety |
+| Example | Status | Stack | Ports | Key Features |
+|---------|--------|-------|-------|--------------|
+| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS+TS Server | 8080/3000 | Enterprise auth, API monitor, token refresh, full-stack TypeScript |
+| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
 | 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
-| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | Reusable authentication module |
+| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |
 
 ## 🏗️ Architecture
 
@@ -169,17 +200,30 @@ beefree-sdk-examples/
 
 ### Architecture Approaches
 
-#### 🟡 **Vanilla JavaScript** (secure-auth-example)
-- **Best for**: Simple integrations, learning, prototyping
-- **Stack**: Plain HTML/CSS/JS + Express.js backend
-- **Pros**: Easy to understand, minimal setup, direct SDK usage
-- **Cons**: No type safety, manual DOM manipulation
+#### 🟢 **Full-Stack TypeScript** (All Examples)
+All examples now use a consistent, modern full-stack TypeScript architecture:
 
-#### 🟢 **React + TypeScript** (custom-css-example, template-export-pdf-example)
-- **Best for**: Production applications, complex UIs, team development
-- **Stack**: React 18 + TypeScript + Vite + Express.js backend
-- **Pros**: Type safety, component architecture, modern tooling, scalability
-- **Cons**: More complex setup, build step required
+**Frontend Stack:**
+- **React 18**: Modern React with hooks and concurrent features
+- **TypeScript**: Full type safety with official Beefree SDK types
+- **Vite**: Lightning-fast development server and optimized builds
+- **Custom Hooks**: Reusable logic for auth, themes, and PDF export
+- **Service Layer**: Clean separation of concerns and API management
+
+**Backend Stack:**
+- **TypeScript + Express.js**: Type-safe, lightweight API server
+- **ES Modules**: Modern JavaScript module system
+- **tsx Development**: Hot reloading for TypeScript backend development
+- **Shared Auth Module**: Consistent authentication across examples
+- **Environment Variables**: Secure credential management
+
+**Benefits:**
+- ✅ **Type Safety**: Prevents runtime errors with TypeScript
+- ✅ **Component Architecture**: Reusable, maintainable UI components
+- ✅ **Modern Tooling**: Hot reloading, optimized builds, great DX
+- ✅ **Scalability**: Easy to extend and maintain
+- ✅ **Consistency**: Same patterns across all examples
+- ✅ **Production Ready**: Built for real-world applications
 
 ## 📚 Documentation & Resources
 
@@ -190,39 +234,39 @@ beefree-sdk-examples/
 
 ## 🎯 Key Features Demonstrated
 
-### 🔐 Security & Authentication
-- **Backend-only credential handling**
-- **Shared authentication module**
-- **Automatic token refresh**
-- **Production-ready error handling**
+### 🔐 **Enterprise Security & Authentication**
+- **🛡️ Backend-Only Credentials**: Client ID/Secret never exposed to frontend
+- **🔄 Automatic Token Refresh**: Tokens refresh every 5 minutes automatically
+- **🔗 Shared Authentication Module**: Consistent auth logic across all examples
+- **⚠️ Production Error Handling**: Comprehensive error states and recovery
+- **🎯 Custom React Hooks**: `useAuth` and `useBeefreeSDK` for state management
 
-### 🎨 Customization & Theming
-- **Multiple theme system** (5 pre-built themes)
-- **React + TypeScript architecture** with modern development stack
-- **CSS variable architecture** for maintainable theming
-- **Theme persistence** with localStorage
-- **Container-level customization** (Beefree editor iframe isolation documented)
+### 🎨 **Advanced Interface Customization**
+- **🌈 Dynamic Theme System**: 5 pre-built themes (Default, Dark, High Contrast, Coral)
+- **⚡ Real-time Theme Switching**: Instant theme application without page reload
+- **🎨 CSS Variable Architecture**: Maintainable theming with custom properties
+- **💾 Theme Persistence**: Remembers selected theme using localStorage
+- **🔧 Modern Development Stack**: React 18 + TypeScript + Vite
 
-### 📄 Export & Integration
-- **PDF export** via Beefree Content Services API
-- **React + TypeScript architecture** with type-safe development
-- **Advanced export options** (page size, orientation, quality, scale)
-- **Real-time progress tracking** with visual indicators
-- **Export history management** with success/failure tracking
-- **Template management** with onSave callback integration
-- **Auto-download functionality** to browser Downloads folder
-- **Modern responsive UI** with accessibility support
+### 📄 **Advanced Content Export & Integration**
+- **📄 PDF Export via Content Services API**: Official Beefree API integration
+- **⚙️ Multiple Export Options**: Page size (A4, Letter, Legal), orientation, quality
+- **📊 Real-time Progress Tracking**: Visual progress indicators during export
+- **📋 Export History Management**: Track recent exports with success/failure status
+- **🔗 Direct PDF Access**: Open exported PDFs in new browser tabs
+- **🎯 Template Format Support**: Both HTML and JSON template export
 
 ## 🤝 Contributing
 
 Each example follows these principles:
-- ✅ **Production-ready code** with proper error handling
-- ✅ **Comprehensive documentation** with setup instructions
-- ✅ **Shared modules** for consistency across examples
-- ✅ **Modern development** with clear architecture choices
-- ✅ **Security best practices** (server-side credentials only)
-- ✅ **Type safety** (React+TypeScript examples with full typing)
-- ✅ **Accessibility** (WCAG-compliant UI components)
+- ✅ **Production-Ready Code**: Comprehensive error handling and edge case management
+- ✅ **Type Safety**: Full TypeScript implementation with official Beefree SDK types
+- ✅ **Modern Architecture**: React 18 + TypeScript + Vite + Express.js stack
+- ✅ **Security Best Practices**: Backend-only credentials, secure token management
+- ✅ **Comprehensive Documentation**: Detailed setup and usage instructions
+- ✅ **Shared Infrastructure**: Consistent authentication and patterns across examples
+- ✅ **Accessibility**: WCAG-compliant UI components and keyboard navigation
+- ✅ **Performance**: Optimized builds, lazy loading, and efficient state management
 
 ## 📄 License
 

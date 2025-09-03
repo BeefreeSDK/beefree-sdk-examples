@@ -10,6 +10,13 @@
  * @param {string} uid - User identifier
  * @returns {Promise<Object>} Token data with access_token and v2 flag
  */
+/**
+ * Authenticates with Beefree SDK and returns a complete IToken
+ * @param {string} clientId - Beefree client ID
+ * @param {string} clientSecret - Beefree client secret  
+ * @param {string} uid - User identifier
+ * @returns {Promise<IToken>} Complete IToken object compatible with Beefree SDK
+ */
 async function authenticateBeefree(clientId, clientSecret, uid) {
     const authUrl = 'https://auth.getbee.io/loginV2';
     
@@ -37,16 +44,15 @@ async function authenticateBeefree(clientId, clientSecret, uid) {
 
     const tokenData = await response.json();
     
-    // Validate token structure
+    // Validate IToken structure from remote auth server
     if (!tokenData.access_token) {
-        throw new Error('Invalid token response: missing access_token');
+        throw new Error('Invalid IToken response: missing access_token');
     }
 
-    // Add v2 flag for SDK compatibility
-    tokenData.v2 = true;
-    
+    // The remote auth server already returns a complete IToken structure
+    // No transformation needed - return as-is for direct SDK usage
     console.log('✅ Authentication successful');
-    return tokenData;
+    return tokenData; // This is already a valid IToken
 }
 
 /**

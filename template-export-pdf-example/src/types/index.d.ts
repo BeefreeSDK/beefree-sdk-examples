@@ -1,15 +1,7 @@
-// TypeScript definitions for PDF Export Example
-import { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
+// Re-export official Beefree SDK types for convenience
+export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 
-export interface BeefreeInstance {
-  start(config: IBeeConfig, template?: IEntityContentJson): void
-  save(): Promise<IEntityContentJson>
-}
-
-export interface AuthResponse {
-  access_token: string
-}
-
+// Our custom types for PDF export
 export interface ExportOptions {
   pageSize?: 'A4' | 'Letter'
   orientation?: 'Portrait' | 'Landscape'
@@ -48,16 +40,21 @@ export interface ExportHistoryItem {
   success: boolean
 }
 
-declare global {
-  interface Window {
-    bee?: BeefreeInstance
+// Props interface for PDFExportPanel component
+export interface PDFExportPanelProps {
+  pdfExport: {
+    isExporting: boolean
+    exportProgress: number
+    lastExportedFile?: string
+    exportHistory: ExportHistoryItem[]
+    exportTemplate: (templateData: any, options?: ExportOptions) => Promise<any>
+    clearHistory: () => void
   }
 }
 
-declare module '@beefree.io/sdk' {
-  export default class BeefreeSDK {
-    constructor(token: IToken)
-    start(config: IBeeConfig, template?: IEntityContentJson): void
-    save(): Promise<IEntityContentJson>
+// Global window interface extension for Beefree SDK instance
+declare global {
+  interface Window {
+    bee?: any
   }
 }

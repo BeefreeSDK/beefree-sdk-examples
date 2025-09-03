@@ -1,25 +1,20 @@
-// TypeScript definitions for Beefree SDK
-import { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
+// Re-export official Beefree SDK types for convenience
+export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 
-export interface BeefreeInstance {
-  start(config: IBeeConfig, template?: IEntityContentJson): void
-}
-
-export interface AuthResponse {
-  access_token: string
-}
-
+// Our custom types for the theming system
 export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | ''
 
+// Beefree SDK instance interface for proper typing
+export interface BeefreeInstance {
+  save(): Promise<any>
+  load(template: any): Promise<any>
+  start(config: any, template?: any): Promise<any>
+  destroy(): Promise<any>
+}
+
+// Global window interface extension for Beefree SDK instance
 declare global {
   interface Window {
     bee?: BeefreeInstance
-  }
-}
-
-declare module '@beefree.io/sdk' {
-  export default class BeefreeSDK {
-    constructor(token: BeefreeToken)
-    start(config: IBeeConfig, template?: IEntityContentJson): void
   }
 }

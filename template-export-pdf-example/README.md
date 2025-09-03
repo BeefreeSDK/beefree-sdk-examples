@@ -1,33 +1,27 @@
-# 📄 Template Export PDF Example (React + TypeScript)
+# 📄 Template Export PDF Example - Advanced PDF Generation
 
-Demonstrates **production-ready PDF export** for Beefree SDK templates using React, TypeScript, and the Beefree Content Services API with advanced export options and real-time progress tracking.
+This example demonstrates **advanced PDF export functionality** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases how to export templates as high-quality PDFs with comprehensive export options, progress tracking, and export history management.
 
-## 📖 Documentation Reference
-- [Content Services API](https://docs.beefree.io/beefree-sdk/apis/content-services-api)
-- [Export to PDF](https://docs.beefree.io/beefree-sdk/apis/content-services-api/export)
-- [Beefree SDK Configuration](https://docs.beefree.io/configuration-parameters/)
+## ✨ Key Features
 
-## 🎯 What This Example Shows
-- ✅ **PDF export** for Beefree SDK templates via Content Services API
-- ✅ **React + TypeScript architecture** with modern development stack
-- ✅ **Advanced export options** (page size, orientation, quality, scale)
-- ✅ **Real-time progress tracking** with visual indicators
-- ✅ **Export history management** with success/failure tracking
-- ✅ **Auto-download functionality** to browser Downloads folder
-- ✅ **Shared authentication module** integration
-- ✅ **Type-safe development** with official Beefree SDK types
-- ✅ **Modern UI/UX** with responsive design and accessibility
+### 📄 **Advanced PDF Export**
+- **Multiple Export Options**: Page size (A4, Letter, Legal), orientation (Portrait/Landscape), quality settings
+- **Template Format Support**: Both HTML and JSON template export
+- **Real-time Progress Tracking**: Visual progress indicators during export
+- **Export History**: Track and manage recent exports with success/failure status
+- **Direct PDF Access**: Open exported PDFs in new browser tabs
 
-## 🚀 Key Features
-- **📄 PDF Export**: Convert Beefree templates to PDF using Content Services API
-- **⚛️ React + TypeScript**: Modern development with type safety and component architecture
-- **⚙️ Advanced Export Options**: Configurable page size, orientation, quality, and scaling
-- **📊 Progress Tracking**: Real-time export progress with visual feedback
-- **📥 Auto-Download**: Direct download to browser Downloads folder
-- **📋 Export History**: Track export history with timestamps and options
-- **🔒 Secure Authentication**: Backend API key management with shared auth module
-- **🎨 Modern UI**: Clean, responsive interface with collapsible export panel
-- **♿ Accessibility**: WCAG-compliant design with keyboard navigation
+### 🏗️ **Modern Architecture**
+- **React 18 + TypeScript**: Type-safe component architecture
+- **Vite**: Lightning-fast development server and build system
+- **Custom Hooks**: `usePDFExport` for export state management
+- **Service Layer**: Clean separation of PDF export logic
+- **Concurrent Development**: Frontend and backend run simultaneously
+
+### 🔐 **Secure Integration**
+- **Beefree Content Services API**: Official PDF export API integration
+- **Shared Authentication**: Uses secure auth module from `secure-auth-example`
+- **Environment-based Configuration**: Secure credential management
 
 ## 📁 Project Structure
 ```
@@ -37,8 +31,7 @@ template-export-pdf-example/
 │   │   ├── App.tsx              # Main React app component
 │   │   ├── BeefreeEditor.tsx    # Beefree SDK integration
 │   │   ├── PDFExportPanel.tsx   # Export controls and history
-│   │   ├── Header.tsx           # Application header
-│   │   └── Footer.tsx           # Application footer
+│   │   └── Header.tsx           # Application header
 │   ├── hooks/
 │   │   └── usePDFExport.ts      # Custom hook for export logic
 │   ├── services/
@@ -50,7 +43,7 @@ template-export-pdf-example/
 │   ├── types/
 │   │   └── index.ts             # TypeScript type definitions
 │   ├── styles.css               # Application styles
-│   └── main.tsx                 # React entry point
+│   └── index.tsx                # React entry point
 ├── server.js                    # Express.js backend with PDF export API
 ├── index.html                   # HTML entry point
 ├── vite.config.ts              # Vite + React configuration
