@@ -163,11 +163,16 @@ cp .env.example .env
 Create `.env` file:
 ```env
 # Auth proxy URL (points to secure-auth-example)
+# Use direct URL for cross-origin requests, or comment out to use Vite proxy
 VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
 
 # Template URL for default template
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 ```
+
+**Configuration Options:**
+- **Direct URL**: Set `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` for direct backend communication
+- **Vite Proxy**: Comment out or omit `VITE_BEEFREE_AUTH_PROXY_URL` to use the configured Vite proxy (`/auth/token`)
 
 ### **Development**
 ```bash
@@ -231,9 +236,24 @@ Example new theme:
 ```typescript
 export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | ''
 
+// Beefree SDK instance interface for proper typing
+export interface BeefreeInstance {
+  save(): Promise<any>
+  load(template: any): Promise<any>
+  start(config: any, template?: any): Promise<any>
+  destroy(): Promise<any>
+}
+
 interface ThemeSelectorProps {
   currentTheme: ThemeType
   onThemeChange: (theme: ThemeType) => void
+}
+
+// Global window interface extension
+declare global {
+  interface Window {
+    bee?: BeefreeInstance
+  }
 }
 ```
 
