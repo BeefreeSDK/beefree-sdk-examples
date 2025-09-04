@@ -105,13 +105,14 @@ export class BeefreeMultiService {
       const clientConfig = this.getBuilderConfig(builderType, uid)
       
       // Initialize Beefree SDK
+      // Note: Double casting needed due to Beefree SDK internal type structure
       this.beeInstance = new BeefreeSDK(token) as unknown as BeefreeInstance
       
       // Store reference globally and start SDK
       window.bee = this.beeInstance
       this.currentBuilderType = builderType
       
-      // Start the builder
+      // Start the builder with proper typing
       await this.beeInstance.start(clientConfig, templateData)
       
       console.log(`✅ ${BUILDER_CONFIGS[builderType].label} initialized successfully`)
