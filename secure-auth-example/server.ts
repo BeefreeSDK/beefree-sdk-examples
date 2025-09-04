@@ -60,6 +60,7 @@ app.use(cors({
     'http://localhost:8080',  // secure-auth-example frontend
     'http://localhost:8081',  // custom-css-example
     'http://localhost:8082',  // custom-css-example fallback
+    'http://localhost:8083',  // multi-builder-switch-example
     'http://localhost:5174'   // template-export-pdf-example
   ],
   credentials: true
