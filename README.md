@@ -41,6 +41,13 @@ Each example demonstrates production-ready implementation of specific Beefree SD
   - **Real-time progress tracking** with visual indicators
   - **Export history management** with direct PDF access
 
+### 🏗️ **Multi-Builder & Advanced Features**
+- [**🏗️ multi-builder-switch-example**](./multi-builder-switch-example/) - **✅ COMPLETE**
+  - **Dynamic builder switching** between Email, Page, and Popup builders
+  - **Seamless transitions** without page reload
+  - **Builder-specific configurations** and templates
+  - **React + TypeScript** with advanced state management
+
 ### 🔧 **Shared Infrastructure**
 - [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE**
   - **Reusable authentication module** for consistency
@@ -124,6 +131,7 @@ yarn dev
 - **secure-auth-example**: `http://localhost:8080` (frontend) + `http://localhost:3000` (backend)
 - **custom-css-example**: `http://localhost:8081` (requires secure-auth-example running)
 - **template-export-pdf-example**: `http://localhost:5174` (frontend) + `http://localhost:3001` (backend)
+- **multi-builder-switch-example**: `http://localhost:8083` (requires secure-auth-example running)
 
 ### 🔐 Environment Variables
 
@@ -176,6 +184,7 @@ VITE_PORT=5174
 | 🔐 **secure-auth-example** | ✅ **Ready** | React+TS+TS Server | 8080/3000 | Enterprise auth, API monitor, token refresh, full-stack TypeScript |
 | 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
 | 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
+| 🏗️ **multi-builder-switch-example** | ✅ **Ready** | React+TS | 8083 | Multi-builder switching, Email/Page/Popup, seamless transitions |
 | 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |
 
 ## 🏗️ Architecture
