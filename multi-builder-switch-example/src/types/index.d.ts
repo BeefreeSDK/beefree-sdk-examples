@@ -1,5 +1,5 @@
 // Re-export official Beefree SDK types for convenience
-export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
+export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk'
 
 // Builder types supported by the multi-builder example
 export type BuilderType = 'email' | 'page' | 'popup'
@@ -25,10 +25,10 @@ export interface BuilderState {
 
 // Beefree SDK instance interface for proper typing
 export interface BeefreeInstance {
-  save(): Promise<any>
-  load(template: any): Promise<any>
-  start(config: any, template?: any): Promise<any>
-  destroy(): Promise<any>
+  save(): Promise<IEntityContentJson>
+  load(template: IEntityContentJson): Promise<void>
+  start(config: IBeeConfig, template?: IEntityContentJson): Promise<void>
+  destroy(): Promise<void>
 }
 
 // Global window interface extension for Beefree SDK instance
