@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "echo 'No apps yet'",
     "setup-hooks": "./setup-hooks.sh",
-    "typecheck": "echo 'No typecheck configured yet'",
+    "typecheck": "cd apps/web && pnpm tsc --noEmit",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write .",
