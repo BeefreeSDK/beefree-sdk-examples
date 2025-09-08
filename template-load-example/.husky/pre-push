@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# Check if we're working with template-load-example files
+# Look for template-load-example in the files being pushed
+if ! git diff --name-only HEAD~1 HEAD | grep -q "^template-load-example/"; then
+  echo "Skipping template-load-example pre-push hook (no template-load-example files in push)"
+  exit 0
+fi
+
+# Change to template-load-example directory and run hooks
+cd "$(git rev-parse --show-toplevel)/template-load-example" || exit 1
+
+echo "Running template-load-example pre-push hooks..."
+pnpm typecheck
