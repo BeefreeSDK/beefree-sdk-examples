@@ -4,7 +4,7 @@ This is a demo monorepo scaffold using pnpm workspaces.
 
 ## Structure
 
-- **`/apps`** - Applications will be added here later
+- **`/apps/web`** - React + TypeScript frontend application
 - **`/packages`** - Shared code and libraries can go here
 
 ## Getting Started
@@ -21,10 +21,57 @@ This is a demo monorepo scaffold using pnpm workspaces.
    pnpm setup-hooks
    ```
 
-3. Run development command:
+3. Run the frontend application:
+
    ```bash
+   cd apps/web
    pnpm dev
    ```
+
+   The app will open at http://localhost:3001
+
+## Frontend Application
+
+The `/apps/web` directory contains a React + TypeScript application that demonstrates:
+
+### Features
+
+- **Template Management**: Create, read, update, and delete templates
+- **Mock Backend**: Uses localStorage to simulate a backend API
+- **JSON Editor**: Simple textarea-based editor for template content
+- **Template Duplication**: Save templates as copies
+- **Responsive Design**: Works on desktop and mobile devices
+
+### Mock Backend
+
+The application includes a complete mock backend (`src/mockBackend.ts`) that provides:
+
+- Template CRUD operations
+- Soft delete (archiving)
+- Template duplication
+- Automatic seeding with sample templates
+- localStorage persistence
+
+### Available Scripts
+
+```bash
+# Development
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm preview      # Preview production build
+
+# Code Quality
+pnpm lint         # Run ESLint
+pnpm lint:fix     # Fix ESLint issues
+```
+
+### Environment Variables
+
+Copy `env.example` to `.env` and configure:
+
+```bash
+VITE_API_URL=http://localhost:3000
+```
 
 ## Adding Apps
 
