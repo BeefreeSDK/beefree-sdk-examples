@@ -6,32 +6,74 @@ import {
 } from './types';
 
 // Storage key for localStorage
-const STORAGE_KEY = 'template-load-example-templates';
+const STORAGE_KEY = 'beefree-templates';
 
-// Helper function to get all templates from localStorage
+// Helper functions for localStorage
 function getTemplatesFromStorage(): Template[] {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
-    console.error('Error reading templates from localStorage:', error);
+    console.error('Error loading templates from storage:', error);
     return [];
   }
 }
 
-// Helper function to save templates to localStorage
 function saveTemplatesToStorage(templates: Template[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(templates));
   } catch (error) {
-    console.error('Error saving templates to localStorage:', error);
+    console.error('Error saving templates to storage:', error);
   }
 }
 
-// Generate a simple ID (in real app, this would come from backend)
+// Generate a simple ID
 function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
+
+// Seed initial templates if none exist
+function seedInitialTemplates(): void {
+  const templates = getTemplatesFromStorage();
+  if (templates.length > 0) return; // Already seeded
+
+  const initialTemplates: Template[] = [
+    {
+      id: generateId(),
+      name: 'Welcome Email',
+      version: '1.0.0',
+      content: {
+        subject: 'Welcome to our service!',
+        body: "Thank you for signing up. We're excited to have you on board.",
+        type: 'email',
+      },
+      archived: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: generateId(),
+      name: 'Newsletter Template',
+      version: '1.0.0',
+      content: {
+        title: 'Monthly Newsletter',
+        sections: [
+          { type: 'header', text: "This Month's Highlights" },
+          { type: 'content', text: 'Here are the latest updates...' },
+        ],
+        type: 'newsletter',
+      },
+      archived: false,
+      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+      updatedAt: new Date(Date.now() - 86400000).toISOString(),
+    },
+  ];
+
+  saveTemplatesToStorage(initialTemplates);
+}
+
+// Initialize with seed data
+seedInitialTemplates();
 
 // Generate a unique copy name by checking existing templates
 // Examples: "My Template" -> "My Template (Copy)" -> "My Template (Copy 2)" -> "My Template (Copy 3)"
@@ -57,50 +99,7 @@ function generateCopyName(originalName: string): string {
   return `${baseName} (Copy ${copyNumber})`;
 }
 
-// Seed initial templates if none exist
-function seedInitialTemplates(): void {
-  const existing = getTemplatesFromStorage();
-  if (existing.length > 0) return;
-
-  const initialTemplates: Template[] = [
-    {
-      id: generateId(),
-      name: 'Welcome Email',
-      version: '1.0.0',
-      content: {
-        subject: 'Welcome to our service!',
-        body: "Thank you for signing up. We're excited to have you on board.",
-        type: 'email',
-      },
-      archived: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: generateId(),
-      name: 'Newsletter Template',
-      version: '1.2.0',
-      content: {
-        title: 'Monthly Newsletter',
-        sections: [
-          { type: 'header', text: "This Month's Highlights" },
-          { type: 'content', text: 'Here are the latest updates...' },
-        ],
-        type: 'newsletter',
-      },
-      archived: false,
-      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-      updatedAt: new Date(Date.now() - 86400000).toISOString(),
-    },
-  ];
-
-  saveTemplatesToStorage(initialTemplates);
-}
-
-// Initialize with seed data
-seedInitialTemplates();
-
-// Mock API functions that simulate backend calls
+// Mock backend API
 export const mockBackend = {
   // List all non-archived templates
   async listTemplates(): Promise<TemplateListResponse> {
@@ -111,7 +110,7 @@ export const mockBackend = {
     };
   },
 
-  // Get a specific template by ID
+  // Get a specific template
   async getTemplate(id: string): Promise<TemplateResponse> {
     const templates = getTemplatesFromStorage();
     const template = templates.find((t) => t.id === id);
@@ -211,21 +210,25 @@ export const mockBackend = {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    const duplicatedTemplate: Template = {
-      ...originalTemplate,
+    const copyName = generateCopyName(originalTemplate.name);
+
+    const newTemplate: Template = {
       id: generateId(),
-      name: generateCopyName(originalTemplate.name),
+      name: copyName,
+      version: '1.0.0',
+      content: { ...originalTemplate.content },
+      archived: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    templates.push(duplicatedTemplate);
+    templates.push(newTemplate);
     saveTemplatesToStorage(templates);
 
-    return { template: duplicatedTemplate };
+    return { template: newTemplate };
   },
 
-  // Soft delete a template (mark as archived)
+  // Soft delete a template (archive it)
   async deleteTemplate(id: string): Promise<void> {
     const templates = getTemplatesFromStorage();
     const templateIndex = templates.findIndex((t) => t.id === id);
@@ -234,7 +237,6 @@ export const mockBackend = {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    // Soft delete by marking as archived
     templates[templateIndex] = {
       ...templates[templateIndex],
       archived: true,

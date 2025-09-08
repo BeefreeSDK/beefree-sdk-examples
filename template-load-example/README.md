@@ -36,21 +36,20 @@ The `/apps/web` directory contains a React + TypeScript application that demonst
 
 ### Features
 
-- **Template Management**: Create, read, update, and delete templates
-- **Mock Backend**: Uses localStorage to simulate a backend API
-- **JSON Editor**: Simple textarea-based editor for template content
-- **Template Duplication**: Save templates as copies
+- **Beefree SDK Integration**: Real email template editor using Beefree SDK
+- **Authentication**: Secure authentication with Beefree API
+- **Template Creation**: Create new email templates with the full Beefree editor
 - **Responsive Design**: Works on desktop and mobile devices
 
-### Mock Backend
+### Beefree SDK Integration
 
-The application includes a complete mock backend (`src/mockBackend.ts`) that provides:
+The application integrates the official Beefree SDK to provide:
 
-- Template CRUD operations
-- Soft delete (archiving)
-- Template duplication
-- Automatic seeding with sample templates
-- localStorage persistence
+- Full-featured email template editor
+- Drag-and-drop interface
+- Real-time preview
+- Template saving and loading
+- Professional email design tools
 
 ### Available Scripts
 
@@ -67,11 +66,24 @@ pnpm lint:fix     # Fix ESLint issues
 
 ### Environment Variables
 
-Copy `env.example` to `.env` and configure:
+Copy `env.example` to `.env` and configure your Beefree credentials:
 
 ```bash
+# API Configuration
 VITE_API_URL=http://localhost:3000
+
+# Beefree SDK Configuration
+VITE_BEEFREE_CLIENT_ID=your_client_id_here
+VITE_BEEFREE_CLIENT_SECRET=your_client_secret_here
+VITE_BEEFREE_UID=demo-user
 ```
+
+### Getting Started
+
+1. Copy `env.example` to `.env`
+2. Add your Beefree credentials to `.env`
+3. Run `pnpm dev` to start the development server
+4. Click "Create New Template" to open the Beefree editor
 
 ## Adding Apps
 

@@ -11,6 +11,7 @@
     "lint:fix": "eslint . --ext ts,tsx --fix"
   },
   "dependencies": {
+    "@beefree.io/sdk": "^9.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

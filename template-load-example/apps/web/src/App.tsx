@@ -3,9 +3,10 @@ import { Template, TemplateFormData } from './types';
 import { mockBackend } from './mockBackend';
 import { TemplateList } from './components/TemplateList';
 import { TemplateEditor } from './components/TemplateEditor';
+import { BeefreeEditor } from './components/BeefreeEditor';
 import './App.css';
 
-type View = 'list' | 'editor';
+type View = 'list' | 'editor' | 'sdk';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('list');
@@ -44,11 +45,19 @@ function App() {
     setCurrentView('editor');
   };
 
+  const handleOpenSDK = () => {
+    setCurrentView('sdk');
+  };
+
   const handleBackToList = () => {
     setCurrentView('list');
     setSelectedTemplate(undefined);
     // Reload templates to get any updates
     loadTemplates();
+  };
+
+  const handleCloseSDK = () => {
+    setCurrentView('list');
   };
 
   const handleSaveTemplate = async (data: TemplateFormData) => {
@@ -112,11 +121,31 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Template Load Example</h1>
-        <p>Mock SDK Editor with localStorage Backend</p>
+        <div className="header-content">
+          <div className="header-left">
+            <h1>Template Load Example</h1>
+            <p>Beefree SDK Template Management Demo</p>
+          </div>
+          <div className="header-right">
+            {currentView === 'sdk' ? (
+              <button className="btn btn-secondary" onClick={handleCloseSDK}>
+                Close Editor
+              </button>
+            ) : currentView === 'list' ? (
+              <div className="header-actions">
+                <button className="btn btn-primary" onClick={handleCreateNew}>
+                  Create New Template
+                </button>
+                <button className="btn btn-secondary" onClick={handleOpenSDK}>
+                  Open Beefree SDK
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </div>
       </header>
 
-      <main className="app-main">
+      <main className={`app-main ${currentView === 'sdk' ? 'sdk-mode' : ''}`}>
         {error && (
           <div className="error-banner">
             <strong>Error:</strong> {error}
@@ -143,11 +172,9 @@ function App() {
             loading={loading}
           />
         )}
-      </main>
 
-      <footer className="app-footer">
-        <p>This is a demo app using localStorage as a mock backend.</p>
-      </footer>
+        {currentView === 'sdk' && <BeefreeEditor onClose={handleCloseSDK} />}
+      </main>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-// Template data structure
 export interface Template {
   id: string;
   name: string;
@@ -9,18 +8,16 @@ export interface Template {
   updatedAt: string; // ISO date string
 }
 
-// API response types
-export interface TemplateListResponse {
-  templates: Template[];
-  total: number;
+export interface TemplateFormData {
+  name: string;
+  content: string; // Stringified JSON for editor input
 }
 
 export interface TemplateResponse {
   template: Template;
 }
 
-// Form data for creating/updating templates
-export interface TemplateFormData {
-  name: string;
-  content: string; // JSON string for editing
+export interface TemplateListResponse {
+  templates: Template[];
+  total: number;
 }

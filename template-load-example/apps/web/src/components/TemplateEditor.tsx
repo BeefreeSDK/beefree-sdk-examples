@@ -1,28 +1,27 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect } from 'react';
 import { Template, TemplateFormData } from '../types';
 
 interface TemplateEditorProps {
-  template?: Template; // If undefined, we're creating a new template
-  onSave: (data: TemplateFormData) => Promise<void>;
-  onSaveAsCopy: (data: TemplateFormData) => Promise<void>;
-  onDelete: () => Promise<void>;
+  template?: Template;
+  onSave: (data: TemplateFormData) => void;
+  onSaveAsCopy: (data: TemplateFormData) => void;
+  onDelete: () => void;
   onBack: () => void;
-  loading?: boolean;
+  loading: boolean;
 }
 
-export const TemplateEditor: FC<TemplateEditorProps> = ({
+export const TemplateEditor = ({
   template,
   onSave,
   onSaveAsCopy,
   onDelete,
   onBack,
-  loading = false,
-}) => {
+  loading,
+}: TemplateEditorProps) => {
   const [formData, setFormData] = useState<TemplateFormData>({
     name: '',
-    content: '{\n  "example": "value"\n}',
+    content: '',
   });
-  const [isValidJson, setIsValidJson] = useState(true);
   const [jsonError, setJsonError] = useState<string>('');
 
   // Initialize form data when template changes
@@ -35,124 +34,106 @@ export const TemplateEditor: FC<TemplateEditorProps> = ({
     } else {
       setFormData({
         name: '',
-        content: '{\n  "example": "value"\n}',
+        content:
+          '{\n  "subject": "Your email subject",\n  "body": "Your email content here"\n}',
       });
     }
+    setJsonError('');
   }, [template]);
 
-  // Validate JSON content
   const validateJson = (jsonString: string): boolean => {
     try {
       JSON.parse(jsonString);
       setJsonError('');
       return true;
     } catch (error) {
-      setJsonError(error instanceof Error ? error.message : 'Invalid JSON');
+      setJsonError(`JSON Error: ${error}`);
       return false;
     }
   };
 
-  const handleContentChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, content: value }));
-    setIsValidJson(validateJson(value));
-  };
-
-  const handleSave = async () => {
-    if (!isValidJson) {
-      alert('Please fix JSON errors before saving');
-      return;
+  const handleSave = () => {
+    if (validateJson(formData.content)) {
+      onSave(formData);
     }
-    await onSave(formData);
   };
 
-  const handleSaveAsCopy = async () => {
-    if (!isValidJson) {
-      alert('Please fix JSON errors before saving');
-      return;
+  const handleSaveAsCopy = () => {
+    if (validateJson(formData.content)) {
+      onSaveAsCopy(formData);
     }
-    await onSaveAsCopy(formData);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (
       template &&
       window.confirm(`Are you sure you want to delete "${template.name}"?`)
     ) {
-      await onDelete();
+      onDelete();
     }
   };
-
-  if (loading) {
-    return (
-      <div className="template-editor">
-        <h2>Saving...</h2>
-      </div>
-    );
-  }
 
   return (
     <div className="template-editor">
       <div className="editor-header">
         <button className="btn btn-secondary" onClick={onBack}>
-          ← Back to Templates
+          ← Back to List
         </button>
         <h2>{template ? `Edit: ${template.name}` : 'Create New Template'}</h2>
+        <div className="editor-actions">
+          <button
+            className="btn btn-primary"
+            onClick={handleSave}
+            disabled={loading || !!jsonError}
+          >
+            {template ? 'Update' : 'Save'}
+          </button>
+          {template && (
+            <button
+              className="btn btn-secondary"
+              onClick={handleSaveAsCopy}
+              disabled={loading || !!jsonError}
+            >
+              Save as Copy
+            </button>
+          )}
+          {template && (
+            <button className="btn btn-danger" onClick={handleDelete}>
+              Delete
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="editor-form">
         <div className="form-group">
-          <label htmlFor="template-name">Template Name:</label>
+          <label htmlFor="template-name">Template Name</label>
           <input
             id="template-name"
             type="text"
+            className="form-input"
             value={formData.name}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, name: e.target.value }))
             }
             placeholder="Enter template name"
-            className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="template-content">Template Content (JSON):</label>
+          <label htmlFor="template-content">Template Content (JSON)</label>
           <textarea
             id="template-content"
+            className={`form-textarea ${jsonError ? 'error' : ''}`}
             value={formData.content}
-            onChange={(e) => handleContentChange(e.target.value)}
-            placeholder="Enter JSON content"
-            className={`form-textarea ${!isValidJson ? 'error' : ''}`}
+            onChange={(e) => {
+              setFormData((prev) => ({ ...prev, content: e.target.value }));
+              validateJson(e.target.value);
+            }}
             rows={15}
+            placeholder="Enter template content as JSON"
           />
-          {!isValidJson && (
-            <div className="error-message">JSON Error: {jsonError}</div>
-          )}
-        </div>
-
-        <div className="editor-actions">
-          <button
-            className="btn btn-primary"
-            onClick={handleSave}
-            disabled={!formData.name.trim() || !isValidJson}
-          >
-            {template ? 'Save Changes' : 'Create Template'}
-          </button>
-
-          {template && (
-            <button
-              className="btn btn-secondary"
-              onClick={handleSaveAsCopy}
-              disabled={!formData.name.trim() || !isValidJson}
-            >
-              Save as Copy
-            </button>
-          )}
-
-          {template && (
-            <button className="btn btn-danger" onClick={handleDelete}>
-              Delete Template
-            </button>
-          )}
+          {jsonError && <div className="error-message">{jsonError}</div>}
         </div>
       </div>
     </div>

@@ -11,8 +11,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #fafbfc;
+  color: #1a1a1a;
 }
 
 .app {
@@ -23,20 +23,50 @@ body {
 
 /* Header */
 .app-header {
-  background: #2c3e50;
+  background: #26075D;
   color: white;
-  padding: 1rem 2rem;
-  text-align: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-left {
+  text-align: left;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .app-header h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.025em;
 }
 
 .app-header p {
-  opacity: 0.8;
-  font-size: 1rem;
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin: 0;
+  color: #a0a0a0;
+  font-weight: 400;
 }
 
 /* Main content */
@@ -46,6 +76,13 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+}
+
+/* Full screen mode for SDK */
+.app-main.sdk-mode {
+  padding: 0;
+  max-width: none;
+  margin: 0;
 }
 
 /* Error banner */
@@ -80,6 +117,12 @@ body {
 .template-list h2 {
   color: #2c3e50;
   margin-bottom: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .empty-state {
@@ -209,14 +252,16 @@ body {
 .btn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: all 0.2s ease;
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.01em;
 }
 
 .btn:disabled {
@@ -226,47 +271,147 @@ body {
 
 .btn:not(:disabled):hover {
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary {
-  background: #3498db;
+  background: #0066ff;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #2980b9;
+  background: #0052cc;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
 }
 
 .btn-secondary {
-  background: #95a5a6;
-  color: white;
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #7f8c8d;
+  background: #e9ecef;
+  border-color: #adb5bd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-danger {
-  background: #e74c3c;
+  background: #dc3545;
   color: white;
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: #c0392b;
+  background: #c82333;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
 }
 
-/* Footer */
-.app-footer {
-  background: #34495e;
-  color: white;
+/* Welcome Container */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.welcome-content {
   text-align: center;
-  padding: 1rem;
-  margin-top: auto;
+  background: white;
+  padding: 3rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 500px;
 }
 
-.app-footer p {
-  opacity: 0.8;
-  font-size: 0.9rem;
+.welcome-content h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.welcome-content p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Beefree Editor */
+.editor-container {
+  background: white;
+  border-radius: 0;
+  box-shadow: none;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+
+.builder-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+#bee-plugin-container {
+  width: 100%;
+  height: 100%;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  text-align: center;
+  color: #666;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  padding: 2rem;
+  text-align: center;
+  color: #e74c3c;
+  background: #fdf2f2;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  margin: 1rem;
 }
 
 /* Responsive design */

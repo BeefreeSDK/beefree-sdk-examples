@@ -1,39 +1,38 @@
-import { FC } from 'react';
 import { Template } from '../types';
 
 interface TemplateListProps {
   templates: Template[];
-  onSelectTemplate: (template: Template) => void;
   onCreateNew: () => void;
-  loading?: boolean;
+  onSelectTemplate: (template: Template) => void;
+  loading: boolean;
 }
 
-export const TemplateList: FC<TemplateListProps> = ({
+export const TemplateList = ({
   templates,
-  onSelectTemplate,
   onCreateNew,
-  loading = false,
-}) => {
+  onSelectTemplate,
+  loading,
+}: TemplateListProps) => {
   if (loading) {
     return (
       <div className="template-list">
-        <h2>Loading templates...</h2>
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <span>Loading templates...</span>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="template-list">
-      <div className="template-list-header">
-        <h2>Saved Templates</h2>
-        <button className="btn btn-primary" onClick={onCreateNew}>
-          Create New Template
-        </button>
-      </div>
-
       {templates.length === 0 ? (
         <div className="empty-state">
-          <p>No templates found. Create your first template to get started!</p>
+          <h3>No templates yet</h3>
+          <p>Create your first email template to get started.</p>
+          <button className="btn btn-primary" onClick={onCreateNew}>
+            Create New Template
+          </button>
         </div>
       ) : (
         <div className="template-grid">
@@ -44,17 +43,12 @@ export const TemplateList: FC<TemplateListProps> = ({
               onClick={() => onSelectTemplate(template)}
             >
               <h3>{template.name}</h3>
-              <p className="template-meta">Version: {template.version}</p>
-              <p className="template-meta">
-                Updated: {new Date(template.updatedAt).toLocaleDateString()}
-              </p>
+              <div className="template-meta">Version: {template.version}</div>
               <div className="template-preview">
-                <code>
-                  {JSON.stringify(template.content, null, 2).substring(0, 100)}
-                  {JSON.stringify(template.content, null, 2).length > 100
-                    ? '...'
-                    : ''}
-                </code>
+                {JSON.stringify(template.content, null, 2).substring(0, 100)}
+                {JSON.stringify(template.content, null, 2).length > 100
+                  ? '...'
+                  : ''}
               </div>
             </div>
           ))}
