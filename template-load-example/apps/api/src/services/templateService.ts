@@ -28,29 +28,6 @@ export const templateService = {
     };
   },
 
-  // Get a single template by ID
-  async getTemplate(id: string): Promise<TemplateResponse> {
-    const template = await prisma.template.findUnique({
-      where: { id },
-    });
-
-    if (!template) {
-      throw new Error(`Template with id ${id} not found`);
-    }
-
-    return {
-      template: {
-        id: template.id,
-        name: template.name,
-        version: template.version,
-        content: template.content,
-        archived: template.archived,
-        createdAt: template.createdAt.toISOString(),
-        updatedAt: template.updatedAt.toISOString(),
-      },
-    };
-  },
-
   // Create a new template
   async createTemplate(data: TemplateFormData): Promise<TemplateResponse> {
     // Validate JSON content (but don't parse it - keep as string)
@@ -145,38 +122,6 @@ export const templateService = {
         archived: updatedTemplate.archived,
         createdAt: updatedTemplate.createdAt.toISOString(),
         updatedAt: updatedTemplate.updatedAt.toISOString(),
-      },
-    };
-  },
-
-  // Duplicate a template
-  async duplicateTemplate(id: string): Promise<TemplateResponse> {
-    const originalTemplate = await prisma.template.findUnique({
-      where: { id },
-    });
-
-    if (!originalTemplate) {
-      throw new Error(`Template with id ${id} not found`);
-    }
-
-    const duplicatedTemplate = await prisma.template.create({
-      data: {
-        name: `${originalTemplate.name} (Copy)`,
-        version: originalTemplate.version,
-        content: originalTemplate.content,
-        archived: false,
-      },
-    });
-
-    return {
-      template: {
-        id: duplicatedTemplate.id,
-        name: duplicatedTemplate.name,
-        version: duplicatedTemplate.version,
-        content: duplicatedTemplate.content,
-        archived: duplicatedTemplate.archived,
-        createdAt: duplicatedTemplate.createdAt.toISOString(),
-        updatedAt: duplicatedTemplate.updatedAt.toISOString(),
       },
     };
   },
