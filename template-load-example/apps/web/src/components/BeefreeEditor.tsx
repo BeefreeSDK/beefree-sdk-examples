@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import BeefreeSDK from '@beefree.io/sdk';
 import { IBeeConfig, IToken } from '@beefree.io/sdk/dist/types/bee';
 import { SaveTemplateModal } from './SaveTemplateModal';
-import { mockBackend } from '../mockBackend';
+import { api, ApiError } from '../services/api';
 
 import { Template } from '../types';
 
@@ -159,13 +159,13 @@ export const BeefreeEditor = ({
           version: newVersion,
         };
 
-        await mockBackend.updateTemplate(existingTemplate.id, updateData);
+        await api.updateTemplate(existingTemplate.id, updateData);
         onSuccess(
           `Template "${templateName}" updated to version ${newVersion}!`
         );
       } else {
         // Create new template (either from scratch or as a copy)
-        await mockBackend.createTemplate(templateFormData);
+        await api.createTemplate(templateFormData);
         onSuccess(
           saveAsCopy
             ? 'Template saved as copy!'
@@ -188,7 +188,7 @@ export const BeefreeEditor = ({
     } catch (err) {
       console.error('Error saving template:', err);
       const errorMessage =
-        err instanceof Error
+        err instanceof ApiError
           ? err.message
           : 'Error saving template. Please try again.';
       onError(errorMessage);

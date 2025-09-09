@@ -57,8 +57,11 @@ The `/apps/api` directory contains a minimal Express + TypeScript API server.
 
 - `GET /health` - Server health check
 - `GET /version` - API version information
+- `GET /templates` - List all templates
 
 ### Environment Configuration
+
+#### Backend API (.env file in `/apps/api/`)
 
 Copy `.env.example` to `.env` in the `apps/api` directory:
 
@@ -72,8 +75,10 @@ API_KEY=changeme
 
 ### API Key Authentication
 
-- **Demo Mode**: When `API_KEY` is empty, all requests are allowed
-- **Protected Mode**: When `API_KEY` is set, requests must include `x-api-key` header
+**Note**: This authentication only affects the backend API server, not the frontend application.
+
+- **Demo Mode**: When `API_KEY` is empty or missing, all API requests are allowed without authentication
+- **Protected Mode**: When `API_KEY` is set, API requests must include `x-api-key` header with the matching value
 
 ### Available Scripts
 
@@ -94,6 +99,10 @@ curl http://localhost:3008/health
 # Version info
 curl http://localhost:3008/version
 # Response: {"version":"1.0.0"}
+
+# List templates
+curl http://localhost:3008/templates
+# Response: {"templates":[...],"total":2}
 
 # With API key (when enabled)
 curl -H "x-api-key: changeme" http://localhost:3008/health
@@ -136,11 +145,14 @@ pnpm lint:fix     # Fix ESLint issues
 
 ### Environment Variables
 
-Copy `env.example` to `.env` and configure your Beefree credentials:
+#### Frontend Web App (.env file in `/apps/web/`)
+
+Copy `env.example` to `.env` in the `apps/web` directory and configure your credentials:
 
 ```bash
 # API Configuration
-VITE_API_URL=http://localhost:3000
+VITE_API_URL=http://localhost:3008
+VITE_API_KEY=changeme
 
 # Beefree SDK Configuration
 VITE_BEEFREE_CLIENT_ID=your_client_id_here
@@ -148,11 +160,25 @@ VITE_BEEFREE_CLIENT_SECRET=your_client_secret_here
 VITE_BEEFREE_UID=demo-user
 ```
 
+**Variable Descriptions:**
+
+- **VITE_API_URL**: Backend API base URL (default: http://localhost:3008)
+- **VITE_API_KEY**: API key for backend authentication (optional, leave empty for demo mode)
+- **VITE_BEEFREE_CLIENT_ID**: Your Beefree SDK client ID
+- **VITE_BEEFREE_CLIENT_SECRET**: Your Beefree SDK client secret
+- **VITE_BEEFREE_UID**: User identifier for Beefree SDK
+
+**Important Notes:**
+
+- The `VITE_API_KEY` variable only affects communication with the backend API
+- When `VITE_API_KEY` is empty or missing, the frontend will make API calls without authentication headers
+- The Beefree SDK credentials are used for the email template editor functionality
+
 ### Getting Started
 
-1. Copy `env.example` to `.env`
-2. Add your Beefree credentials to `.env`
-3. Run `pnpm dev` to start the development server
+1. **Setup Backend API**: Copy `apps/api/.env.example` to `apps/api/.env` and configure if needed
+2. **Setup Frontend**: Copy `apps/web/env.example` to `apps/web/.env` and add your Beefree credentials
+3. Run `pnpm dev` to start both development servers
 4. Click "Open Beefree SDK" to start the Beefree editor with a blank template
 5. Design your template using the full Beefree editor
 6. Click "Save as template" in the builder toolbar to save your design
