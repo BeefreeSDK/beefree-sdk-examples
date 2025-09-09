@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { BaseModal } from './BaseModal';
+import { ModalActions, ModalButton } from './ModalActions';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -23,101 +24,60 @@ export const ConfirmationModal = ({
   loading = false,
   variant = 'danger',
 }: ConfirmationModalProps) => {
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onCancel();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [isOpen, onCancel]);
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = 'unset';
-      };
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   const getVariantStyles = () => {
     switch (variant) {
       case 'danger':
         return {
           icon: '⚠',
-          confirmClass: 'btn-danger',
+          confirmVariant: 'danger' as const,
         };
       case 'warning':
         return {
           icon: '⚠',
-          confirmClass: 'btn-warning',
+          confirmVariant: 'warning' as const,
         };
       case 'info':
         return {
           icon: 'ℹ',
-          confirmClass: 'btn-primary',
+          confirmVariant: 'primary' as const,
         };
       default:
         return {
           icon: '⚠',
-          confirmClass: 'btn-danger',
+          confirmVariant: 'danger' as const,
         };
     }
   };
 
-  const { icon, confirmClass } = getVariantStyles();
+  const { icon, confirmVariant } = getVariantStyles();
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-backdrop" onClick={onCancel} />
-      <div className="modal-container" data-variant={variant}>
-        <div className="modal-header">
-          <div className="modal-title-with-icon">
-            <span className="modal-icon">{icon}</span>
-            <h2>{title}</h2>
-          </div>
-          <button
-            className="modal-close"
-            onClick={onCancel}
-            disabled={loading}
-            aria-label="Close modal"
-          >
-            ×
-          </button>
+    <BaseModal
+      isOpen={isOpen}
+      title={
+        <div className="modal-title-with-icon">
+          <span className="modal-icon">{icon}</span>
+          <span>{title}</span>
         </div>
+      }
+      onClose={onCancel}
+      loading={loading}
+      variant={variant}
+    >
+      <p className="confirmation-message">{message}</p>
 
-        <div className="modal-content">
-          <p className="confirmation-message">{message}</p>
-        </div>
-
-        <div className="modal-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onCancel}
-            disabled={loading}
-          >
-            {cancelText}
-          </button>
-          <button
-            type="button"
-            className={`btn ${confirmClass}`}
-            onClick={onConfirm}
-            disabled={loading}
-          >
-            {loading ? 'Processing...' : confirmText}
-          </button>
-        </div>
-      </div>
-    </div>
+      <ModalActions>
+        <ModalButton variant="secondary" onClick={onCancel} disabled={loading}>
+          {cancelText}
+        </ModalButton>
+        <ModalButton
+          variant={confirmVariant}
+          onClick={onConfirm}
+          loading={loading}
+        >
+          {confirmText}
+        </ModalButton>
+      </ModalActions>
+    </BaseModal>
   );
 };
