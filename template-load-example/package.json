@@ -28,12 +28,6 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6"
   },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,md}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
-  },
   "dependencies": {
     "chalk": "^5.6.2"
   }
