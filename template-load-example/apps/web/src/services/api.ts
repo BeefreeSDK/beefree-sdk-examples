@@ -3,7 +3,6 @@ import {
   TemplateListResponse,
   TemplateResponse,
 } from '../types';
-import { mockBackend } from '../mockBackend';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3008';
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -46,7 +45,6 @@ function getHeaders(): HeadersInit {
 }
 
 export const api = {
-  // Templates - listTemplates and deleteTemplate use the backend API
   async listTemplates(): Promise<TemplateListResponse> {
     const response = await fetch(`${API_BASE_URL}/templates`, {
       headers: getHeaders(),
@@ -54,7 +52,6 @@ export const api = {
     return handleResponse<TemplateListResponse>(response);
   },
 
-  // deleteTemplate uses the backend API
   async deleteTemplate(id: string): Promise<void> {
     const response = await fetch(`${API_BASE_URL}/templates/${id}`, {
       method: 'DELETE',
@@ -71,24 +68,25 @@ export const api = {
     }
   },
 
-  // All other template operations use the mock backend
-  async getTemplate(id: string): Promise<TemplateResponse> {
-    return mockBackend.getTemplate(id);
-  },
-
   async createTemplate(data: TemplateFormData): Promise<TemplateResponse> {
-    return mockBackend.createTemplate(data);
+    const response = await fetch(`${API_BASE_URL}/templates`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return handleResponse<TemplateResponse>(response);
   },
 
   async updateTemplate(
     id: string,
     data: TemplateFormData
   ): Promise<TemplateResponse> {
-    return mockBackend.updateTemplate(id, data);
-  },
-
-  async duplicateTemplate(id: string): Promise<TemplateResponse> {
-    return mockBackend.duplicateTemplate(id);
+    const response = await fetch(`${API_BASE_URL}/templates/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return handleResponse<TemplateResponse>(response);
   },
 };
 
