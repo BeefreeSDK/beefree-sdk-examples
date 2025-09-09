@@ -7,11 +7,15 @@ import { mockBackend } from '../mockBackend';
 interface BeefreeEditorProps {
   onClose: () => void;
   onTemplateSaved?: () => void;
+  onSuccess: (message: string) => void;
+  onError: (message: string) => void;
 }
 
 export const BeefreeEditor = ({
   onClose,
   onTemplateSaved,
+  onSuccess,
+  onError,
 }: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -93,12 +97,14 @@ export const BeefreeEditor = ({
         beeInstance.start(config, {});
 
         console.log('✅ Beefree SDK initialized successfully');
+        onSuccess('Beefree SDK initialized successfully!');
       } catch (err) {
         const errorMessage =
           err instanceof Error
             ? err.message
             : 'Failed to initialize Beefree SDK';
         setError(errorMessage);
+        onError(errorMessage);
         console.error('❌ Beefree SDK initialization failed:', err);
       } finally {
         setIsLoading(false);
@@ -127,7 +133,7 @@ export const BeefreeEditor = ({
       await mockBackend.createTemplate(templateFormData);
 
       // Show success message
-      alert('Template saved successfully!');
+      onSuccess('Template saved successfully!');
       console.log('Template Name:', templateName);
       console.log('Template JSON:', currentTemplateData);
 
@@ -146,7 +152,7 @@ export const BeefreeEditor = ({
         err instanceof Error
           ? err.message
           : 'Error saving template. Please try again.';
-      alert(errorMessage);
+      onError(errorMessage);
     } finally {
       setSaving(false);
     }
