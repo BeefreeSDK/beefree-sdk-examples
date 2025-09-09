@@ -83,7 +83,7 @@ VITE_BEEFREE_UID=demo-user
 1. Copy `env.example` to `.env`
 2. Add your Beefree credentials to `.env`
 3. Run `pnpm dev` to start the development server
-4. Click "Create New Template" to open the Beefree editor
+4. Click "Open Beefree SDK" to start the Beefree editor with a blank template
 
 ## Adding Apps
 

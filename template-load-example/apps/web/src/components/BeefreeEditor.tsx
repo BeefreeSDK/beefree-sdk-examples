@@ -59,12 +59,6 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
           throw new Error('Invalid token response: missing access_token');
         }
 
-        // Load default template
-        const templateResponse = await fetch(
-          'https://rsrc.getbee.io/api/templates/m-bee'
-        );
-        const templateData = await templateResponse.json();
-
         // Initialize Beefree SDK
         const beeInstance = new BeefreeSDK(token);
         beeInstanceRef.current = beeInstance;
@@ -75,9 +69,9 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
           uid: uid,
         };
 
-        // Store globally and start
+        // Start with blank template
         (window as any).bee = beeInstance;
-        beeInstance.start(config, templateData);
+        beeInstance.start(config, {});
 
         console.log('✅ Beefree SDK initialized successfully');
       } catch (err) {
