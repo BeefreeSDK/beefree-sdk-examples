@@ -22,4 +22,29 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * DELETE /templates/:id
+ * Delete a template by ID
+ */
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Template ID is required' });
+    }
+
+    await templateService.deleteTemplate(id);
+    res.status(204).send(); // No content response for successful deletion
+  } catch (error) {
+    console.error('Error deleting template:', error);
+
+    if (error instanceof Error && error.message.includes('not found')) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+
+    res.status(500).json({ message: 'Failed to delete template' });
+  }
+});
+
 export default router;
