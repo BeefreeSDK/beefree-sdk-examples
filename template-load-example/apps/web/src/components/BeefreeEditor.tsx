@@ -13,6 +13,7 @@ interface BeefreeEditorProps {
   onError: (message: string) => void;
   templateToLoad?: string; // JSON string of template to load
   existingTemplate?: Template | null; // If editing an existing template
+  allTemplates?: Template[]; // All existing templates for copy name generation
 }
 
 export const BeefreeEditor = ({
@@ -22,6 +23,7 @@ export const BeefreeEditor = ({
   onError,
   templateToLoad,
   existingTemplate = null,
+  allTemplates = [],
 }: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -266,6 +268,7 @@ export const BeefreeEditor = ({
         onSave={handleSaveTemplate}
         loading={saving}
         existingTemplate={existingTemplate}
+        allTemplates={allTemplates}
       />
     </div>
   );
