@@ -49,6 +49,7 @@ The application integrates the official Beefree SDK to provide:
 - Real-time preview
 - Template saving and loading
 - Professional email design tools
+- **Save as Template functionality**: Click "Save as template" in the builder toolbar to save your design with a custom name
 
 ### Available Scripts
 
