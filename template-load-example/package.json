@@ -8,15 +8,16 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm dev\" \"cd apps/web && pnpm dev\"",
+    "dev": "pnpm db:ensure && concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm dev\" \"cd apps/web && pnpm dev\"",
     "dev:api": "cd apps/api && pnpm dev",
     "dev:web": "cd apps/web && pnpm dev",
     "build": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm build\" \"cd apps/web && pnpm build\"",
     "build:api": "cd apps/api && pnpm build",
     "build:web": "cd apps/web && pnpm build",
-    "start": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm start\" \"cd apps/web && pnpm preview\"",
+    "start": "pnpm db:ensure && concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm start\" \"cd apps/web && pnpm preview\"",
     "start:api": "cd apps/api && pnpm start",
     "start:web": "cd apps/web && pnpm preview",
+    "db:ensure": "cd apps/api && pnpm db:ensure",
     "preview": "cd apps/web && pnpm preview",
     "setup-hooks": "./setup-hooks.sh",
     "typecheck": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && pnpm tsc --noEmit\" \"cd apps/web && pnpm tsc --noEmit\"",
