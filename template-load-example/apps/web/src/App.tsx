@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Template } from './types';
-import { mockBackend } from './mockBackend';
+import { api, ApiError } from './services/api';
 import { TemplateList } from './components/TemplateList';
 import { BeefreeEditor } from './components/BeefreeEditor';
 import { Toaster } from './components/Toaster';
@@ -27,11 +27,11 @@ function App() {
   const loadTemplates = async () => {
     try {
       setLoading(true);
-      const response = await mockBackend.listTemplates();
+      const response = await api.listTemplates();
       setTemplates(response.templates);
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Failed to load templates';
+        err instanceof ApiError ? err.message : 'Failed to load templates';
       showError(errorMessage);
     } finally {
       setLoading(false);
@@ -69,12 +69,14 @@ function App() {
 
   const handleDeleteTemplate = async (templateId: string) => {
     try {
-      await mockBackend.deleteTemplate(templateId);
+      await api.deleteTemplate(templateId);
       await loadTemplates();
       success('Template deleted successfully');
     } catch (error) {
       console.error('Error deleting template:', error);
-      showError('Failed to delete template');
+      const errorMessage =
+        error instanceof ApiError ? error.message : 'Failed to delete template';
+      showError(errorMessage);
     }
   };
 

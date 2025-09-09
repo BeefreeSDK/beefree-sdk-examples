@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { apiKeyMiddleware } from './middleware/auth';
 import healthRoutes from './routes/health';
 import versionRoutes from './routes/version';
+import templatesRoutes from './routes/templates';
 
 // Load environment variables
 dotenv.config();
@@ -16,13 +17,16 @@ app.use(express.json({ limit: '5mb' })); // JSON body parser with 5MB limit
 app.use(
   cors({
     origin: [
-      'http://localhost:3001', // Default Vite port
+      'http://localhost:3001', // Default Vite dev port
       'http://localhost:3002', // Fallback ports
       'http://localhost:3003',
       'http://localhost:3004',
       'http://localhost:3005',
       'http://localhost:3006',
       'http://localhost:3007',
+      'http://localhost:4173', // Vite preview server port (default)
+      'http://localhost:4174', // Vite preview server port (fallback)
+      'http://localhost:4175', // Vite preview server port (fallback)
     ],
     credentials: true,
   })
@@ -34,6 +38,7 @@ app.use(apiKeyMiddleware);
 // Routes
 app.use('/health', healthRoutes);
 app.use('/version', versionRoutes);
+app.use('/templates', templatesRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
