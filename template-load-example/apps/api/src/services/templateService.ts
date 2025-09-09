@@ -4,70 +4,51 @@ import {
   TemplateResponse,
   TemplateFormData,
 } from '../types/template';
-
-// In-memory storage for demo purposes
-let templates: Template[] = [];
-
-// Generate a simple ID
-function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
-// Seed initial templates if none exist
-function seedInitialTemplates(): void {
-  if (templates.length > 0) return; // Already seeded
-
-  const initialTemplates: Template[] = [
-    {
-      id: generateId(),
-      name: 'Welcome Email',
-      version: '1.0.0',
-      content: JSON.stringify({
-        subject: 'Welcome to our service!',
-        body: "Thank you for signing up. We're excited to have you on board.",
-        type: 'email',
-      }),
-      archived: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: generateId(),
-      name: 'Newsletter Template',
-      version: '1.0.0',
-      content: JSON.stringify({
-        subject: 'Monthly Newsletter',
-        body: 'Check out our latest updates and news.',
-        type: 'email',
-      }),
-      archived: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ];
-
-  templates = initialTemplates;
-}
-
-// Initialize templates on module load
-seedInitialTemplates();
+import { prisma } from '../lib/prisma';
 
 export const templateService = {
-  // List all templates
+  // List all templates (non-archived only)
   async listTemplates(): Promise<TemplateListResponse> {
+    const templates = await prisma.template.findMany({
+      where: { archived: false },
+      orderBy: { createdAt: 'desc' },
+    });
+
     return {
-      templates: templates.filter((t) => !t.archived),
-      total: templates.filter((t) => !t.archived).length,
+      templates: templates.map((template) => ({
+        id: template.id,
+        name: template.name,
+        version: template.version,
+        content: template.content,
+        archived: template.archived,
+        createdAt: template.createdAt.toISOString(),
+        updatedAt: template.updatedAt.toISOString(),
+      })),
+      total: templates.length,
     };
   },
 
   // Get a single template by ID
   async getTemplate(id: string): Promise<TemplateResponse> {
-    const template = templates.find((t) => t.id === id);
+    const template = await prisma.template.findUnique({
+      where: { id },
+    });
+
     if (!template) {
       throw new Error(`Template with id ${id} not found`);
     }
-    return { template };
+
+    return {
+      template: {
+        id: template.id,
+        name: template.name,
+        version: template.version,
+        content: template.content,
+        archived: template.archived,
+        createdAt: template.createdAt.toISOString(),
+        updatedAt: template.updatedAt.toISOString(),
+      },
+    };
   },
 
   // Create a new template
@@ -80,25 +61,37 @@ export const templateService = {
     }
 
     // Check for duplicate names (only among non-archived templates)
-    const existingTemplate = templates.find(
-      (t) => !t.archived && t.name.toLowerCase() === data.name.toLowerCase()
-    );
+    const existingTemplate = await prisma.template.findFirst({
+      where: {
+        name: data.name,
+        archived: false,
+      },
+    });
+
     if (existingTemplate) {
       throw new Error(`Template with name "${data.name}" already exists`);
     }
 
-    const newTemplate: Template = {
-      id: generateId(),
-      name: data.name,
-      version: '1.0.0',
-      content: data.content, // Store raw JSON string
-      archived: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    const newTemplate = await prisma.template.create({
+      data: {
+        name: data.name,
+        version: '1.0.0',
+        content: data.content,
+        archived: false,
+      },
+    });
 
-    templates.push(newTemplate);
-    return { template: newTemplate };
+    return {
+      template: {
+        id: newTemplate.id,
+        name: newTemplate.name,
+        version: newTemplate.version,
+        content: newTemplate.content,
+        archived: newTemplate.archived,
+        createdAt: newTemplate.createdAt.toISOString(),
+        updatedAt: newTemplate.updatedAt.toISOString(),
+      },
+    };
   },
 
   // Update an existing template
@@ -106,8 +99,12 @@ export const templateService = {
     id: string,
     data: TemplateFormData
   ): Promise<TemplateResponse> {
-    const templateIndex = templates.findIndex((t) => t.id === id);
-    if (templateIndex === -1) {
+    // Check if template exists
+    const existingTemplate = await prisma.template.findUnique({
+      where: { id },
+    });
+
+    if (!existingTemplate) {
       throw new Error(`Template with id ${id} not found`);
     }
 
@@ -119,55 +116,85 @@ export const templateService = {
     }
 
     // Check for duplicate names (excluding current template)
-    const existingTemplate = templates.find(
-      (t) =>
-        t.id !== id &&
-        !t.archived &&
-        t.name.toLowerCase() === data.name.toLowerCase()
-    );
-    if (existingTemplate) {
+    const duplicateTemplate = await prisma.template.findFirst({
+      where: {
+        name: data.name,
+        archived: false,
+        id: { not: id },
+      },
+    });
+
+    if (duplicateTemplate) {
       throw new Error(`Template with name "${data.name}" already exists`);
     }
 
-    const updatedTemplate: Template = {
-      ...templates[templateIndex],
-      name: data.name,
-      content: data.content,
-      updatedAt: new Date().toISOString(),
-    };
+    const updatedTemplate = await prisma.template.update({
+      where: { id },
+      data: {
+        name: data.name,
+        content: data.content,
+      },
+    });
 
-    templates[templateIndex] = updatedTemplate;
-    return { template: updatedTemplate };
+    return {
+      template: {
+        id: updatedTemplate.id,
+        name: updatedTemplate.name,
+        version: updatedTemplate.version,
+        content: updatedTemplate.content,
+        archived: updatedTemplate.archived,
+        createdAt: updatedTemplate.createdAt.toISOString(),
+        updatedAt: updatedTemplate.updatedAt.toISOString(),
+      },
+    };
   },
 
   // Duplicate a template
   async duplicateTemplate(id: string): Promise<TemplateResponse> {
-    const originalTemplate = templates.find((t) => t.id === id);
+    const originalTemplate = await prisma.template.findUnique({
+      where: { id },
+    });
+
     if (!originalTemplate) {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    const duplicatedTemplate: Template = {
-      ...originalTemplate,
-      id: generateId(),
-      name: `${originalTemplate.name} (Copy)`,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    const duplicatedTemplate = await prisma.template.create({
+      data: {
+        name: `${originalTemplate.name} (Copy)`,
+        version: originalTemplate.version,
+        content: originalTemplate.content,
+        archived: false,
+      },
+    });
 
-    templates.push(duplicatedTemplate);
-    return { template: duplicatedTemplate };
+    return {
+      template: {
+        id: duplicatedTemplate.id,
+        name: duplicatedTemplate.name,
+        version: duplicatedTemplate.version,
+        content: duplicatedTemplate.content,
+        archived: duplicatedTemplate.archived,
+        createdAt: duplicatedTemplate.createdAt.toISOString(),
+        updatedAt: duplicatedTemplate.updatedAt.toISOString(),
+      },
+    };
   },
 
   // Soft delete a template (archive it)
   async deleteTemplate(id: string): Promise<void> {
-    const template = templates.find((t) => t.id === id);
+    const template = await prisma.template.findUnique({
+      where: { id },
+    });
+
     if (!template) {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    // Soft delete: set archived to true and update timestamp
-    template.archived = true;
-    template.updatedAt = new Date().toISOString();
+    // Soft delete: set archived to true
+    await prisma.template.update({
+      where: { id },
+      data: { archived: true },
+    });
   },
 };
