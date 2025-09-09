@@ -9,6 +9,30 @@ import './App.css';
 
 type View = 'list' | 'sdk';
 
+// Helper function to generate the next available copy name
+const generateCopyName = (
+  baseName: string,
+  allTemplates: Template[]
+): string => {
+  const existingNames = allTemplates.map((t) => t.name);
+
+  // Check if base name + " (Copy)" is available
+  let copyName = baseName + ' (Copy)';
+  if (!existingNames.includes(copyName)) {
+    return copyName;
+  }
+
+  // Find the next available number
+  let copyNumber = 2;
+  while (true) {
+    copyName = baseName + ` (Copy ${copyNumber})`;
+    if (!existingNames.includes(copyName)) {
+      return copyName;
+    }
+    copyNumber++;
+  }
+};
+
 function App() {
   const [currentView, setCurrentView] = useState<View>('list');
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -75,6 +99,29 @@ function App() {
     }
   };
 
+  const handleDuplicateTemplate = async (template: Template) => {
+    try {
+      // Generate a unique copy name
+      const copyName = generateCopyName(template.name, templates);
+
+      // Create the duplicate with the new name
+      await api.createTemplate({
+        name: copyName,
+        content: template.content,
+      });
+
+      await loadTemplates();
+      success(`Template duplicated as "${copyName}"`);
+    } catch (error) {
+      console.error('Error duplicating template:', error);
+      const errorMessage =
+        error instanceof ApiError
+          ? error.message
+          : 'Failed to duplicate template';
+      showError(errorMessage);
+    }
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -110,6 +157,7 @@ function App() {
             onSelectTemplate={handleSelectTemplate}
             onCreateNew={handleCreateNew}
             onDeleteTemplate={handleDeleteTemplate}
+            onDuplicateTemplate={handleDuplicateTemplate}
             loading={loading}
           />
         )}

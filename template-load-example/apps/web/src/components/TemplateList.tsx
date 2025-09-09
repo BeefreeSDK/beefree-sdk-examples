@@ -7,6 +7,7 @@ interface TemplateListProps {
   onCreateNew: () => void;
   onSelectTemplate: (template: Template) => void;
   onDeleteTemplate: (templateId: string) => Promise<void>;
+  onDuplicateTemplate: (template: Template) => Promise<void>;
   loading: boolean;
 }
 
@@ -15,6 +16,7 @@ export const TemplateList = ({
   onCreateNew,
   onSelectTemplate,
   onDeleteTemplate,
+  onDuplicateTemplate,
   loading,
 }: TemplateListProps) => {
   const [deleteTemplate, setDeleteTemplate] = useState<Template | null>(null);
@@ -23,6 +25,14 @@ export const TemplateList = ({
   const handleDeleteClick = (e: React.MouseEvent, template: Template) => {
     e.stopPropagation(); // Prevent card click
     setDeleteTemplate(template);
+  };
+
+  const handleDuplicateClick = async (
+    e: React.MouseEvent,
+    template: Template
+  ) => {
+    e.stopPropagation(); // Prevent card click
+    await onDuplicateTemplate(template);
   };
 
   const handleConfirmDelete = async () => {
@@ -80,13 +90,22 @@ export const TemplateList = ({
             >
               <div className="template-card-header">
                 <h3>{template.name}</h3>
-                <button
-                  className="btn-delete"
-                  onClick={(e) => handleDeleteClick(e, template)}
-                  title="Delete template"
-                >
-                  🗑️
-                </button>
+                <div className="template-actions">
+                  <button
+                    className="btn-duplicate"
+                    onClick={(e) => handleDuplicateClick(e, template)}
+                    title="Duplicate template"
+                  >
+                    📋
+                  </button>
+                  <button
+                    className="btn-delete"
+                    onClick={(e) => handleDeleteClick(e, template)}
+                    title="Delete template"
+                  >
+                    🗑️
+                  </button>
+                </div>
               </div>
               <div className="template-meta">Version: {template.version}</div>
               <div className="template-preview">
