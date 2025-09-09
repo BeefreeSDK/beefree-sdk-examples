@@ -159,13 +159,15 @@ export const templateService = {
     return { template: duplicatedTemplate };
   },
 
-  // Delete a template
+  // Soft delete a template (archive it)
   async deleteTemplate(id: string): Promise<void> {
-    const templateIndex = templates.findIndex((t) => t.id === id);
-    if (templateIndex === -1) {
+    const template = templates.find((t) => t.id === id);
+    if (!template) {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    templates.splice(templateIndex, 1);
+    // Soft delete: set archived to true and update timestamp
+    template.archived = true;
+    template.updatedAt = new Date().toISOString();
   },
 };
