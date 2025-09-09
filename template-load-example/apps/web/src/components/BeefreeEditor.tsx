@@ -4,12 +4,15 @@ import { IBeeConfig, IToken } from '@beefree.io/sdk/dist/types/bee';
 import { SaveTemplateModal } from './SaveTemplateModal';
 import { mockBackend } from '../mockBackend';
 
+import { Template } from '../types';
+
 interface BeefreeEditorProps {
   onClose: () => void;
   onTemplateSaved?: () => void;
   onSuccess: (message: string) => void;
   onError: (message: string) => void;
   templateToLoad?: string; // JSON string of template to load
+  existingTemplate?: Template | null; // If editing an existing template
 }
 
 export const BeefreeEditor = ({
@@ -18,6 +21,7 @@ export const BeefreeEditor = ({
   onSuccess,
   onError,
   templateToLoad,
+  existingTemplate = null,
 }: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -132,7 +136,10 @@ export const BeefreeEditor = ({
   }, []);
 
   // Handle save template
-  const handleSaveTemplate = async (templateName: string) => {
+  const handleSaveTemplate = async (
+    templateName: string,
+    saveAsCopy: boolean
+  ) => {
     if (!currentTemplateData || !currentTemplateJsonString) return;
 
     try {
@@ -144,11 +151,28 @@ export const BeefreeEditor = ({
         content: currentTemplateJsonString,
       };
 
-      // Save using the mock backend (this will handle name collision checking)
-      await mockBackend.createTemplate(templateFormData);
+      if (existingTemplate && !saveAsCopy) {
+        // Update existing template - increment version
+        const newVersion = incrementVersion(existingTemplate.version);
+        const updateData = {
+          ...templateFormData,
+          version: newVersion,
+        };
 
-      // Show success message
-      onSuccess('Template saved successfully!');
+        await mockBackend.updateTemplate(existingTemplate.id, updateData);
+        onSuccess(
+          `Template "${templateName}" updated to version ${newVersion}!`
+        );
+      } else {
+        // Create new template (either from scratch or as a copy)
+        await mockBackend.createTemplate(templateFormData);
+        onSuccess(
+          saveAsCopy
+            ? 'Template saved as copy!'
+            : 'Template saved successfully!'
+        );
+      }
+
       console.log('Template Name:', templateName);
       console.log('Template JSON:', currentTemplateData);
 
@@ -171,6 +195,17 @@ export const BeefreeEditor = ({
     } finally {
       setSaving(false);
     }
+  };
+
+  // Helper function to increment version number
+  const incrementVersion = (version: string): string => {
+    const parts = version.split('.');
+    const major = parseInt(parts[0]) || 0;
+    const minor = parseInt(parts[1]) || 0;
+    const patch = parseInt(parts[2]) || 0;
+
+    // Increment patch version
+    return `${major}.${minor}.${patch + 1}`;
   };
 
   // Handle modal close
@@ -231,6 +266,7 @@ export const BeefreeEditor = ({
         onClose={handleCloseModal}
         onSave={handleSaveTemplate}
         loading={saving}
+        existingTemplate={existingTemplate}
       />
     </div>
   );
