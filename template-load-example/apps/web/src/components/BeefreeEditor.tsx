@@ -116,7 +116,6 @@ export const BeefreeEditor = ({
         beeInstance.start(config, templateData);
 
         console.log('✅ Beefree SDK initialized successfully');
-        onSuccess('Beefree SDK initialized successfully!');
       } catch (err) {
         const errorMessage =
           err instanceof Error

@@ -50,11 +50,6 @@ function App() {
     setCurrentView('sdk');
   };
 
-  const handleOpenSDK = () => {
-    setTemplateToLoad(undefined);
-    setCurrentView('sdk');
-  };
-
   const handleCloseSDK = () => {
     setCurrentView('list');
     setTemplateToLoad(undefined);
@@ -100,14 +95,9 @@ function App() {
                 Close Editor
               </button>
             ) : currentView === 'list' ? (
-              <div className="header-actions">
-                <button className="btn btn-primary" onClick={handleCreateNew}>
-                  Create New Template
-                </button>
-                <button className="btn btn-secondary" onClick={handleOpenSDK}>
-                  Open Beefree SDK
-                </button>
-              </div>
+              <button className="btn btn-primary" onClick={handleCreateNew}>
+                Create New Template
+              </button>
             ) : null}
           </div>
         </div>
