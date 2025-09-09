@@ -8,6 +8,9 @@ dist/
 .env
 .env.*
 
+# Database files
+apps/api/var/
+
 # OS generated files
 .DS_Store
 Thumbs.db

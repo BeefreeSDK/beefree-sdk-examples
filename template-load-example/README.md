@@ -25,15 +25,17 @@ This is a demo monorepo scaffold using pnpm workspaces.
 3. Run the applications:
 
    ```bash
-   # Start both API and frontend concurrently
+   # Start both API and frontend concurrently (database auto-initialized)
    pnpm dev
    ```
 
-   This will start both applications with color-coded output:
-   - <span style="color: cyan; font-weight: bold;">**API**</span>: http://localhost:3008
-   - <span style="color: magenta; font-weight: bold;">**WEB**</span>: http://localhost:3001 (or next available port)
+   This will automatically:
+   - Initialize the SQLite database with Prisma
+   - Start both applications with color-coded output:
+     - <span style="color: cyan; font-weight: bold;">**API**</span>: http://localhost:3008
+     - <span style="color: magenta; font-weight: bold;">**WEB**</span>: http://localhost:3001 (or next available port)
 
-   Or run them individually:
+   To run them individually, use the following commands:
 
    ```bash
    pnpm dev:api    # API server only
@@ -72,6 +74,30 @@ API_KEY=changeme
 
 - **PORT**: Server port (default: 3008)
 - **API_KEY**: Optional API key for authentication (leave empty for demo mode)
+- **DATABASE_URL**: SQLite database file location (default: `file:./var/dev.db`)
+
+### Database Setup
+
+The API uses SQLite with Prisma ORM for data persistence.
+
+#### Database Setup
+
+The database is automatically initialized when you run the development or production scripts. No manual setup is required.
+
+**Manual Database Commands** (if needed):
+
+```bash
+# Generate Prisma client and create/update database schema
+pnpm db:ensure
+
+# Open database viewer (optional)
+pnpm -C apps/api db:studio
+```
+
+#### Database Location
+
+- **SQLite file**: `apps/api/var/dev.db`
+- **Schema**: `apps/api/prisma/schema.prisma`
 
 ### API Key Authentication
 
