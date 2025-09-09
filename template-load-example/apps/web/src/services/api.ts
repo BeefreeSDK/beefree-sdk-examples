@@ -46,12 +46,29 @@ function getHeaders(): HeadersInit {
 }
 
 export const api = {
-  // Templates - Only listTemplates uses the backend API
+  // Templates - listTemplates and deleteTemplate use the backend API
   async listTemplates(): Promise<TemplateListResponse> {
     const response = await fetch(`${API_BASE_URL}/templates`, {
       headers: getHeaders(),
     });
     return handleResponse<TemplateListResponse>(response);
+  },
+
+  // deleteTemplate uses the backend API
+  async deleteTemplate(id: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/templates/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!response.ok) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: 'Unknown error' }));
+      throw new ApiError(
+        response.status,
+        errorData.message || `HTTP ${response.status}`
+      );
+    }
   },
 
   // All other template operations use the mock backend
@@ -68,10 +85,6 @@ export const api = {
     data: TemplateFormData
   ): Promise<TemplateResponse> {
     return mockBackend.updateTemplate(id, data);
-  },
-
-  async deleteTemplate(id: string): Promise<void> {
-    return mockBackend.deleteTemplate(id);
   },
 
   async duplicateTemplate(id: string): Promise<TemplateResponse> {
