@@ -2,20 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 import BeefreeSDK from '@beefree.io/sdk';
 import { IBeeConfig, IToken } from '@beefree.io/sdk/dist/types/bee';
 import { SaveTemplateModal } from './SaveTemplateModal';
+import { mockBackend } from '../mockBackend';
 
 interface BeefreeEditorProps {
   onClose: () => void;
+  onTemplateSaved?: () => void;
 }
 
-export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
+export const BeefreeEditor = ({
+  onClose,
+  onTemplateSaved,
+}: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [currentTemplateData, setCurrentTemplateData] = useState<any>(null);
+  const [currentTemplateJsonString, setCurrentTemplateJsonString] =
+    useState<string>('');
   const beeInstanceRef = useRef<any>(null);
   const initializationRef = useRef(false);
-  // const saveAsTemplateHandlerRef = useRef<((event: CustomEvent) => void) | null>(null);
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -74,23 +80,13 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
           uid: uid,
           onSaveAsTemplate: (json: any) => {
             console.log('Save as template clicked, template data:', json);
+            // Store both the original object and the JSON string to preserve exact formatting
+            const jsonString = JSON.stringify(json);
             setCurrentTemplateData(json);
+            setCurrentTemplateJsonString(jsonString);
             setShowSaveModal(true);
           },
         };
-
-        // // Add event listener for save as template button if onSaveAsTemplate is not supported
-        // const handleSaveAsTemplateEvent = (event: CustomEvent) => {
-        //   console.log('Save as template event received:', event.detail);
-        //   setCurrentTemplateData(event.detail);
-        //   setShowSaveModal(true);
-        // };
-
-        // // Store the handler reference for cleanup
-        // saveAsTemplateHandlerRef.current = handleSaveAsTemplateEvent;
-
-        // // Listen for custom save as template events
-        // window.addEventListener('beefree-save-as-template', handleSaveAsTemplateEvent as EventListener);
 
         // Start with blank template
         (window as any).bee = beeInstance;
@@ -116,22 +112,41 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
 
   // Handle save template
   const handleSaveTemplate = async (templateName: string) => {
-    if (!currentTemplateData) return;
+    if (!currentTemplateData || !currentTemplateJsonString) return;
 
     try {
       setSaving(true);
 
-      // For now, just show alert and log to console as requested
+      // Use the original JSON string to preserve exact formatting
+      const templateFormData = {
+        name: templateName,
+        content: currentTemplateJsonString,
+      };
+
+      // Save using the mock backend (this will handle name collision checking)
+      await mockBackend.createTemplate(templateFormData);
+
+      // Show success message
       alert('Template saved successfully!');
       console.log('Template Name:', templateName);
       console.log('Template JSON:', currentTemplateData);
 
+      // Notify parent component to refresh template list
+      if (onTemplateSaved) {
+        onTemplateSaved();
+      }
+
       // Close modal and reset state
       setShowSaveModal(false);
       setCurrentTemplateData(null);
+      setCurrentTemplateJsonString('');
     } catch (err) {
       console.error('Error saving template:', err);
-      alert('Error saving template. Please try again.');
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Error saving template. Please try again.';
+      alert(errorMessage);
     } finally {
       setSaving(false);
     }
@@ -141,6 +156,7 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
   const handleCloseModal = () => {
     setShowSaveModal(false);
     setCurrentTemplateData(null);
+    setCurrentTemplateJsonString('');
     setSaving(false);
   };
 
@@ -154,11 +170,6 @@ export const BeefreeEditor = ({ onClose }: BeefreeEditorProps) => {
           console.error('Error destroying Beefree SDK:', err);
         }
       }
-
-      // // Remove event listener
-      // if (saveAsTemplateHandlerRef.current) {
-      //   window.removeEventListener('beefree-save-as-template', saveAsTemplateHandlerRef.current as EventListener);
-      // }
     };
   }, []);
 

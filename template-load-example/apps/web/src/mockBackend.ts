@@ -42,11 +42,11 @@ function seedInitialTemplates(): void {
       id: generateId(),
       name: 'Welcome Email',
       version: '1.0.0',
-      content: {
+      content: JSON.stringify({
         subject: 'Welcome to our service!',
         body: "Thank you for signing up. We're excited to have you on board.",
         type: 'email',
-      },
+      }),
       archived: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -55,14 +55,14 @@ function seedInitialTemplates(): void {
       id: generateId(),
       name: 'Newsletter Template',
       version: '1.0.0',
-      content: {
+      content: JSON.stringify({
         title: 'Monthly Newsletter',
         sections: [
           { type: 'header', text: "This Month's Highlights" },
           { type: 'content', text: 'Here are the latest updates...' },
         ],
         type: 'newsletter',
-      },
+      }),
       archived: false,
       createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
       updatedAt: new Date(Date.now() - 86400000).toISOString(),
@@ -124,10 +124,9 @@ export const mockBackend = {
 
   // Create a new template
   async createTemplate(data: TemplateFormData): Promise<TemplateResponse> {
-    // Validate JSON content
-    let parsedContent: Record<string, unknown>;
+    // Validate JSON content (but don't parse it - keep as string)
     try {
-      parsedContent = JSON.parse(data.content);
+      JSON.parse(data.content);
     } catch (_error) {
       throw new Error('Invalid JSON content');
     }
@@ -147,7 +146,7 @@ export const mockBackend = {
       id: generateId(),
       name: data.name,
       version: '1.0.0',
-      content: parsedContent,
+      content: data.content, // Store raw JSON string
       archived: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -171,10 +170,9 @@ export const mockBackend = {
       throw new Error(`Template with id ${id} not found`);
     }
 
-    // Validate JSON content
-    let parsedContent: Record<string, unknown>;
+    // Validate JSON content (but don't parse it - keep as string)
     try {
-      parsedContent = JSON.parse(data.content);
+      JSON.parse(data.content);
     } catch (_error) {
       throw new Error('Invalid JSON content');
     }
@@ -191,7 +189,7 @@ export const mockBackend = {
     const updatedTemplate: Template = {
       ...templates[templateIndex],
       name: data.name,
-      content: parsedContent,
+      content: data.content, // Store raw JSON string
       updatedAt: new Date().toISOString(),
     };
 
@@ -216,7 +214,7 @@ export const mockBackend = {
       id: generateId(),
       name: copyName,
       version: '1.0.0',
-      content: { ...originalTemplate.content },
+      content: originalTemplate.content, // Copy raw JSON string
       archived: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -258,10 +256,9 @@ export const mockBackend = {
       throw new Error(`Template with id ${originalId} not found`);
     }
 
-    // Validate JSON content
-    let parsedContent: Record<string, unknown>;
+    // Validate JSON content (but don't parse it - keep as string)
     try {
-      parsedContent = JSON.parse(data.content);
+      JSON.parse(data.content);
     } catch (_error) {
       throw new Error('Invalid JSON content');
     }
@@ -282,7 +279,7 @@ export const mockBackend = {
       id: generateId(),
       name: copyName,
       version: '1.0.0',
-      content: parsedContent,
+      content: data.content, // Store raw JSON string
       archived: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

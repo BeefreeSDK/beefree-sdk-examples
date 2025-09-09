@@ -84,6 +84,9 @@ VITE_BEEFREE_UID=demo-user
 2. Add your Beefree credentials to `.env`
 3. Run `pnpm dev` to start the development server
 4. Click "Open Beefree SDK" to start the Beefree editor with a blank template
+5. Design your template using the full Beefree editor
+6. Click "Save as template" in the builder toolbar to save your design
+7. Enter a template name and click "Save" - the template will appear in your template list
 
 ## Adding Apps
 
