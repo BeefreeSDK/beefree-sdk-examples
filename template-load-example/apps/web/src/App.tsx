@@ -122,6 +122,7 @@ function App() {
             onError={showError}
             templateToLoad={templateToLoad}
             existingTemplate={selectedTemplate}
+            allTemplates={templates}
           />
         )}
       </main>

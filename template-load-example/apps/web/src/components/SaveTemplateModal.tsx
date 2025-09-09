@@ -14,12 +14,37 @@ const incrementVersion = (version: string): string => {
   return `${major}.${minor}.${patch + 1}`;
 };
 
+// Helper function to generate the next available copy name
+const generateCopyName = (
+  baseName: string,
+  allTemplates: Template[]
+): string => {
+  const existingNames = allTemplates.map((t) => t.name);
+
+  // Check if base name + " (Copy)" is available
+  let copyName = baseName + ' (Copy)';
+  if (!existingNames.includes(copyName)) {
+    return copyName;
+  }
+
+  // Find the next available number
+  let copyNumber = 2;
+  while (true) {
+    copyName = baseName + ` (Copy ${copyNumber})`;
+    if (!existingNames.includes(copyName)) {
+      return copyName;
+    }
+    copyNumber++;
+  }
+};
+
 interface SaveTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (templateName: string, saveAsCopy: boolean) => void;
   loading?: boolean;
   existingTemplate?: Template | null; // If editing an existing template
+  allTemplates?: Template[]; // All existing templates to check for copy names
 }
 
 export const SaveTemplateModal = ({
@@ -28,6 +53,7 @@ export const SaveTemplateModal = ({
   onSave,
   loading = false,
   existingTemplate = null,
+  allTemplates = [],
 }: SaveTemplateModalProps) => {
   const [templateName, setTemplateName] = useState('');
   const [saveAsCopy, setSaveAsCopy] = useState(false);
@@ -45,6 +71,20 @@ export const SaveTemplateModal = ({
       }
     }
   }, [isOpen, isEditingExisting, existingTemplate]);
+
+  // Handle save as copy option change
+  const handleSaveAsCopyChange = (isCopy: boolean) => {
+    setSaveAsCopy(isCopy);
+    if (isCopy && isEditingExisting && existingTemplate) {
+      // When saving as copy, generate the next available copy name
+      const baseName = existingTemplate.name;
+      const copyName = generateCopyName(baseName, allTemplates);
+      setTemplateName(copyName);
+    } else if (!isCopy && isEditingExisting && existingTemplate) {
+      // When updating existing, restore original name
+      setTemplateName(existingTemplate.name);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +136,7 @@ export const SaveTemplateModal = ({
                   type="radio"
                   name="saveOption"
                   checked={!saveAsCopy}
-                  onChange={() => setSaveAsCopy(false)}
+                  onChange={() => handleSaveAsCopyChange(false)}
                   disabled={loading}
                 />
                 <div className="radio-content">
@@ -112,7 +152,7 @@ export const SaveTemplateModal = ({
                   type="radio"
                   name="saveOption"
                   checked={saveAsCopy}
-                  onChange={() => setSaveAsCopy(true)}
+                  onChange={() => handleSaveAsCopyChange(true)}
                   disabled={loading}
                 />
                 <div className="radio-content">
