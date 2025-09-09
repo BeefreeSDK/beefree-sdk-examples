@@ -4,6 +4,8 @@ import { mockBackend } from './mockBackend';
 import { TemplateList } from './components/TemplateList';
 import { TemplateEditor } from './components/TemplateEditor';
 import { BeefreeEditor } from './components/BeefreeEditor';
+import { Toaster } from './components/Toaster';
+import { useToast } from './hooks/useToast';
 import './App.css';
 
 type View = 'list' | 'editor' | 'sdk';
@@ -15,7 +17,7 @@ function App() {
     Template | undefined
   >();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>('');
+  const { toasts, removeToast, error: showError, success } = useToast();
 
   // Load templates on component mount
   useEffect(() => {
@@ -25,11 +27,12 @@ function App() {
   const loadTemplates = async () => {
     try {
       setLoading(true);
-      setError('');
       const response = await mockBackend.listTemplates();
       setTemplates(response.templates);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load templates');
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to load templates';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -70,7 +73,6 @@ function App() {
   const handleSaveTemplate = async (data: TemplateFormData) => {
     try {
       setLoading(true);
-      setError('');
 
       if (selectedTemplate) {
         // Update existing template
@@ -82,8 +84,15 @@ function App() {
 
       // Go back to list and reload
       handleBackToList();
+      success(
+        selectedTemplate
+          ? 'Template updated successfully!'
+          : 'Template created successfully!'
+      );
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save template');
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to save template';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -92,7 +101,6 @@ function App() {
   const handleSaveAsCopy = async (data: TemplateFormData) => {
     try {
       setLoading(true);
-      setError('');
 
       if (selectedTemplate) {
         // Use the new saveAsCopy function that handles naming properly
@@ -101,8 +109,11 @@ function App() {
 
       // Go back to list and reload
       handleBackToList();
+      success('Template saved as copy successfully!');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save as copy');
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to save as copy';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -113,13 +124,13 @@ function App() {
 
     try {
       setLoading(true);
-      setError('');
       await mockBackend.deleteTemplate(selectedTemplate.id);
       handleBackToList();
+      success('Template deleted successfully!');
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to delete template'
-      );
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to delete template';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -153,13 +164,6 @@ function App() {
       </header>
 
       <main className={`app-main ${currentView === 'sdk' ? 'sdk-mode' : ''}`}>
-        {error && (
-          <div className="error-banner">
-            <strong>Error:</strong> {error}
-            <button onClick={() => setError('')}>×</button>
-          </div>
-        )}
-
         {currentView === 'list' && (
           <TemplateList
             templates={templates}
@@ -184,9 +188,14 @@ function App() {
           <BeefreeEditor
             onClose={handleCloseSDK}
             onTemplateSaved={handleTemplateSaved}
+            onSuccess={success}
+            onError={showError}
           />
         )}
       </main>
+
+      {/* Toaster */}
+      <Toaster toasts={toasts} onRemove={removeToast} />
     </div>
   );
 }

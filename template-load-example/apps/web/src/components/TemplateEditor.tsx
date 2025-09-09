@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Template, TemplateFormData } from '../types';
+import { ConfirmationModal } from './ConfirmationModal';
+import { useToast } from '../hooks/useToast';
 
 interface TemplateEditorProps {
   template?: Template;
@@ -23,6 +25,8 @@ export const TemplateEditor = ({
     content: '',
   });
   const [jsonError, setJsonError] = useState<string>('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { error: showError } = useToast();
 
   // Initialize form data when template changes
   useEffect(() => {
@@ -55,22 +59,32 @@ export const TemplateEditor = ({
   const handleSave = () => {
     if (validateJson(formData.content)) {
       onSave(formData);
+    } else {
+      showError('Please fix the JSON errors before saving');
     }
   };
 
   const handleSaveAsCopy = () => {
     if (validateJson(formData.content)) {
       onSaveAsCopy(formData);
+    } else {
+      showError('Please fix the JSON errors before saving');
     }
   };
 
   const handleDelete = () => {
-    if (
-      template &&
-      window.confirm(`Are you sure you want to delete "${template.name}"?`)
-    ) {
-      onDelete();
+    if (template) {
+      setShowDeleteConfirm(true);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    setShowDeleteConfirm(false);
+    onDelete();
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
   };
 
   return (
@@ -136,6 +150,19 @@ export const TemplateEditor = ({
           {jsonError && <div className="error-message">{jsonError}</div>}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteConfirm}
+        title="Delete Template"
+        message={`Are you sure you want to delete "${template?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        loading={loading}
+        variant="danger"
+      />
     </div>
   );
 };
