@@ -24,7 +24,6 @@ This is a demo monorepo scaffold using pnpm workspaces.
 3. Run the frontend application:
 
    ```bash
-   cd apps/web
    pnpm dev
    ```
 
@@ -54,7 +53,7 @@ The application integrates the official Beefree SDK to provide:
 ### Available Scripts
 
 ```bash
-# Development
+# Development (run from template-load-example/ root)
 pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm preview      # Preview production build
@@ -120,9 +119,11 @@ Run `pnpm setup-hooks` to install the hooks in the parent git repository.
 
 ## Development Scripts
 
-- `pnpm dev` - Run development command
+- `pnpm dev` - Start the frontend development server
+- `pnpm build` - Build the frontend for production
+- `pnpm preview` - Preview the production build
 - `pnpm setup-hooks` - Install project-specific git hooks
-- `pnpm typecheck` - Run type checking (placeholder)
+- `pnpm typecheck` - Run TypeScript type checking
 - `pnpm lint` - Run ESLint on all files
 - `pnpm lint:fix` - Run ESLint and fix auto-fixable issues
 - `pnpm format` - Format all files with Prettier
