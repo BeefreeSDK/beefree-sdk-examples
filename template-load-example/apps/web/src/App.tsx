@@ -58,6 +58,13 @@ function App() {
 
   const handleCloseSDK = () => {
     setCurrentView('list');
+    // Reload templates to get any updates from the SDK
+    loadTemplates();
+  };
+
+  const handleTemplateSaved = () => {
+    // Reload templates when a template is saved from the SDK
+    loadTemplates();
   };
 
   const handleSaveTemplate = async (data: TemplateFormData) => {
@@ -173,7 +180,12 @@ function App() {
           />
         )}
 
-        {currentView === 'sdk' && <BeefreeEditor onClose={handleCloseSDK} />}
+        {currentView === 'sdk' && (
+          <BeefreeEditor
+            onClose={handleCloseSDK}
+            onTemplateSaved={handleTemplateSaved}
+          />
+        )}
       </main>
     </div>
   );

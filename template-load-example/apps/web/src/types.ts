@@ -2,7 +2,7 @@ export interface Template {
   id: string;
   name: string;
   version: string;
-  content: Record<string, unknown>; // Opaque JSON content
+  content: string; // Raw JSON string to preserve exact formatting
   archived: boolean;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string

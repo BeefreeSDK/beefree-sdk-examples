@@ -29,7 +29,7 @@ export const TemplateEditor = ({
     if (template) {
       setFormData({
         name: template.name,
-        content: JSON.stringify(template.content, null, 2),
+        content: template.content, // Use raw JSON string directly
       });
     } else {
       setFormData({
