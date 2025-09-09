@@ -8,7 +8,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "echo 'No apps yet'",
+    "dev": "cd apps/web && pnpm dev",
+    "build": "cd apps/web && pnpm build",
+    "preview": "cd apps/web && pnpm preview",
     "setup-hooks": "./setup-hooks.sh",
     "typecheck": "cd apps/web && pnpm tsc --noEmit",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
