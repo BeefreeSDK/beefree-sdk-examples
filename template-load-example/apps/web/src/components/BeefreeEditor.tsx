@@ -91,7 +91,6 @@ export const BeefreeEditor = ({
           container: 'bee-plugin-container',
           uid: uid,
           onSaveAsTemplate: (json: any) => {
-            console.log('Save as template clicked, template data:', json);
             // Store both the original object and the JSON string to preserve exact formatting
             const jsonString = JSON.stringify(json);
             setCurrentTemplateData(json);
@@ -105,7 +104,6 @@ export const BeefreeEditor = ({
         if (templateToLoad) {
           try {
             templateData = JSON.parse(templateToLoad);
-            console.log('Loading template data:', templateData);
           } catch (err) {
             console.error('Error parsing template data:', err);
             onError('Invalid template data format');
@@ -116,8 +114,6 @@ export const BeefreeEditor = ({
         // Start with template data (blank if none provided)
         (window as any).bee = beeInstance;
         beeInstance.start(config, templateData);
-
-        console.log('✅ Beefree SDK initialized successfully');
       } catch (err) {
         const errorMessage =
           err instanceof Error
@@ -173,9 +169,6 @@ export const BeefreeEditor = ({
             : 'Template saved successfully!'
         );
       }
-
-      console.log('Template Name:', templateName);
-      console.log('Template JSON:', currentTemplateData);
 
       // Notify parent component to refresh template list
       if (onTemplateSaved) {

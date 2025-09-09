@@ -60,6 +60,9 @@ The `/apps/api` directory contains a minimal Express + TypeScript API server.
 - `GET /health` - Server health check
 - `GET /version` - API version information
 - `GET /templates` - List all templates
+- `POST /templates` - Create a new template
+- `PUT /templates/:id` - Update an existing template
+- `DELETE /templates/:id` - Soft delete a template (archives it)
 
 ### Environment Configuration
 
@@ -129,6 +132,19 @@ curl http://localhost:3008/version
 # List templates
 curl http://localhost:3008/templates
 # Response: {"templates":[...],"total":2}
+
+# Create a new template
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"name":"My Template","content":"{\"subject\":\"Hello\",\"body\":\"World\"}"}' \
+  http://localhost:3008/templates
+
+# Update a template
+curl -X PUT -H "Content-Type: application/json" \
+  -d '{"name":"Updated Template","content":"{\"subject\":\"Updated\",\"body\":\"Content\"}"}' \
+  http://localhost:3008/templates/TEMPLATE_ID
+
+# Delete a template (soft delete)
+curl -X DELETE http://localhost:3008/templates/TEMPLATE_ID
 
 # With API key (when enabled)
 curl -H "x-api-key: changeme" http://localhost:3008/health
