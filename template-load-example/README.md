@@ -5,6 +5,7 @@ This is a demo monorepo scaffold using pnpm workspaces.
 ## Structure
 
 - **`/apps/web`** - React + TypeScript frontend application
+- **`/apps/api`** - Express + TypeScript API server
 - **`/packages`** - Shared code and libraries can go here
 
 ## Getting Started
@@ -21,13 +22,82 @@ This is a demo monorepo scaffold using pnpm workspaces.
    pnpm setup-hooks
    ```
 
-3. Run the frontend application:
+3. Run the applications:
 
    ```bash
+   # Start both API and frontend concurrently
    pnpm dev
    ```
 
-   The app will open at http://localhost:3001
+   This will start both applications with color-coded output:
+   - <span style="color: cyan; font-weight: bold;">**API**</span>: http://localhost:3008
+   - <span style="color: magenta; font-weight: bold;">**WEB**</span>: http://localhost:3001 (or next available port)
+
+   Or run them individually:
+
+   ```bash
+   pnpm dev:api    # API server only
+   pnpm dev:web    # Frontend only
+   ```
+
+## API Server
+
+The `/apps/api` directory contains a minimal Express + TypeScript API server.
+
+### Features
+
+- **Express + TypeScript**: Modern Node.js server with full TypeScript support
+- **Zod Validation**: Response validation using Zod schemas
+- **CORS Support**: Configured for frontend integration
+- **API Key Middleware**: Optional authentication (demo mode when disabled)
+- **JSON Body Parser**: 5MB limit for request bodies
+- **Error Handling**: Comprehensive error handling and 404 responses
+
+### Available Endpoints
+
+- `GET /health` - Server health check
+- `GET /version` - API version information
+
+### Environment Configuration
+
+Copy `.env.example` to `.env` in the `apps/api` directory:
+
+```bash
+PORT=3008
+API_KEY=changeme
+```
+
+- **PORT**: Server port (default: 3008)
+- **API_KEY**: Optional API key for authentication (leave empty for demo mode)
+
+### API Key Authentication
+
+- **Demo Mode**: When `API_KEY` is empty, all requests are allowed
+- **Protected Mode**: When `API_KEY` is set, requests must include `x-api-key` header
+
+### Available Scripts
+
+```bash
+# Development
+pnpm dev          # Start development server with hot reload
+pnpm build        # Build TypeScript to JavaScript
+pnpm start        # Start production server
+```
+
+### Example Usage
+
+```bash
+# Health check
+curl http://localhost:3008/health
+# Response: {"status":"ok"}
+
+# Version info
+curl http://localhost:3008/version
+# Response: {"version":"1.0.0"}
+
+# With API key (when enabled)
+curl -H "x-api-key: changeme" http://localhost:3008/health
+```
 
 ## Frontend Application
 
@@ -123,16 +193,39 @@ Run `pnpm setup-hooks` to install the hooks in the parent git repository.
 
 ## Development Scripts
 
-- `pnpm dev` - Start the frontend development server
-- `pnpm build` - Build the frontend for production
-- `pnpm preview` - Preview the production build
+### Root Level (Concurrent)
+
+- `pnpm dev` - Start both API and frontend concurrently with color-coded output
+- `pnpm build` - Build both API and frontend for production
+- `pnpm start` - Start both API and frontend in production mode
+- `pnpm typecheck` - Run TypeScript type checking on both apps
+
+### Individual Apps
+
+- `pnpm dev:api` - Start API server only
+- `pnpm dev:web` - Start frontend only
+- `pnpm build:api` - Build API server only
+- `pnpm build:web` - Build frontend only
+- `pnpm start:api` - Start API server in production
+- `pnpm start:web` - Start frontend in production
+- `pnpm typecheck:api` - Type check API server only
+- `pnpm typecheck:web` - Type check frontend only
+
+### Code Quality
+
 - `pnpm setup-hooks` - Install project-specific git hooks
-- `pnpm typecheck` - Run TypeScript type checking
 - `pnpm lint` - Run ESLint on all files
 - `pnpm lint:fix` - Run ESLint and fix auto-fixable issues
 - `pnpm format` - Format all files with Prettier
 - `pnpm format:check` - Check if files are formatted correctly
 - `pnpm lint-staged` - Run lint-staged on staged files
+
+### Terminal Output Styling
+
+The concurrent scripts use color-coded prefixes to make it easy to identify which app is logging:
+
+- <span style="color: cyan; font-weight: bold;">**API**</span>: API server logs
+- <span style="color: magenta; font-weight: bold;">**WEB**</span>: Frontend logs
 
 ## Code Quality Tools
 
