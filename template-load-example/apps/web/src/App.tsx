@@ -129,6 +129,7 @@ function App() {
             onSuccess={success}
             onError={showError}
             templateToLoad={templateToLoad}
+            existingTemplate={selectedTemplate}
           />
         )}
       </main>
