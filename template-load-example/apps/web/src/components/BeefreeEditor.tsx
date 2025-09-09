@@ -9,6 +9,7 @@ interface BeefreeEditorProps {
   onTemplateSaved?: () => void;
   onSuccess: (message: string) => void;
   onError: (message: string) => void;
+  templateToLoad?: string; // JSON string of template to load
 }
 
 export const BeefreeEditor = ({
@@ -16,6 +17,7 @@ export const BeefreeEditor = ({
   onTemplateSaved,
   onSuccess,
   onError,
+  templateToLoad,
 }: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,9 +94,22 @@ export const BeefreeEditor = ({
           },
         };
 
-        // Start with blank template
+        // Parse template data if provided
+        let templateData = {};
+        if (templateToLoad) {
+          try {
+            templateData = JSON.parse(templateToLoad);
+            console.log('Loading template data:', templateData);
+          } catch (err) {
+            console.error('Error parsing template data:', err);
+            onError('Invalid template data format');
+            return;
+          }
+        }
+
+        // Start with template data (blank if none provided)
         (window as any).bee = beeInstance;
-        beeInstance.start(config, {});
+        beeInstance.start(config, templateData);
 
         console.log('✅ Beefree SDK initialized successfully');
         onSuccess('Beefree SDK initialized successfully!');

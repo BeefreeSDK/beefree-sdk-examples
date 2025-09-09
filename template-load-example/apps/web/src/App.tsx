@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Template, TemplateFormData } from './types';
+import { Template } from './types';
 import { mockBackend } from './mockBackend';
 import { TemplateList } from './components/TemplateList';
-import { TemplateEditor } from './components/TemplateEditor';
 import { BeefreeEditor } from './components/BeefreeEditor';
 import { Toaster } from './components/Toaster';
 import { useToast } from './hooks/useToast';
 import './App.css';
 
-type View = 'list' | 'editor' | 'sdk';
+type View = 'list' | 'sdk';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('list');
@@ -16,6 +15,7 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = useState<
     Template | undefined
   >();
+  const [templateToLoad, setTemplateToLoad] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const { toasts, removeToast, error: showError, success } = useToast();
 
@@ -40,27 +40,24 @@ function App() {
 
   const handleSelectTemplate = (template: Template) => {
     setSelectedTemplate(template);
-    setCurrentView('editor');
+    setTemplateToLoad(template.content);
+    setCurrentView('sdk');
   };
 
   const handleCreateNew = () => {
     setSelectedTemplate(undefined);
-    setCurrentView('editor');
-  };
-
-  const handleOpenSDK = () => {
+    setTemplateToLoad(undefined);
     setCurrentView('sdk');
   };
 
-  const handleBackToList = () => {
-    setCurrentView('list');
-    setSelectedTemplate(undefined);
-    // Reload templates to get any updates
-    loadTemplates();
+  const handleOpenSDK = () => {
+    setTemplateToLoad(undefined);
+    setCurrentView('sdk');
   };
 
   const handleCloseSDK = () => {
     setCurrentView('list');
+    setTemplateToLoad(undefined);
     // Reload templates to get any updates from the SDK
     loadTemplates();
   };
@@ -70,69 +67,14 @@ function App() {
     loadTemplates();
   };
 
-  const handleSaveTemplate = async (data: TemplateFormData) => {
+  const handleDeleteTemplate = async (templateId: string) => {
     try {
-      setLoading(true);
-
-      if (selectedTemplate) {
-        // Update existing template
-        await mockBackend.updateTemplate(selectedTemplate.id, data);
-      } else {
-        // Create new template
-        await mockBackend.createTemplate(data);
-      }
-
-      // Go back to list and reload
-      handleBackToList();
-      success(
-        selectedTemplate
-          ? 'Template updated successfully!'
-          : 'Template created successfully!'
-      );
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to save template';
-      showError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSaveAsCopy = async (data: TemplateFormData) => {
-    try {
-      setLoading(true);
-
-      if (selectedTemplate) {
-        // Use the new saveAsCopy function that handles naming properly
-        await mockBackend.saveAsCopy(selectedTemplate.id, data);
-      }
-
-      // Go back to list and reload
-      handleBackToList();
-      success('Template saved as copy successfully!');
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to save as copy';
-      showError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteTemplate = async () => {
-    if (!selectedTemplate) return;
-
-    try {
-      setLoading(true);
-      await mockBackend.deleteTemplate(selectedTemplate.id);
-      handleBackToList();
-      success('Template deleted successfully!');
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to delete template';
-      showError(errorMessage);
-    } finally {
-      setLoading(false);
+      await mockBackend.deleteTemplate(templateId);
+      await loadTemplates();
+      success('Template deleted successfully');
+    } catch (error) {
+      console.error('Error deleting template:', error);
+      showError('Failed to delete template');
     }
   };
 
@@ -142,7 +84,13 @@ function App() {
         <div className="header-content">
           <div className="header-left">
             <h1>Template Load Example</h1>
-            <p>Beefree SDK Template Management Demo</p>
+            <p>
+              {currentView === 'sdk' && selectedTemplate
+                ? `Editing "${selectedTemplate.name}" in the Beefree SDK - Make your changes and save as a new template`
+                : currentView === 'sdk'
+                  ? 'Create a new email template using the Beefree SDK - Design your template and save it to your collection'
+                  : 'Beefree SDK Template Management Demo - Click on any template to edit it or create a new one'}
+            </p>
           </div>
           <div className="header-right">
             {currentView === 'sdk' ? (
@@ -169,17 +117,7 @@ function App() {
             templates={templates}
             onSelectTemplate={handleSelectTemplate}
             onCreateNew={handleCreateNew}
-            loading={loading}
-          />
-        )}
-
-        {currentView === 'editor' && (
-          <TemplateEditor
-            template={selectedTemplate}
-            onSave={handleSaveTemplate}
-            onSaveAsCopy={handleSaveAsCopy}
-            onDelete={handleDeleteTemplate}
-            onBack={handleBackToList}
+            onDeleteTemplate={handleDeleteTemplate}
             loading={loading}
           />
         )}
@@ -190,6 +128,7 @@ function App() {
             onTemplateSaved={handleTemplateSaved}
             onSuccess={success}
             onError={showError}
+            templateToLoad={templateToLoad}
           />
         )}
       </main>
