@@ -287,6 +287,12 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.template-actions {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
 .template-card h3 {
   color: #2c3e50;
   margin: 0;
@@ -294,6 +300,7 @@ body {
   flex: 1;
 }
 
+.btn-duplicate,
 .btn-delete {
   background: none;
   border: none;
@@ -310,11 +317,17 @@ body {
   height: 32px;
 }
 
+.btn-duplicate:hover {
+  opacity: 1;
+  background-color: #e8f4fd;
+}
+
 .btn-delete:hover {
   opacity: 1;
   background-color: #fee;
 }
 
+.template-card:hover .btn-duplicate,
 .template-card:hover .btn-delete {
   opacity: 0.8;
 }
