@@ -102,7 +102,7 @@ export const SaveTemplateModal = ({
   return (
     <BaseModal
       isOpen={isOpen}
-      title={isEditingExisting ? 'Save Template Changes' : 'Save as Template'}
+      title={isEditingExisting ? 'Save Template Changes' : 'Save New Template'}
       onClose={handleCancel}
       loading={loading}
       size="medium"
@@ -166,6 +166,15 @@ export const SaveTemplateModal = ({
           </div>
         )}
 
+        {!isEditingExisting && (
+          <div className="form-group">
+            <div className="form-help">
+              Enter a name for your new template. This will be saved to your
+              template collection.
+            </div>
+          </div>
+        )}
+
         <ModalActions>
           <ModalButton
             type="button"
@@ -181,7 +190,7 @@ export const SaveTemplateModal = ({
             disabled={loading || !templateName.trim()}
             loading={loading}
           >
-            Save
+            {isEditingExisting ? 'Save' : 'Create Template'}
           </ModalButton>
         </ModalActions>
       </form>

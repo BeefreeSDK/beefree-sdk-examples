@@ -138,14 +138,14 @@ export const BeefreeEditor = ({
 
   // Handle direct save (from SAVE button in toolbar)
   const handleDirectSave = async (json: any) => {
-    try {
-      setSaving(true);
+    // Convert to JSON string to preserve exact formatting
+    const jsonString = JSON.stringify(json);
 
-      // Convert to JSON string to preserve exact formatting
-      const jsonString = JSON.stringify(json);
+    if (existingTemplate) {
+      // Update existing template - no modal needed, just save directly
+      try {
+        setSaving(true);
 
-      if (existingTemplate) {
-        // Update existing template - increment version
         const newVersion = incrementVersion(existingTemplate.version);
         const updateData = {
           name: existingTemplate.name,
@@ -157,31 +157,26 @@ export const BeefreeEditor = ({
         onSuccess(
           `Template "${existingTemplate.name}" updated to version ${newVersion}!`
         );
-      } else {
-        // Create new template with default name
-        const templateName = `New Template ${new Date().toLocaleString()}`;
-        const templateFormData = {
-          name: templateName,
-          content: jsonString,
-        };
 
-        await api.createTemplate(templateFormData);
-        onSuccess(`Template "${templateName}" saved successfully!`);
+        // Notify parent component to refresh template list
+        if (onTemplateSaved) {
+          onTemplateSaved();
+        }
+      } catch (err) {
+        console.error('Error saving template:', err);
+        const errorMessage =
+          err instanceof ApiError
+            ? err.message
+            : 'Error saving template. Please try again.';
+        onError(errorMessage);
+      } finally {
+        setSaving(false);
       }
-
-      // Notify parent component to refresh template list
-      if (onTemplateSaved) {
-        onTemplateSaved();
-      }
-    } catch (err) {
-      console.error('Error saving template:', err);
-      const errorMessage =
-        err instanceof ApiError
-          ? err.message
-          : 'Error saving template. Please try again.';
-      onError(errorMessage);
-    } finally {
-      setSaving(false);
+    } else {
+      // Create new template - show modal to get name
+      setCurrentTemplateData(json);
+      setCurrentTemplateJsonString(jsonString);
+      setShowSaveModal(true);
     }
   };
 
