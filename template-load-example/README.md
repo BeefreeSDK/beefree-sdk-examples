@@ -48,7 +48,9 @@ template-load-example/
 
 1. **Create a Template**: Click "Create New Template" to open the Beefree editor
 2. **Design Your Email**: Use the drag-and-drop interface to build your template
-3. **Save Your Work**: Click "Save as template" in the builder toolbar, under "Actions"
+3. **Save Your Work**:
+   - **Quick Save**: Click "Save" in the builder toolbar for instant save (overwrites existing template)
+   - **Save As**: Click "Save as template" under "Actions" for advanced options (rename, save as copy)
 4. **Manage Templates**: View, edit, duplicate, or delete templates from the list
 5. **Edit Existing**: Click any template to open it in the editor
 
