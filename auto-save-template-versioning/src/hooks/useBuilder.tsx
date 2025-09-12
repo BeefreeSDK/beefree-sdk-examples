@@ -17,8 +17,8 @@ export function BuilderProvider({ children, staticConfig }: { children: ReactNod
   const [config, setConfig] = useState<IBeeConfig>(staticConfig);
 
   useEffect(() => {
-    builderRef.current?.loadConfig(config);
-  }, [config])
+    builderRef.current?.loadConfig({ onAutoSave: config.onAutoSave });
+  }, [config.onAutoSave])
 
   function setBuilder(builder: BeefreeSDK) {
     builderRef.current = builder;

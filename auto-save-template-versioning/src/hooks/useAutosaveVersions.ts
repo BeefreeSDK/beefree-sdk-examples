@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { AutosaveVersionsItem as AutosaveVersionsItem } from '../components/Sidebar';
 import { AutosaveVersionsStore } from '../api/AutosaveVersionsStore';
 
@@ -7,7 +7,7 @@ export function useAutosaveVersions(autosaveVersionsStore: AutosaveVersionsStore
     getFirst10DescByDate(autosaveVersionsStore.get())
   );
 
-  const addAutosaveVersionsItem = (content: string) => {
+  const addAutosaveVersionsItem = useCallback((content: string) => {
     const item: AutosaveVersionsItem = {
       date: new Date().toISOString(),
       content
@@ -15,9 +15,9 @@ export function useAutosaveVersions(autosaveVersionsStore: AutosaveVersionsStore
 
     autosaveVersionsStore.add(item);
     setAutosaveVersions(prev => getFirst10DescByDate([...prev, item]));
-  };
+  }, [autosaveVersionsStore, setAutosaveVersions]);
 
-  return { autosaveVersions, addAutosaveVersionsItem: addAutosaveVersionsItem };
+  return { autosaveVersions, addAutosaveVersionsItem };
 }
 
 function getFirst10DescByDate(autosaveVersions: AutosaveVersionsItem[]) {

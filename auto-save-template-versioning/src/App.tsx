@@ -18,8 +18,7 @@ function App({ authorizer, autosaveVersionsStore }: { authorizer: Authorizer, au
       addAutosaveVersionsItem(data);
     };
     setConfig((prev) => ({ ...prev, onAutoSave }))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [addAutosaveVersionsItem, setConfig])
 
   return (
     <>
