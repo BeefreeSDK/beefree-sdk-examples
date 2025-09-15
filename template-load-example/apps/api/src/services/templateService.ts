@@ -1,10 +1,9 @@
+import { prisma } from '../lib/prisma';
 import {
-  Template,
+  TemplateFormData,
   TemplateListResponse,
   TemplateResponse,
-  TemplateFormData,
 } from '../types/template';
-import { prisma } from '../lib/prisma';
 import { incrementVersion } from '../utils/versionUtils';
 
 // Helper function to validate JSON content
