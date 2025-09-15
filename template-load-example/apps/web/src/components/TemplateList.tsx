@@ -109,10 +109,16 @@ export const TemplateList = ({
               </div>
               <div className="template-meta">Version: {template.version}</div>
               <div className="template-preview">
-                {JSON.stringify(template.content, null, 2).substring(0, 100)}
-                {JSON.stringify(template.content, null, 2).length > 100
-                  ? '...'
-                  : ''}
+                {(() => {
+                  const contentString = JSON.stringify(
+                    template.content,
+                    null,
+                    2
+                  );
+                  return contentString.length > 100
+                    ? contentString.substring(0, 100) + '...'
+                    : contentString;
+                })()}
               </div>
             </div>
           ))}

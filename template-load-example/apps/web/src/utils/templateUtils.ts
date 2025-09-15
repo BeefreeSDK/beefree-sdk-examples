@@ -1,34 +1,14 @@
-import { Template } from '../types';
-
 /**
  * Utility functions for template management
  */
 
 /**
- * Generates a unique copy name for a template by checking existing template names
+ * Generates a unique copy name for a template using timestamp
+ * Simple, reliable, and always unique approach
  * @param baseName - The base name to create a copy from
- * @param allTemplates - Array of all existing templates to check against
- * @returns A unique copy name (e.g., "Template (Copy)", "Template (Copy 2)", etc.)
+ * @returns A unique copy name with timestamp (e.g., "Template (Copy 1703123456789)")
  */
-export const generateCopyName = (
-  baseName: string,
-  allTemplates: Template[]
-): string => {
-  const existingNames = allTemplates.map((t) => t.name);
-
-  // Check if base name + " (Copy)" is available
-  let copyName = baseName + ' (Copy)';
-  if (!existingNames.includes(copyName)) {
-    return copyName;
-  }
-
-  // Find the next available number
-  let copyNumber = 2;
-  while (true) {
-    copyName = baseName + ` (Copy ${copyNumber})`;
-    if (!existingNames.includes(copyName)) {
-      return copyName;
-    }
-    copyNumber++;
-  }
+export const generateCopyName = (baseName: string): string => {
+  const timestamp = Date.now();
+  return `${baseName} (Copy ${timestamp})`;
 };
