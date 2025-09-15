@@ -2,41 +2,7 @@ import { useState, useEffect } from 'react';
 import { Template } from '../types';
 import { BaseModal } from './BaseModal';
 import { ModalActions, ModalButton } from './ModalActions';
-
-// Helper function to increment version number
-const incrementVersion = (version: string): string => {
-  const parts = version.split('.');
-  const major = parseInt(parts[0]) || 0;
-  const minor = parseInt(parts[1]) || 0;
-  const patch = parseInt(parts[2]) || 0;
-
-  // Increment patch version
-  return `${major}.${minor}.${patch + 1}`;
-};
-
-// Helper function to generate the next available copy name
-const generateCopyName = (
-  baseName: string,
-  allTemplates: Template[]
-): string => {
-  const existingNames = allTemplates.map((t) => t.name);
-
-  // Check if base name + " (Copy)" is available
-  let copyName = baseName + ' (Copy)';
-  if (!existingNames.includes(copyName)) {
-    return copyName;
-  }
-
-  // Find the next available number
-  let copyNumber = 2;
-  while (true) {
-    copyName = baseName + ` (Copy ${copyNumber})`;
-    if (!existingNames.includes(copyName)) {
-      return copyName;
-    }
-    copyNumber++;
-  }
-};
+import { generateCopyName } from '../utils/templateUtils';
 
 interface SaveTemplateModalProps {
   isOpen: boolean;
@@ -121,11 +87,6 @@ export const SaveTemplateModal = ({
             disabled={loading}
             required
           />
-          {isEditingExisting && (
-            <div className="form-help">
-              Current version: {existingTemplate!.version}
-            </div>
-          )}
         </div>
 
         {isEditingExisting && (
@@ -142,8 +103,8 @@ export const SaveTemplateModal = ({
                 <div className="radio-content">
                   <div className="radio-title">Update existing template</div>
                   <div className="radio-description">
-                    Overwrite "{existingTemplate!.name}" and increment version
-                    to {incrementVersion(existingTemplate!.version)}
+                    Overwrite "{existingTemplate!.name}" and auto-increment
+                    version
                   </div>
                 </div>
               </label>

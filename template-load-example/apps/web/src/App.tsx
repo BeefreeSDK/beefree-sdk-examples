@@ -5,33 +5,10 @@ import { TemplateList } from './components/TemplateList';
 import { BeefreeEditor } from './components/BeefreeEditor';
 import { Toaster } from './components/Toaster';
 import { useToast } from './hooks/useToast';
+import { generateCopyName } from './utils/templateUtils';
 import './App.css';
 
 type View = 'list' | 'sdk';
-
-// Helper function to generate the next available copy name
-const generateCopyName = (
-  baseName: string,
-  allTemplates: Template[]
-): string => {
-  const existingNames = allTemplates.map((t) => t.name);
-
-  // Check if base name + " (Copy)" is available
-  let copyName = baseName + ' (Copy)';
-  if (!existingNames.includes(copyName)) {
-    return copyName;
-  }
-
-  // Find the next available number
-  let copyNumber = 2;
-  while (true) {
-    copyName = baseName + ` (Copy ${copyNumber})`;
-    if (!existingNames.includes(copyName)) {
-      return copyName;
-    }
-    copyNumber++;
-  }
-};
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('list');

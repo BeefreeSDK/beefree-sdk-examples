@@ -146,16 +146,17 @@ export const BeefreeEditor = ({
       try {
         setSaving(true);
 
-        const newVersion = incrementVersion(existingTemplate.version);
         const updateData = {
           name: existingTemplate.name,
           content: jsonString,
-          version: newVersion,
         };
 
-        await api.updateTemplate(existingTemplate.id, updateData);
+        const result = await api.updateTemplate(
+          existingTemplate.id,
+          updateData
+        );
         onSuccess(
-          `Template "${existingTemplate.name}" updated to version ${newVersion}!`
+          `Template "${existingTemplate.name}" updated to version ${result.template.version}!`
         );
 
         // Notify parent component to refresh template list
@@ -197,16 +198,17 @@ export const BeefreeEditor = ({
       };
 
       if (existingTemplate && !saveAsCopy) {
-        // Update existing template - increment version
-        const newVersion = incrementVersion(existingTemplate.version);
+        // Update existing template - backend will auto-increment version
         const updateData = {
           ...templateFormData,
-          version: newVersion,
         };
 
-        await api.updateTemplate(existingTemplate.id, updateData);
+        const result = await api.updateTemplate(
+          existingTemplate.id,
+          updateData
+        );
         onSuccess(
-          `Template "${templateName}" updated to version ${newVersion}!`
+          `Template "${templateName}" updated to version ${result.template.version}!`
         );
       } else {
         // Create new template (either from scratch or as a copy)
@@ -237,17 +239,6 @@ export const BeefreeEditor = ({
     } finally {
       setSaving(false);
     }
-  };
-
-  // Helper function to increment version number
-  const incrementVersion = (version: string): string => {
-    const parts = version.split('.');
-    const major = parseInt(parts[0]) || 0;
-    const minor = parseInt(parts[1]) || 0;
-    const patch = parseInt(parts[2]) || 0;
-
-    // Increment patch version
-    return `${major}.${minor}.${patch + 1}`;
   };
 
   // Handle modal close
