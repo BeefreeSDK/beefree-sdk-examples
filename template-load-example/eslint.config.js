@@ -5,20 +5,23 @@ import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default [
-  js.configs.recommended,
   {
-    files: [
-      'apps/**/*.{js,jsx,ts,tsx}',
-      'packages/**/*.{js,jsx,ts,tsx}',
-      '*.{js,jsx,ts,tsx}',
-    ],
     ignores: [
       '**/node_modules/**',
       '**/dist/**',
       '**/build/**',
       '**/.next/**',
       '**/coverage/**',
+      'apps/api/dist/**',
       'apps/web/dist/**',
+    ],
+  },
+  js.configs.recommended,
+  {
+    files: [
+      'apps/**/*.{js,jsx,ts,tsx}',
+      'packages/**/*.{js,jsx,ts,tsx}',
+      '*.{js,jsx,ts,tsx}',
     ],
     languageOptions: {
       parser: typescriptParser,
@@ -67,8 +70,5 @@ export default [
       'no-console': 'warn',
       'no-undef': 'off', // TypeScript handles this
     },
-  },
-  {
-    ignores: ['node_modules/**', 'dist/**', 'build/**'],
   },
 ];

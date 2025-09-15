@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { VersionResponse } from '../validation/schemas';
 import packageJson from '../../package.json';
 
@@ -8,7 +8,7 @@ const router: Router = Router();
  * GET /version
  * Returns API version from package.json
  */
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   const response = { version: packageJson.version };
 
   // Validate response with Zod schema
