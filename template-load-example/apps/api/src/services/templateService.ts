@@ -5,6 +5,7 @@ import {
   TemplateFormData,
 } from '../types/template';
 import { prisma } from '../lib/prisma';
+import { incrementVersion } from '../utils/versionUtils';
 
 export const templateService = {
   // List all templates (non-archived only)
@@ -105,11 +106,15 @@ export const templateService = {
       throw new Error(`Template with name "${data.name}" already exists`);
     }
 
+    // Auto-increment version on the backend
+    const newVersion = incrementVersion(existingTemplate.version);
+
     const updatedTemplate = await prisma.template.update({
       where: { id },
       data: {
         name: data.name,
         content: data.content,
+        version: newVersion,
       },
     });
 
