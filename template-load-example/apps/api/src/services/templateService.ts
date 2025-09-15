@@ -7,6 +7,19 @@ import {
 import { prisma } from '../lib/prisma';
 import { incrementVersion } from '../utils/versionUtils';
 
+// Helper function to validate JSON content
+const validateJsonContent = (content: string): void => {
+  try {
+    JSON.parse(content);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? `Invalid JSON content: ${error.message}`
+        : 'Invalid JSON content: Unable to parse JSON';
+    throw new Error(errorMessage);
+  }
+};
+
 export const templateService = {
   // List all templates (non-archived only)
   async listTemplates(): Promise<TemplateListResponse> {
@@ -32,11 +45,7 @@ export const templateService = {
   // Create a new template
   async createTemplate(data: TemplateFormData): Promise<TemplateResponse> {
     // Validate JSON content (but don't parse it - keep as string)
-    try {
-      JSON.parse(data.content);
-    } catch (_error) {
-      throw new Error('Invalid JSON content');
-    }
+    validateJsonContent(data.content);
 
     // Check for duplicate names (only among non-archived templates)
     const existingTemplate = await prisma.template.findFirst({
@@ -87,11 +96,7 @@ export const templateService = {
     }
 
     // Validate JSON content
-    try {
-      JSON.parse(data.content);
-    } catch (_error) {
-      throw new Error('Invalid JSON content');
-    }
+    validateJsonContent(data.content);
 
     // Check for duplicate names (excluding current template)
     const duplicateTemplate = await prisma.template.findFirst({

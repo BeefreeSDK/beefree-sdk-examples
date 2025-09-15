@@ -79,7 +79,7 @@ function App() {
   const handleDuplicateTemplate = async (template: Template) => {
     try {
       // Generate a unique copy name
-      const copyName = generateCopyName(template.name, templates);
+      const copyName = generateCopyName(template.name);
 
       // Create the duplicate with the new name
       await api.createTemplate({
@@ -147,7 +147,6 @@ function App() {
             onError={showError}
             templateToLoad={templateToLoad}
             existingTemplate={selectedTemplate}
-            allTemplates={templates}
           />
         )}
       </main>

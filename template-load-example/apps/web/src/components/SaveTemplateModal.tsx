@@ -10,7 +10,6 @@ interface SaveTemplateModalProps {
   onSave: (templateName: string, saveAsCopy: boolean) => void;
   loading?: boolean;
   existingTemplate?: Template | null; // If editing an existing template
-  allTemplates?: Template[]; // All existing templates to check for copy names
 }
 
 export const SaveTemplateModal = ({
@@ -19,7 +18,6 @@ export const SaveTemplateModal = ({
   onSave,
   loading = false,
   existingTemplate = null,
-  allTemplates = [],
 }: SaveTemplateModalProps) => {
   const [templateName, setTemplateName] = useState('');
   const [saveAsCopy, setSaveAsCopy] = useState(false);
@@ -44,7 +42,7 @@ export const SaveTemplateModal = ({
     if (isCopy && isEditingExisting && existingTemplate) {
       // When saving as copy, generate the next available copy name
       const baseName = existingTemplate.name;
-      const copyName = generateCopyName(baseName, allTemplates);
+      const copyName = generateCopyName(baseName);
       setTemplateName(copyName);
     } else if (!isCopy && isEditingExisting && existingTemplate) {
       // When updating existing, restore original name
