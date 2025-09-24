@@ -32,6 +32,7 @@ export const BeefreeEditor = ({
     useState<string>('');
   const beeInstanceRef = useRef<any>(null);
   const initializationRef = useRef(false);
+  const lastLoadedTemplateRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -101,13 +102,12 @@ export const BeefreeEditor = ({
           },
         };
 
-        // Parse template data if provided
-        let templateData = {};
+        let initialTemplateData = {};
         if (templateToLoad) {
           try {
-            templateData = JSON.parse(templateToLoad);
+            initialTemplateData = JSON.parse(templateToLoad);
           } catch (err) {
-            console.error('Error parsing template data:', err);
+            console.error('Error parsing initial template data:', err);
             const errorMessage =
               err instanceof Error
                 ? `Invalid template data format: ${err.message}`
@@ -119,7 +119,7 @@ export const BeefreeEditor = ({
 
         // Start with template data (blank if none provided)
         (window as any).bee = beeInstance;
-        beeInstance.start(config, templateData);
+        beeInstance.start(config, initialTemplateData);
       } catch (err) {
         const errorMessage =
           err instanceof Error
@@ -137,6 +137,27 @@ export const BeefreeEditor = ({
     const timer = setTimeout(initializeSDK, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (
+      templateToLoad &&
+      beeInstanceRef.current &&
+      templateToLoad !== lastLoadedTemplateRef.current
+    ) {
+      try {
+        const templateData = JSON.parse(templateToLoad);
+        beeInstanceRef.current.load(templateData);
+        lastLoadedTemplateRef.current = templateToLoad;
+      } catch (err) {
+        console.error('Error parsing template data:', err);
+        const errorMessage =
+          err instanceof Error
+            ? `Invalid template data format: ${err.message}`
+            : 'Invalid template data format: Unable to parse JSON';
+        onError(errorMessage);
+      }
+    }
+  }, [templateToLoad, onError]);
 
   // Handle direct save (from SAVE button in toolbar)
   const handleDirectSave = async (json: any) => {
