@@ -67,7 +67,7 @@ export default [
         },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
-      'no-console': 'warn',
+      'no-console': 'off',
       'no-undef': 'off', // TypeScript handles this
     },
   },
