@@ -45,6 +45,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .header-actions {
@@ -476,6 +477,18 @@ body {
 .btn-danger:hover:not(:disabled) {
   background: #c82333;
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 /* Welcome Container */
@@ -1067,3 +1080,76 @@ body {
     min-width: auto;
   }
 }
+
+/* Load Template Modal Styles */
+.load-template-content {
+  padding: 1.5rem 2rem;
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.template-list-description {
+  margin-bottom: 1.5rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.template-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.template-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.template-item:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.template-item.selected {
+  border-color: #667eea;
+  background: #f0f2ff;
+  box-shadow: 0 0 0 1px #667eea;
+}
+
+.template-info {
+  flex: 1;
+}
+
+.template-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.template-version {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.template-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+

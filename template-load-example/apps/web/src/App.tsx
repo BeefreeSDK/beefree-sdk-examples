@@ -3,6 +3,7 @@ import { Template } from './types';
 import { api, ApiError } from './services/api';
 import { TemplateList } from './components/TemplateList';
 import { BeefreeEditor } from './components/BeefreeEditor';
+import { LoadTemplateModal } from './components/LoadTemplateModal';
 import { Toaster } from './components/Toaster';
 import { useToast } from './hooks/useToast';
 import { generateCopyName } from './utils/templateUtils';
@@ -18,6 +19,7 @@ function App() {
   >();
   const [templateToLoad, setTemplateToLoad] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
+  const [showLoadModal, setShowLoadModal] = useState(false);
   const { toasts, removeToast, error: showError, success } = useToast();
 
   // Load templates on component mount
@@ -99,6 +101,12 @@ function App() {
     }
   };
 
+  const handleLoadTemplate = (template: Template) => {
+    setSelectedTemplate(template);
+    setTemplateToLoad(template.content);
+    success(`Loaded template "${template.name}"`);
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -115,9 +123,17 @@ function App() {
           </div>
           <div className="header-right">
             {currentView === 'sdk' ? (
-              <button className="btn btn-secondary" onClick={handleCloseSDK}>
-                Close Editor
-              </button>
+              <>
+                <button
+                  className="btn btn-outline"
+                  onClick={() => setShowLoadModal(true)}
+                >
+                  Load Template
+                </button>
+                <button className="btn btn-secondary" onClick={handleCloseSDK}>
+                  Close Editor
+                </button>
+              </>
             ) : currentView === 'list' ? (
               <button className="btn btn-primary" onClick={handleCreateNew}>
                 Create New Template
@@ -150,6 +166,14 @@ function App() {
           />
         )}
       </main>
+
+      {/* Load Template Modal */}
+      <LoadTemplateModal
+        isOpen={showLoadModal}
+        onClose={() => setShowLoadModal(false)}
+        onLoadTemplate={handleLoadTemplate}
+        onError={showError}
+      />
 
       {/* Toaster */}
       <Toaster toasts={toasts} onRemove={removeToast} />
