@@ -1,5 +1,0 @@
-# pnpm workspace configuration
-# This file tells pnpm which directories contain packages in the monorepo
-packages:
-  - 'apps/*'
-  - 'packages/*'

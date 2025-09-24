@@ -11,4 +11,4 @@ fi
 cd "$(git rev-parse --show-toplevel)/template-load-example" || exit 1
 
 echo "Running template-load-example pre-push hooks..."
-pnpm typecheck
+yarn typecheck

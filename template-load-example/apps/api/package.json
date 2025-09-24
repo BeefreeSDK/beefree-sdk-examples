@@ -4,9 +4,9 @@
   "description": "Minimal Express + TypeScript API server for template management",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "pnpm db:ensure && tsx watch src/index.ts",
+    "dev": "yarn db:ensure && tsx watch src/index.ts",
     "build": "tsc",
-    "start": "pnpm db:ensure && node dist/index.js",
+    "start": "yarn db:ensure && node dist/index.js",
     "prisma:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
