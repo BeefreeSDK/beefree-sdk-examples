@@ -5,6 +5,7 @@ import { apiKeyMiddleware } from './middleware/auth';
 import healthRoutes from './routes/health';
 import versionRoutes from './routes/version';
 import templatesRoutes from './routes/templates';
+import authRoutes from './routes/auth';
 
 // Load environment variables
 dotenv.config();
@@ -39,6 +40,7 @@ app.use(apiKeyMiddleware);
 app.use('/health', healthRoutes);
 app.use('/version', versionRoutes);
 app.use('/templates', templatesRoutes);
+app.use('/auth', authRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

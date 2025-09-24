@@ -43,43 +43,16 @@ export const BeefreeEditor = ({
         setIsLoading(true);
         setError(null);
 
-        // Get credentials from environment
-        const clientId = import.meta.env.VITE_BEEFREE_CLIENT_ID;
-        const clientSecret = import.meta.env.VITE_BEEFREE_CLIENT_SECRET;
-        const uid = import.meta.env.VITE_BEEFREE_UID || 'demo-user';
+        // Authenticate with Beefree via backend proxy
+        const authResponse = await api.authenticateBeefree();
 
-        if (!clientId || !clientSecret) {
+        if (!authResponse.success || !authResponse.token.access_token) {
           throw new Error(
-            'Missing Beefree credentials. Please set VITE_BEEFREE_CLIENT_ID and VITE_BEEFREE_CLIENT_SECRET'
+            'Authentication failed: Invalid response from auth proxy'
           );
         }
 
-        // Authenticate with Beefree
-        const authResponse = await fetch('https://auth.getbee.io/loginV2', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            client_id: clientId,
-            client_secret: clientSecret,
-            uid: uid,
-          }),
-        });
-
-        if (!authResponse.ok) {
-          const errorText = await authResponse.text();
-          throw new Error(
-            `Authentication failed: ${authResponse.status} ${errorText}`
-          );
-        }
-
-        const token: IToken = await authResponse.json();
-
-        if (!token.access_token) {
-          throw new Error('Invalid token response: missing access_token');
-        }
+        const token: IToken = authResponse.token as unknown as IToken;
 
         // Initialize Beefree SDK
         const beeInstance = new BeefreeSDK(token);
@@ -88,7 +61,7 @@ export const BeefreeEditor = ({
         // Configuration
         const config: IBeeConfig = {
           container: 'bee-plugin-container',
-          uid: uid,
+          uid: 'demo-user',
           onSaveAsTemplate: (json: any) => {
             // Store both the original object and the JSON string to preserve exact formatting
             const jsonString = JSON.stringify(json);

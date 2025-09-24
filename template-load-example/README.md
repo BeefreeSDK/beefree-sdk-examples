@@ -12,7 +12,7 @@ yarn install
 cp apps/api/.env.example apps/api/.env
 cp apps/web/env.example apps/web/.env
 
-# 3. Update Beefree credentials in apps/web/.env
+# 3. Update Beefree credentials in apps/api/.env
 # Get your Beefree credentials from your application in the SDK console (https://developers.beefree.io/accounts/login/)
 
 # 4. Start the demo (database auto-initialized)
@@ -24,13 +24,14 @@ yarn dev
 - 🌐 **Frontend**: http://localhost:3001
 - 🔧 **API**: http://localhost:3008
 
-> **Note**: You'll need to add your Beefree SDK credentials to `apps/web/.env` for the frontend to work. See the [Configuration](#-configuration) section below for details.
+> **Note**: You'll need to add your Beefree SDK credentials to `apps/api/.env` for the backend to handle authentication. See the [Configuration](#-configuration) section below for details.
 
 ## 🎯 What This Demo Shows
 
 - **Beefree SDK Integration**: Full-featured email template editor
 - **Template Management**: Create, edit, duplicate, and delete templates
 - **Database Persistence**: SQLite with Prisma ORM
+- **Shared Authentication**: Uses the shared auth module for consistent authentication across examples
 - **Modern Stack**: React + TypeScript + Express + yarn workspaces
 - **Production Patterns**: Error handling, validation, responsive design
 
@@ -65,7 +66,12 @@ template-load-example/
 ```bash
 PORT=3008
 API_KEY=changeme                    # Optional - leave empty for demo mode
-DATABASE_URL="file:../var/dev.db"   # SQLite database location
+DATABASE_URL="file:./var/dev.db"    # SQLite database location
+
+# Beefree SDK Configuration (handles authentication)
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+BEEFREE_UID=demo-user
 ```
 
 **Frontend Web** (`apps/web/.env`):
@@ -73,9 +79,9 @@ DATABASE_URL="file:../var/dev.db"   # SQLite database location
 ```bash
 VITE_API_URL=http://localhost:3008
 VITE_API_KEY=changeme               # Optional - matches backend API_KEY
-VITE_BEEFREE_CLIENT_ID=your_client_id_here
-VITE_BEEFREE_CLIENT_SECRET=your_client_secret_here
-VITE_BEEFREE_UID=demo-user
+
+# Auth Proxy Configuration
+VITE_AUTH_PROXY_URL=http://localhost:3008/auth
 ```
 
 ## 🔌 API Reference
@@ -86,6 +92,7 @@ VITE_BEEFREE_UID=demo-user
 | -------- | ---------------- | ------------------------------------ |
 | `GET`    | `/health`        | Server health check                  |
 | `GET`    | `/version`       | API version information              |
+| `POST`   | `/auth`          | Authenticate with Beefree SDK        |
 | `GET`    | `/templates`     | List all templates                   |
 | `POST`   | `/templates`     | Create a new template                |
 | `PUT`    | `/templates/:id` | Update an existing template          |
@@ -97,6 +104,12 @@ VITE_BEEFREE_UID=demo-user
 # Health check
 curl http://localhost:3008/health
 # Response: {"status":"ok"}
+
+# Authenticate with Beefree SDK
+curl -X POST -H "Content-Type: application/json" \
+  -d '{}' \
+  http://localhost:3008/auth
+# Response: {"access_token":"...","expires_in":3600,"token_type":"Bearer",...}
 
 # List templates
 curl http://localhost:3008/templates
@@ -155,8 +168,8 @@ yarn typecheck    # Run TypeScript checks
 
 **"Missing Beefree credentials" error**
 
-- Ensure you've copied `apps/web/env.example` to `apps/web/.env`
-- Add your Beefree SDK credentials to the `.env` file
+- Ensure you've copied `apps/api/env.example` to `apps/api/.env`
+- Add your Beefree SDK credentials to the backend `.env` file
 
 **"Invalid or missing API key" error**
 
