@@ -8,20 +8,25 @@ import { Template } from '../types';
 
 interface BeefreeEditorProps {
   onClose: () => void;
-  onTemplateSaved?: () => void;
-  onSuccess: (message: string) => void;
   onError: (message: string) => void;
   templateToLoad?: string; // JSON string of template to load
   existingTemplate?: Template | null; // If editing an existing template
+  onDirectSave: (json: any, existingTemplate?: Template | null) => Promise<any>;
+  onSaveTemplate: (
+    templateName: string,
+    templateJsonString: string,
+    existingTemplate?: Template | null,
+    saveAsCopy?: boolean
+  ) => Promise<void>;
 }
 
 export const BeefreeEditor = ({
   onClose,
-  onTemplateSaved,
-  onSuccess,
   onError,
   templateToLoad,
   existingTemplate = null,
+  onDirectSave,
+  onSaveTemplate,
 }: BeefreeEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,84 +36,88 @@ export const BeefreeEditor = ({
   const [currentTemplateJsonString, setCurrentTemplateJsonString] =
     useState<string>('');
   const beeInstanceRef = useRef<any>(null);
-  const initializationRef = useRef(false);
   const lastLoadedTemplateRef = useRef<string | undefined>(undefined);
 
-  useEffect(() => {
-    const initializeSDK = async () => {
-      if (initializationRef.current) return;
-      initializationRef.current = true;
+  const initializeSDK = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-      try {
-        setIsLoading(true);
-        setError(null);
+      // Authenticate with Beefree via backend proxy
+      const authResponse = await api.authenticateBeefree();
 
-        // Authenticate with Beefree via backend proxy
-        const authResponse = await api.authenticateBeefree();
-
-        if (!authResponse.success || !authResponse.token.access_token) {
-          throw new Error(
-            'Authentication failed: Invalid response from auth proxy'
-          );
-        }
-
-        const token: IToken = authResponse.token as unknown as IToken;
-
-        // Initialize Beefree SDK
-        const beeInstance = new BeefreeSDK(token);
-        beeInstanceRef.current = beeInstance;
-
-        // Configuration
-        const config: IBeeConfig = {
-          container: 'bee-plugin-container',
-          uid: 'demo-user',
-          onSaveAsTemplate: (json: any) => {
-            // Store both the original object and the JSON string to preserve exact formatting
-            const jsonString = JSON.stringify(json);
-            setCurrentTemplateData(json);
-            setCurrentTemplateJsonString(jsonString);
-            setShowSaveModal(true);
-          },
-          onSave: (json: any) => {
-            // Direct save without modal - override existing template or create new one
-            handleDirectSave(json);
-          },
-        };
-
-        let initialTemplateData = {};
-        if (templateToLoad) {
-          try {
-            initialTemplateData = JSON.parse(templateToLoad);
-          } catch (err) {
-            console.error('Error parsing initial template data:', err);
-            const errorMessage =
-              err instanceof Error
-                ? `Invalid template data format: ${err.message}`
-                : 'Invalid template data format: Unable to parse JSON';
-            onError(errorMessage);
-            return;
-          }
-        }
-
-        // Start with template data (blank if none provided)
-        (window as any).bee = beeInstance;
-        beeInstance.start(config, initialTemplateData);
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error
-            ? err.message
-            : 'Failed to initialize Beefree SDK';
-        setError(errorMessage);
-        onError(errorMessage);
-        console.error('❌ Beefree SDK initialization failed:', err);
-      } finally {
-        setIsLoading(false);
+      if (!authResponse.success || !authResponse.token.access_token) {
+        throw new Error(
+          'Authentication failed: Invalid response from auth proxy'
+        );
       }
-    };
 
+      const token: IToken = authResponse.token as unknown as IToken;
+
+      // Initialize Beefree SDK
+      const beeInstance = new BeefreeSDK(token);
+      beeInstanceRef.current = beeInstance;
+
+      // Configuration
+      const config: IBeeConfig = {
+        container: 'bee-plugin-container',
+        uid: 'demo-user',
+        onSaveAsTemplate: (json: any) => {
+          // Store both the original object and the JSON string to preserve exact formatting
+          const jsonString = JSON.stringify(json);
+          setCurrentTemplateData(json);
+          setCurrentTemplateJsonString(jsonString);
+          setShowSaveModal(true);
+        },
+        onSave: (json: any) => {
+          // Direct save without modal - override existing template or create new one
+          handleDirectSave(json);
+        },
+      };
+
+      let initialTemplateData = {};
+      if (templateToLoad) {
+        try {
+          initialTemplateData = JSON.parse(templateToLoad);
+        } catch (err) {
+          console.error('Error parsing initial template data:', err);
+          const errorMessage =
+            err instanceof Error
+              ? `Invalid template data format: ${err.message}`
+              : 'Invalid template data format: Unable to parse JSON';
+          onError(errorMessage);
+          return;
+        }
+      }
+
+      // Start with template data (blank if none provided)
+      (window as any).bee = beeInstance;
+      beeInstance.start(config, initialTemplateData);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to initialize Beefree SDK';
+      setError(errorMessage);
+      onError(errorMessage);
+      console.error('❌ Beefree SDK initialization failed:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     // Small delay to ensure DOM is ready
     const timer = setTimeout(initializeSDK, 100);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      // Cleanup Beefree SDK on unmount
+      if (beeInstanceRef.current) {
+        try {
+          beeInstanceRef.current.destroy?.();
+        } catch (err) {
+          console.error('Error destroying Beefree SDK:', err);
+        }
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -134,46 +143,25 @@ export const BeefreeEditor = ({
 
   // Handle direct save (from SAVE button in toolbar)
   const handleDirectSave = async (json: any) => {
-    // Convert to JSON string to preserve exact formatting
-    const jsonString = JSON.stringify(json);
+    try {
+      setSaving(true);
+      const result = await onDirectSave(json, existingTemplate);
 
-    if (existingTemplate) {
-      // Update existing template - no modal needed, just save directly
-      try {
-        setSaving(true);
-
-        const updateData = {
-          name: existingTemplate.name,
-          content: jsonString,
-        };
-
-        const result = await api.updateTemplate(
-          existingTemplate.id,
-          updateData
-        );
-        onSuccess(
-          `Template "${existingTemplate.name}" updated to version ${result.template.version}!`
-        );
-
-        // Notify parent component to refresh template list
-        if (onTemplateSaved) {
-          onTemplateSaved();
-        }
-      } catch (err) {
-        console.error('Error saving template:', err);
-        const errorMessage =
-          err instanceof ApiError
-            ? err.message
-            : 'Error saving template. Please try again.';
-        onError(errorMessage);
-      } finally {
-        setSaving(false);
+      // If it needs a modal (for new templates), show it
+      if (result?.needsModal) {
+        setCurrentTemplateData(result.templateData);
+        setCurrentTemplateJsonString(result.templateJsonString);
+        setShowSaveModal(true);
       }
-    } else {
-      // Create new template - show modal to get name
-      setCurrentTemplateData(json);
-      setCurrentTemplateJsonString(jsonString);
-      setShowSaveModal(true);
+    } catch (err) {
+      console.error('Error in direct save:', err);
+      const errorMessage =
+        err instanceof ApiError
+          ? err.message
+          : 'Error saving template. Please try again.';
+      onError(errorMessage);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -186,40 +174,12 @@ export const BeefreeEditor = ({
 
     try {
       setSaving(true);
-
-      // Use the original JSON string to preserve exact formatting
-      const templateFormData = {
-        name: templateName,
-        content: currentTemplateJsonString,
-      };
-
-      if (existingTemplate && !saveAsCopy) {
-        // Update existing template - backend will auto-increment version
-        const updateData = {
-          ...templateFormData,
-        };
-
-        const result = await api.updateTemplate(
-          existingTemplate.id,
-          updateData
-        );
-        onSuccess(
-          `Template "${templateName}" updated to version ${result.template.version}!`
-        );
-      } else {
-        // Create new template (either from scratch or as a copy)
-        await api.createTemplate(templateFormData);
-        onSuccess(
-          saveAsCopy
-            ? 'Template saved as copy!'
-            : 'Template saved successfully!'
-        );
-      }
-
-      // Notify parent component to refresh template list
-      if (onTemplateSaved) {
-        onTemplateSaved();
-      }
+      await onSaveTemplate(
+        templateName,
+        currentTemplateJsonString,
+        existingTemplate,
+        saveAsCopy
+      );
 
       // Close modal and reset state
       setShowSaveModal(false);
@@ -244,19 +204,6 @@ export const BeefreeEditor = ({
     setCurrentTemplateJsonString('');
     setSaving(false);
   };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (beeInstanceRef.current) {
-        try {
-          beeInstanceRef.current.destroy?.();
-        } catch (err) {
-          console.error('Error destroying Beefree SDK:', err);
-        }
-      }
-    };
-  }, []);
 
   if (error) {
     return (
@@ -289,7 +236,6 @@ export const BeefreeEditor = ({
         <div id="bee-plugin-container" />
       </div>
 
-      {/* Save Template Modal */}
       <SaveTemplateModal
         isOpen={showSaveModal}
         onClose={handleCloseModal}

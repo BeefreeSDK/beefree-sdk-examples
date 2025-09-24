@@ -60,11 +60,6 @@ function App() {
     loadTemplates();
   };
 
-  const handleTemplateSaved = () => {
-    // Reload templates when a template is saved from the SDK
-    loadTemplates();
-  };
-
   const handleDeleteTemplate = async (templateId: string) => {
     try {
       await api.deleteTemplate(templateId);
@@ -105,6 +100,99 @@ function App() {
     setSelectedTemplate(template);
     setTemplateToLoad(template.content);
     success(`Loaded template "${template.name}"`);
+  };
+
+  // Handle direct save (from SAVE button in toolbar)
+  const handleDirectSave = async (
+    json: any,
+    existingTemplate?: Template | null
+  ) => {
+    // Convert to JSON string to preserve exact formatting
+    const jsonString = JSON.stringify(json);
+
+    if (existingTemplate) {
+      // Update existing template - no modal needed, just save directly
+      try {
+        const updateData = {
+          name: existingTemplate.name,
+          content: jsonString,
+        };
+
+        const result = await api.updateTemplate(
+          existingTemplate.id,
+          updateData
+        );
+        success(
+          `Template "${existingTemplate.name}" updated to version ${result.template.version}!`
+        );
+
+        // Reload templates to get updates
+        loadTemplates();
+      } catch (err) {
+        console.error('Error saving template:', err);
+        const errorMessage =
+          err instanceof ApiError
+            ? err.message
+            : 'Error saving template. Please try again.';
+        showError(errorMessage);
+      }
+    } else {
+      // For new templates, we'll need to trigger the save modal
+      // This will be handled by the BeefreeEditor component
+      return {
+        needsModal: true,
+        templateData: json,
+        templateJsonString: jsonString,
+      };
+    }
+  };
+
+  // Handle save template (from modal)
+  const handleSaveTemplate = async (
+    templateName: string,
+    templateJsonString: string,
+    existingTemplate?: Template | null,
+    saveAsCopy: boolean = false
+  ) => {
+    try {
+      const templateFormData = {
+        name: templateName,
+        content: templateJsonString,
+      };
+
+      if (existingTemplate && !saveAsCopy) {
+        // Update existing template - backend will auto-increment version
+        const updateData = {
+          ...templateFormData,
+        };
+
+        const result = await api.updateTemplate(
+          existingTemplate.id,
+          updateData
+        );
+        success(
+          `Template "${templateName}" updated to version ${result.template.version}!`
+        );
+      } else {
+        // Create new template (either from scratch or as a copy)
+        await api.createTemplate(templateFormData);
+        success(
+          saveAsCopy
+            ? 'Template saved as copy!'
+            : 'Template saved successfully!'
+        );
+      }
+
+      // Reload templates to get updates
+      loadTemplates();
+    } catch (err) {
+      console.error('Error saving template:', err);
+      const errorMessage =
+        err instanceof ApiError
+          ? err.message
+          : 'Error saving template. Please try again.';
+      showError(errorMessage);
+    }
   };
 
   return (
@@ -158,11 +246,11 @@ function App() {
         {currentView === 'sdk' && (
           <BeefreeEditor
             onClose={handleCloseSDK}
-            onTemplateSaved={handleTemplateSaved}
-            onSuccess={success}
             onError={showError}
             templateToLoad={templateToLoad}
             existingTemplate={selectedTemplate}
+            onDirectSave={handleDirectSave}
+            onSaveTemplate={handleSaveTemplate}
           />
         )}
       </main>
