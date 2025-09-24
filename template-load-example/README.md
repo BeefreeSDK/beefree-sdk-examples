@@ -6,7 +6,7 @@ A complete demo showcasing **Beefree SDK integration** with a full-stack templat
 
 ```bash
 # 1. Install dependencies
-pnpm install
+yarn install
 
 # 2. Setup environment (copy examples)
 cp apps/api/.env.example apps/api/.env
@@ -16,7 +16,7 @@ cp apps/web/env.example apps/web/.env
 # Get your Beefree credentials from your application in the SDK console (https://developers.beefree.io/accounts/login/)
 
 # 4. Start the demo (database auto-initialized)
-pnpm dev
+yarn dev
 ```
 
 **That's it!** The demo will be running at:
@@ -31,7 +31,7 @@ pnpm dev
 - **Beefree SDK Integration**: Full-featured email template editor
 - **Template Management**: Create, edit, duplicate, and delete templates
 - **Database Persistence**: SQLite with Prisma ORM
-- **Modern Stack**: React + TypeScript + Express + pnpm workspaces
+- **Modern Stack**: React + TypeScript + Express + yarn workspaces
 - **Production Patterns**: Error handling, validation, responsive design
 
 ## 📁 Project Structure
@@ -121,8 +121,8 @@ curl -H "x-api-key: changeme" http://localhost:3008/health
 **Manual Commands** (if needed):
 
 ```bash
-pnpm db:ensure    # Generate client and push schema
-pnpm -C apps/api db:studio  # Open database viewer
+yarn db:ensure    # Generate client and push schema
+yarn -C apps/api db:studio  # Open database viewer
 ```
 
 ## 🛠️ Development
@@ -131,22 +131,22 @@ pnpm -C apps/api db:studio  # Open database viewer
 
 ```bash
 # Development
-pnpm dev          # Start both API and frontend
-pnpm dev:api      # API server only
-pnpm dev:web      # Frontend only
+yarn dev          # Start both API and frontend
+yarn dev:api      # API server only
+yarn dev:web      # Frontend only
 
 # Production
-pnpm build        # Build both apps
-pnpm start        # Start production servers
+yarn build        # Build both apps
+yarn start        # Start production servers
 
 # Database
-pnpm db:ensure    # Generate Prisma client and push schema
-pnpm -C apps/api db:studio  # Open database viewer
+yarn db:ensure    # Generate Prisma client and push schema
+yarn -C apps/api db:studio  # Open database viewer
 
 # Code Quality
-pnpm lint         # Run ESLint
-pnpm lint:fix     # Fix ESLint issues
-pnpm typecheck    # Run TypeScript checks
+yarn lint         # Run ESLint
+yarn lint:fix     # Fix ESLint issues
+yarn typecheck    # Run TypeScript checks
 ```
 
 ## 🚨 Troubleshooting
@@ -165,7 +165,7 @@ pnpm typecheck    # Run TypeScript checks
 
 **Database connection issues**
 
-- Run `pnpm db:ensure` to initialize the database
+- Run `yarn db:ensure` to initialize the database
 - Check that `apps/api/var/` directory exists and is writable
 
 **Port already in use**
@@ -191,7 +191,7 @@ This project uses project-specific git hooks for code quality:
 
 ```bash
 # Setup hooks (run once)
-pnpm setup-hooks
+yarn setup-hooks
 
 # Hooks run automatically on:
 # - Pre-commit: Format and lint staged files
@@ -216,17 +216,17 @@ This demo showcases:
 
 - **Beefree SDK Integration**: How to embed a professional email editor
 - **Full-Stack Architecture**: React + Express + Database
-- **Modern Development**: TypeScript, pnpm workspaces, Prisma ORM
+- **Modern Development**: TypeScript, yarn workspaces, Prisma ORM
 - **Production Patterns**: Error handling, validation, responsive design
 - **Template Management**: CRUD operations with smart naming
 - **Database Design**: SQLite with Prisma for rapid prototyping
 
 ## 🎉 Ready to Start?
 
-1. **Clone and install**: `pnpm install`
+1. **Clone and install**: `yarn install`
 2. **Setup environment**: Copy the `.env.example` files
 3. **Add Beefree credentials**: Get them from [Beefree Developer Console](https://docs.beefree.io/beefree-sdk/getting-started/readme/create-an-application.md)
-4. **Run the demo**: `pnpm dev`
+4. **Run the demo**: `yarn dev`
 5. **Start building**: Open http://localhost:3001 and create your first template!
 
 ---
