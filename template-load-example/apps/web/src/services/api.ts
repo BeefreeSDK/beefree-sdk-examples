@@ -4,6 +4,17 @@ import {
   TemplateResponse,
 } from '../types';
 
+// Auth types
+interface AuthResponse {
+  success: boolean;
+  token: {
+    access_token: string;
+    expires_in: number;
+    token_type: string;
+  };
+  uid: string;
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3008';
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -45,6 +56,23 @@ function getHeaders(): HeadersInit {
 }
 
 export const api = {
+  async authenticateBeefree(): Promise<AuthResponse> {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({}),
+    });
+
+    // The shared auth module returns the token directly, not wrapped in success/error
+    const token = await handleResponse<any>(response);
+
+    return {
+      success: true,
+      token,
+      uid: 'demo-user',
+    };
+  },
+
   async listTemplates(): Promise<TemplateListResponse> {
     const response = await fetch(`${API_BASE_URL}/templates`, {
       headers: getHeaders(),
