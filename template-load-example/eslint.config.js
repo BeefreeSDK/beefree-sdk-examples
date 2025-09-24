@@ -3,6 +3,7 @@ import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   {
@@ -33,21 +34,8 @@ export default [
         },
       },
       globals: {
-        // Browser globals
-        window: 'readonly',
-        document: 'readonly',
-        localStorage: 'readonly',
-        alert: 'readonly',
-        console: 'readonly',
-        // Node globals (for build scripts)
-        process: 'readonly',
-        Buffer: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        global: 'readonly',
-        module: 'readonly',
-        require: 'readonly',
-        exports: 'readonly',
+        ...globals.browser,
+        ...globals.node,
       },
     },
     plugins: {
