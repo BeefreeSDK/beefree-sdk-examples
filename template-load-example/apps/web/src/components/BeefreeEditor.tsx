@@ -11,7 +11,14 @@ interface BeefreeEditorProps {
   onError: (message: string) => void;
   templateToLoad?: string; // JSON string of template to load
   existingTemplate?: Template | null; // If editing an existing template
-  onDirectSave: (json: any, existingTemplate?: Template | null) => Promise<any>;
+  onDirectSave: (
+    json: unknown,
+    existingTemplate?: Template | null
+  ) => Promise<{
+    needsModal?: boolean;
+    templateData?: unknown;
+    templateJsonString?: string;
+  } | void>;
   onSaveTemplate: (
     templateName: string,
     templateJsonString: string,
@@ -32,7 +39,7 @@ export const BeefreeEditor = ({
   const [error, setError] = useState<string | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [currentTemplateData, setCurrentTemplateData] = useState<any>(null);
+  const [currentTemplateData, setCurrentTemplateData] = useState<unknown>(null);
   const [currentTemplateJsonString, setCurrentTemplateJsonString] =
     useState<string>('');
   const beeInstanceRef = useRef<any>(null);
@@ -62,14 +69,14 @@ export const BeefreeEditor = ({
       const config: IBeeConfig = {
         container: 'bee-plugin-container',
         uid: 'demo-user',
-        onSaveAsTemplate: (json: any) => {
+        onSaveAsTemplate: (json: unknown) => {
           // Store both the original object and the JSON string to preserve exact formatting
           const jsonString = JSON.stringify(json);
           setCurrentTemplateData(json);
           setCurrentTemplateJsonString(jsonString);
           setShowSaveModal(true);
         },
-        onSave: (json: any) => {
+        onSave: (json: unknown) => {
           // Direct save without modal - override existing template or create new one
           handleDirectSave(json);
         },
@@ -142,13 +149,17 @@ export const BeefreeEditor = ({
   }, [templateToLoad, onError]);
 
   // Handle direct save (from SAVE button in toolbar)
-  const handleDirectSave = async (json: any) => {
+  const handleDirectSave = async (json: unknown) => {
     try {
       setSaving(true);
       const result = await onDirectSave(json, existingTemplate);
 
       // If it needs a modal (for new templates), show it
-      if (result?.needsModal) {
+      if (
+        result?.needsModal &&
+        result.templateData &&
+        result.templateJsonString
+      ) {
         setCurrentTemplateData(result.templateData);
         setCurrentTemplateJsonString(result.templateJsonString);
         setShowSaveModal(true);
