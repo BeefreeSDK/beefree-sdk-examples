@@ -104,7 +104,7 @@ function App() {
 
   // Handle direct save (from SAVE button in toolbar)
   const handleDirectSave = async (
-    json: any,
+    json: unknown,
     existingTemplate?: Template | null
   ) => {
     // Convert to JSON string to preserve exact formatting

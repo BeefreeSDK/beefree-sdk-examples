@@ -3,15 +3,12 @@ import {
   TemplateListResponse,
   TemplateResponse,
 } from '../types';
+import { IToken } from '@beefree.io/sdk/dist/types/bee';
 
 // Auth types
 interface AuthResponse {
   success: boolean;
-  token: {
-    access_token: string;
-    expires_in: number;
-    token_type: string;
-  };
+  token: IToken;
   uid: string;
 }
 
@@ -64,7 +61,7 @@ export const api = {
     });
 
     // The shared auth module returns the token directly, not wrapped in success/error
-    const token = await handleResponse<any>(response);
+    const token = await handleResponse<IToken>(response);
 
     return {
       success: true,
