@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../App.css'
 import { useBuilder } from '../hooks/useBuilder.tsx';
+
 export type AutosaveVersionsItem = { date: string, content: string }
 
 type Props = {
@@ -8,22 +9,22 @@ type Props = {
 }
 
 export const Sidebar = ({ autosaveVersions }: Props) => {
-    const { builderRef } = useBuilder()
+    const { builderRef, config } = useBuilder()
 
     const [selectedItem, setSelectedItem] = useState<number>(0);
-    const [timer, setTimer] = useState<number>(0);
+    const [timer, setTimer] = useState<number>(config.autosave ?? 0);
 
     useEffect(() => {
       const intervalId = setInterval(() => {
-        setTimer(prev => prev + 1)
+        setTimer(prev => prev <= 0 ? 0 : prev - 1)
       }, 1000)
       return () => clearInterval(intervalId)
     }, [])
 
     useEffect(() => {
       setSelectedItem(0)
-      setTimer(0)
-    }, [autosaveVersions])
+      setTimer(config.autosave ?? 0)
+    }, [autosaveVersions, config.autosave])
 
     return (
         <div className="sidebar">

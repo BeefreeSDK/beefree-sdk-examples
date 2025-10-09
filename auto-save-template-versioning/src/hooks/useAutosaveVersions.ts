@@ -4,24 +4,22 @@ import { AutosaveVersionsStore } from '../api/AutosaveVersionsStore';
 
 export function useAutosaveVersions(autosaveVersionsStore: AutosaveVersionsStore) {
   const [autosaveVersions, setAutosaveVersions] = useState<AutosaveVersionsItem[]>(() =>
-    getFirst10DescByDate(autosaveVersionsStore.get())
+    autosaveVersionsStore.get()
   );
 
-  const addAutosaveVersionsItem = useCallback((content: string) => {
+  const prependAutosaveVersionsItem = useCallback((content: string) => {
     const item: AutosaveVersionsItem = {
       date: new Date().toISOString(),
       content
     };
 
-    autosaveVersionsStore.add(item);
-    setAutosaveVersions(prev => getFirst10DescByDate([...prev, item]));
+    autosaveVersionsStore.prepend(item, 10);
+    setAutosaveVersions(prev => getFirst([item, ...prev], 10));
   }, [autosaveVersionsStore, setAutosaveVersions]);
 
-  return { autosaveVersions, addAutosaveVersionsItem };
+  return { autosaveVersions, addAutosaveVersionsItem: prependAutosaveVersionsItem };
 }
 
-function getFirst10DescByDate(autosaveVersions: AutosaveVersionsItem[]) {
-  return [...autosaveVersions]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 10);
+function getFirst(autosaveVersions: AutosaveVersionsItem[], max: number) {
+  return [...autosaveVersions].slice(0, max);
 }

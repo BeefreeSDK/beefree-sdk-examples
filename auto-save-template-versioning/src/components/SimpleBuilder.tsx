@@ -27,6 +27,6 @@ export function SimpleBuilder({ authorizer, style, className }: Props) {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div id={config.container} style={style} className={className}></div>
+    <div id={config.container} style={style} className={className}/>
   )
 }
