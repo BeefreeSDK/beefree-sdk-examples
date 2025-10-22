@@ -1,5 +1,6 @@
 import { ExportRequest, ExportResponse, ExportOptions } from '../types'
 import { EXPORT_API_URL, DEFAULT_EXPORT_OPTIONS } from '../config/constants'
+import { getCurrentToken } from './beefree'
 
 export class PDFExportService {
   
@@ -8,6 +9,12 @@ export class PDFExportService {
     options: ExportOptions = DEFAULT_EXPORT_OPTIONS
   ): Promise<ExportResponse> {
     try {
+      // Get the current authentication token
+      const token = getCurrentToken()
+      if (!token || !token.access_token) {
+        throw new Error('No authentication token available. Please initialize Beefree SDK first.')
+      }
+
       // Check if templateData is HTML string or JSON object
       const isHtml = typeof templateData === 'string' && templateData.includes('<html')
       
@@ -27,6 +34,7 @@ export class PDFExportService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token.access_token}`
         },
         body: JSON.stringify(exportRequest)
       })

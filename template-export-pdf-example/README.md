@@ -20,8 +20,9 @@ This example demonstrates **advanced PDF export functionality** for the Beefree 
 
 ### 🔐 **Secure Integration**
 - **Beefree Content Services API**: Official PDF export API integration
-- **Shared Authentication**: Uses secure auth module from `secure-auth-example`
-- **Environment-based Configuration**: Secure credential management
+- **Shared Authentication**: Uses `secure-auth-example` (same as all frontend examples)
+- **Backend Server**: Express.js for PDF export operations only
+- **Environment-based Configuration**: Secure API key management
 
 ## 📁 Project Structure
 ```
@@ -45,6 +46,7 @@ template-export-pdf-example/
 │   ├── styles.css               # Application styles
 │   └── index.tsx                # React entry point
 ├── server.js                    # Express.js backend with PDF export API
+│                                # ⚠️ Uses ../shared/auth.js module
 ├── index.html                   # HTML entry point
 ├── vite.config.ts              # Vite + React configuration
 ├── tsconfig.json               # TypeScript configuration
@@ -52,34 +54,58 @@ template-export-pdf-example/
 ├── env.example                 # Environment variables template
 └── README.md                   # This file
 
-../shared/
+../shared/                       # 📦 Code dependency (not runtime)
 └── auth.js                     # Shared authentication module
+                                # Used by server.js for authentication logic
 ```
 
 ## 🛠️ Quick Start
 
-1. **Install dependencies**:
+### 🔐 Autenticazione - Come Funziona
+
+**⚠️ IMPORTANTE**: Questo esempio **RICHIEDE** `secure-auth-example` in esecuzione!
+
+**Tutti gli esempi funzionano IDENTICAMENTE** per l'autenticazione:
+
+1. **Frontend** chiama `POST /auth/token` → Proxy Vite → `secure-auth-example:3000`
+2. **secure-auth-example** usa `shared/auth.js` per gestire la richiesta
+3. **shared/auth.js** chiama l'API Beefree e ritorna un `IToken`
+4. **Frontend** riceve il token e inizializza Beefree SDK
+
+**Architettura di questo progetto:**
+- **Frontend** (porta 5174): React + TypeScript
+- **Backend** (porta 3001): Express.js per **SOLO** export PDF
+- **Authentication** (porta 3000): `secure-auth-example` ⚠️ **DEVE essere in esecuzione**
+
+**Step 1: Start the authentication server** (in a separate terminal)
 ```bash
+cd ../secure-auth-example
 yarn install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+yarn dev  # Runs on port 3000 - MUST stay running
 ```
 
-2. **Configure credentials**:
+**Step 2: Install and configure this example**
 ```bash
+cd ../template-export-pdf-example
+yarn install
 cp env.example .env
-# Edit .env with your Beefree SDK credentials from https://developers.beefree.io
-# Add your Content Services API key
+# Edit .env with your Content Services API key
 ```
 
-3. **Start development environment**:
+**Step 3: Start development environment**:
 ```bash
 yarn dev
 ```
-This runs both the React development server and the Express backend concurrently.
+This runs both the React development server (port 5174) and the Express backend (port 3001) concurrently.
 
-4. **Open in browser**:
-```
-http://localhost:5174
-```
+**⚠️ Note**: This example requires `secure-auth-example` running on port 3000 for authentication, just like `custom-css-example` and `multi-builder-switch-example`.
+
+**Step 4: Open in browser**:
+- **Frontend**: http://localhost:5174
+- **Auth Backend**: http://localhost:3000 ⚠️ **MUST be running** (from secure-auth-example)
+- **PDF Backend**: http://localhost:3001 (started automatically)
 
 ## 🚀 Available Scripts
 
@@ -97,15 +123,18 @@ yarn type-check # Check TypeScript without emitting
 
 Required in `.env` file:
 ```env
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
+# Authentication credentials configured in secure-auth-example
+# This server only needs Content Services API key for PDF export
+
 BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
 VITE_PORT=5174
 ```
 
-**🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. All credentials are handled server-side only.
+**🚨 Security**: 
+- **Authentication credentials** (Client ID/Secret) are configured in `secure-auth-example`
+- This server only handles PDF export and requires the Content Services API key
 
 ## ⚛️ React + TypeScript Architecture
 
@@ -204,11 +233,31 @@ VITE_PORT=5174
 - **Configuration Management**: Centralized configuration with environment variables
 - **Monitoring Ready**: Structured logging and health check endpoints
 
-## 🔗 Related Examples
+## 🔗 Related Examples & Dependencies
 
-- [🔐 secure-auth-example](../secure-auth-example/) - Authentication foundation used by this example
-- [🎨 custom-css-example](../custom-css-example/) - React + TypeScript architecture reference
-- [🔧 shared/auth.js](../shared/) - Shared authentication module
+### **Architettura Allineata con Altri Esempi**
+
+**Tutti gli esempi ora funzionano IDENTICAMENTE** per l'autenticazione:
+
+| Aspetto | custom-css | multi-builder | template-export-pdf |
+|---------|-----------|---------------|---------------------|
+| **Frontend** | React + TypeScript | React + TypeScript | React + TypeScript |
+| **Autenticazione** | `/auth/token` → 3000 | `/auth/token` → 3000 | `/auth/token` → 3000 |
+| **Auth Server** | `secure-auth:3000` | `secure-auth:3000` | `secure-auth:3000` |
+| **Backend** | ❌ Nessuno | ❌ Nessuno | ✅ PDF export (3001) |
+| **Dipendenza** | ⚠️ secure-auth | ⚠️ secure-auth | ⚠️ secure-auth |
+
+**Differenza Chiave:**
+- `custom-css` e `multi-builder`: Solo frontend React
+- `template-export-pdf`: Frontend React + Backend Express per PDF export
+
+**Ma l'autenticazione è IDENTICA per tutti e tre!** Tutti dipendono da `secure-auth-example:3000`.
+
+### **Esempi Correlati**
+- [🔐 secure-auth-example](../secure-auth-example/) - **RICHIESTO** - Server di autenticazione condiviso
+- [🎨 custom-css-example](../custom-css-example/) - Frontend React con theming
+- [🏗️ multi-builder-switch-example](../multi-builder-switch-example/) - Frontend React multi-builder
+- [🔧 shared/auth.js](../shared/) - Modulo di autenticazione usato da `secure-auth-example`
 
 ---
 
