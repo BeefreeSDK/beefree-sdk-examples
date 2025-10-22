@@ -93,6 +93,9 @@ If you prefer to run the example independently:
 ```bash
 # In the template-export-pdf-example folder
 yarn install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+yarn dev  # Runs on port 3000 - MUST stay running
 ```
 
 #### 2. Configure Environment
@@ -144,7 +147,9 @@ PORT=3003
 VITE_PORT=8003
 ```
 
-**🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. All credentials are handled server-side only.
+**🚨 Security**: 
+- **Authentication credentials** (Client ID/Secret) are configured in `secure-auth-example`
+- This server only handles PDF export and requires the Content Services API key
 
 ## ⚛️ React + TypeScript Architecture
 

@@ -119,8 +119,15 @@ app.post('/api/export/pdf', async (req: Request, res: Response) => {
     console.log('🔄 Starting PDF export...');
     console.log('📋 Export options:', exportOptions);
 
-    // Get Beefree token for Content Services API
-    const token = await getBeefreeToken();
+    // Get Beefree token for Content Services API from Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        error: 'Missing authorization token',
+        message: 'Please provide a valid Bearer token in the Authorization header'
+      });
+    }
+    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Prepare export request according to Beefree API format
     const exportData: any = {};

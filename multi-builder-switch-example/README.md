@@ -179,13 +179,29 @@ export const BUILDER_CONFIGS: Record<BuilderType, BuilderConfig> = {
 
 ### **Prerequisites**
 - Node.js 16+
-- Running `secure-auth-example` for authentication (port 3000)
-- Beefree SDK credentials (potentially different for each builder type)
+- **⚠️ REQUIRED: `secure-auth-example` must be running** (port 3000) - This example depends on the secure-auth-example authentication server
+- Beefree SDK credentials configured in secure-auth-example (potentially different for each builder type)
 
 ### **Installation**
+
+**Step 1: Start the authentication server**
 ```bash
-# Clone and navigate
-cd multi-builder-switch-example
+# In a separate terminal, navigate to secure-auth-example
+cd ../secure-auth-example
+
+# Install and configure if not done yet
+yarn install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+
+# Start the auth server (MUST be running on port 3000)
+yarn dev
+```
+
+**Step 2: Install and configure this example**
+```bash
+# Navigate to multi-builder-switch-example
+cd ../multi-builder-switch-example
 
 # Install dependencies
 yarn install
@@ -222,6 +238,9 @@ VITE_POPUP_CLIENT_ID=your_popup_client_id_here
 - **Default Builder**: Set which builder loads first
 
 ### **Development**
+
+**⚠️ IMPORTANT: Ensure secure-auth-example is running first!**
+
 ```bash
 # Start development server
 yarn dev
@@ -238,7 +257,7 @@ yarn type-check
 
 ### **Open in browser**
 - **Frontend**: http://localhost:8083
-- **Auth Backend**: http://localhost:3000 (must be running)
+- **Auth Backend**: http://localhost:3000 ⚠️ **MUST be running** (from secure-auth-example)
 
 ## 🎯 Usage Guide
 

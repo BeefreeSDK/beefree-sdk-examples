@@ -2,6 +2,11 @@ import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig, IEntityContentJson, IToken } from '@beefree.io/sdk/dist/types/bee'
 import { AUTH_PROXY_URL, DEFAULT_TEMPLATE_URL, DEFAULT_CLIENT_CONFIG } from '../config/constants'
 
+// Token storage for PDF export
+let currentToken: IToken | null = null
+
+export const getCurrentToken = (): IToken | null => currentToken
+
 export const authenticate = async (uid: string): Promise<Response> => {
   return await fetch(AUTH_PROXY_URL, {
     method: 'POST',
@@ -30,6 +35,9 @@ export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<Be
     const templateData = await loadTemplate()
     const tokenResponse = await authenticate(clientConfig.uid || DEFAULT_CLIENT_CONFIG.uid)
     const token: IToken = await tokenResponse.json()
+    
+    // Store token for PDF export service
+    currentToken = token
     
     const BeePlugin = new BeefreeSDK(token)
     const bee = BeePlugin
