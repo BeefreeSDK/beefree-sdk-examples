@@ -107,9 +107,6 @@ export class BeefreeMultiService {
       // Initialize Beefree SDK
       // Note: Double casting needed due to Beefree SDK internal type structure
       this.beeInstance = new BeefreeSDK(token) as unknown as BeefreeInstance
-      
-      // Store reference globally and start SDK
-      window.bee = this.beeInstance
       this.currentBuilderType = builderType
       
       // Start the builder with proper typing
@@ -160,7 +157,6 @@ export class BeefreeMultiService {
         
         this.beeInstance = null
         this.currentBuilderType = null
-        window.bee = undefined
         
         console.log('✅ Builder destroyed successfully')
       } catch (error) {
@@ -168,7 +164,6 @@ export class BeefreeMultiService {
         // Reset state even if destroy failed
         this.beeInstance = null
         this.currentBuilderType = null
-        window.bee = undefined
       }
     }
   }
