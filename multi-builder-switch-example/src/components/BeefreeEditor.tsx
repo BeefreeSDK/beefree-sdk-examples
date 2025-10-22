@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BeefreeEditorProps } from '../types'
 import { BUILDER_CONFIGS } from '../config/constants'
 
@@ -11,17 +11,13 @@ export const BeefreeEditor: React.FC<BeefreeEditorProps> = ({
   onError
 }) => {
   const builderConfig = BUILDER_CONFIGS[builderType]
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Initialize the builder only after the container is mounted in the DOM
     // and only if not already initialized
-    if (!isInitialized) {
-      // Small delay to ensure DOM is fully rendered
-      const timeoutId = setTimeout(() => {
-        onInitialize()
-      }, 100)
-      
-      return () => clearTimeout(timeoutId)
+    if (!isInitialized && containerRef.current) {
+      onInitialize()
     }
   }, [isInitialized, onInitialize])
 
@@ -60,6 +56,7 @@ export const BeefreeEditor: React.FC<BeefreeEditorProps> = ({
 
       {/* This is the container where Beefree SDK will be mounted */}
       <div 
+        ref={containerRef}
         id="bee-plugin-container" 
         className="bee-plugin-container"
         role="application"
