@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react'
+import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig } from '@beefree.io/sdk/dist/types/bee'
 import { initializeBeefreeSDK } from '../services/beefree'
 import { clientConfig } from '../config/clientConfig'
 
 interface BeefreeEditorProps {
   customCss?: string
+  onInstanceCreated: (instance: BeefreeSDK) => void
 }
 
-export const BeefreeEditor = ({ customCss }: BeefreeEditorProps) => {
+export const BeefreeEditor = ({ customCss, onInstanceCreated }: BeefreeEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const initializationRef = useRef(false)
 
@@ -19,11 +21,18 @@ export const BeefreeEditor = ({ customCss }: BeefreeEditorProps) => {
       try {
         const config: IBeeConfig = {
           ...clientConfig,
-          ...(customCss && { customCss })
+          customCss,
+          onComment: (comment) => {
+            console.log('comments --> ', comment)
+          }
         }
 
-        await initializeBeefreeSDK(config)
+        const instance = await initializeBeefreeSDK(config)
         console.log('🚀 Beefree SDK demo application initialized')
+        
+        if (instance) {
+          onInstanceCreated(instance)
+        }
       } catch (error) {
         console.error('Failed to initialize Beefree SDK:', error)
         initializationRef.current = false
@@ -33,7 +42,7 @@ export const BeefreeEditor = ({ customCss }: BeefreeEditorProps) => {
     // Small delay to ensure DOM is ready
     const timer = setTimeout(initializeEditor, 100)
     return () => clearTimeout(timer)
-  }, [customCss])
+  }, [customCss, onInstanceCreated])
 
   return (
     <div className="builder-wrapper">

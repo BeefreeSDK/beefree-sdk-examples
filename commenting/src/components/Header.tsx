@@ -1,20 +1,13 @@
-import { ThemeSelector } from './ThemeSelector'
-import type { ThemeType } from '../types'
-
 interface HeaderProps {
-  currentTheme: ThemeType
-  changeTheme: (theme: ThemeType) => void
+  onToggleComments: () => void
 }
 
-export const Header = ({ currentTheme, changeTheme }: HeaderProps) => {
+export const Header = ({ onToggleComments }: HeaderProps) => {
   return (
     <div className="demo-header">
-      <h1>🎨 Custom CSS Styling</h1>
-      <p>Advanced Beefree SDK Interface Customization with React & TypeScript</p>
-      <ThemeSelector 
-        currentTheme={currentTheme}
-        onThemeChange={changeTheme}
-      />
+      <h1>🎨 Commenting</h1>
+      <p>Clicks on the comments button to show comments dialog</p>
+      <button onClick={onToggleComments}>Toggle Comments</button>
     </div>
   )
 }

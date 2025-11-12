@@ -6,10 +6,10 @@ export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | ''
 
 // Beefree SDK instance interface for proper typing
 export interface BeefreeInstance {
-  save(): Promise<any>
-  load(template: any): Promise<any>
-  start(config: any, template?: any): Promise<any>
-  destroy(): Promise<any>
+  save(): Promise<unknown>
+  load(template: IEntityContentJson): Promise<unknown>
+  start(config: IBeeConfig, template?: IEntityContentJson): Promise<unknown>
+  destroy(): Promise<unknown>
 }
 
 // Global window interface extension for Beefree SDK instance

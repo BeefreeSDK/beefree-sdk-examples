@@ -31,7 +31,7 @@ const removeLoadingOverlay = (): void => {
   }
 }
 
-export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<void> => {
+export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<BeefreeSDK | undefined> => {
   // Initialize Beefree SDK when BeePlugin is available
   try {
     const templateData = await loadTemplate()
@@ -39,11 +39,13 @@ export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<vo
     const token: IToken = await tokenResponse.json()
     const BeePlugin = new BeefreeSDK(token)
     const bee = BeePlugin
-    window.bee = bee
+    window.bee = bee as unknown as BeefreeInstance
     removeLoadingOverlay()
-    bee.start(clientConfig ?? DEFAULT_CLIENT_CONFIG, templateData)
+    await bee.start(clientConfig ?? DEFAULT_CLIENT_CONFIG, templateData)
     console.log('🔐 Beefree SDK initialized', bee)
+    return BeePlugin
   } catch (error) {
     console.error('🔴 Error:', error)
+    return undefined
   }
 }

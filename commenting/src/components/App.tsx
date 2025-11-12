@@ -1,16 +1,30 @@
 import { Header } from './Header'
+import BeefreeSDK from '@beefree.io/sdk'
 import { BeefreeEditor } from './BeefreeEditor'
 import { Footer } from './Footer'
-import { useThemeManager } from '../hooks/useThemeManager'
 import '../styles.css'
+import { useState } from 'react'
 
 export const App = () => {
-  const { currentTheme, changeTheme, getThemeUrl } = useThemeManager()
+
+  const [beefreeEditorInstance, setbeefreeEditorInstance] = useState<BeefreeSDK | null>(null);
+
+  const handleBeefreeInstanceCreated = (instance: BeefreeSDK) => {
+    setbeefreeEditorInstance(instance);
+
+    
+  }
+
+  const handleToggleComments = () => {
+    if(beefreeEditorInstance) {
+      beefreeEditorInstance.toggleComments();
+    }
+  }
 
   return (
     <div className="demo-container beefree-container">
-      <Header currentTheme={currentTheme} changeTheme={changeTheme} />
-      <BeefreeEditor customCss={currentTheme ? getThemeUrl() : undefined} />
+      <Header onToggleComments={handleToggleComments} />
+      <BeefreeEditor onInstanceCreated={handleBeefreeInstanceCreated} />
       <Footer />
     </div>
   )
