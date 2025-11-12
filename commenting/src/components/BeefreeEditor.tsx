@@ -45,7 +45,7 @@ export const BeefreeEditor = ({ customCss, onInstanceCreated }: BeefreeEditorPro
   }, [customCss, onInstanceCreated])
 
   return (
-    <div className="builder-wrapper">
+    <div>
       <div id="loading-overlay" className="loading-overlay">
         <div className="spinner"></div>
         <span>Loading Beefree SDK...</span>

@@ -1,6 +1,7 @@
 import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig, IEntityContentJson, IToken } from '@beefree.io/sdk/dist/types/bee'
 import { AUTH_PROXY_URL, DEFAULT_TEMPLATE_URL, DEFAULT_CLIENT_CONFIG } from '../config/constants'
+import type { BeefreeInstance } from '../types'
 
 // Beefree SDK initialization
 const authProxyUrl = AUTH_PROXY_URL // Use server side auth proxy url
