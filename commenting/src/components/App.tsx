@@ -21,10 +21,30 @@ export const App = () => {
     }
   }
 
+  const handleShowComment = (commentId: string) => {
+    if(beefreeEditorInstance) {
+      // Show a toast notification about the feature
+      addToast({
+        type: 'new',
+        message: 'Navigating to comment...',
+        content: `Comment ID: ${commentId} (Demo feature - create real comments to test this!)`,
+        duration: 4000
+      })
+      
+      // In a real implementation, you would call:
+      // beefreeEditorInstance.showComment(commentId)
+      console.log('Show comment:', commentId)
+    }
+  }
+
   return (
     <>
       <div className="demo-container beefree-container">
-        <Header onToggleComments={handleToggleComments} />
+        <Header 
+          onToggleComments={handleToggleComments}
+          onShowComment={handleShowComment}
+          beefreeInstance={beefreeEditorInstance}
+        />
         <BeefreeEditor 
           onInstanceCreated={handleBeefreeInstanceCreated}
           onCommentEvent={addToast}

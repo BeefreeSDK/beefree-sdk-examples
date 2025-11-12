@@ -21,9 +21,14 @@ export const BeefreeEditor = ({ customCss, onInstanceCreated, onCommentEvent }: 
       initializationRef.current = true
 
       try {
+        // Check for role in URL params
+        const params = new URLSearchParams(window.location.search)
+        const role = params.get('role') as 'editor' | 'reviewer' | null
+        
         const config: IBeeConfig = {
           ...clientConfig,
           customCss,
+          role: role || 'editor',
           onComment: (data: BeePluginOnCommentPayload) => {
             console.log('comments --> ', data)
             
