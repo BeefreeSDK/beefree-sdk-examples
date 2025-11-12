@@ -1,0 +1,173 @@
+/* Beefree SDK Coral Theme */
+:root {
+  /* Coral color palette */
+  --main-primary: #ff6b6b;
+  --main-secondary: #ff8e53;
+  --main-accent: #ffa726;
+  --main-light: #ffcdd2;
+  --main-dark: #d32f2f;
+  --main-background: #fff3e0;
+  --main-surface: #ffffff;
+  --main-sidebar-background: #eeeeee;
+  --main-sidebar-border: #cccccc;
+  
+  /* Beefree SDK Variables */
+  --inputs-background-color: var(--main-background) !important;
+  --inputs-border-color: var(--main-sidebar-border) !important;
+  --inputs-text-color: var(--main-dark) !important;
+  --widget-bar-and-active-tab-background-color: var(--main-sidebar-background) !important;
+  --active-tab-text-and-icon-color: var(--main-dark) !important;
+  --not-active-tabs-background-color: var(--main-surface) !important;
+  --widget-bar-border: var(--main-sidebar-border) !important;
+  --widget-border-bottom-color: var(--main-sidebar-border) !important;
+  --properties-section-title-background: var(--main-surface) !important;
+  --properties-panel-title-background: var(--main-surface) !important;
+  --properties-panel-text-icons-color: var(--main-dark) !important;
+  --properties-panel-title-border: var(--main-secondary) !important;
+  --input-number-background: var(--main-background) !important;
+  --inputs-label-background-color: var(--main-background) !important;
+  --widget-label-color: var(--main-dark) !important;
+  --custom-brand-primary-color: var(--main-primary) !important;
+  --custom-brand-secondary-color: var(--main-secondary) !important;
+
+  --tile-background-color: var(--main-background) !important;
+  --tile-border-color: var(--main-secondary) !important;
+  --widget-section-title-color: var(--main-dark) !important;
+  --generic-border-light: var(--main-light) !important;
+
+  --widget-background-toggle-off: var(--main-background) !important;
+  --checkbox-background: var(--main-background) !important;
+  --padding-preview: var(--main-background) !important;
+  --row-border-radius-preview: var(--main-background) !important;
+  --sidebar-row-layout-wrapper-background: var(--main-surface) !important;
+}
+
+/* Sidebar */
+body.bee--cs .widget-bar--cs {
+  background-color: var(--main-sidebar-background) !important;
+  color: #ffffff !important;
+}
+
+body.bee--cs div.module-box:hover > button.icon-move,
+body.bee--cs div.module-box.module-box--selected > button.icon-move,
+body.bee--cs div.module-box.module-box--selected:hover > button.icon-move,
+body.bee--cs div.module-box > button.icon-move,
+body.bee--cs .module-box > .icon-move,
+body.bee--cs .module-box--selected.mouseover:hover > .icon-move,
+body.bee--cs .row-container > .icon-move,
+body.bee--cs .row-container-outer.selected .row-container > .icon-move,
+
+body.bee--cs .row-container-outer div.row-container.row-labels--cs:hover > button.icon-move,
+body.bee--cs .row-container-outer div.row-container.row-labels--cs > button.icon-move,
+body.bee--cs .module-box > .icon-move,
+body.bee--cs .module-box--selected.mouseover:hover > .icon-move, body.bee--cs .row-container > .icon-move,
+body.bee--cs .row-container-outer.selected .row-container > .icon-move {
+  background-color: var(--custom-brand-primary-color) !important;
+}
+
+body.bee--cs .row-container:hover > .icon-move, .module-box.mouseover:hover .icon-move {
+  background-color: var(--custom-brand-primary-color) !important;
+}
+
+div.sidebar--collapsible:hover div.sidebar__collapse-handle,
+div.sidebar--collapsed div.sidebar__collapse-handle {
+  background-color: var(--custom-brand-primary-color) !important;
+}
+
+div.module-box:after,
+div.module-box:not(.grabbed):after,
+div.module-box--selected:after,
+div.module-box--selected:hover:after,
+body.bee--cs div.module-box--selected.mouseover:hover:after {
+  outline-color: var(--custom-brand-primary-color) !important;
+}
+
+.widget-bar.widget-bar--cs .properties-panel__title--cs {
+  border-color: var(--main-secondary) !important;
+}
+
+.widget-section__paddingpreview--cs {
+  background-color: var(--main-background) !important;
+}
+
+.widgets-bar-columns__indicator--cs {
+  background-color: var(--main-surface) !important;
+}
+
+.icon--color-base,
+.icon--color-light {
+  opacity: 0.8;
+  fill: var(--main-dark) !important;
+}
+
+.sidebar-draggable--cs {
+  color: var(--main-dark) !important;
+  background-color: var(--main-light) !important;
+}
+
+.sidebar-draggable--cs svg,
+.sidebar-draggable--cs svg path {
+  fill: var(--main-dark) !important;
+}
+
+.wrapper-color-selector--cs input {
+  background-color: var(--main-background) !important;
+  border-color: var(--main-secondary) !important;
+}
+
+/* Page Stage */
+.page-stage {
+  background-color: var(#fff) !important;
+  border-color: var(--main-sidebar-border) !important;
+}
+
+.radiogroup-button--cs {
+  background-color: var(--main-background);
+  border-color: var(--main-secondary);
+  color: var(--main-dark);
+}
+
+.radiogroup-button--cs:hover {
+  background-color: var(--main-light) !important;
+}
+
+.radiogroup-button--cs.selected {
+  background-color: var(--main-primary) !important;
+  color: #ffffff !important;
+}
+
+/* Additional coral styling */
+.btn--cs {
+  background-color: var(--main-primary) !important;
+  border-color: var(--main-secondary) !important;
+  color: #ffffff !important;
+}
+
+.btn--cs:hover {
+  background-color: var(--main-secondary) !important;
+}
+
+.widgets-section__title--cs {
+  color: var(--main-dark) !important;
+}
+
+/* Form inputs */
+input[type="text"]--cs,
+input[type="number"]--cs,
+textarea--cs,
+select--cs {
+  background-color: var(--main-background) !important;
+  border-color: var(--main-secondary) !important;
+  color: var(--main-dark) !important;
+}
+
+/* Tabs */
+.tab--cs.active {
+  background-color: var(--main-primary) !important;
+  color: #ffffff !important;
+}
+
+.tab--cs:not(.active) {
+  background-color: var(--main-surface) !important;
+  color: var(--main-dark) !important;
+}

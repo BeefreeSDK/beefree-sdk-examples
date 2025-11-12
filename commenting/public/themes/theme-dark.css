@@ -1,0 +1,70 @@
+/* Beefree SDK Dark Theme Test */
+:root {
+  --inputs-background-color: #1a1a1a !important;
+  --inputs-border-color: #555 !important;
+  --inputs-text-color: #ffffff !important;
+  --widget-bar-and-active-tab-background-color: #222 !important;
+  --active-tab-text-and-icon-color: #ffffff !important;
+  --not-active-tabs-background-color: #1a1a1a !important;
+  --widget-bar-border: #555 !important;
+  --widget-border-bottom-color: #555 !important;
+  --properties-section-title-background: #333 !important;
+  --properties-panel-title-background: #333 !important;
+  --properties-panel-text-icons-color: #ffffff !important;
+  --properties-panel-title-border: #555 !important;
+  --input-number-background: #1a1a1a !important;
+  --inputs-label-background-color: #1a1a1a !important;
+
+  --tile-background-color: #1a1a1a !important;
+  --tile-border-color: #555 !important;
+  --widget-section-title-color: #ffffff !important;
+  --generic-border-light: #555 !important;
+
+  --widget-background-toggle-off: #1a1a1a !important;
+  --checkbox-background: #1a1a1a !important;
+  --padding-preview: #1a1a1a !important;
+  --row-border-radius-preview: #1a1a1a !important;
+  --sidebar-row-layout-wrapper-background: #333 !important;
+}
+
+/* Sidebar */
+body.bee--cs .widget-bar--cs {
+  background-color: #222 !important;
+  color: #ffffff !important;
+}
+
+.widget-bar.widget-bar--cs .properties-panel__title--cs {
+  border-color: #555 !important;
+}
+
+.widgets-bar-columns__indicator--cs {
+  background-color: #333 !important;
+}
+
+.icon--color-base,
+.icon--color-light {
+  opacity: 0.14;
+}
+
+.sidebar-draggable--cs {
+  color: #ffffff !important;
+}
+
+.sidebar-draggable--cs svg,
+.sidebar-draggable--cs svg path {
+  fill: #ffffff !important;
+}
+
+.wrapper-color-selector--cs input {
+  background-color: #1a1a1a !important;
+}
+
+/* Page Stage */
+.page-stage {
+  background-color: #1a1a1a !important;
+  border-color: #555 !important;
+}
+
+.radiogroup-button--cs {
+  background-color: #1a1a1a;
+}
