@@ -1,6 +1,9 @@
 import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig, IEntityContentJson, IToken } from '@beefree.io/sdk/dist/types/bee'
-import { AUTH_PROXY_URL, DEFAULT_TEMPLATE_URL, DEFAULT_CLIENT_CONFIG } from '../config/constants'
+import { 
+  AUTH_PROXY_URL, DEFAULT_TEMPLATE_URL, DEFAULT_CLIENT_CONFIG,
+  COMMENT_USER_HANDLE, COMMENT_USER, COMMENT_USER_COLOR, MOCKED_COMMENT_ID
+} from '../config/constants'
 import type { BeefreeInstance } from '../types'
 
 // Beefree SDK initialization
@@ -22,8 +25,29 @@ export const authenticate = async (uid: string): Promise<Response> => {
   })
 }
 
-const loadTemplate = (): Promise<IEntityContentJson> => 
-  fetch(templateUrl).then(response => response.json())
+
+const loadTemplate = async (): Promise<IEntityContentJson> => {
+  const template = await fetch(templateUrl).then(response => response.json())
+  // Add the comments object at the root level, alongside 'page'
+  return {
+    ...template,
+    comments: {
+      [MOCKED_COMMENT_ID]: {
+        content: "This is a sample comment to demonstrate the showComment feature. In a real scenario, comments would be loaded from your system's database.",
+        parentCommentId: null,
+        elementId: "fe3aa935-3660-4822-858a-c79a8726f659",
+        mentions: [],
+        responses: [],
+        timestamp: "2025-11-12T17:44:07.843Z",
+        author: {
+          userHandle: COMMENT_USER_HANDLE,
+          username: COMMENT_USER,
+          userColor: COMMENT_USER_COLOR
+        }
+      }
+    }
+  }
+}
 
 const removeLoadingOverlay = (): void => {
   const loadingOverlay = document.getElementById('loading-overlay')

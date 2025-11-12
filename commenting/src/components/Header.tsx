@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import BeefreeSDK from '@beefree.io/sdk'
+import { MOCKED_COMMENT_ID} from '../config/constants'
 
 interface HeaderProps {
   onToggleComments: () => void
@@ -27,8 +28,7 @@ export const Header = ({ onToggleComments, onShowComment, beefreeInstance }: Hea
 
   const handleShowMockedComment = () => {
     // Mock comment ID - in a real scenario, this would be a real comment from your system
-    const mockCommentId = 'demo-comment-123'
-    onShowComment(mockCommentId)
+    onShowComment(MOCKED_COMMENT_ID)
   }
 
   return (
