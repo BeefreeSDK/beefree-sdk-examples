@@ -13,7 +13,7 @@ export const useToast = () => {
   }, [])
 
   const addToast = useCallback((toast: Omit<ToastProps, 'onClose'>) => {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
     const newToast: ToastWithId = {
       ...toast,
       id,
