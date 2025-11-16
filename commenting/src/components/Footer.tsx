@@ -24,7 +24,7 @@ export const Footer = () => {
           <p>Users can edit or delete their own comments. Copy comment text and paste it directly into the content area for quick edits.</p>
         </div>
         <div className="feature-card">
-          <h3>� onComment Callback</h3>
+          <h3>🔔 onComment Callback</h3>
           <p>Handle NEW_COMMENT, COMMENT_EDITED, COMMENT_DELETED, COMMENT_THREAD_RESOLVED, and COMMENT_THREAD_REOPENED events to build notifications.</p>
         </div>
         <div className="feature-card">
