@@ -1,5 +1,5 @@
 import type { IBeeConfig } from '@beefree.io/sdk/dist/types/bee'
-import { DEFAULT_UID, DEFAULT_CONTAINER, COMMENT_USER,COMMENT_USER_COLOR, COMMENT_USER_HANDLE  } from './constants'
+import { DEFAULT_UID, DEFAULT_CONTAINER, COMMENT_USER, COMMENT_USER_COLOR, COMMENT_USER_HANDLE  } from './constants'
 
 export const clientConfig: IBeeConfig = {
   container: DEFAULT_CONTAINER,
