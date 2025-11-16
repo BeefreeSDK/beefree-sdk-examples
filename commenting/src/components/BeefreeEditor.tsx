@@ -29,9 +29,27 @@ export const BeefreeEditor = ({ customCss, onInstanceCreated, onCommentEvent }: 
           ...clientConfig,
           customCss,
           role: role || 'editor',
+          hooks: {
+            getMentions: {
+               handler: async (resolve, _, searchText) => {
+                console.log('searchText --> ', searchText)
+                const mockUsers = [
+                  { uid: '1', value: 'Alice', username: 'alice@example.com', userColor: '#FF6B6B' },
+                  { uid: '2', value: 'Bob', username: 'bob@example.com', userColor: '#4ECDC4' },
+                  { uid: '3', value: 'Charlie', username: 'charlie@example.com', userColor: '#45B7D1' },
+                  { uid: '4', value: 'Diana', username: 'diana@example.com', userColor: '#FFA07A' },
+                  { uid: '5', value: 'Eve', username: 'eve@example.com', userColor: '#98D8C8' }
+                ]
+
+                const filteredUsers = typeof searchText === 'string' ? mockUsers.filter(user => 
+                  user.username.toLowerCase().includes(searchText.toLowerCase())
+                ) : mockUsers
+
+                resolve(filteredUsers)
+               }
+            }
+          },
           onComment: (data: BeePluginOnCommentPayload) => {
-            console.log('comments --> ', data)
-            
             if (onCommentEvent) {
               const changeType = data.change?.type
               const payload = data.change?.payload

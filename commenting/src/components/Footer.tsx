@@ -28,10 +28,6 @@ export const Footer = () => {
           <p>Handle NEW_COMMENT, COMMENT_EDITED, COMMENT_DELETED, COMMENT_THREAD_RESOLVED, and COMMENT_THREAD_REOPENED events to build notifications.</p>
         </div>
         <div className="feature-card">
-          <h3>🔍 Comment Preview</h3>
-          <p>Hover over comment icons to see preview of the last comment. Automatically highlights the row where threads are posted.</p>
-        </div>
-        <div className="feature-card">
           <h3>👁️ Reviewer Role</h3>
           <p>Set role: 'reviewer' to allow users to add comments without editing content. Perfect for stakeholder reviews and approvals.</p>
         </div>
