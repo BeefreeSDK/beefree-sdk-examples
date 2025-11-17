@@ -6,12 +6,11 @@ import { clientConfig } from '../config/clientConfig'
 import { ToastProps } from './Toast'
 
 interface BeefreeEditorProps {
-  customCss?: string
   onInstanceCreated: (instance: BeefreeSDK) => void
   onCommentEvent?: (toast: Omit<ToastProps, 'onClose'>) => void
 }
 
-export const BeefreeEditor = ({ customCss, onInstanceCreated, onCommentEvent }: BeefreeEditorProps) => {
+export const BeefreeEditor = ({ onInstanceCreated, onCommentEvent }: BeefreeEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const initializationRef = useRef(false)
 
@@ -128,7 +127,7 @@ export const BeefreeEditor = ({ customCss, onInstanceCreated, onCommentEvent }: 
     // Small delay to ensure DOM is ready
     const timer = setTimeout(initializeEditor, 100)
     return () => clearTimeout(timer)
-  }, [customCss, onInstanceCreated, onCommentEvent])
+  }, [onInstanceCreated, onCommentEvent])
 
   return (
     <div>
