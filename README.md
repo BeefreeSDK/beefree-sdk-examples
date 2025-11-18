@@ -256,6 +256,30 @@ All examples now use a consistent, modern full-stack TypeScript architecture:
 - **🔗 Direct PDF Access**: Open exported PDFs in new browser tabs
 - **🎯 Template Format Support**: Both HTML and JSON template export
 
+## 🔧 Development Tools
+
+### ESLint Configuration
+
+All examples share a single ESLint configuration located at the root of the monorepo (`.eslintrc.cjs`). This ensures consistent code quality across all projects.
+
+#### Running ESLint
+
+```bash
+# From the root of the repository
+npm install          # Install ESLint dependencies once at root level
+npm run lint         # Check all projects for linting issues
+npm run lint:fix     # Automatically fix linting issues
+```
+
+#### How It Works
+
+- **Single Configuration**: `.eslintrc.cjs` at the root applies to all subfolders
+- **Centralized Dependencies**: ESLint and plugins installed only in root `package.json`
+- **No Duplication**: No need to copy configs or install dependencies in each project
+- **Project Independence**: Individual projects can still be copied and will work with their own dependencies for building/running
+
+**Note**: When copying an individual project folder to work independently, you may want to copy the root `.eslintrc.cjs` to that project and add ESLint dependencies to that project's `package.json` if you need linting outside of this monorepo.
+
 ## 🤝 Contributing
 
 Each example follows these principles:
@@ -265,6 +289,7 @@ Each example follows these principles:
 - ✅ **Security Best Practices**: Backend-only credentials, secure token management
 - ✅ **Comprehensive Documentation**: Detailed setup and usage instructions
 - ✅ **Shared Infrastructure**: Consistent authentication and patterns across examples
+- ✅ **Code Quality**: Shared ESLint configuration for consistent linting rules
 - ✅ **Accessibility**: WCAG-compliant UI components and keyboard navigation
 - ✅ **Performance**: Optimized builds, lazy loading, and efficient state management
 

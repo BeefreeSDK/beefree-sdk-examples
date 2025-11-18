@@ -1,0 +1,31 @@
+{
+  "name": "beefree-sdk-examples",
+  "version": "1.0.0",
+  "description": "Collection of Beefree SDK example projects",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
+    "lint:fix": "eslint . --ext ts,tsx,js --fix"
+  },
+  "keywords": [
+    "beefree",
+    "sdk",
+    "examples",
+    "monorepo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeefreeSDK/beefree-sdk-examples.git"
+  },
+  "author": "Beefree",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.3.3"
+  }
+}
