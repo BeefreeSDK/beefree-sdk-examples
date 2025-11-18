@@ -1,0 +1,14 @@
+export const AUTH_PROXY_URL = import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL || '/auth/token'
+export const DEFAULT_TEMPLATE_URL = import.meta.env.VITE_BEEFREE_TEMPLATE_URL || 'https://rsrc.getbee.io/api/templates/m-bee'
+export const DEFAULT_UID = 'demo-app-123'
+export const DEFAULT_CONTAINER = 'bee-plugin-container'
+export const DEFAULT_CLIENT_CONFIG = {
+  container: DEFAULT_CONTAINER,
+  uid: DEFAULT_UID,
+}
+
+export const COMMENT_USER = 'Beefree User'
+export const COMMENT_USER_COLOR = '#F54927'
+export const COMMENT_USER_HANDLE = 'beefree_user'
+
+export const MOCKED_COMMENT_ID = '037e6427-bf55-4eed-aaa8-137381947130'
