@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import BeefreeSDK from '@beefree.io/sdk'
-import { IBeeConfig, BeePluginOnCommentPayload } from '@beefree.io/sdk/dist/types/bee'
+import { IBeeConfig, BeePluginOnCommentPayload, BeePluginRoles } from '@beefree.io/sdk/dist/types/bee'
 import { initializeBeefreeSDK } from '../services/beefree'
 import { clientConfig } from '../config/clientConfig'
 import { ToastProps } from './Toast'
@@ -26,8 +26,8 @@ export const BeefreeEditor = ({ onInstanceCreated, onCommentEvent }: BeefreeEdit
         
         const config: IBeeConfig = {
           ...clientConfig,
-          customCss,
-          role: role || 'editor',
+          //@ts-expect-error
+          role: role || BeePluginRoles.REVIEWER,
           hooks: {
             getMentions: {
                handler: async (resolve, _, searchText) => {

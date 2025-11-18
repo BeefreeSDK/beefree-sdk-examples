@@ -19,13 +19,13 @@ Beefree SDK is an embeddable no-code builder that gives your end users the freed
 
 Each example demonstrates production-ready implementation of specific Beefree SDK features with modern development practices:
 
-### 🔐 **Authentication & Security**
-- [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE**
-  - **Enterprise-grade authentication** with automatic token refresh
-  - **Full-stack TypeScript** architecture with React + TypeScript Express.js server
-  - **Backend security** with credential isolation
-  - **Production-ready error handling** and state management
-  - **🔍 API Monitor Panel** - Real-time API debugging with request/response inspection
+### � **Collaboration & Commenting**
+- [**� commenting**](./commenting/) - **✅ COMPLETE**
+  - **Real-time commenting system** with toast notifications
+  - **Collaborative editing** with Beefree SDK commenting features
+  - **React + TypeScript** with modern development stack
+  - **Shared authentication** via secure-auth-example server
+  - **Start command**: `npm run start:commenting` (from root)
 
 ### 🎨 **Interface Customization**
 - [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE**
@@ -33,6 +33,8 @@ Each example demonstrates production-ready implementation of specific Beefree SD
   - **Real-time theme switching** with localStorage persistence
   - **CSS variable architecture** for maintainable styling
   - **React + TypeScript** with modern development stack
+  - **Shared authentication** via secure-auth-example server
+  - **Start command**: `npm run start:custom-css` (from root)
 
 ### 📄 **Content Export & Integration**
 - [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE**
@@ -40,12 +42,15 @@ Each example demonstrates production-ready implementation of specific Beefree SD
   - **Multiple export options** (page size, orientation, quality)
   - **Real-time progress tracking** with visual indicators
   - **Export history management** with direct PDF access
+  - **Standalone server** with its own authentication
 
-### 🔧 **Shared Infrastructure**
-- [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE**
-  - **Reusable authentication module** for consistency
+### 🔐 **Authentication & Security**
+- [**� secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE**
+  - **Enterprise-grade authentication server** with automatic token refresh
+  - **TypeScript Express.js server** for backend security
+  - **Shared by**: commenting and custom-css-example
   - **JWT token management** with security best practices
-  - **Shared across all examples** for unified auth experience
+  - **Production-ready error handling** and state management
 
 ### 🚧 Planned Examples (Future Development)
 
@@ -86,7 +91,64 @@ Each example demonstrates production-ready implementation of specific Beefree SD
 - **Node.js 16+** (for JavaScript examples)
 - **Beefree SDK credentials** from [Developer Console](https://developers.beefree.io)
 
-### ⚡ Fast Setup
+### ⚡ Fast Setup (All-in-One Commands)
+
+The easiest way to run the examples is using the root-level start commands that handle all dependencies automatically:
+
+#### 💬 Commenting Example
+```bash
+# From the root of the repository
+npm install                  # Install root dependencies
+cd secure-auth-example && npm install && cd ..  # Install auth server dependencies
+cd commenting && npm install && cd ..            # Install commenting dependencies
+
+# Configure authentication (one-time setup)
+cd secure-auth-example
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+cd ..
+
+# Start both commenting app and auth server together
+npm run start:commenting
+```
+
+Opens at: `http://localhost:5173` (commenting) + `http://localhost:3000` (auth server)
+
+#### 🎨 Custom CSS Example
+```bash
+# From the root of the repository
+npm install                  # Install root dependencies
+cd secure-auth-example && npm install && cd ..  # Install auth server dependencies
+cd custom-css-example && npm install && cd ..    # Install custom-css dependencies
+
+# Configure authentication (one-time setup)
+cd secure-auth-example
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+cd ..
+
+# Start both custom-css app and auth server together
+npm run start:custom-css
+```
+
+Opens at: `http://localhost:5174` (custom-css) + `http://localhost:3000` (auth server)
+
+#### 📄 PDF Export Example
+```bash
+# From the root of the repository
+cd template-export-pdf-example
+npm install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+
+# Start both frontend and backend
+npm run dev        # Frontend on http://localhost:5174
+npm run server:dev # Backend on http://localhost:3001 (in separate terminal)
+```
+
+### 🔧 Manual Setup (Individual Examples)
+
+If you prefer to run examples individually or work on a single project:
 
 1. **Clone repository**:
 ```bash
@@ -96,14 +158,10 @@ cd beefree-sdk-examples
 
 2. **Choose an example**:
 ```bash
-# Secure Authentication
 cd secure-auth-example
-
-# OR Custom CSS Theming
-cd custom-css-example
-
-# OR PDF Export
-cd template-export-pdf-example
+# OR cd custom-css-example
+# OR cd commenting
+# OR cd template-export-pdf-example
 ```
 
 3. **Install & configure**:
@@ -116,20 +174,15 @@ cp .env.example .env
 4. **Run example**:
 ```bash
 npm start
-# OR for React examples
+# OR
 yarn dev
 ```
 
-5. **Open in browser**:
-- **secure-auth-example**: `http://localhost:8080` (frontend) + `http://localhost:3000` (backend)
-- **custom-css-example**: `http://localhost:8081` (requires secure-auth-example running)
-- **template-export-pdf-example**: `http://localhost:5174` (frontend) + `http://localhost:3001` (backend)
+**Note**: `commenting` and `custom-css-example` require the `secure-auth-example` server to be running. Use the root-level start commands for convenience.
 
 ### 🔐 Environment Variables
 
-Create a `.env` file in each example directory with the required variables:
-
-#### 🔐 secure-auth-example (React + TypeScript)
+#### 🔐 secure-auth-example (Required for commenting and custom-css)
 ```env
 # Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
@@ -138,21 +191,11 @@ BEEFREE_CLIENT_SECRET=your_client_secret_here
 # Server Configuration
 PORT=3000
 NODE_ENV=development
-
-# Frontend Configuration
-VITE_PORT=8080
 ```
 
-#### 🎨 custom-css-example (React + TypeScript)
-```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+**Used by**: `commenting`, `custom-css-example` (via auth proxy)
 
-# Template URL for default template
-VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-```
-
-#### 📄 template-export-pdf-example (React + TypeScript)
+#### 📄 template-export-pdf-example
 ```env
 # Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
@@ -169,14 +212,17 @@ VITE_PORT=5174
 
 **🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. Always use server-side only.
 
+**Note**: `commenting` and `custom-css-example` don't need their own `.env` files - they automatically connect to the `secure-auth-example` auth server.
+
 ## 🎯 Example Status
 
-| Example | Status | Stack | Ports | Key Features |
-|---------|--------|-------|-------|--------------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS+TS Server | 8080/3000 | Enterprise auth, API monitor, token refresh, full-stack TypeScript |
-| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
-| 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
-| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |
+| Example | Status | Stack | Ports | Start Command | Key Features |
+|---------|--------|-------|-------|---------------|--------------|
+| � **commenting** | ✅ **Ready** | React+TS | 5173 | `npm run start:commenting` | Real-time comments, toast notifications |
+| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 5174 | `npm run start:custom-css` | Dynamic themes, CSS variables, real-time switching |
+| 🔐 **secure-auth-example** | ✅ **Ready** | TS Server | 3000 | Used by above examples | Enterprise auth, token refresh, JWT management |
+| 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | Individual setup | PDF export, progress tracking, export history |
+| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | - | JWT tokens, security best practices, reusable |
 
 ## 🏗️ Architecture
 
@@ -190,12 +236,15 @@ All examples use the **shared authentication module** (`shared/auth.js`) for:
 ### Example Structure
 ```
 beefree-sdk-examples/
+├── .eslintrc.cjs                  # 🔧 Shared ESLint configuration
+├── package.json                   # 🚀 Root scripts (start:commenting, start:custom-css)
 ├── shared/
 │   └── auth.js                    # 🔧 Shared authentication module
-├── secure-auth-example/           # 🔐 Vanilla JS - Production-ready secure auth
+├── commenting/                    # � React+TS - Real-time commenting
 ├── custom-css-example/            # 🎨 React+TS - Advanced theming system
+├── secure-auth-example/           # 🔐 TS Server - Auth server for commenting & custom-css
 ├── template-export-pdf-example/   # 📄 React+TS - PDF export with progress tracking
-└── README.md                     # 📖 This file
+└── README.md                      # 📖 This file
 ```
 
 ### Architecture Approaches
