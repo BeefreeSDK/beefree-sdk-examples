@@ -9,6 +9,8 @@
     "lint:fix": "eslint . --ext ts,tsx,js --fix",
     "start:commenting": "concurrently \"cd commenting-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"commenting,auth-server\" --prefix-colors \"cyan,magenta\"",
     "start:custom-css": "concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "start:autosave": "concurrently \"cd auto-save-template-versioning && yarn dev\" \"cd secure-auth-example && yarn server:dev\" --names \"autosave,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "start:template-pdf": "cd template-export-pdf-example && yarn dev",
     "prepare": "husky"
   },
   "husky": {
