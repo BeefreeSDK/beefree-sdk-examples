@@ -22,16 +22,14 @@ export const BeefreeEditor = ({ onInstanceCreated, onCommentEvent }: BeefreeEdit
       try {
         // Check for role in URL params
         const params = new URLSearchParams(window.location.search)
-        const role = params.get('role') as 'editor' | 'reviewer' | null
+        const role = params.get('role') as BeePluginRoles.REVIEWER | undefined
         
         const config: IBeeConfig = {
           ...clientConfig,
-          //@ts-expect-error
-          role: role || BeePluginRoles.REVIEWER,
+          role: role,
           hooks: {
             getMentions: {
                handler: async (resolve, _, searchText) => {
-                console.log('searchText --> ', searchText)
                 const mockUsers = [
                   { uid: '1', value: 'Alice', username: 'alice@example.com', userColor: '#FF6B6B' },
                   { uid: '2', value: 'Bob', username: 'bob@example.com', userColor: '#4ECDC4' },
