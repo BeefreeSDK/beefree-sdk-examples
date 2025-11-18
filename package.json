@@ -8,7 +8,16 @@
     "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx,js --fix",
     "start:commenting": "concurrently \"cd commenting-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"commenting,auth-server\" --prefix-colors \"cyan,magenta\"",
-    "start:custom-css": "concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\""
+    "start:custom-css": "concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "prepare": "husky"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": "eslint"
   },
   "keywords": [
     "beefree",
@@ -29,6 +38,8 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "typescript": "^5.3.3"
   }
 }
