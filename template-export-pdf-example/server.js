@@ -13,11 +13,6 @@ const __dirname = dirname(__filename);
 // Configure dotenv
 dotenv.config();
 
-// Import shared authentication module (will need to be converted to ES modules too)
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { setupAuthEndpoint } = require('../shared/auth');
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -34,24 +29,8 @@ const upload = multer({
   storage: multer.memoryStorage()
 });
 
-// Setup Beefree SDK Authentication using shared module
-setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET);
-
-// Beefree SDK Authentication helper
-async function getBeefreeToken() {
-  try {
-    const { authenticateBeefree } = require('../shared/auth');
-    const tokenData = await authenticateBeefree(
-      process.env.BEEFREE_CLIENT_ID,
-      process.env.BEEFREE_CLIENT_SECRET,
-      'pdf-export-demo'
-    );
-    return tokenData.access_token;
-  } catch (error) {
-    console.error('❌ Authentication error:', error);
-    throw error;
-  }
-}
+// Note: Authentication is handled by secure-auth-example server on port 3000
+// This server only handles PDF export functionality
 
 // Export template to PDF using Content Services API
 app.post('/api/export/pdf', async (req, res) => {
@@ -85,8 +64,15 @@ app.post('/api/export/pdf', async (req, res) => {
     console.log('🔄 Starting PDF export...');
     console.log('📋 Export options:', exportOptions);
 
-    // Get Beefree token for Content Services API
-    const token = await getBeefreeToken();
+    // Get Beefree token for Content Services API from Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        error: 'Missing authorization token',
+        message: 'Please provide a valid Bearer token in the Authorization header'
+      });
+    }
+    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Prepare export request according to Beefree API format
     const exportData = {};
@@ -239,12 +225,12 @@ app.listen(PORT, () => {
   console.log(`📄 Version: 2.0.0 (React + TypeScript)`);
   console.log(`🌐 Server running at: http://localhost:${PORT}`);
   console.log(`🔧 API endpoints:`);
-  console.log(`   • POST /auth/token - Authentication`);
   console.log(`   • POST /api/export/pdf - PDF Export`);
   console.log(`   • GET /api/health - Health Check`);
+  console.log(`\n🔐 Authentication:`);
+  console.log(`   • ⚠️  Authentication handled by secure-auth-example (port 3000)`);
+  console.log(`   • ⚠️  Make sure secure-auth-example is running!`);
   console.log(`\n📋 Environment check:`);
-  console.log(`   • BEEFREE_CLIENT_ID: ${process.env.BEEFREE_CLIENT_ID ? '✅ Set' : '❌ Missing'}`);
-  console.log(`   • BEEFREE_CLIENT_SECRET: ${process.env.BEEFREE_CLIENT_SECRET ? '✅ Set' : '❌ Missing'}`);
   console.log(`   • BEEFREE_CS_API_KEY: ${process.env.BEEFREE_CS_API_KEY ? '✅ Set' : '❌ Missing'}`);
   console.log(`   • BEEFREE_CS_API_URL: ${process.env.BEEFREE_CS_API_URL || 'https://api.getbee.io (default)'}`);
   console.log(`\n🎯 Ready for PDF export operations!`);

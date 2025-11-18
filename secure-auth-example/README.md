@@ -2,6 +2,12 @@
 
 This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
 
+**🔗 Authentication Provider**: This example serves as the **central authentication server** (port 3000) for other examples including:
+- `custom-css-example` (port 8081)
+- `multi-builder-switch-example` (port 8083)
+
+**Note**: `template-export-pdf-example` is standalone and has its own authentication server.
+
 ## ✨ Key Features
 
 ### 🔐 **Enterprise-Grade Security**
@@ -564,18 +570,28 @@ When contributing to this example:
 
 ## 🔗 Integration with Other Examples
 
-This example serves as the **authentication provider** for other examples:
+This example serves as the **central authentication provider** for other examples:
 
-- **custom-css-example**: Uses this server for auth proxy
-- **template-export-pdf-example**: Shares authentication logic
-- **Future examples**: Can leverage the shared auth module
+- **custom-css-example** ⚠️ **REQUIRES THIS SERVER** - Uses port 3000 for auth proxy
+- **multi-builder-switch-example** ⚠️ **REQUIRES THIS SERVER** - Uses port 3000 for auth proxy
+- **template-export-pdf-example** ✅ **STANDALONE** - Has its own integrated auth server
+- **Future examples**: Can leverage this shared auth infrastructure
+
+### **How It Works**
+1. This server runs on **port 3000** with CORS enabled for:
+   - `http://localhost:8081` (custom-css-example)
+   - `http://localhost:8083` (multi-builder-switch-example)
+2. Other examples proxy their `/auth/*` requests to this server via Vite proxy configuration
+3. This server handles authentication with Beefree SDK and returns tokens to clients
 
 ### **Shared Authentication Module**
 Located in `../shared/auth.js`, this module provides:
-- Consistent authentication logic
-- Token management utilities  
-- Error handling patterns
-- Security best practices
+- Consistent authentication logic across all examples
+- Token management utilities with JWT support
+- Error handling patterns and validation
+- Security best practices implementation
+
+**Important**: Keep this server running when using `custom-css-example` or `multi-builder-switch-example`.
 
 ---
 

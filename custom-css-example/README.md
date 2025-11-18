@@ -143,13 +143,29 @@ const savedTheme = localStorage.getItem('theme') as ThemeType || ''
 
 ### **Prerequisites**
 - Node.js 16+
-- Running `secure-auth-example` for authentication (port 3000)
-- Beefree SDK credentials
+- **⚠️ REQUIRED: `secure-auth-example` must be running** (port 3000) - This example depends on the secure-auth-example authentication server
+- Beefree SDK credentials configured in secure-auth-example
 
 ### **Installation**
+
+**Step 1: Start the authentication server**
 ```bash
-# Clone and navigate
-cd custom-css-example
+# In a separate terminal, navigate to secure-auth-example
+cd ../secure-auth-example
+
+# Install and configure if not done yet
+yarn install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+
+# Start the auth server (MUST be running on port 3000)
+yarn dev
+```
+
+**Step 2: Install and configure this example**
+```bash
+# Navigate to custom-css-example
+cd ../custom-css-example
 
 # Install dependencies
 yarn install
@@ -175,6 +191,9 @@ VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 - **Vite Proxy**: Comment out or omit `VITE_BEEFREE_AUTH_PROXY_URL` to use the configured Vite proxy (`/auth/token`)
 
 ### **Development**
+
+**⚠️ IMPORTANT: Ensure secure-auth-example is running first!**
+
 ```bash
 # Start development server
 yarn dev
@@ -191,7 +210,7 @@ yarn type-check
 
 ### **Open in browser**
 - **Frontend**: http://localhost:8081
-- **Auth Backend**: http://localhost:3000 (must be running)
+- **Auth Backend**: http://localhost:3000 ⚠️ **MUST be running** (from secure-auth-example)
 
 ## 🎯 Usage Guide
 

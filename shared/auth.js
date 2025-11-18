@@ -64,7 +64,7 @@ async function authenticateBeefree(clientId, clientSecret, uid) {
 function setupAuthEndpoint(app, clientId, clientSecret) {
     app.post('/auth/token', async (req, res) => {
         try {
-            const { uid } = req.body;
+            const { uid, clientId: requestClientId, clientSecret: requestClientSecret } = req.body;
             
             if (!uid) {
                 return res.status(400).json({ 
@@ -72,13 +72,18 @@ function setupAuthEndpoint(app, clientId, clientSecret) {
                 });
             }
 
-            if (!clientId || !clientSecret) {
+            // Use builder-specific credentials if provided, otherwise use default server credentials
+            const effectiveClientId = requestClientId || clientId;
+            const effectiveClientSecret = requestClientSecret || clientSecret;
+
+            if (!effectiveClientId || !effectiveClientSecret) {
                 return res.status(500).json({ 
-                    error: 'Missing Beefree credentials in server configuration' 
+                    error: 'Missing Beefree credentials in server configuration or request' 
                 });
             }
 
-            const tokenData = await authenticateBeefree(clientId, clientSecret, uid);
+            console.log(`🔐 Using ${requestClientId ? 'builder-specific' : 'default'} credentials for authentication`);
+            const tokenData = await authenticateBeefree(effectiveClientId, effectiveClientSecret, uid);
             
             res.json(tokenData);
             

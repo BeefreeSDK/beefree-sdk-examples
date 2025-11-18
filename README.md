@@ -20,32 +20,51 @@ Beefree SDK is an embeddable no-code builder that gives your end users the freed
 Each example demonstrates production-ready implementation of specific Beefree SDK features with modern development practices:
 
 ### 🔐 **Authentication & Security**
-- [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE**
+- [**🔐 secure-auth-example**](./secure-auth-example/) - **✅ COMPLETE** 🔑 **AUTH PROVIDER**
+  - **Stack**: Frontend + Backend (React + TypeScript Express.js)
+  - **Ports**: 8080 (frontend) + 3000 (backend)
+  - **Uses**: `shared/auth.js` for authentication logic
+  - **Purpose**: Central authentication server for `custom-css-example` and `multi-builder-switch-example`
   - **Enterprise-grade authentication** with automatic token refresh
-  - **Full-stack TypeScript** architecture with React + TypeScript Express.js server
   - **Backend security** with credential isolation
-  - **Production-ready error handling** and state management
-  - **🔍 API Monitor Panel** - Real-time API debugging with request/response inspection
+  - **🔍 API Monitor Panel** - Real-time API debugging
+  - **⚠️ Must be running** for dependent examples
 
 ### 🎨 **Interface Customization**
-- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE**
+- [**🎨 custom-css-example**](./custom-css-example/) - **✅ COMPLETE** ⚠️ **DEPENDS ON secure-auth**
+  - **Stack**: Frontend only (React + TypeScript)
+  - **Port**: 8081
+  - **Requires**: `secure-auth-example:3000` must be running
   - **Dynamic theming system** with 5 pre-built themes
   - **Real-time theme switching** with localStorage persistence
   - **CSS variable architecture** for maintainable styling
-  - **React + TypeScript** with modern development stack
 
 ### 📄 **Content Export & Integration**
-- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE**
+- [**📄 template-export-pdf-example**](./template-export-pdf-example/) - **✅ COMPLETE** ⚠️ **DEPENDS ON secure-auth**
+  - **Stack**: Frontend + Backend (React + Express.js)
+  - **Ports**: 5174 (frontend) + 3001 (backend for PDF only)
+  - **Requires**: `secure-auth-example:3000` must be running (auth)
+  - **Backend purpose**: PDF export only (authentication handled externally)
   - **Advanced PDF export** via Beefree Content Services API
   - **Multiple export options** (page size, orientation, quality)
   - **Real-time progress tracking** with visual indicators
-  - **Export history management** with direct PDF access
+
+### 🏗️ **Multi-Builder & Advanced Features**
+- [**🏗️ multi-builder-switch-example**](./multi-builder-switch-example/) - **✅ COMPLETE** ⚠️ **DEPENDS ON secure-auth**
+  - **Stack**: Frontend only (React + TypeScript)
+  - **Port**: 8083
+  - **Requires**: `secure-auth-example:3000` must be running
+  - **Dynamic builder switching** between Email, Page, and Popup builders
+  - **Seamless transitions** without page reload
+  - **Builder-specific configurations** and templates
 
 ### 🔧 **Shared Infrastructure**
-- [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE**
+- [**🔧 shared/auth.js**](./shared/) - **✅ COMPLETE** 🔑 **Core Module**
   - **Reusable authentication module** for consistency
   - **JWT token management** with security best practices
-  - **Shared across all examples** for unified auth experience
+  - **Used by**: `secure-auth-example` (server) and `template-export-pdf-example` (server)
+  - **Type**: Code module (imported by Node.js servers, not a runtime service)
+  - **Provides**: Centralized authentication logic for all examples
 
 ### 🚧 Planned Examples (Future Development)
 
@@ -88,42 +107,73 @@ Each example demonstrates production-ready implementation of specific Beefree SD
 
 ### ⚡ Fast Setup
 
-1. **Clone repository**:
-```bash
-git clone <repository-url>
-cd beefree-sdk-examples
-```
+#### **Option 1: Standalone Example** (No Dependencies)
 
-2. **Choose an example**:
+**🔐 secure-auth-example** only:
 ```bash
-# Secure Authentication
+# 1. Navigate to example
 cd secure-auth-example
 
-# OR Custom CSS Theming
-cd custom-css-example
-
-# OR PDF Export
-cd template-export-pdf-example
-```
-
-3. **Install & configure**:
-```bash
-npm install
+# 2. Install & configure
+yarn install
 cp .env.example .env
 # Edit .env with your Beefree SDK credentials
+
+# 3. Run
+yarn dev
+
+# 4. Open browser
+# http://localhost:8080 (frontend) + port 3000 (backend)
 ```
 
-4. **Run example**:
+#### **Option 2: Examples Requiring Authentication Server**
+
+**🎨 custom-css-example**, **🏗️ multi-builder-switch-example**, or **📄 template-export-pdf-example**:
+
+**Step 1: Start the authentication server** (in a separate terminal)
 ```bash
-npm start
-# OR for React examples
+cd secure-auth-example
+yarn install
+cp .env.example .env
+# Edit .env with your Beefree SDK credentials
+yarn dev  # Runs on port 3000 - MUST stay running
+```
+
+**Step 2: Start your chosen example** (in a new terminal)
+```bash
+# Choose one:
+cd custom-css-example               # http://localhost:8081
+# OR
+cd multi-builder-switch-example     # http://localhost:8083
+# OR
+cd template-export-pdf-example      # http://localhost:5174 + 3001
+
+yarn install
+cp .env.example .env
+# Edit .env if needed (add Content Services API key for template-export-pdf)
 yarn dev
 ```
 
-5. **Open in browser**:
-- **secure-auth-example**: `http://localhost:8080` (frontend) + `http://localhost:3000` (backend)
-- **custom-css-example**: `http://localhost:8081` (requires secure-auth-example running)
-- **template-export-pdf-example**: `http://localhost:5174` (frontend) + `http://localhost:3001` (backend)
+### 🔗 Example Dependencies
+
+| Example | Stack | Ports | External Runtime Deps | Backend Purpose | Status |
+|---------|-------|-------|----------------------|-----------------|--------|
+| 🔐 **secure-auth-example** | Frontend + Backend | 8080/3000 | ✅ None | Authentication | 🔑 Auth provider |
+| 🎨 **custom-css-example** | Frontend only | 8081 | ⚠️ `secure-auth:3000` | N/A | Uses external auth |
+| 🏗️ **multi-builder-switch-example** | Frontend only | 8083 | ⚠️ `secure-auth:3000` | N/A | Uses external auth |
+| 📄 **template-export-pdf-example** | Frontend + Backend | 5174/3001 | ⚠️ `secure-auth:3000` | PDF export only | Uses external auth |
+| 🔧 **shared/auth.js** | Node.js module | - | N/A | N/A | Core module |
+
+**Legend:**
+- **Stack**: Indica se il progetto include solo frontend o anche backend
+- **External Runtime Deps**: Altri progetti che devono essere in esecuzione
+- **Backend Purpose**: Cosa fa il backend (se presente)
+
+**✅ Architettura Allineata:**
+**TUTTI i frontend** (`custom-css`, `multi-builder`, `template-export-pdf`) **dipendono da `secure-auth-example:3000` per l'autenticazione**.
+
+- `custom-css` e `multi-builder`: Solo frontend React
+- `template-export-pdf`: Frontend React + Backend Express (ma **solo per PDF export, non per autenticazione**)
 
 ### 🔐 Environment Variables
 
@@ -171,32 +221,221 @@ VITE_PORT=5174
 
 ## 🎯 Example Status
 
-| Example | Status | Stack | Ports | Key Features |
-|---------|--------|-------|-------|--------------|
-| 🔐 **secure-auth-example** | ✅ **Ready** | React+TS+TS Server | 8080/3000 | Enterprise auth, API monitor, token refresh, full-stack TypeScript |
-| 🎨 **custom-css-example** | ✅ **Ready** | React+TS | 8081 | Dynamic themes, CSS variables, real-time switching |
-| 📄 **template-export-pdf-example** | ✅ **Ready** | React+TS | 5174/3001 | PDF export, progress tracking, export history |
-| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js | - | JWT tokens, security best practices, reusable |
+| Example | Status | Stack Type | Ports | Depends on secure-auth? | Key Features |
+|---------|--------|------------|-------|------------------------|--------------|
+| 🔐 **secure-auth-example** | ✅ **Ready** | Frontend + Backend (Auth) | 8080/3000 | N/A (is the auth server) | Auth provider, API monitor |
+| 🎨 **custom-css-example** | ✅ **Ready** | Frontend only | 8081 | ⚠️ **YES** | Dynamic themes, CSS variables |
+| 📄 **template-export-pdf-example** | ✅ **Ready** | Frontend + Backend (PDF) | 5174/3001 | ⚠️ **YES** | PDF export, progress tracking |
+| 🏗️ **multi-builder-switch-example** | ✅ **Ready** | Frontend only | 8083 | ⚠️ **YES** | Multi-builder, transitions |
+| 🔧 **shared/auth.js** | ✅ **Ready** | Node.js module | - | N/A | Core auth module |
+
+**Nota Importante:** 
+- **secure-auth-example** è il server di autenticazione centrale
+- **Tutti gli altri esempi frontend** richiedono che `secure-auth-example:3000` sia in esecuzione
+- **template-export-pdf** ha un backend, ma SOLO per export PDF - l'autenticazione viene da `secure-auth-example`
 
 ## 🏗️ Architecture
 
-### Shared Authentication
-All examples use the **shared authentication module** (`shared/auth.js`) for:
-- ✅ Consistent token management
-- ✅ Automatic token refresh
-- ✅ Error handling
-- ✅ Security best practices
+### 🔐 Authentication Architecture (Simplified)
+
+**IMPORTANTE**: Tutti gli esempi funzionano **ESATTAMENTE ALLO STESSO MODO** dal punto di vista dell'autenticazione!
+
+#### **Come Funziona l'Autenticazione (TUTTI gli esempi)**
+
+**1. Frontend (identico per tutti):**
+```typescript
+// Tutti i frontend fanno la stessa chiamata:
+const response = await fetch('/auth/token', {
+  method: 'POST',
+  body: JSON.stringify({ uid: 'user-123' })
+})
+const token = await response.json()
+const beeSDK = new BeefreeSDK(token)
+```
+
+**2. Backend (usa shared/auth.js):**
+```javascript
+// secure-auth-example/server.ts E template-export-pdf-example/server.js:
+const { setupAuthEndpoint } = require('../shared/auth.js')
+setupAuthEndpoint(app, CLIENT_ID, CLIENT_SECRET)
+// Questo crea l'endpoint POST /auth/token
+```
+
+#### **🔑 shared/auth.js - Il Modulo Magico**
+
+Questo modulo Node.js contiene tutta la logica di autenticazione:
+- Chiamata all'API Beefree (`https://auth.getbee.io/loginV2`)
+- Gestione delle credenziali
+- Validazione e error handling
+- Ritorna un `IToken` valido per il SDK
+
+**Usato da:**
+- ✅ `secure-auth-example/server.ts` → espone `/auth/token` su porta **3000**
+- ✅ `template-export-pdf-example/server.js` → espone `/auth/token` su porta **3001**
+
+#### **🔄 Due Pattern di Deployment**
+
+La **LOGICA è identica**, cambia solo **dove gira il server**:
+
+**Pattern A - Server Centralizzato:**
+```
+custom-css-example (porta 8081)
+  ↓ chiama /auth/token (proxy Vite)
+  ↓
+secure-auth-example (porta 3000) ← usa shared/auth.js
+  ↓ ritorna IToken
+  ↓
+custom-css-example riceve token e avvia SDK
+```
+
+```
+multi-builder-switch-example (porta 8083)
+  ↓ chiama /auth/token (proxy Vite)
+  ↓
+secure-auth-example (porta 3000) ← usa shared/auth.js
+  ↓ ritorna IToken
+  ↓
+multi-builder riceve token e avvia SDK
+```
+
+**Pattern B - Server Integrato:**
+```
+template-export-pdf-example (porta 5174 frontend)
+  ↓ chiama /auth/token (stesso server)
+  ↓
+template-export-pdf-example/server.js (porta 3001) ← usa shared/auth.js
+  ↓ ritorna IToken
+  ↓
+frontend riceve token e avvia SDK
+```
+
+#### **🎯 Cosa Significa "Standalone" vs "Dipendente"**
+
+- **custom-css-example** e **multi-builder-switch-example**: 
+  - Frontend standalone che si connette a un server di auth esterno
+  - **Dipendenza runtime**: devono connettersi a `secure-auth-example:3000`
+  
+- **template-export-pdf-example**:
+  - Ha sia frontend che backend nello stesso progetto
+  - **Standalone**: non dipende da altri progetti in esecuzione
+  - Ma usa la **stessa logica** di `shared/auth.js`
 
 ### Example Structure
 ```
 beefree-sdk-examples/
 ├── shared/
-│   └── auth.js                    # 🔧 Shared authentication module
-├── secure-auth-example/           # 🔐 Vanilla JS - Production-ready secure auth
-├── custom-css-example/            # 🎨 React+TS - Advanced theming system
-├── template-export-pdf-example/   # 📄 React+TS - PDF export with progress tracking
-└── README.md                     # 📖 This file
+│   └── auth.js                    # 🔧 LOGICA AUTENTICAZIONE CONDIVISA
+│                                  # Funzione: setupAuthEndpoint()
+│                                  # NON è un servizio, è solo codice
+│
+├── secure-auth-example/           # 🔐 FRONTEND + BACKEND (SERVER CENTRALE)
+│   ├── server.ts                  # Importa shared/auth.js
+│   │                              # Espone POST /auth/token su porta 3000
+│   └── src/                       # Frontend React (porta 8080)
+│
+├── custom-css-example/            # 🎨 SOLO FRONTEND
+│   └── src/                       # Chiama /auth/token → proxy → secure-auth:3000
+│       └── services/beefree.ts    # fetch('/auth/token', ...)
+│
+├── multi-builder-switch-example/  # 🏗️ SOLO FRONTEND
+│   └── src/                       # Chiama /auth/token → proxy → secure-auth:3000
+│       └── services/beefreeMultiService.ts  # fetch('/auth/token', ...)
+│
+├── template-export-pdf-example/   # 📄 FRONTEND + BACKEND (INTEGRATO)
+│   ├── server.js                  # Importa shared/auth.js
+│   │                              # Espone POST /auth/token su porta 3001
+│   └── src/                       # Frontend React (porta 5174)
+│       └── services/beefree.ts    # Chiama /auth/token → stesso server 3001
+│
+└── README.md                      # 📖 This file
 ```
+
+### 🔄 Flusso di Autenticazione (IDENTICO per tutti)
+
+**Step 1 - Frontend chiama /auth/token:**
+```typescript
+// Stesso codice in custom-css, multi-builder, template-export-pdf:
+const response = await fetch('/auth/token', {
+  method: 'POST',
+  body: JSON.stringify({ uid: 'user-123' })
+})
+```
+
+**Step 2 - Server risponde usando shared/auth.js:**
+```javascript
+// Stesso codice in secure-auth-example e template-export-pdf:
+const { setupAuthEndpoint } = require('../shared/auth.js')
+setupAuthEndpoint(app, CLIENT_ID, CLIENT_SECRET)
+// Questo gestisce POST /auth/token
+```
+
+**Step 3 - Frontend riceve token e avvia SDK:**
+```typescript
+// Stesso codice in tutti:
+const token = await response.json()
+const beeSDK = new BeefreeSDK(token)
+```
+
+### 📊 Architettura Visuale
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  shared/auth.js                     │
+│         (Logica di autenticazione comune)           │
+│                                                      │
+│  setupAuthEndpoint(app, clientId, clientSecret)     │
+│  ↓                                                   │
+│  Crea endpoint: POST /auth/token                    │
+│  ↓                                                   │
+│  Chiama Beefree API e ritorna IToken                │
+└──────────────┬──────────────────────┬───────────────┘
+               │                      │
+               │ (import)             │ (import)
+               │                      │
+     ┌─────────▼─────────┐  ┌────────▼──────────────┐
+     │  secure-auth      │  │  template-export-pdf  │
+     │  server.ts        │  │  server.js            │
+     │  PORTA 3000       │  │  PORTA 3001           │
+     │  ┌──────────────┐ │  │  ┌─────────────────┐  │
+     │  │POST /auth/   │ │  │  │POST /auth/      │  │
+     │  │token         │ │  │  │token            │  │
+     │  └──────────────┘ │  │  └─────────────────┘  │
+     └─────────┬─────────┘  └────────┬──────────────┘
+               │                     │
+               │                     │
+               │ (HTTP)              │ (HTTP stesso server)
+               │                     │
+     ┌─────────┴─────────┐           │
+     │                   │           │
+┌────▼─────┐   ┌─────────▼──┐   ┌───▼──────────┐
+│ custom-  │   │ multi-     │   │ template-pdf │
+│ css      │   │ builder    │   │ (frontend)   │
+│ :8081    │   │ :8083      │   │ :5174        │
+│          │   │            │   │              │
+│ Frontend │   │ Frontend   │   │ Frontend     │
+│ React    │   │ React      │   │ React        │
+└──────────┘   └────────────┘   └──────────────┘
+```
+
+### 🎯 Chi Ha Bisogno di Chi
+
+| Progetto | Stack Type | Deve Essere in Esecuzione? | Si Connette a |
+|----------|------------|---------------------------|---------------|
+| `shared/auth.js` | Node.js module | ❌ NO (è solo codice) | - |
+| `secure-auth-example` | Frontend + Backend (Auth) | ✅ SI (porte 8080/3000) | Beefree API |
+| `custom-css-example` | Frontend only | ✅ SI (porta 8081) | → `secure-auth:3000` |
+| `multi-builder-switch` | Frontend only | ✅ SI (porta 8083) | → `secure-auth:3000` |
+| `template-export-pdf` | Frontend + Backend (PDF) | ✅ SI (porte 5174/3001) | → `secure-auth:3000` + Beefree CS API |
+
+**📌 Punto Chiave:** TUTTI i frontend ora dipendono da `secure-auth-example:3000` per l'autenticazione!
+
+### ✅ Riassunto Semplice
+
+**La logica di autenticazione è IDENTICA grazie a `shared/auth.js`.**
+
+**La differenza è solo organizzativa:**
+- **Architettura Microservizi**: `custom-css` e `multi-builder` sono frontend puri che si connettono a un server di auth condiviso (`secure-auth-example`)
+- **Architettura Monolitica**: `template-export-pdf` include frontend + backend nello stesso progetto
 
 ### Architecture Approaches
 
