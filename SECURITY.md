@@ -1,4 +1,4 @@
-Thanks for helping make Bee Plugin safe for everyone.
+Thanks for helping make Beefree SDK Examples safe for everyone.
 
 ## Security
 
