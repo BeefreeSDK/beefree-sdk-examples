@@ -10,7 +10,7 @@ If you believe you have found a security vulnerability in any Bee Content Design
 
 **Please do not report security vulnerabilities through public GitHub issues, discussions, pull requests or any other public place.**
 
-Instead, please send an email to support[@]beefree.io. or compile the form at https://beefree.io/report-security-issue/
+Instead, please send an email to support[@]beefree.io or compile the form at https://beefree.io/report-security-issue/
 
 Please include as much of the information listed below as you can to help us better understand and resolve the issue:
 
