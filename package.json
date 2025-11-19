@@ -14,7 +14,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.ts": "eslint"
+    "*.{ts,tsx,js,jsx,cjs}": "eslint"
   },
   "keywords": [
     "beefree",
