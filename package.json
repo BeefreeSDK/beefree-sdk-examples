@@ -13,12 +13,6 @@
     "start:template-pdf": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && yarn dev",
     "prepare": "husky"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "*.ts": "eslint"
   },
