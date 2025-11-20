@@ -142,28 +142,78 @@ const savedTheme = localStorage.getItem('theme') as ThemeType || ''
 ## 🚀 Quick Start
 
 ### **Prerequisites**
-- Node.js 16+
-- Running `secure-auth-example` for authentication (port 3000)
+- Node.js 22+ and Yarn
 - Beefree SDK credentials
+- The `secure-auth-example` server running for authentication
 
-### **Installation**
+### Option 1: Run from Repository Root (Recommended)
+
+The easiest way to run this example is using the start command from the repository root:
+
 ```bash
-# Clone and navigate
-cd custom-css-example
-
-# Install dependencies
-yarn install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your configuration
+# From the beefree-sdk-examples root directory
+yarn start:custom-css
 ```
 
-### **Environment Configuration**
-Create `.env` file:
+This single command will:
+- ✅ Automatically install all dependencies (root, custom-css-example, and secure-auth-example)
+- ✅ Start the authentication server (port 3000)
+- ✅ Start the custom CSS example (port 8081)
+
+Then open your browser to `http://localhost:8081`
+
+**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+
+### Option 2: Run Manually (Advanced)
+
+If you prefer to run the example independently, you need to manually start both the authentication server and the custom CSS example:
+
+#### 1. Install Dependencies
+
+First, install dependencies for both the custom-css-example and the secure-auth-example:
+
+```bash
+# In the custom-css-example folder
+yarn install
+
+# In the secure-auth-example folder
+cd ../secure-auth-example
+yarn install
+cd ../custom-css-example
+```
+
+#### 2. Configure Environment
+
+Configure the secure-auth-example with your Beefree SDK credentials:
+
+```bash
+cd ../secure-auth-example
+cp .env.example .env
+```
+
+Edit `secure-auth-example/.env`:
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+
+Optionally, configure the custom-css-example:
+
+```bash
+cd ../custom-css-example
+cp .env.example .env
+```
+
+Edit `custom-css-example/.env` if needed:
 ```env
 # Auth proxy URL (points to secure-auth-example)
-# Use direct URL for cross-origin requests, or comment out to use Vite proxy
 VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
 
 # Template URL for default template
@@ -174,11 +224,30 @@ VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 - **Direct URL**: Set `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` for direct backend communication
 - **Vite Proxy**: Comment out or omit `VITE_BEEFREE_AUTH_PROXY_URL` to use the configured Vite proxy (`/auth/token`)
 
-### **Development**
-```bash
-# Start development server
-yarn dev
+#### 3. Start Authentication Server
 
+In a separate terminal, start the secure-auth-example server:
+
+```bash
+cd ../secure-auth-example
+yarn server:dev
+```
+
+The auth server should be running on `http://localhost:3000`
+
+#### 4. Start Custom CSS Example
+
+In another terminal, start the custom CSS example:
+
+```bash
+cd ../custom-css-example
+yarn start
+```
+
+Open your browser to `http://localhost:5174`
+
+### **Additional Commands**
+```bash
 # Build for production
 yarn build
 
@@ -188,10 +257,6 @@ yarn preview
 # Type checking
 yarn type-check
 ```
-
-### **Open in browser**
-- **Frontend**: http://localhost:8081
-- **Auth Backend**: http://localhost:3000 (must be running)
 
 ## 🎯 Usage Guide
 
