@@ -56,30 +56,81 @@ template-export-pdf-example/
 └── auth.js                     # Shared authentication module
 ```
 
-## 🛠️ Quick Start
+## � Quick Start
 
-1. **Install dependencies**:
+### Prerequisites
+- Node.js 22+ and Yarn
+- Beefree SDK credentials
+- Beefree Content Services API key
+
+### Option 1: Run from Repository Root (Recommended)
+
+The easiest way to run this example is using the start command from the repository root:
+
 ```bash
+# From the beefree-sdk-examples root directory
+yarn start:template-pdf
+```
+
+This single command will:
+- ✅ Automatically install all dependencies
+- ✅ Start both the frontend (port 5174) and backend server (port 3001) concurrently
+
+Then open your browser to `http://localhost:5174`
+
+**Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+BEEFREE_CS_API_KEY=your_content_services_api_key_here
+BEEFREE_CS_API_URL=https://api.getbee.io
+PORT=3001
+VITE_PORT=5174
+```
+
+**Note**: This example requires the **Beefree Content Services API key** in addition to the standard SDK credentials. Get this from your [Developer Console](https://developers.beefree.io).
+
+### Option 2: Run Manually (Advanced)
+
+If you prefer to run the example independently:
+
+#### 1. Install Dependencies
+
+```bash
+# In the template-export-pdf-example folder
 yarn install
 ```
 
-2. **Configure credentials**:
+#### 2. Configure Environment
+
 ```bash
-cp env.example .env
-# Edit .env with your Beefree SDK credentials from https://developers.beefree.io
-# Add your Content Services API key
+cp .env.example .env
 ```
 
-3. **Start development environment**:
+Edit `.env` with your credentials:
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+BEEFREE_CS_API_KEY=your_content_services_api_key_here
+BEEFREE_CS_API_URL=https://api.getbee.io
+PORT=3001
+VITE_PORT=5174
+```
+
+**Note**: Unlike other examples, this one has its own backend server and **does not require** the `secure-auth-example` server to be running.
+
+#### 3. Start Development Environment
+
 ```bash
 yarn dev
 ```
-This runs both the React development server and the Express backend concurrently.
 
-4. **Open in browser**:
-```
-http://localhost:5174
-```
+This command starts both:
+- **Frontend** (port 5174): React + Vite development server
+- **Backend** (port 3001): Express.js server with PDF export API
+
+Open your browser to `http://localhost:5174`
 
 ## 🚀 Available Scripts
 
