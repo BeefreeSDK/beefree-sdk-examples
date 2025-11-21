@@ -8,6 +8,8 @@ A practical, ready-to-run example demonstrating how to integrate the **Beefree S
 - 🔨 Building a collaborative email editing platform
 - 🎯 Looking for production-ready code patterns
 
+> **📋 Plan Requirements**: The commenting feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. It is **not available** on Free and Essentials plans. Check your plan at the [Beefree Developer Console](https://developers.beefree.io).
+
 ---
 
 ## ✨ Features Demonstrated
@@ -41,59 +43,79 @@ The demo handles all comment event types:
 
 ---
 
-## 📁 Project Structure
-
-```
-commenting/
-├── src/
-│   ├── components/
-│   │   ├── App.tsx                # Main application component
-│   │   ├── Header.tsx             # Demo controls and actions
-│   │   ├── BeefreeEditor.tsx      # Beefree SDK integration
-│   │   ├── Footer.tsx             # Feature showcase
-│   │   ├── Toast.tsx              # Individual toast notification
-│   │   └── ToastContainer.tsx     # Toast management container
-│   ├── hooks/
-│   │   └── useToast.ts            # Toast notification management
-│   ├── services/
-│   │   └── beefree.ts             # Beefree SDK initialization & config
-│   ├── config/
-│   │   ├── clientConfig.ts        # Beefree SDK client configuration
-│   │   └── constants.ts           # Application constants
-│   ├── types/
-│   │   └── index.d.ts             # TypeScript type definitions
-│   ├── styles.css                 # Application styles
-│   └── index.tsx                  # React entry point
-├── public/
-│   └── images/                    # Static assets
-├── index.html                     # HTML entry point
-├── vite.config.ts                 # Vite configuration
-├── tsconfig.json                  # TypeScript configuration
-├── package.json                   # Dependencies and scripts
-├── .env.example                   # Environment variables template
-└── README.md                      # This file
-```
-
----
-
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 16+ and Yarn
+- Node.js 22+ and Yarn
 - A Beefree SDK account with Commenting enabled
 - The `secure-auth-example` server running for authentication
 
-### 1. Install Dependencies
+### Option 1: Run from Repository Root (Recommended)
+
+The easiest way to run this example is using the start command from the repository root:
+
 ```bash
-yarn install
+# From the beefree-sdk-examples root directory
+yarn start:commenting
 ```
 
-### 2. Configure Environment
+This single command will:
+- ✅ Automatically install all dependencies (root, commenting-example, and secure-auth-example)
+- ✅ Start the authentication server (port 3000)
+- ✅ Start the commenting example (port 8081)
+
+Then open your browser to `http://localhost:8081`
+
+**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+
+### Option 2: Run Manually (Advanced)
+
+If you prefer to run the example independently, you need to manually start both the authentication server and the commenting example:
+
+#### 1. Install Dependencies
+
+First, install dependencies for both the commenting example and the secure-auth-example:
+
 ```bash
+# In the commenting-example folder
+yarn install
+
+# In the secure-auth-example folder
+cd ../secure-auth-example
+yarn install
+cd ../commenting-example
+```
+
+#### 2. Configure Environment
+
+Configure the secure-auth-example with your Beefree SDK credentials:
+
+```bash
+cd ../secure-auth-example
 cp .env.example .env
 ```
 
-Edit `.env` if needed:
+Edit `secure-auth-example/.env`:
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+
+Optionally, configure the commenting example:
+
+```bash
+cd ../commenting-example
+cp .env.example .env
+```
+
+Edit `commenting-example/.env` if needed:
 ```env
 # Auth proxy URL (points to secure-auth-example)
 VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
@@ -102,27 +124,30 @@ VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 
 # Development server port
-VITE_PORT=8082
+VITE_PORT=8081
 ```
 
-### 3. Start Authentication Server
-The commenting example requires the secure-auth-example server for authentication:
+#### 3. Start Authentication Server
+
+In a separate terminal, start the secure-auth-example server:
 
 ```bash
-# In a separate terminal
 cd ../secure-auth-example
-yarn install
 yarn server:dev
 ```
 
 The auth server should be running on `http://localhost:3000`
 
-### 4. Start Development Server
+#### 4. Start Commenting Example
+
+In another terminal, start the commenting example:
+
 ```bash
-yarn dev
+cd ../commenting-example
+yarn start
 ```
 
-Open your browser to `http://localhost:8082`
+Open your browser to `http://localhost:5173` (or the port specified in your `.env`)
 
 ---
 
@@ -220,24 +245,7 @@ Before using this feature, you must enable commenting in your [Beefree SDK Conso
 4. Toggle **"Enable commenting"** to ON
 5. Save your changes
 
-### 2. **Configure User Information**
-
-When initializing the SDK, provide user details to identify who is commenting:
-
-```typescript
-const beeConfig: IBeeConfig = {
-  uid: 'unique-user-id',
-  container: 'bee-plugin-container',
-  username: 'John Doe',           // Display name in comments
-  userHandle: 'user-123',          // Unique identifier
-  userColor: '#667eea',            // Color for user's comments
-  commenting: true                 // Enable/disable commenting
-}
-```
-
-**Important:** These parameters identify the current user in all comment activities.
-
-### 3. **Handle Comment Events with onComment**
+### 2. **Handle Comment Events with onComment**
 
 The `onComment` callback is triggered for every comment action. This is where you implement your notification logic:
 
@@ -270,7 +278,7 @@ onComment: (data: BeePluginOnCommentPayload) => {
 
 **See it in action:** Check `src/components/BeefreeEditor.tsx` for the complete implementation.
 
-### 4. **Reviewer Role - Comment Without Editing**
+### 3. **Reviewer Role - Comment Without Editing**
 
 Enable stakeholders to comment without modifying the design:
 
@@ -289,7 +297,7 @@ const beeConfig: IBeeConfig = {
 
 **See it in action:** Click "Switch to Reviewer" button in the demo header.
 
-### 5. **Navigate to Specific Comments**
+### 4. **Navigate to Specific Comments**
 
 Jump directly to a comment programmatically using the `showComment` method:
 
@@ -303,7 +311,7 @@ beeInstance.showComment('037e6427-bf55-4eed-aaa8-137381947130')
 
 **Use case:** Deep linking from email notifications or external comment management systems.
 
-### 6. **Pre-load Comments in Templates**
+### 5. **Pre-load Comments in Templates**
 
 Include existing comments when loading a template:
 
@@ -351,20 +359,6 @@ onComment: (data) => {
   // e.g., send to analytics, trigger webhooks, etc.
 }
 ```
-
----
-
-## 🔐 Authentication
-
-This example uses the **secure-auth-example** server for authentication:
-
-1. The client requests a token from `/auth/token`
-2. The server validates credentials and generates a JWT
-3. The token is used to initialize the Beefree SDK
-
-For production, replace this with your own authentication system.
-
----
 
 ## 📦 Available Scripts
 

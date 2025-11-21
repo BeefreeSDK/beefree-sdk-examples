@@ -1,0 +1,43 @@
+{
+  "name": "beefree-sdk-examples",
+  "version": "1.0.0",
+  "description": "Collection of Beefree SDK example projects",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
+    "lint:fix": "eslint . --ext ts,tsx,js --fix",
+    "start:commenting": "yarn install --check-files && cd commenting-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd commenting-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"commenting,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "start:autosave": "yarn install --check-files && cd auto-save-template-versioning && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd auto-save-template-versioning && yarn dev\" \"cd secure-auth-example && yarn server:dev\" --names \"autosave,auth-server\" --prefix-colors \"cyan,magenta\"",
+    "start:template-pdf": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && yarn dev",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,cjs}": "eslint"
+  },
+  "keywords": [
+    "beefree",
+    "sdk",
+    "examples",
+    "monorepo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeefreeSDK/beefree-sdk-examples.git"
+  },
+  "author": "Beefree",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/config-conventional": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "typescript": "^5.3.3"
+  }
+}
