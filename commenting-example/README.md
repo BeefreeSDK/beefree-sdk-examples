@@ -8,6 +8,8 @@ A practical, ready-to-run example demonstrating how to integrate the **Beefree S
 - 🔨 Building a collaborative email editing platform
 - 🎯 Looking for production-ready code patterns
 
+> **📋 Plan Requirements**: The commenting feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. It is **not available** on Free and Essentials plans. Check your plan at the [Beefree Developer Console](https://developers.beefree.io).
+
 ---
 
 ## ✨ Features Demonstrated
