@@ -1,0 +1,46 @@
+{
+  "name": "beefree-sdk-ai-agent-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Beefree SDK AI Agent Example - Natural Language Email Design with OpenAI Agents JS + MCP",
+  "scripts": {
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc && vite build && tsc --project tsconfig.server.json",
+    "build:client": "tsc && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "preview": "vite preview",
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix"
+  },
+  "dependencies": {
+    "@beefree.io/sdk": "9.4.0",
+    "@openai/agents": "^0.3.3",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.21.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/ws": "^8.5.13",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  }
+}
