@@ -3,8 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import { WebSocketServer, WebSocket } from 'ws'
 import http from 'http'
-import { Agent, run } from '@openai/agents'
-import { MCPClient } from '@openai/agents/mcp'
+import { Agent, run, MCPServerStreamableHttp } from '@openai/agents'
 import { z } from 'zod'
 
 // Environment validation
@@ -88,15 +87,21 @@ app.get('/health', (req, res) => {
   })
 })
 
-// Initialize MCP client for Beefree
-const mcpClient = new MCPClient({
+// Initialize MCP server for Beefree
+const beefreeMcpServer = new MCPServerStreamableHttp({
   url: 'https://api.getbee.io/v1/sdk/mcp',
-  headers: {
-    'Authorization': `Bearer ${env.BEEFREE_MCP_API_KEY}`,
-    'x-bee-uid': env.BEEFREE_UID,
-    'x-bee-mcp-session-id': 'ai-agent-session-001'
+  name: 'Beefree SDK MCP Server',
+  requestInit: {
+    headers: {
+      'Authorization': `Bearer ${env.BEEFREE_MCP_API_KEY}`,
+      'x-bee-uid': env.BEEFREE_UID,
+      'x-bee-mcp-session-id': 'ai-agent-session-001'
+    }
   }
 })
+
+// Connect to MCP server
+await beefreeMcpServer.connect()
 
 // Initialize AI agent with Beefree MCP tools
 const emailDesignAgent = new Agent({
@@ -123,7 +128,7 @@ Examples of what you can help with:
 - "Check for accessibility issues" → Run validation and report findings
 
 Be creative, helpful, and proactive in suggesting improvements to make emails look great!`,
-  tools: await mcpClient.listTools(),
+  mcpServers: [beefreeMcpServer],
   model: 'gpt-4o-mini' // Using cost-effective model, can upgrade to gpt-4o for better results
 })
 
@@ -147,23 +152,30 @@ wss.on('connection', (ws: WebSocket) => {
 
         try {
           // Run agent with streaming
-          const result = await run(emailDesignAgent, userMessage, {
-            stream: true,
-            onStream: (chunk) => {
-              // Stream AI responses back to client
-              if (chunk.type === 'text') {
-                ws.send(JSON.stringify({
-                  type: 'stream',
-                  content: chunk.text
-                }))
-              }
-            }
+          const streamResult = await run(emailDesignAgent, userMessage, {
+            stream: true
           })
+
+          let finalOutput = ''
+
+          // Stream AI responses back to client
+          for await (const event of streamResult) {
+            if (event.type === 'raw_model_stream_event' && 
+                event.data.type === 'model' && 
+                event.data.event.type === 'response.output_text.delta') {
+              const deltaText = event.data.event.delta || ''
+              finalOutput += deltaText
+              ws.send(JSON.stringify({
+                type: 'stream',
+                content: deltaText
+              }))
+            }
+          }
 
           // Send completion message
           ws.send(JSON.stringify({
             type: 'complete',
-            message: result.finalOutput || 'Task completed successfully!'
+            message: finalOutput || 'Task completed successfully!'
           }))
 
         } catch (agentError) {

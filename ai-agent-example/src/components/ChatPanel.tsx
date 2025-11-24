@@ -68,8 +68,8 @@ export const ChatPanel = () => {
               ...prev,
               {
                 id: `progress-${Date.now()}`,
-                type: 'progress',
-                content: data.message,
+                type: 'progress' as const,
+                content: data.message || '',
                 timestamp: new Date()
               }
             ])
