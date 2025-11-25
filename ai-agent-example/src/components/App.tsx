@@ -1,6 +1,7 @@
 import BeefreeSDK from '@beefree.io/sdk'
 import { BeefreeEditor } from './BeefreeEditor'
 import { ChatPanel } from './ChatPanel'
+import { Footer } from './Footer'
 import { useState } from 'react'
 import '../styles.css'
 
@@ -26,6 +27,8 @@ export const App = () => {
         
         <ChatPanel />
       </div>
+      
+      <Footer />
     </div>
   )
 }
