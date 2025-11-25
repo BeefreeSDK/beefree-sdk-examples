@@ -36,17 +36,72 @@ const app = express()
 const server = http.createServer(app)
 const wss = new WebSocketServer({ server })
 
-// Middleware
-app.use(cors({
-  origin: [
-    `http://localhost:${env.VITE_PORT}`,
-    `http://127.0.0.1:${env.VITE_PORT}`,
-    'http://localhost:8083'
-  ],
-  credentials: true
-}))
+// CORS configuration - Allow all origins in development
+const corsOptions = {
+  origin: true, // Accept all origins in development
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+  exposedHeaders: ['Content-Type'],
+  maxAge: 86400 // 24 hours
+}
+
+app.use(cors(corsOptions))
+
+// Parse JSON bodies
 app.use(express.json())
 
+// Explicit OPTIONS handler for all routes
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.sendStatus(204)
+})
+
+// Beefree authentication endpoint
+app.post('/auth/token', async (req, res) => {
+  try {
+    const { uid } = req.body
+    const userUid = uid || env.BEEFREE_UID
+    
+    console.log('🔐 Authenticating user:', userUid)
+    
+    const response = await fetch('https://auth.getbee.io/loginV2', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: env.BEEFREE_CLIENT_ID,
+        client_secret: env.BEEFREE_CLIENT_SECRET,
+        uid: userUid
+      })
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('❌ Beefree auth error:', errorText)
+      return res.status(response.status).json({
+        error: 'Authentication failed',
+        details: errorText
+      })
+    }
+
+    const tokenData = await response.json()
+    console.log('✅ Authentication successful')
+    res.json(tokenData)
+    
+  } catch (error) {
+    console.error('❌ Authentication error:', error)
+    res.status(500).json({
+      error: 'Authentication failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    })
+  }
+})
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -182,7 +237,11 @@ server.listen(PORT, () => {
    
    HTTP Server: http://localhost:${PORT}
    WebSocket: ws://localhost:${PORT}
-   Health Check: http://localhost:${PORT}/health
+   
+   API Endpoints:
+   • POST /auth/token - Beefree SDK Authentication
+   • GET /health - Health Check
+   • WebSocket - AI Agent Chat
    
    Frontend should be running on: http://localhost:${env.VITE_PORT}
    
@@ -190,6 +249,8 @@ server.listen(PORT, () => {
    - Beefree UID: ${env.BEEFREE_UID}
    - OpenAI Model: gpt-4o-mini
    - MCP Endpoint: https://api.getbee.io/v1/sdk/mcp
+   
+   ✅ All services ready (auth + MCP + AI agent)
   `)
 })
 

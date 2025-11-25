@@ -2,12 +2,12 @@
 const BACKEND_PORT = import.meta.env.VITE_BACKEND_PORT || '8083'
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST || 'localhost'
 
-export const API_AUTH_URL = `http://${BACKEND_HOST}:8081`
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 export const AUTH_URL = `${BACKEND_URL}/auth/token`
 
-export const AUTHORIZE_URL = `${API_AUTH_URL}/auth/token`
+// Use local server for authentication (no separate auth server needed)
+export const AUTHORIZE_URL = AUTH_URL
 
 // Beefree SDK configuration
 export const DEFAULT_UID = 'ai-agent-demo-user'
