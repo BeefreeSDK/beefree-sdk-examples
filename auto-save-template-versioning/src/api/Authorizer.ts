@@ -3,19 +3,17 @@ import { envs } from "../env";
 
 export class Authorizer {
   authUrl: string;
-  clientId: string;
-  clientSecret: string;
+  uid: string;
 
-  constructor(authUrl: string, clientId: string, clientSecret: string) {
+  constructor(authUrl: string, uid: string) {
     this.authUrl = authUrl;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+    this.uid = uid;
   }
 
 
   async getToken(): Promise<IToken> {
     try {
-      const requestBody = {  client_id: this.clientId, client_secret: this.clientSecret }
+      const requestBody = { uid: this.uid }
       const response = await fetch(this.authUrl, {
         method: 'POST',
         headers: {
@@ -40,8 +38,11 @@ export class Authorizer {
   }
 }
 
+// Default UID - matches the editor config uid
+// In a real app, this would come from your user session/authentication
+const DEFAULT_UID = 'user_id'
+
 export const authorizer = new Authorizer(
   envs.AUTH_PROXY_URL,
-  envs.BEEFREE_SDK_CLIENT_ID,
-  envs.BEEFREE_SDK_CLIENT_SECRET,
+  DEFAULT_UID,
 )

@@ -74,18 +74,16 @@ If you prefer to run the example independently, you need to manually start both 
 First, install dependencies for both the auto-save-template-versioning and the secure-auth-example:
 
 ```bash
-# In the auto-save-template-versioning folder
-yarn install
-
-# In the secure-auth-example folder
-cd ../secure-auth-example
+# In the root directory
+cd ./secure-auth-example
 yarn install
 cd ../auto-save-template-versioning
+yarn install
 ```
 
 #### 2. Configure Environment
 
-Configure the secure-auth-example with your Beefree SDK credentials:
+Configure the `secure-auth-example/.env` file with your Beefree SDK credentials:
 
 ```bash
 cd ../secure-auth-example
@@ -93,26 +91,32 @@ cp .env.example .env
 ```
 
 Edit `secure-auth-example/.env`:
+
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 PORT=3000
 ```
 
-Optionally, configure the auto-save example:
+If using a different custom authentication proxy, create an `auto-save-template-versioning/.env` file:
 
 ```bash
 cd ../auto-save-template-versioning
 cp .env.example .env
 ```
 
-Edit `auto-save-template-versioning/.env` if needed:
+Modify `auto-save-template-versioning/.env` with your custom proxy URL and port info:
+
 ```env
 # Auth proxy URL (points to secure-auth-example)
-VITE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
+# Template URL for default template
+VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
+# Front-end server port
+VITE_PORT=8081
 ```
 
-#### 3. Start Authentication Server
+#### 3. If using the provided Authentication Server
 
 In a separate terminal, start the secure-auth-example server:
 
