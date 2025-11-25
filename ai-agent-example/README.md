@@ -134,7 +134,7 @@ In another terminal:
 yarn dev
 ```
 
-Open your browser to `http://localhost:8082`
+Open your browser to `http://localhost:8081`
 
 ---
 

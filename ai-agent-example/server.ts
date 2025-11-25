@@ -104,7 +104,7 @@ app.post('/auth/token', async (req, res) => {
 })
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_, res) => {
   res.json({ 
     status: 'healthy',
     service: 'beefree-ai-agent-server',
