@@ -6,6 +6,6 @@ export const clientConfig: IBeeConfig = {
   uid: DEFAULT_UID,
   mcpEditorClient: {
     enabled: true,
-    sessionId: 'ai-agent-session-001', //TODO : generate unique session IDs in production
+    sessionId: 'ai-agent-session-001',
   }
 }

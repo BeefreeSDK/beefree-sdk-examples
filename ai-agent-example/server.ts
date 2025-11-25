@@ -38,45 +38,15 @@ const wss = new WebSocketServer({ server })
 
 // Middleware
 app.use(cors({
-  origin: `http://localhost:${env.VITE_PORT}`,
+  origin: [
+    `http://localhost:${env.VITE_PORT}`,
+    `http://127.0.0.1:${env.VITE_PORT}`,
+    'http://localhost:8083'
+  ],
   credentials: true
 }))
 app.use(express.json())
 
-// Beefree authentication endpoint
-app.post('/api/auth/token', async (req, res) => {
-  try {
-    const response = await fetch('https://bee-auth.getbee.io/loginV2', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        client_id: env.BEEFREE_CLIENT_ID,
-        client_secret: env.BEEFREE_CLIENT_SECRET,
-        uid: req.body.uid || env.BEEFREE_UID,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('Beefree auth error:', errorText)
-      return res.status(response.status).json({
-        error: 'Failed to authenticate with Beefree',
-        details: errorText
-      })
-    }
-
-    const data = await response.json()
-    res.json(data)
-  } catch (error) {
-    console.error('Error generating Beefree token:', error)
-    res.status(500).json({ 
-      error: 'Failed to generate authentication token',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    })
-  }
-})
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -94,8 +64,8 @@ const beefreeMcpServer = new MCPServerStreamableHttp({
   requestInit: {
     headers: {
       'Authorization': `Bearer ${env.BEEFREE_MCP_API_KEY}`,
+      'x-bee-mcp-session-id': 'ai-agent-session-001',
       'x-bee-uid': env.BEEFREE_UID,
-      'x-bee-mcp-session-id': 'ai-agent-session-001'
     }
   }
 })

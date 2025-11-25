@@ -16,7 +16,6 @@ export const App = () => {
       <header className="app-header">
         <div className="header-content">
           <h1>🤖 AI Email Designer</h1>
-          <p>Powered by Beefree SDK + OpenAI Agents</p>
         </div>
       </header>
       

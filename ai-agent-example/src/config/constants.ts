@@ -2,12 +2,14 @@
 const BACKEND_PORT = import.meta.env.VITE_BACKEND_PORT || '8083'
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST || 'localhost'
 
+export const API_AUTH_URL = `http://${BACKEND_HOST}:8081`
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
-export const AUTH_URL = `${BACKEND_URL}/api/auth/token`
+export const AUTH_URL = `${BACKEND_URL}/auth/token`
+
+export const AUTHORIZE_URL = `${API_AUTH_URL}/auth/token`
 
 // Beefree SDK configuration
-export const DEFAULT_TEMPLATE_URL = import.meta.env.VITE_BEEFREE_TEMPLATE_URL || 'https://rsrc.getbee.io/api/templates/m-bee'
 export const DEFAULT_UID = 'ai-agent-demo-user'
 export const DEFAULT_CONTAINER = 'bee-plugin-container'
 export const DEFAULT_SESSION_ID = 'ai-agent-session-001'
