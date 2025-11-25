@@ -1,6 +1,6 @@
 # 💬 Beefree SDK Commenting Example
 
-A practical, ready-to-run example demonstrating how to integrate the **Beefree SDK Commenting feature** into your application. Built with **React 19 + TypeScript + Vite**, this example shows you exactly how to enable real-time collaboration, allowing your users to add comments, start threaded discussions, and manage feedback directly within the email builder.
+A practical, ready-to-run example demonstrating how to integrate the [**Beefree SDK Commenting feature**](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/commenting) into your application. Built with **React 19 + TypeScript + Vite**, this example shows you exactly how to enable real-time collaboration, allowing your users to add comments, start threaded discussions, and manage feedback directly within the email builder.
 
 **Perfect for developers who are:**
 - 🆕 New to Beefree SDK and want to see commenting in action
@@ -8,7 +8,7 @@ A practical, ready-to-run example demonstrating how to integrate the **Beefree S
 - 🔨 Building a collaborative email editing platform
 - 🎯 Looking for production-ready code patterns
 
-> **📋 Plan Requirements**: The commenting feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. It is **not available** on Free and Essentials plans. Check your plan at the [Beefree Developer Console](https://developers.beefree.io).
+> **📋 Plan Requirements**: The commenting feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. It is **not available** on Free and Essentials plans. Check your plan in the [Beefree Developer Console](https://developers.beefree.io).
 
 ---
 
@@ -47,7 +47,7 @@ The demo handles all comment event types:
 
 ### Prerequisites
 - Node.js 22+ and Yarn
-- A Beefree SDK account with Commenting enabled
+- A Beefree SDK account with [Commenting enabled](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/commenting#how-to-activate-it)
 - The `secure-auth-example` server running for authentication
 
 ### Option 1: Run from Repository Root (Recommended)
@@ -83,18 +83,16 @@ If you prefer to run the example independently, you need to manually start both 
 First, install dependencies for both the commenting example and the secure-auth-example:
 
 ```bash
-# In the commenting-example folder
-yarn install
-
-# In the secure-auth-example folder
-cd ../secure-auth-example
+# In the main folder
+cd ./secure-auth-example
 yarn install
 cd ../commenting-example
+yarn install
 ```
 
 #### 2. Configure Environment
 
-Configure the secure-auth-example with your Beefree SDK credentials:
+Configure the `secure-auth-example/.env` file with your Beefree SDK credentials:
 
 ```bash
 cd ../secure-auth-example
@@ -102,32 +100,32 @@ cp .env.example .env
 ```
 
 Edit `secure-auth-example/.env`:
+
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 PORT=3000
 ```
 
-Optionally, configure the commenting example:
+If using a different custom authentication proxy, create a `commenting-example/.env` file:
 
 ```bash
 cd ../commenting-example
 cp .env.example .env
 ```
 
-Edit `commenting-example/.env` if needed:
+Modify `commenting-example/.env` with your custom proxy URL and port info:
+
 ```env
 # Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
-
+VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
 # Template URL for default template
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-
-# Development server port
+# Front-end server port
 VITE_PORT=8081
 ```
 
-#### 3. Start Authentication Server
+#### 3. If using the provided Authentication Server
 
 In a separate terminal, start the secure-auth-example server:
 
@@ -147,7 +145,7 @@ cd ../commenting-example
 yarn start
 ```
 
-Open your browser to `http://localhost:5173` (or the port specified in your `.env`)
+Open your browser to `http://localhost:8081` (or the port specified in your `commenting-example/.env` as VITE_PORT)
 
 ---
 
@@ -194,7 +192,7 @@ Located in `src/config/clientConfig.ts`:
 
 ```typescript
 export const clientConfig: IBeeConfig = {
-  uid: 'commenting-demo-user',      // Unique identifier for this session
+  uid: 'commenting-demo-user',       // Unique identifier for this session
   container: 'bee-plugin-container', // DOM element ID where editor loads
   username: 'Demo User',             // Display name (shown in comments)
   userHandle: 'demo-user-123',       // Unique user ID (for your system)
@@ -240,9 +238,9 @@ This example uses the `secure-auth-example` server to handle credentials securel
 
 Before using this feature, you must enable commenting in your [Beefree SDK Console](https://developers.beefree.io/):
 1. Log in to your Beefree developer account
-2. Select your application
-3. Go to Application Configuration
-4. Toggle **"Enable commenting"** to ON
+2. Click on your application's Details button
+3. Go to Application > Configure Application
+4. Scroll down to the Services section and toggle **"Commenting"** to ON (under Editing & Collaboration)
 5. Save your changes
 
 ### 2. **Handle Comment Events with onComment**
