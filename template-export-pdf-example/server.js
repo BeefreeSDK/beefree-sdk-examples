@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import multer from 'multer';
+// import multer from 'multer';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -13,10 +13,8 @@ const __dirname = dirname(__filename);
 // Configure dotenv
 dotenv.config();
 
-// Import shared authentication module (will need to be converted to ES modules too)
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { setupAuthEndpoint } = require('../shared/auth');
+// Note: Authentication is handled by secure-auth-example server (port 3000)
+// This server only handles PDF export functionality
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -29,23 +27,30 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Configure multer for file uploads
-const upload = multer({ 
+/* const upload = multer({ 
   limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
   storage: multer.memoryStorage()
-});
-
-// Setup Beefree SDK Authentication using shared module
-setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET);
+}); */
 
 // Beefree SDK Authentication helper
+// Gets token from secure-auth-example server (port 3000)
 async function getBeefreeToken() {
   try {
-    const { authenticateBeefree } = require('../shared/auth');
-    const tokenData = await authenticateBeefree(
-      process.env.BEEFREE_CLIENT_ID,
-      process.env.BEEFREE_CLIENT_SECRET,
-      'pdf-export-demo'
-    );
+    const authServerUrl = process.env.AUTH_SERVER_URL || 'http://localhost:3000';
+    const response = await fetch(`${authServerUrl}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ uid: 'pdf-export-demo' })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Authentication failed: ${response.status}`);
+    }
+
+    const tokenData = await response.json();
     return tokenData.access_token;
   } catch (error) {
     console.error('❌ Authentication error:', error);
@@ -225,7 +230,7 @@ app.get('*', (req, res) => {
 });
 
 // Error handling middleware
-app.use((error, req, res, next) => {
+app.use((error, req, res, _next) => {
   console.error('❌ Server error:', error);
   res.status(500).json({
     error: 'Internal server error',
@@ -239,13 +244,12 @@ app.listen(PORT, () => {
   console.log(`📄 Version: 2.0.0 (React + TypeScript)`);
   console.log(`🌐 Server running at: http://localhost:${PORT}`);
   console.log(`🔧 API endpoints:`);
-  console.log(`   • POST /auth/token - Authentication`);
   console.log(`   • POST /api/export/pdf - PDF Export`);
+  console.log(`   • Note: Authentication handled by secure-auth-example (port 3000)`);
   console.log(`   • GET /api/health - Health Check`);
   console.log(`\n📋 Environment check:`);
-  console.log(`   • BEEFREE_CLIENT_ID: ${process.env.BEEFREE_CLIENT_ID ? '✅ Set' : '❌ Missing'}`);
-  console.log(`   • BEEFREE_CLIENT_SECRET: ${process.env.BEEFREE_CLIENT_SECRET ? '✅ Set' : '❌ Missing'}`);
-  console.log(`   • BEEFREE_CS_API_KEY: ${process.env.BEEFREE_CS_API_KEY ? '✅ Set' : '❌ Missing'}`);
+  console.log(`   • Auth Server: ${process.env.AUTH_SERVER_URL || 'http://localhost:3000 (default)'}`);
   console.log(`   • BEEFREE_CS_API_URL: ${process.env.BEEFREE_CS_API_URL || 'https://api.getbee.io (default)'}`);
+  console.log(`   • Note: BEEFREE_CLIENT_ID and BEEFREE_CLIENT_SECRET should be in secure-auth-example/.env`);
   console.log(`\n🎯 Ready for PDF export operations!`);
 });

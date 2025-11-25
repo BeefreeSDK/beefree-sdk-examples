@@ -28,10 +28,9 @@ export function BuilderProvider({ children, staticConfig }: { children: ReactNod
     <BuilderContext.Provider value={{ builderRef, setBuilder, config, setConfig }}>
       {children}
     </BuilderContext.Provider>
-  );
-};
+  )
+}
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useBuilder = (): BuilderState => {
   const context = useContext(BuilderContext);
   if (!context) {

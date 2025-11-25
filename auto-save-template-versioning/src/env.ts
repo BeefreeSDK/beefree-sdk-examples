@@ -1,5 +1,3 @@
 export const envs = {
-  BEEFREE_SDK_CLIENT_ID: import.meta.env.VITE_BEEFREE_SDK_CLIENT_ID,
-  BEEFREE_SDK_CLIENT_SECRET: import.meta.env.VITE_BEEFREE_SDK_CLIENT_SECRET,
-  AUTH_PROXY_URL: import.meta.env.VITE_AUTH_PROXY_URL,
+  AUTH_PROXY_URL: import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL || '/auth/token',
 };
