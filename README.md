@@ -51,9 +51,27 @@ Real-time commenting system with toast notifications for collaborative editing.
 - Comment threading
 - Collaborative editing experience
 
-### How to Run
+### Setup and launch instructions
 
-To run this example, use the start command from the root of the repository:
+**Before running**, make sure to:
+
+1. Check your plan in the [Beefree Developer Console](https://developers.beefree.io):
+The commenting feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. 
+It is **not available** on Free and Essentials plans.
+2. Add your Beefree SDK credentials to the `secure-auth-example/.env` file:
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+3. Enable commenting in your [Beefree SDK Console](https://developers.beefree.io/):
+- Log in to your Beefree developer account
+- Click on your application's Details button
+- Go to Application > Configure Application
+- Scroll down to the Services section and toggle **"Commenting"** to ON (under Editing & Collaboration)
+- Save your changes
+
+To run the example, use the start command from the root of the repository:
 
 ```bash
 yarn start:commenting
@@ -61,15 +79,11 @@ yarn start:commenting
 
 This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+You can now open http://localhost:8081 in your browser.
 
-```env
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
-```
+### Troubleshooting
 
-Then open http://localhost:8081 in your browser.
+If you didn't get the example to run, take a look at the `commenting-example/README.md` for more detailed instructions 
 
 ---
 
