@@ -170,7 +170,8 @@ export const ChatPanel = () => {
 
   const handleExampleClick = (prompt: string) => {
     setInputValue(prompt)
-    // Auto-send example prompts
+    // The 100ms delay ensures that React's setInputValue state update has propagated
+    // before sendMessage is called. This avoids sending a stale value due to async state updates.
     setTimeout(() => sendMessage(prompt), 100)
   }
 

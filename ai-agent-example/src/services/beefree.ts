@@ -16,7 +16,7 @@ export const authenticate = async (uid: string): Promise<Response> => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      uid: uid
+      uid
     })
   })
 }

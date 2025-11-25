@@ -14,7 +14,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8081,
+    port: parseInt(process.env.VITE_PORT || '8081', 10),
     host: true,
     proxy: {
       '/auth': {

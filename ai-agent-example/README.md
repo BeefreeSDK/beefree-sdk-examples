@@ -61,9 +61,9 @@ yarn start:ai-agent
 This single command will:
 - ✅ Install all dependencies
 - ✅ Start the backend server with AI agent (port 8083)
-- ✅ Start the frontend development server (port 8082)
+- ✅ Start the frontend development server (port 8081)
 
-Then open your browser to `http://localhost:8082`
+Then open your browser to `http://localhost:8081`
 
 **Before running**, configure your credentials in `ai-agent-example/.env`:
 
@@ -79,7 +79,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
 PORT=8083
-VITE_PORT=8082
+VITE_PORT=8081
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -111,7 +111,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
 PORT=8083
-VITE_PORT=8082
+VITE_PORT=8081
 ```
 
 > **Important**: Your MCP API key must be MCP-compatible. Standard CSAPI keys will not work. Request access via the [beta survey](https://growens.typeform.com/to/gyH0gVgp#source=docs).
