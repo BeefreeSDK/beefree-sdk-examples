@@ -79,6 +79,13 @@ body {
   display: flex;
   flex-direction: column;
   background: white;
+  transition: all 0.3s ease;
+}
+
+.chat-panel.collapsed {
+  min-width: 48px;
+  max-width: 48px;
+  flex: 0 0 48px;
 }
 
 .panel-header {
@@ -88,6 +95,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
+}
+
+.panel-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 .panel-header h2 {
@@ -95,6 +111,37 @@ body {
   font-size: 1.1em;
   color: #2d3748;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.collapse-button {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.collapse-button:hover {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.chat-panel.collapsed .panel-header {
+  padding: 12px 8px;
+  flex-direction: column;
+  border-bottom: none;
+}
+
+.chat-panel.collapsed .header-left {
+  display: none;
 }
 
 /* Connection Status */

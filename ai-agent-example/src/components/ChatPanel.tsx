@@ -8,6 +8,7 @@ export const ChatPanel = () => {
   const [isConnected, setIsConnected] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [showExamples, setShowExamples] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
   
   const wsRef = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -174,17 +175,28 @@ export const ChatPanel = () => {
   }
 
   return (
-    <div className="chat-panel">
+    <div className={`chat-panel ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="panel-header">
-        <h2>🤖 AI Assistant</h2>
-        <div className="connection-status">
-          <span className={`status-dot ${isConnected ? 'connected' : 'disconnected'}`}></span>
-          <span className="status-text">
-            {isConnected ? 'Connected' : 'Disconnected'}
-          </span>
+        <div className="header-left">
+          <h2>🤖 AI Assistant</h2>
+          <div className="connection-status">
+            <span className={`status-dot ${isConnected ? 'connected' : 'disconnected'}`}></span>
+            <span className="status-text">
+              {isConnected ? 'Connected' : 'Disconnected'}
+            </span>
+          </div>
         </div>
+        <button 
+          className="collapse-button"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? 'Expand panel' : 'Collapse panel'}
+        >
+          {isCollapsed ? '◀' : '▶'}
+        </button>
       </div>
 
+      {!isCollapsed && (
+        <>
       <div className="chat-messages">
         {showExamples && messages.length === 0 && (
           <div className="empty-state">
@@ -262,6 +274,8 @@ export const ChatPanel = () => {
           )}
         </button>
       </form>
+      </>
+      )}
     </div>
   )
 }
