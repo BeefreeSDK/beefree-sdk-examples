@@ -6,9 +6,9 @@ export const Header = () => {
       <div className="header-content">
         {/* Title Section */}
         <div className="header-title">
-          <h1>💬 Beefree SDK Commenting Demo</h1>
+          <h1>🔀 Beefree SDK Display Conditions Demo</h1>
           <p className="header-subtitle">
-            Explore real-time collaboration features for email, page, and popup design
+            Create personalized content that changes based on recipient attributes - no code required
           </p>
         </div>
       </div>

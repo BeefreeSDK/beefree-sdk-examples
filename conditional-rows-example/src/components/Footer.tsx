@@ -1,39 +1,39 @@
 export const Footer = () => {
   return (
     <div className="feature-showcase">
-      <h2>💬 Commenting Features</h2>
+      <h2>🔀 Display Conditions Features</h2>
       <div className="feature-grid">
         <div className="feature-card">
-          <h3>💬 Add Comments & Threads</h3>
-          <p>Add comments to any content block or row. Reply to existing comments to start threaded conversations with context always visible.</p>
+          <h3>🎯 Personalized Content</h3>
+          <p>Show different content based on recipient attributes like customer tier, location, purchase history, or engagement level - all without writing code.</p>
         </div>
         <div className="feature-card">
-          <h3>✅ Resolve & Reopen Threads</h3>
-          <p>Mark threads as resolved when tasks are complete. Reopen solved threads if necessary to continue discussions.</p>
+          <h3>📋 Pre-configured Conditions</h3>
+          <p>Provide users with ready-to-use conditions grouped by categories: Customer Segment, Geography, Shopping Behavior, Product Catalog, and Engagement.</p>
         </div>
         <div className="feature-card">
-          <h3>👥 User Identification</h3>
-          <p>Each user has unique username, userHandle (unique ID), and userColor. Configure via username, userHandle, and userColor parameters.</p>
+          <h3>🔍 Browse & Search</h3>
+          <p>Users can browse conditions by category or search by keyword to quickly find the right condition for their personalization needs.</p>
         </div>
         <div className="feature-card">
-          <h3>@ Mentions</h3>
-          <p>Tag team members with @ mentions. Implement getMentions hook to provide user list and trigger notifications to mentioned users.</p>
+          <h3>⚡ Any Templating Language</h3>
+          <p>Language agnostic - use Liquid, Handlebars, or any proprietary syntax that matches your sending engine. The SDK doesn't parse the syntax.</p>
         </div>
         <div className="feature-card">
-          <h3>📝 Edit & Delete Comments</h3>
-          <p>Users can edit or delete their own comments. Copy comment text and paste it directly into the content area for quick edits.</p>
+          <h3>✏️ Edit Conditions (Advanced)</h3>
+          <p>Power users can edit the conditional syntax directly. Use permissions to control who can edit vs. who can only select pre-configured conditions.</p>
         </div>
         <div className="feature-card">
-          <h3>🔔 onComment Callback</h3>
-          <p>Handle NEW_COMMENT, COMMENT_EDITED, COMMENT_DELETED, COMMENT_THREAD_RESOLVED, and COMMENT_THREAD_REOPENED events to build notifications.</p>
+          <h3>👁️ Preview with Conditions</h3>
+          <p>Toggle display conditions on/off in Preview mode to simulate what different recipient segments will see in their final emails.</p>
         </div>
         <div className="feature-card">
-          <h3>👁️ Reviewer Role</h3>
-          <p>Set role: 'reviewer' to allow users to add comments without editing content. Perfect for stakeholder reviews and approvals.</p>
+          <h3>🔒 Role-based Permissions</h3>
+          <p>Control who can view, select, edit, or add conditions using roles and permissions. Some users can only select, others have full control.</p>
         </div>
         <div className="feature-card">
-          <h3>🔗 Deep Linking</h3>
-          <p>Use bee.showComment(commentId) to navigate directly to specific comments from notifications or external links.</p>
+          <h3>🏷️ Visual Indicators</h3>
+          <p>Rows with applied conditions show a bifurcation icon. Custom conditions (edited from defaults) are marked with a blue dot for easy identification.</p>
         </div>
       </div>
     </div>
