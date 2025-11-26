@@ -257,7 +257,7 @@ const beeConfig: IBeeConfig = {
 
 This example includes its own backend server for authentication:
 
-1. **Frontend** requests token from `/api/auth/token`
+1. **Frontend** requests token from `/auth/token`
 2. **Backend** uses Beefree credentials to generate JWT
 3. **Frontend** initializes Beefree SDK with token
 4. **AI Agent** uses MCP API key to connect to MCP server
