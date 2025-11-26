@@ -540,11 +540,11 @@ This example is part of the Beefree SDK Examples repository.
 8. **Customize UI** to match your application design
 
 ### Prompt Engineering Tips
-- **Be specific** - \"Create a 3-column layout\" vs \"Make it look good\"
+- **Be specific** - "Create a 3-column layout" vs "Make it look good"
 - **Provide context** - Include brand colors, tone, target audience
 - **Iterate** - Ask AI to refine what it created
-- **Use examples** - \"Like the Apple product launch emails\"
-- **Set constraints** - \"Keep it under 600px wide for mobile\"
+- **Use examples** - "Like the Apple product launch emails"
+- **Set constraints** - "Keep it under 600px wide for mobile"
 
 ### For Production Applications
 - ✅ Implement proper error handling and retry logic

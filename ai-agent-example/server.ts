@@ -264,9 +264,11 @@ process.on('SIGTERM', () => {
 })
 
 process.on('SIGINT', () => {
-  console.log('🛑 SIGINT received, shutting down gracefully...')
-  server.close(() => {
-    console.log('✅ Server closed')
-    process.exit(0)
-  })
+    console.log('🛑 SIGINT received, shutting down gracefully...')
+    wss.close(() => {
+        server.close(() => {
+            console.log('✅ Server closed')
+            process.exit(0)
+        })
+    })
 })
