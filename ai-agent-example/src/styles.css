@@ -30,6 +30,17 @@ body {
   z-index: 10;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-content .header-left {
+  flex: 1;
+}
+
 .header-content h1 {
   margin: 0 0 4px 0;
   font-size: 1.75em;
@@ -40,6 +51,46 @@ body {
   margin: 0;
   font-size: 0.95em;
   opacity: 0.9;
+}
+
+.docs-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.docs-link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.docs-icon {
+  font-size: 1.5em;
+}
+
+.docs-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docs-text strong {
+  font-size: 0.95em;
+  font-weight: 600;
+}
+
+.docs-text small {
+  font-size: 0.75em;
+  opacity: 0.85;
 }
 
 /* Main Content Layout */

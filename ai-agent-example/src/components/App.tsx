@@ -4,6 +4,7 @@ import { ChatPanel } from './ChatPanel'
 import { Footer } from './Footer'
 import { useState } from 'react'
 import '../styles.css'
+import Header from './Header'
 
 export const App = () => {
   const [, setBeefreeEditorInstance] = useState<BeefreeSDK | null>(null)
@@ -14,20 +15,13 @@ export const App = () => {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <div className="header-content">
-          <h1>🤖 AI Email Designer</h1>
-        </div>
-      </header>
-      
+      <Header />
       <div className="main-content">
         <div className="editor-panel">
           <BeefreeEditor onInstanceCreated={handleBeefreeInstanceCreated} />
         </div>
-        
         <ChatPanel />
       </div>
-      
       <Footer />
     </div>
   )
