@@ -1,7 +1,5 @@
-import { envs } from '../env'
-
-export const AUTH_PROXY_URL = envs.AUTH_PROXY_URL
-export const DEFAULT_TEMPLATE_URL = envs.TEMPLATE_URL
+export const AUTH_PROXY_URL = import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL || '/auth/token'
+export const DEFAULT_TEMPLATE_URL = import.meta.env.VITE_BEEFREE_TEMPLATE_URL || 'https://rsrc.getbee.io/api/templates/m-bee'
 export const DEFAULT_UID = 'pdf-export-demo'
 export const DEFAULT_CONTAINER = 'bee-plugin-container'
 
