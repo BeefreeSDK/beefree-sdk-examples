@@ -5,13 +5,14 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --names 'SERVER,CLIENT' \"npm run server\" \"npm run client\"",
-    "start": "npm run build && npm run server",
-    "server": "node server.js",
-    "client": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc && vite build && tsc --project tsconfig.server.json",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit"
   },
   "keywords": [
     "beefree",
@@ -34,10 +35,14 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
     "@types/react-dom": "^19.2.0",
+    "@types/react": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
     "concurrently": "^8.2.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vite": "^7.1.3"
   }
