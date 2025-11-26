@@ -89,7 +89,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
 PORT=8083
-VITE_PORT=8082
+VITE_PORT=8081
 ```
 
 To run the example, use the start command from the root of the repository:
