@@ -11,6 +11,7 @@
     "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\"",
     "start:autosave": "yarn install --check-files && cd auto-save-template-versioning && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd auto-save-template-versioning && yarn dev\" \"cd secure-auth-example && yarn server:dev\" --names \"autosave,auth-server\" --prefix-colors \"cyan,magenta\"",
     "start:template-pdf": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && yarn dev",
+    "start:ai-agent": "yarn install --check-files && cd ai-agent-example && yarn install --check-files && cd .. && concurrently \"cd ai-agent-example && yarn server:dev\" \"cd ai-agent-example && yarn dev\" --names \"ai-backend,ai-frontend\" --prefix-colors \"yellow,cyan\"",
     "prepare": "husky"
   },
   "lint-staged": {
