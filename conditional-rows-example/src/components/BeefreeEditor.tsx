@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig } from '@beefree.io/sdk/dist/types/bee'
 import { initializeBeefreeSDK } from '../services/beefree'
 import { clientConfig } from '../config/clientConfig'
+import { ConditionBuilderModal } from './ConditionBuilderModal'
 
 interface BeefreeEditorProps {
   onInstanceCreated: (instance: BeefreeSDK) => void
@@ -11,6 +12,10 @@ interface BeefreeEditorProps {
 export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const initializationRef = useRef(false)
+  const [isBuilderOpen, setIsBuilderOpen] = useState(false)
+  const [currentCondition, setCurrentCondition] = useState<any>(null)
+  const [conditionResolve, setConditionResolve] = useState<((value: any) => void) | null>(null)
+  const [conditionReject, setConditionReject] = useState<(() => void) | null>(null)
 
   useEffect(() => {
     const initializeEditor = async () => {
@@ -20,10 +25,22 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
       try {
         const config: IBeeConfig = {
           ...clientConfig,
+          contentDialog: {
+            rowDisplayConditions: {
+              label: 'Build Custom Condition',
+              handler: async (resolve: (value: any) => void, reject: () => void, current?: any) => {
+                setCurrentCondition(current || null)
+                setConditionResolve(() => resolve)
+                setConditionReject(() => reject)
+                setIsBuilderOpen(true)
+              },
+            },
+          },
         }
 
         const instance = await initializeBeefreeSDK(config)
         console.log('🚀 Beefree SDK demo application initialized')
+        console.log('✨ Content Dialog enabled: Users can build custom conditions')
         
         if (instance) {
           onInstanceCreated(instance)
@@ -39,6 +56,26 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
     return () => clearTimeout(timer)
   }, [onInstanceCreated])
 
+  const handleConditionConfirm = (condition: any) => {
+    if (conditionResolve) {
+      conditionResolve(condition)
+    }
+    setIsBuilderOpen(false)
+    setConditionResolve(null)
+    setConditionReject(null)
+    setCurrentCondition(null)
+  }
+
+  const handleConditionCancel = () => {
+    if (conditionReject) {
+      conditionReject()
+    }
+    setIsBuilderOpen(false)
+    setConditionResolve(null)
+    setConditionReject(null)
+    setCurrentCondition(null)
+  }
+
   return (
     <div>
       <div id="loading-overlay" className="loading-overlay">
@@ -49,6 +86,13 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
         id="bee-plugin-container" 
         ref={containerRef}
       ></div>
+
+      <ConditionBuilderModal
+        isOpen={isBuilderOpen}
+        onConfirm={handleConditionConfirm}
+        onCancel={handleConditionCancel}
+        currentCondition={currentCondition}
+      />
     </div>
   )
 }

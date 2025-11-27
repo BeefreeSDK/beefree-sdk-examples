@@ -39,10 +39,23 @@ export const ConditionsModal = ({ isOpen, onClose }: ConditionsModalProps) => {
               <li>Select any <strong>row</strong> in the email editor</li>
               <li>Click the <strong>row settings</strong> icon (gear icon)</li>
               <li>Go to the <strong>"Display Conditions"</strong> tab</li>
-              <li>Browse or search for a condition and select one</li>
+              <li>
+                <strong>Option A:</strong> Browse or search for a pre-configured condition and select one
+              </li>
+              <li>
+                <strong>Option B:</strong> Click <strong>"Build Custom Condition"</strong> to create your own condition using the visual builder
+              </li>
               <li>That row will now only show to recipients matching that condition</li>
               <li>Test it live: Click <strong>Actions</strong> (top left) → <strong>Preview</strong> to see how conditions affect the final email</li>
             </ol>
+            <div className="advanced-feature">
+              <h4>🔧 Advanced: Custom Condition Builder</h4>
+              <p>
+                This example demonstrates the <strong>Content Dialog</strong> feature for extending display conditions.
+                Instead of being limited to pre-configured conditions, users can build custom conditions on-the-fly
+                using a visual interface with dropdowns and form fields.
+              </p>
+            </div>
           </div>
 
           <div className="conditions-reference">

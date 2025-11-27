@@ -10,6 +10,7 @@ export const rowDisplayConditions = [
     description: 'Show this content only to premium tier customers',
     before: '{% if customer.tier == "premium" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Customer Segment',
@@ -17,6 +18,7 @@ export const rowDisplayConditions = [
     description: 'Show this content only to standard tier customers',
     before: '{% if customer.tier == "standard" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Customer Segment',
@@ -24,6 +26,7 @@ export const rowDisplayConditions = [
     description: 'Show this content only to users on free trial',
     before: '{% if customer.tier == "trial" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Geographic Location',
@@ -31,6 +34,7 @@ export const rowDisplayConditions = [
     description: 'Display for recipients in North America',
     before: '{% if customer.region == "north_america" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Geographic Location',
@@ -38,6 +42,7 @@ export const rowDisplayConditions = [
     description: 'Display for recipients in Europe',
     before: '{% if customer.region == "europe" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Geographic Location',
@@ -45,6 +50,7 @@ export const rowDisplayConditions = [
     description: 'Display for recipients in Asia Pacific',
     before: '{% if customer.region == "asia_pacific" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Shopping Behavior',
@@ -52,6 +58,7 @@ export const rowDisplayConditions = [
     description: 'Show to customers who made a purchase in the last 30 days',
     before: '{% if customer.lastPurchaseDays <= 30 %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Shopping Behavior',
@@ -59,6 +66,7 @@ export const rowDisplayConditions = [
     description: 'Show to customers with items in cart but no recent purchase',
     before: '{% if customer.hasCartItems and customer.lastPurchaseDays > 30 %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Shopping Behavior',
@@ -66,6 +74,7 @@ export const rowDisplayConditions = [
     description: 'Show to customers with lifetime value over $1000',
     before: '{% if customer.lifetimeValue > 1000 %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Product Catalog',
@@ -73,6 +82,7 @@ export const rowDisplayConditions = [
     description: 'Only people whose last ordered item is from Women\'s catalog',
     before: '{% if lastOrder.catalog == "Women" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Product Catalog',
@@ -80,6 +90,7 @@ export const rowDisplayConditions = [
     description: 'Only people whose last ordered item is from Men\'s catalog',
     before: '{% if lastOrder.catalog == "Men" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Product Catalog',
@@ -87,6 +98,7 @@ export const rowDisplayConditions = [
     description: 'Only people whose last ordered item is from Children\'s catalog',
     before: '{% if lastOrder.catalog == "Children" %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Engagement Level',
@@ -94,6 +106,7 @@ export const rowDisplayConditions = [
     description: 'Show to subscribers who opened at least one email in the last 90 days',
     before: '{% if subscriber.lastOpenDays <= 90 %}',
     after: '{% endif %}',
+    isActive: false,
   },
   {
     type: 'Engagement Level',
@@ -101,9 +114,12 @@ export const rowDisplayConditions = [
     description: 'Show to subscribers who haven\'t opened emails in 90+ days',
     before: '{% if subscriber.lastOpenDays > 90 %}',
     after: '{% endif %}',
+    isActive: false,
   },
 ]
 
+// Placeholder for contentDialog - will be set dynamically in BeefreeEditor component
+// because it needs access to React state and functions
 export const clientConfig: IBeeConfig = {
   container: DEFAULT_CONTAINER,
   uid: DEFAULT_UID,
