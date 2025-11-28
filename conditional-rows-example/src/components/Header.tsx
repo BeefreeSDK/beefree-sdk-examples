@@ -22,7 +22,7 @@ export const Header = () => {
             {/* Action Buttons */}
             <div className="header-actions">
               <button 
-                className="action-button action-info"
+                className="action-button action-secondary"
                 onClick={() => setIsConditionsModalOpen(true)}
               >
                 <span className="button-icon">📋</span>
@@ -35,21 +35,20 @@ export const Header = () => {
                 <span className="button-icon">🔧</span>
                 <span className="button-text">How to Build Custom Conditions</span>
               </button>
+              {/* Documentation Link */}
+              <a
+                href="https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/display-conditions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="docs-link"
+              >
+                <span className="docs-icon">📚</span>
+                <span className="docs-text">
+                  <strong>Display Conditions Docs</strong>
+                  <small>Full Documentation</small>
+                </span>
+              </a>
             </div>
-
-            {/* Documentation Link */}
-            <a
-              href="https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/display-conditions"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="docs-link"
-            >
-              <span className="docs-icon">📚</span>
-              <span className="docs-text">
-                <strong>Display Conditions Docs</strong>
-                <small>Full Documentation</small>
-              </span>
-            </a>
           </div>
         </div>
       </div>

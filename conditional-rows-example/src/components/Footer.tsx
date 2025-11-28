@@ -1,15 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const Footer = () => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const footerRef = useRef<HTMLDivElement>(null)
+
+  const handleExpand = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  useEffect(() => {
+    if (isExpanded && footerRef.current) {
+      footerRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [isExpanded])
 
   return (
     <div className={`feature-showcase ${isExpanded ? 'expanded' : ''}`}>
-      <h2 onClick={() => setIsExpanded(!isExpanded)} style={{ cursor: 'pointer' }}>
+      <h4 onClick={handleExpand} style={{ cursor: 'pointer' }}>
         🔀 Display Conditions Features {isExpanded ? '▲' : '▼'}
-      </h2>
+      </h4>
       {isExpanded && (
-        <div className="feature-grid">
+        <div className="feature-grid" >
           <div className="feature-card">
             <h3>🎯 Personalized Content</h3>
             <p>Show different content based on recipient attributes like customer tier, location, purchase history, or engagement level - all without writing code.</p>
@@ -38,7 +49,7 @@ export const Footer = () => {
             <h3>🔒 Role-based Permissions</h3>
             <p>Control who can view, select, edit, or add conditions using roles and permissions. Some users can only select, others have full control.</p>
           </div>
-          <div className="feature-card">
+          <div ref={footerRef}  className="feature-card">
             <h3>🏷️ Visual Indicators</h3>
             <p>Rows with applied conditions show a bifurcation icon. Custom conditions (edited from defaults) are marked with a blue dot for easy identification.</p>
           </div>
