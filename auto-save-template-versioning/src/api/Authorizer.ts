@@ -1,5 +1,5 @@
 import type { IToken } from "@beefree.io/sdk/dist/types/bee"
-import { envs } from "../env";
+import { AUTH_PROXY_URL, DEFAULT_UID } from "../config/constants";
 
 export class Authorizer {
   authUrl: string;
@@ -40,9 +40,8 @@ export class Authorizer {
 
 // Default UID - matches the editor config uid
 // In a real app, this would come from your user session/authentication
-const DEFAULT_UID = 'user_id'
 
 export const authorizer = new Authorizer(
-  envs.AUTH_PROXY_URL,
+  AUTH_PROXY_URL,
   DEFAULT_UID,
 )

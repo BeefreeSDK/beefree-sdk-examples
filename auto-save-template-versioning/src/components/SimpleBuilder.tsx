@@ -3,6 +3,7 @@ import BeefreeSDK from '@beefree.io/sdk'
 import { useBuilder } from "../hooks/useBuilder.tsx"
 import { useToken } from "../hooks/useToken.ts"
 import type { Authorizer } from "../api/Authorizer.ts"
+import { DEFAULT_TEMPLATE_URL } from "../config/constants.ts"
 
 type Props = {
   authorizer: Authorizer
@@ -18,8 +19,20 @@ export function SimpleBuilder({ authorizer, style, className }: Props) {
     if (builderRef.current === null && token) {
         const instance = new BeefreeSDK(token)
         console.log('- Editor instance created')
-        instance.start(config, {})
-        setBuilder(instance)
+        
+        // Load the default template from the URL
+        fetch(DEFAULT_TEMPLATE_URL)
+          .then(res => res.json())
+          .then(template => {
+            instance.start(config, template)
+            setBuilder(instance)
+          })
+          .catch(err => {
+            console.error('Failed to load default template:', err)
+            // Fallback to empty template if fetch fails
+            instance.start(config, {})
+            setBuilder(instance)
+          })
     }
   }, [token, config, setBuilder, builderRef])
 
