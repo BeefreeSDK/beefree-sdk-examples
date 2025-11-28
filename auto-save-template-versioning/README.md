@@ -39,7 +39,6 @@ A practical, ready-to-run example demonstrating how to implement **automatic tem
 ### Prerequisites
 - Node.js 22+ and Yarn
 - Beefree SDK credentials
-- The `secure-auth-example` server running for authentication
 
 ### Option 1: Run from Repository Root (Recommended)
 
@@ -51,18 +50,18 @@ yarn start:autosave
 ```
 
 This single command will:
-- ✅ Automatically install all dependencies (root, auto-save-template-versioning, and secure-auth-example)
-- ✅ Start the authentication server (port 3000)
+- ✅ Automatically install all dependencies
+- ✅ Start the authentication server (port 3002)
 - ✅ Start the auto-save example (port 5173)
 
 Then open your browser to `http://localhost:5173`
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `auto-save-template-versioning/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3002
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -71,69 +70,47 @@ If you prefer to run the example independently, you need to manually start both 
 
 #### 1. Install Dependencies
 
-First, install dependencies for both the auto-save-template-versioning and the secure-auth-example:
-
 ```bash
-# In the root directory
-cd ./secure-auth-example
-yarn install
-cd ../auto-save-template-versioning
+cd auto-save-template-versioning
 yarn install
 ```
 
 #### 2. Configure Environment
 
-Configure the `secure-auth-example/.env` file with your Beefree SDK credentials:
+Create an `auto-save-template-versioning/.env` file:
 
 ```bash
-cd ../secure-auth-example
 cp .env.example .env
 ```
 
-Edit `secure-auth-example/.env`:
+Modify `auto-save-template-versioning/.env`:
 
 ```env
+# Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+
+# Server Configuration
+PORT=3002
+VITE_PORT=5173
 ```
 
-If using a different custom authentication proxy, create an `auto-save-template-versioning/.env` file:
+#### 3. Start the Application
+
+You can start both the backend server and frontend client with a single command:
 
 ```bash
-cd ../auto-save-template-versioning
-cp .env.example .env
-```
-
-Modify `auto-save-template-versioning/.env` with your custom proxy URL and port info:
-
-```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
-# Template URL for default template
-VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-# Front-end server port
-VITE_PORT=8081
-```
-
-#### 3. If using the provided Authentication Server
-
-In a separate terminal, start the secure-auth-example server:
-
-```bash
-cd ../secure-auth-example
-yarn server:dev
-```
-
-The auth server should be running on `http://localhost:3000`
-
-#### 4. Start Auto-Save Example
-
-In another terminal, start the auto-save example:
-
-```bash
-cd ../auto-save-template-versioning
 yarn dev
+```
+
+Or run them separately in different terminals:
+
+```bash
+# Terminal 1: Backend Server
+yarn server:dev
+
+# Terminal 2: Frontend Client
+yarn client
 ```
 
 Open your browser to `http://localhost:5173`
