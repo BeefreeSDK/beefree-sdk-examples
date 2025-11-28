@@ -5,21 +5,33 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite",
-    "build": "tsc -b && vite build",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc -b && vite build && tsc --project tsconfig.server.json",
+    "build:client": "tsc -b && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit"
   },
   "dependencies": {
     "@beefree.io/sdk": "9.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vite": "^7.1.3"
   }
