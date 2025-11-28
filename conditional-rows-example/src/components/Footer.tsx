@@ -10,7 +10,10 @@ export const Footer = () => {
 
   useEffect(() => {
     if (isExpanded && footerRef.current) {
-      footerRef.current.scrollIntoView({ behavior: 'smooth' })
+      // Wait for the expansion animation to complete before scrolling
+      setTimeout(() => {
+        footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+      }, 100)
     }
   }, [isExpanded])
 
