@@ -632,10 +632,6 @@ yarn server:dev
 - **[Advanced Permissions](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/advanced-permissions)** - Role-based access control
 - **[Server-side Configurations](https://docs.beefree.io/beefree-sdk/server-side-configurations/server-side-options)** - Enable/disable features
 
-### Related Examples
-- **[secure-auth-example](../secure-auth-example/)** - Authentication server used by this demo
-- **[commenting-example](../commenting-example/)** - Collaborative commenting feature
-
 ### External Resources
 - **[Beefree SDK Console](https://developers.beefree.io/)** - Enable display conditions for your application
 - **[Beefree Pricing](https://developers.beefree.io/pricing-plans)** - Check plan requirements
