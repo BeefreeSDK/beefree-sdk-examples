@@ -1,14 +1,9 @@
+import { IPluginDisplayCondition } from '@beefree.io/sdk/dist/types/bee'
 import { useState, useEffect } from 'react'
 
 interface ConditionBuilderModalProps {
   isOpen: boolean
-  onConfirm: (condition: {
-    type: string
-    label: string
-    description: string
-    before: string
-    after: string
-  }) => void
+    onConfirm: (condition: IPluginDisplayCondition) => void
   onCancel: () => void
   currentCondition?: {
     type: string
@@ -111,6 +106,7 @@ export const ConditionBuilderModal = ({
       description: conditionDescription || 'Custom built condition',
       before: `{% if ${conditions} %}`,
       after: '{% endif %}',
+      isActive: true,
     })
   }
 

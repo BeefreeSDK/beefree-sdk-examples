@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import BeefreeSDK from '@beefree.io/sdk'
-import { IBeeConfig } from '@beefree.io/sdk/dist/types/bee'
+import { IBeeConfig, IPluginDisplayCondition, RowDisplayConditionsHandler } from '@beefree.io/sdk/dist/types/bee'
 import { initializeBeefreeSDK } from '../services/beefree'
 import { clientConfig } from '../config/clientConfig'
 import { ConditionBuilderModal } from './ConditionBuilderModal'
@@ -13,8 +13,8 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const initializationRef = useRef(false)
   const [isBuilderOpen, setIsBuilderOpen] = useState(false)
-  const [currentCondition, setCurrentCondition] = useState<any>(null)
-  const [conditionResolve, setConditionResolve] = useState<((value: any) => void) | null>(null)
+  const [currentCondition, setCurrentCondition] = useState<RowDisplayConditionsHandler | null>(null)
+  const [conditionResolve, setConditionResolve] = useState<((value: IPluginDisplayCondition) => void) | null>(null)
   const [conditionReject, setConditionReject] = useState<(() => void) | null>(null)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
           contentDialog: {
             rowDisplayConditions: {
               label: 'Build Custom Condition',
-              handler: async (resolve: (value: any) => void, reject: () => void, current?: any) => {
+              handler: async (resolve: (value: RowDisplayConditionsHandler) => void, reject: () => void, current?: RowDisplayConditionsHandler) => {
                 setCurrentCondition(current || null)
                 setConditionResolve(() => resolve)
                 setConditionReject(() => reject)
@@ -56,7 +56,7 @@ export const BeefreeEditor = ({ onInstanceCreated }: BeefreeEditorProps) => {
     return () => clearTimeout(timer)
   }, [onInstanceCreated])
 
-  const handleConditionConfirm = (condition: any) => {
+  const handleConditionConfirm = (condition: IPluginDisplayCondition) => {
     if (conditionResolve) {
       conditionResolve(condition)
     }
