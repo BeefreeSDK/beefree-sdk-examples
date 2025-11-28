@@ -1,0 +1,10 @@
+---
+description: Project specifications and coding guidelines
+alwaysApply: true
+---
+# Project Instructions
+
+The definitive source for coding standards, project structure, and best practices is located at:
+`.github/copilot-instructions.md`
+
+Please refer to and follow the guidelines in that file for all code generation and modifications.
