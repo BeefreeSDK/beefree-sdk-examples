@@ -15,7 +15,8 @@ export default defineConfig({
       },
       '/auth': {
         target: `http://localhost:${process.env.PORT || 3001}`,
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
   },

@@ -48,7 +48,7 @@ The demo handles all comment event types:
 ### Prerequisites
 - Node.js 22+ and Yarn
 - A Beefree SDK account with [Commenting enabled](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/commenting#how-to-activate-it)
-- The `secure-auth-example` server running for authentication
+- Beefree SDK credentials
 
 ### Option 1: Run from Repository Root (Recommended)
 
@@ -60,18 +60,18 @@ yarn start:commenting
 ```
 
 This single command will:
-- ✅ Automatically install all dependencies (root, commenting-example, and secure-auth-example)
-- ✅ Start the authentication server (port 3000)
-- ✅ Start the commenting example (port 8081)
+- ✅ Automatically install all dependencies
+- ✅ Start the authentication server (port 3018)
+- ✅ Start the commenting example (port 8018)
 
-Then open your browser to `http://localhost:8081`
+Then open your browser to `http://localhost:8018`
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `commenting-example/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3018
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -80,72 +80,50 @@ If you prefer to run the example independently, you need to manually start both 
 
 #### 1. Install Dependencies
 
-First, install dependencies for both the commenting example and the secure-auth-example:
-
 ```bash
-# In the main folder
-cd ./secure-auth-example
-yarn install
-cd ../commenting-example
+cd commenting-example
 yarn install
 ```
 
 #### 2. Configure Environment
 
-Configure the `secure-auth-example/.env` file with your Beefree SDK credentials:
+Create a `commenting-example/.env` file:
 
 ```bash
-cd ../secure-auth-example
 cp .env.example .env
 ```
 
-Edit `secure-auth-example/.env`:
+Modify `commenting-example/.env`:
 
 ```env
+# Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+
+# Server Configuration
+PORT=3018
+VITE_PORT=8018
 ```
 
-If using a different custom authentication proxy, create a `commenting-example/.env` file:
+#### 3. Start the Application
+
+You can start both the backend server and frontend client with a single command:
 
 ```bash
-cd ../commenting-example
-cp .env.example .env
-```
-
-Modify `commenting-example/.env` with your custom proxy URL and port info:
-
-```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
-# Template URL for default template
-VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-# Front-end server port
-VITE_PORT=8081
-```
-
-#### 3. If using the provided Authentication Server
-
-In a separate terminal, start the secure-auth-example server:
-
-```bash
-cd ../secure-auth-example
-yarn server:dev
-```
-
-The auth server should be running on `http://localhost:3000`
-
-#### 4. Start Commenting Example
-
-In another terminal, start the commenting example:
-
-```bash
-cd ../commenting-example
 yarn start
 ```
 
-Open your browser to `http://localhost:8081` (or the port specified in your `commenting-example/.env` as VITE_PORT)
+Or run them separately in different terminals:
+
+```bash
+# Terminal 1: Backend Server
+yarn server:dev
+
+# Terminal 2: Frontend Client
+yarn dev
+```
+
+Open your browser to `http://localhost:8018`
 
 ---
 
@@ -221,9 +199,9 @@ const beeConfig: IBeeConfig = {
 
 ### Authentication Flow
 
-This example uses the `secure-auth-example` server to handle credentials securely:
+This example uses a dedicated local server (`server.ts`) to handle credentials securely:
 
-1. **Client** requests a token from `/auth/token`
+1. **Client** requests a token from `/auth/token` (proxied to local backend)
 2. **Server** validates and creates a signed JWT token
 3. **Client** uses token to initialize Beefree SDK
 4. **Beefree SDK** validates token with Beefree servers
@@ -374,9 +352,8 @@ yarn type-check   # Check TypeScript types
 ## 🐛 Troubleshooting
 
 ### Authentication Fails
-**Solution:** Ensure `secure-auth-example` is running on port 3000
+**Solution:** Ensure the local backend server is running on port 3018 (or your configured port).
 ```bash
-cd ../secure-auth-example
 yarn server:dev
 ```
 
@@ -416,7 +393,6 @@ yarn server:dev
 ## 🔗 Related Resources
 
 - **[Beefree SDK Commenting Documentation](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/commenting)** - Official documentation
-- **[secure-auth-example](../secure-auth-example/)** - Authentication server used by this demo
 - **[Beefree SDK Console](https://developers.beefree.io/)** - Enable commenting for your application
 - **[React Documentation](https://react.dev/)** - React best practices
 - **[TypeScript Handbook](https://www.typescriptlang.org/docs/)** - TypeScript guide
@@ -453,7 +429,7 @@ This example is part of the Beefree SDK Examples repository.
 ### Next Steps for Your Integration
 1. **Enable commenting** in your Beefree SDK Console
 2. **Copy the initialization code** from `BeefreeEditor.tsx`
-3. **Implement authentication** similar to `secure-auth-example`
+3. **Implement authentication** similar to `server.ts`
 4. **Add user management** to populate username, userHandle, userColor
 5. **Build notifications** in your `onComment` callback (email, Slack, etc.)
 6. **Store comments** in your database for persistence

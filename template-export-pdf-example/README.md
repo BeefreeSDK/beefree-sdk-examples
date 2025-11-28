@@ -12,15 +12,15 @@ This example demonstrates **advanced PDF export functionality** for the Beefree 
 - **Direct PDF Access**: Open exported PDFs in new browser tabs
 
 ### 🏗️ **Modern Architecture**
+- **Self-Contained**: Runs its own backend server for authentication and PDF export
 - **React 18 + TypeScript**: Type-safe component architecture
 - **Vite**: Lightning-fast development server and build system
 - **Custom Hooks**: `usePDFExport` for export state management
-- **Service Layer**: Clean separation of PDF export logic
 - **Concurrent Development**: Frontend and backend run simultaneously
 
 ### 🔐 **Secure Integration**
 - **Beefree Content Services API**: Official PDF export API integration
-- **Shared Authentication**: Uses secure auth module from `secure-auth-example`
+- **Local Authentication**: Implements its own secure token generation endpoint
 - **Environment-based Configuration**: Secure credential management
 
 ## 📁 Project Structure
@@ -44,24 +44,20 @@ template-export-pdf-example/
 │   │   └── index.ts             # TypeScript type definitions
 │   ├── styles.css               # Application styles
 │   └── index.tsx                # React entry point
-├── server.js                    # Express.js backend with PDF export API
+├── server.js                    # Express.js backend (Auth + PDF API)
 ├── index.html                   # HTML entry point
 ├── vite.config.ts              # Vite + React configuration
 ├── tsconfig.json               # TypeScript configuration
 ├── package.json                # Dependencies and scripts
 ├── env.example                 # Environment variables template
 └── README.md                   # This file
-
-../shared/
-└── auth.js                     # Shared authentication module
 ```
 
-## � Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 22+ and Yarn
-- Beefree SDK credentials
-- Beefree Content Services API key
+- Beefree SDK credentials (Client ID & Secret)
 
 ### Option 1: Run from Repository Root (Recommended)
 
@@ -83,13 +79,10 @@ Then open your browser to `http://localhost:5174`
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
 VITE_PORT=5174
 ```
-
-**Note**: This example requires the **Beefree Content Services API key** in addition to the standard SDK credentials. Get this from your [Developer Console](https://developers.beefree.io).
 
 ### Option 2: Run Manually (Advanced)
 
@@ -112,33 +105,29 @@ Edit `.env` with your credentials:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
 VITE_PORT=5174
 ```
 
-**Note**: Unlike other examples, this one has its own backend server and **does not require** the `secure-auth-example` server to be running.
-
 #### 3. Start Development Environment
 
 ```bash
-yarn dev
+yarn start
 ```
 
 This command starts both:
 - **Frontend** (port 5174): React + Vite development server
-- **Backend** (port 3001): Express.js server with PDF export API
+- **Backend** (port 3001): Express.js server with Auth & PDF export API
 
 Open your browser to `http://localhost:5174`
 
 ## 🚀 Available Scripts
 
 ```bash
-yarn dev        # Start development (client + server)
-yarn start          # Build and start production server
-yarn server     # Start Express.js backend only
-yarn client     # Start Vite development server only
+yarn start      # Start development (client + server)
+yarn dev        # Start frontend only
+yarn server:dev # Start backend only
 yarn build      # Build for production
 yarn preview    # Preview production build
 yarn type-check # Check TypeScript without emitting
@@ -150,7 +139,6 @@ Required in `.env` file:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 PORT=3001
 VITE_PORT=5174
@@ -222,12 +210,12 @@ VITE_PORT=5174
 | Issue | Solution |
 |-------|----------|
 | "Authentication failed" | Check `.env` credentials from [Beefree Developer Console](https://developers.beefree.io) |
-| "Export failed" | Verify `BEEFREE_CS_API_KEY` is valid and has export permissions |
-| "Server not running" | Run `npm run dev` or `npm run server` and check port 3001 |
+| "Export failed" | Verify credentials and API permissions |
+| "Server not running" | Run `yarn dev` and check port 3001 |
 | "Template not saving" | Check browser console for onSave callback errors |
 | "PDF not downloading" | Check browser download settings and popup blockers |
-| "TypeScript errors" | Run `npm run type-check` to identify type issues |
-| "Build fails" | Ensure all dependencies are installed with `npm install` |
+| "TypeScript errors" | Run `yarn type-check` to identify type issues |
+| "Build fails" | Ensure all dependencies are installed with `yarn install` |
 
 ## 🌟 Production Notes
 
@@ -250,16 +238,14 @@ VITE_PORT=5174
 - **Error Handling**: Comprehensive error handling without exposing sensitive data
 
 ### Scalability
-- **Shared Authentication**: Consistent auth module across all examples
 - **Modular Components**: Easy to extend with new export formats
 - **Configuration Management**: Centralized configuration with environment variables
 - **Monitoring Ready**: Structured logging and health check endpoints
 
 ## 🔗 Related Examples
 
-- [🔐 secure-auth-example](../secure-auth-example/) - Authentication foundation used by this example
+- [🔐 secure-auth-example](../secure-auth-example/) - Reference for authentication patterns
 - [🎨 custom-css-example](../custom-css-example/) - React + TypeScript architecture reference
-- [🔧 shared/auth.js](../shared/) - Shared authentication module
 
 ---
 

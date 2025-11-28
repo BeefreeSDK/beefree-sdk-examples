@@ -56,6 +56,11 @@ beefree-sdk-examples/
 ### Technology Stack
 All examples use a **consistent, modern full-stack TypeScript architecture**:
 
+**Package Manager:**
+- **Yarn** is the mandated package manager for this repository
+- All commands and scripts must use `yarn` (e.g., `yarn install`, `yarn start`)
+- Do NOT use `npm` or `pnpm`
+
 **Frontend:**
 - React 19 with hooks
 - TypeScript for type safety

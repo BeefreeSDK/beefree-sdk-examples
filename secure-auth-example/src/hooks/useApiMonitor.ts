@@ -93,7 +93,7 @@ export const useApiMonitor = () => {
         } else {
           responseData = await responseClone.text()
         }
-      } catch (error) {
+      } catch {
         responseData = 'Unable to parse response body'
       }
 
