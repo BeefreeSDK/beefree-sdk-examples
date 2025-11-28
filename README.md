@@ -34,6 +34,7 @@ Before running any example, you need:
 |---------|-------------|----------|---------------|
 | [🤖 AI Agent](#-ai-agent-example) | Natural language email design with AI | OpenAI Agents, MCP integration, 40+ tools, real-time streaming | `yarn start:ai-agent` |
 | [💬 Commenting](#-commenting-example) | Real-time collaborative commenting | Comments, toast notifications, real-time updates | `yarn start:commenting` |
+| [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
 | [💾 Auto-Save](#-auto-save-template-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:template-pdf` |
@@ -179,6 +180,75 @@ If you didn't get the example to run, take a look at the `commenting-example/REA
 
 ---
 
+## 🔀 Conditional Rows Example
+
+Create personalized email content that adapts based on recipient attributes using Display Conditions—no code required.
+
+### Features
+
+- **14 Pre-configured Conditions** - Ready-to-use conditions across 5 categories (Customer Segment, Geography, Shopping Behavior, Product Catalog, Engagement)
+- **Custom Condition Builder** - Visual interface to build complex conditions on-the-fly using Content Dialog
+- **No-Code Personalization** - Users create conditional content without writing templating code
+- **Language Agnostic** - Works with Liquid, Handlebars, or any proprietary templating syntax
+- **Multi-Rule Logic** - Combine multiple rules with AND operators
+- **Real-time Preview** - Test how content appears to different audience segments
+- **Role-based Permissions** - Control who can view, select, edit, or add conditions
+
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Check your plan in the [Beefree Developer Console](https://developers.beefree.io/pricing-plans):
+The display conditions feature is available on **Core**, **SuperPowers**, and **Enterprise** plans. 
+It is **not available** on Free and Essentials plans.
+
+2. Enable display conditions in your [Beefree SDK Console](https://developers.beefree.io/):
+- Log in to your Beefree developer account
+- Navigate to your application
+- Go to **Server-side configurations**
+- Find the **Display Conditions** option and toggle it to **ON**
+- Save your changes
+
+3. Add your Beefree SDK credentials to the `secure-auth-example/.env` file:
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:conditional-rows
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+
+You can now open http://localhost:8081 in your browser.
+
+### How It Works
+
+1. **Select a Row** - Click on any row in the email editor
+2. **Open Display Conditions** - Click the row settings (gear icon) → "Display Conditions" tab
+3. **Choose Your Method**:
+   - **Browse & Select**: Choose from 14 pre-configured conditions organized by category
+   - **Build Custom**: Click "Build Custom Condition" to open the visual condition builder
+4. **Apply & Test** - Apply the condition and use Preview mode to test different segments
+
+### Use Cases
+
+- **VIP Customer Promotions**: Show exclusive offers only to premium customers
+- **Regional Content**: Display location-specific content based on customer region
+- **Cart Recovery**: Target customers with abandoned carts
+- **Product Recommendations**: Feature products from recipient's browsing history
+- **Re-engagement**: Show special content to inactive subscribers
+
+### Troubleshooting
+
+If you didn't get the example to run, take a look at the `conditional-rows-example/README.md` for more detailed instructions.
+
+---
+
 ## 🎨 Custom CSS Example
 
 Dynamic theming system with real-time CSS customization and theme switching.
@@ -308,6 +378,7 @@ The `secure-auth-example` folder contains a shared authentication server used by
 
 **This server must be running** for the following examples:
 - Commenting Example
+- Conditional Rows Example
 - Custom CSS Example  
 - Auto-Save Template Versioning Example
 
@@ -316,7 +387,6 @@ The root-level start commands automatically start this server for you.
 ---
 
 ## 🏗️ Repository Structure
-
 ```
 beefree-sdk-examples/
 ├── .eslintrc.cjs                     # Shared ESLint configuration
@@ -325,10 +395,12 @@ beefree-sdk-examples/
 │   └── auth.js                       # Shared authentication module
 ├── ai-agent-example/                 # AI-powered email design (NEW!)
 ├── commenting-example/               # Real-time commenting
+├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
 ├── auto-save-template-versioning/    # Auto-save with versioning
 ├── template-export-pdf-example/      # PDF export functionality
 └── secure-auth-example/              # Shared auth server
+``` secure-auth-example/              # Shared auth server
 ```
 
 ---
