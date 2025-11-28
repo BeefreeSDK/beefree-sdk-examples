@@ -1,8 +1,8 @@
 {
-  "name": "beefree-sdk-commenting-example",
+  "name": "beefree-sdk-conditional-rows-example",
   "version": "2.0.0",
   "type": "module",
-  "description": "Beefree SDK Commenting Example - Real-time Collaboration with React + TypeScript",
+  "description": "Beefree SDK Conditional Rows Example - Dynamic Content Rendering with React + TypeScript",
   "scripts": {
     "dev": "vite",
     "start": "vite",
