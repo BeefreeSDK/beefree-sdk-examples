@@ -10,7 +10,7 @@ export const usePDFExport = () => {
     exportHistory: []
   })
 
-  const pdfService = useMemo(() => new PDFExportService(), [])
+  const pdfService = useRef(new PDFExportService()).current
 
   const exportTemplate = useCallback(async (
     templateData: any,
