@@ -20,19 +20,23 @@ export function SimpleBuilder({ authorizer, style, className }: Props) {
         const instance = new BeefreeSDK(token)
         console.log('- Editor instance created')
         
-        // Load the default template from the URL
-        fetch(DEFAULT_TEMPLATE_URL)
-          .then(res => res.json())
-          .then(template => {
-            instance.start(config, template)
+        // Async function to handle template loading and builder initialization
+        const initializeBuilder = async () => {
+          try {
+            // Load the default template from the URL
+            const res = await fetch(DEFAULT_TEMPLATE_URL)
+            const template = await res.json()
+            await instance.start(config, template)
             setBuilder(instance)
-          })
-          .catch(err => {
+          } catch (err) {
             console.error('Failed to load default template:', err)
             // Fallback to empty template if fetch fails
-            instance.start(config, {})
+            await instance.start(config, {})
             setBuilder(instance)
-          })
+          }
+        }
+
+        initializeBuilder()
     }
   }, [token, config, setBuilder, builderRef])
 
