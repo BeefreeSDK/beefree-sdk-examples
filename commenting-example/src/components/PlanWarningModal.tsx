@@ -1,5 +1,6 @@
 import { MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
+import { getPublicPlanName } from '../utils/planUtils'
 
 interface PlanWarningModalProps {
   isOpen: boolean
@@ -16,9 +17,11 @@ export const PlanWarningModal = ({ isOpen, onClose, plan }: PlanWarningModalProp
     }
   }
 
+  const publicPlanName = getPublicPlanName(plan)
+
   return createPortal(
     <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="condition-builder-modal" style={{ maxWidth: '600px' }}>
+      <div className="condition-builder-modal" style={{ maxWidth: '720px' }}>
         <div className="builder-header" style={{ background: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)' }}>
           <h2>⚠️ Feature Unavailable</h2>
           <button className="modal-close" onClick={onClose} aria-label="Close">
@@ -30,7 +33,7 @@ export const PlanWarningModal = ({ isOpen, onClose, plan }: PlanWarningModalProp
           <div className="modal-instructions" style={{ borderLeftColor: '#f59e0b', background: '#fffbeb' }}>
             <h3 style={{ color: '#92400e' }}>Plan Restriction Detected</h3>
             <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#374151' }}>
-              The <strong>Commenting</strong> feature is not available on your current plan (<strong>{plan}</strong>).
+              The <strong>Commenting</strong> feature is not available on your current plan (<strong>{publicPlanName}</strong>).
             </p>
             <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#374151', marginTop: '16px' }}>
               This feature requires one of the following plans:
