@@ -2,11 +2,6 @@
 
 This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
 
-**🔗 Authentication Provider**: This example serves as the **central authentication server** (port 3000) for other examples including:
-- `custom-css-example` (port 8081)
-- `multi-builder-switch-example` (port 8083)
-
-**Note**: `template-export-pdf-example` is standalone and has its own authentication server.
 
 ## ✨ Key Features
 
@@ -563,7 +558,7 @@ When contributing to this example:
 
 ## 🔗 Integration with Other Examples
 
-This example serves as the **central authentication provider** for other examples:
+This example serves as the **authentication provider** for other examples:
 
 - **custom-css-example**: Uses this server for auth proxy
 - **template-export-pdf-example**: Shares authentication logic
