@@ -389,13 +389,24 @@ This command will automatically install dependencies and start both the frontend
 **Before running**, configure your credentials in `multi-builder-switch-example/.env`:
 
 ```env
-# Beefree SDK Credentials
+# Default Beefree SDK Credentials (fallback)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# IMPORTANT: Builder-specific credentials required for correct sidebar options
+# Each builder type needs its own application in Developer Console
+EMAIL_CLIENT_ID=your_email_client_id_here
+EMAIL_CLIENT_SECRET=your_email_client_secret_here
+PAGE_CLIENT_ID=your_page_client_id_here
+PAGE_CLIENT_SECRET=your_page_client_secret_here
+POPUP_CLIENT_ID=your_popup_client_id_here
+POPUP_CLIENT_SECRET=your_popup_client_secret_here
 
 # Server Configuration
 PORT=3006
 ```
+
+**Note**: To show builder-specific sidebar options (e.g., Form button for Page builder), each builder type requires its own application configured in the [Developer Console](https://developers.beefree.io) with the corresponding builder type selected.
 
 Then open http://localhost:8006 in your browser.
 
@@ -502,6 +513,8 @@ cd [example-folder] && yarn install && cd ..
 - **📖 [Beefree SDK Documentation](https://docs.beefree.io/beefree-sdk/)**
 - **🔑 [Developer Console](https://developers.beefree.io)** - Get your credentials
 - **🔧 [API Reference](https://docs.beefree.io/beefree-sdk/apis/)**
+- **📦 [Content Options Configuration](https://docs.beefree.io/beefree-sdk/server-side-configurations/server-side-options/content-options)** - Configure content blocks (HTML, Menu, Title, List, Paragraph, Video, Icons, Spacer, Table) and understand differences between Email and Page Builder. Form block is available for Page Builder applications.
+- **📝 [Form Block Integration](https://docs.beefree.io/beefree-sdk/forms/integrating-and-using-the-form-block/passing-forms-to-the-builder)** - Guide on integrating and using the Form block in Page Builder applications, including how to pass forms to the builder and configure form fields.
 - **💬 [Community Support](https://beefree.io/support/)**
 - **🎥 [Video Tutorials](https://docs.beefree.io/beefree-sdk/resources/videos)**
 

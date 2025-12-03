@@ -9,17 +9,11 @@ export class AuthService {
     try {
       console.log(`🔐 Authenticating user: ${uid}${builderType ? ` for ${builderType} builder` : ''}`)
       
-      const requestBody: any = { uid }
-      
-      // Add builder-specific credentials if available
-      if (builderType) {
-        const builderConfig = BUILDER_CONFIGS[builderType]
-        if (builderConfig.clientId) {
-          requestBody.clientId = builderConfig.clientId
-        }
-        if (builderConfig.clientSecret) {
-          requestBody.clientSecret = builderConfig.clientSecret
-        }
+      // Send builder type to backend so it can use the correct credentials
+      // The backend will use builder-specific Client ID/Secret based on builderType
+      const requestBody: any = { 
+        uid,
+        builderType // Send builder type to backend
       }
 
       const response = await fetch(AUTH_PROXY_URL, {

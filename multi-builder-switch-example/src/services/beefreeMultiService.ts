@@ -1,6 +1,6 @@
 import BeefreeSDK from '@beefree.io/sdk'
 import { IBeeConfig, IEntityContentJson, IToken, BuilderType, BeefreeInstance } from '../types'
-import { BUILDER_CONFIGS, BASE_BEEFREE_CONFIG } from '../config/constants'
+import { BUILDER_CONFIGS, BASE_BEEFREE_CONFIG, DEFAULT_FORM_CONFIG } from '../config/constants'
 
 export class BeefreeMultiService {
   private beeInstance: BeefreeInstance | null = null
@@ -46,42 +46,19 @@ export class BeefreeMultiService {
   /**
    * Get builder-specific configuration
    */
-  private getBuilderConfig(builderType: BuilderType, uid: string): IBeeConfig {
-    const config: IBeeConfig = {
-      ...BASE_BEEFREE_CONFIG,
-      uid: uid,
-    }
-
-    // Add builder-specific configurations if needed
-    switch (builderType) {
-      case 'email':
-        // Email-specific configuration
-        console.log(`⚙️ Using Email Builder configuration`)
-        break
-      case 'page':
-        // Page-specific configuration - might need different settings
-        console.log(`⚙️ Using Page Builder configuration`)
-        // Page builder might need specific configuration
-        // Note: workspace configuration removed due to TypeScript type constraints
-        break
-      case 'popup':
-        // Popup-specific configuration - might need different settings
-        console.log(`⚙️ Using Popup Builder configuration`)
-        // Popup builder might need specific configuration
-        // Note: workspace configuration removed due to TypeScript type constraints
-        break
-    }
-
-    console.log(`⚙️ Final config for ${builderType}:`, config)
-    return config
-  }
+  private getBuilderConfig = (builderType: BuilderType, uuid: string): IBeeConfig => ({
+    ...BASE_BEEFREE_CONFIG,
+    uuid,
+    // Add default form configuration only for Page Builder
+    ...(builderType === 'page' ? { defaultForm: DEFAULT_FORM_CONFIG } : {})
+  })
 
   /**
    * Initialize Beefree SDK for specific builder type
    */
   async initializeBuilder(
     token: IToken,
-    uid: string,
+    uuid: string,
     builderType: BuilderType
   ): Promise<BeefreeInstance> {
     try {
@@ -102,7 +79,9 @@ export class BeefreeMultiService {
       const templateData = await this.loadTemplate(builderType)
       
       // Get builder-specific configuration
-      const clientConfig = this.getBuilderConfig(builderType, uid)
+      const clientConfig = this.getBuilderConfig(builderType, uuid)
+
+      console.log(`⚙️ Using ${builderType} Builder configuration${builderType === 'page' ? ' with default form' : ''}`)
       
       // Initialize Beefree SDK
       // Note: Double casting needed due to Beefree SDK internal type structure

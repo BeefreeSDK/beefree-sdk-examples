@@ -176,6 +176,57 @@ export const BUILDER_CONFIGS: Record<BuilderType, BuilderConfig> = {
 }
 ```
 
+### **Form Configuration (Page Builder)**
+
+The Page Builder includes a default form configuration that enables the Form block:
+
+```typescript
+export const DEFAULT_FORM_CONFIG = {
+  structure: {
+    title: 'Contact Form',
+    description: 'Get in touch with us',
+    fields: {
+      name_field: {
+        type: 'text',
+        label: 'Name',
+        canBeRemovedFromLayout: false,
+        attributes: { required: true, placeholder: 'Enter your name' }
+      },
+      email_field: {
+        type: 'email',
+        label: 'Email',
+        canBeRemovedFromLayout: false,
+        attributes: { required: true, placeholder: 'Enter your email' }
+      },
+      message_field: {
+        type: 'textarea',
+        label: 'Message',
+        canBeRemovedFromLayout: true,
+        attributes: { placeholder: 'Enter your message', rows: '4' }
+      },
+      submit_button: {
+        type: 'submit',
+        label: '',
+        canBeRemovedFromLayout: false,
+        attributes: { value: 'Submit', name: 'submit_button' }
+      }
+    },
+    layout: [
+      ['name_field'],
+      ['email_field'],
+      ['message_field'],
+      ['submit_button']
+    ],
+    attributes: {
+      method: 'post',
+      action: '#'
+    }
+  }
+}
+```
+
+This form configuration is automatically added to the Page Builder's `IBeeConfig` when initialized, making the Form block available in the Content sidebar.
+
 ## 🚀 Quick Start
 
 ### **Prerequisites**
@@ -197,14 +248,21 @@ cp .env.example .env
 Edit `.env` file with your Beefree SDK credentials:
 
 ```env
-# Beefree SDK Credentials
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
+# IMPORTANT: Builder-specific Client IDs and Secrets (REQUIRED)
+# Each builder type requires its own application in the Developer Console
+# to show the correct sidebar options (e.g., Form button for Page builder)
+# At minimum, provide credentials for the builders you plan to use
+EMAIL_CLIENT_ID=your_email_client_id_here
+EMAIL_CLIENT_SECRET=your_email_client_secret_here
+PAGE_CLIENT_ID=your_page_client_id_here
+PAGE_CLIENT_SECRET=your_page_client_secret_here
+POPUP_CLIENT_ID=your_popup_client_id_here
+POPUP_CLIENT_SECRET=your_popup_client_secret_here
 
-# Optional: Builder-specific Client IDs (if different per builder type)
-VITE_EMAIL_CLIENT_ID=your_email_client_id_here
-VITE_PAGE_CLIENT_ID=your_page_client_id_here  
-VITE_POPUP_CLIENT_ID=your_popup_client_id_here
+# Optional: Default Beefree SDK Credentials (fallback if builder-specific not provided)
+# Only needed if you want a single set of credentials for all builders
+# BEEFREE_CLIENT_ID=your_client_id_here
+# BEEFREE_CLIENT_SECRET=your_client_secret_here
 
 # Template URLs for different builders
 VITE_EMAIL_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
@@ -213,11 +271,14 @@ VITE_POPUP_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee-popup
 
 # Default builder type on load
 VITE_DEFAULT_BUILDER=email
+
+# Server Configuration
+PORT=3006
 ```
 
 **Configuration Options:**
-- **Shared Credentials**: Omit builder-specific client IDs to use shared credentials
-- **Individual Credentials**: Set specific client IDs for each builder type
+- **Builder-Specific Credentials** (Recommended): Each builder type (Email, Page, Popup) requires its own application in the [Developer Console](https://developers.beefree.io). The builder type is determined by the application configuration, which controls which sidebar options are available (e.g., Form button for Page builder). **You must provide credentials for at least one builder type.**
+- **Fallback Credentials** (Optional): If builder-specific credentials are not provided for a builder type, the system will fall back to `EMAIL_CLIENT_ID`/`EMAIL_CLIENT_SECRET` first, then to `BEEFREE_CLIENT_ID`/`BEEFREE_CLIENT_SECRET` if available. However, **builder-specific credentials are strongly recommended** to ensure the correct sidebar options appear for each builder type.
 - **Template URLs**: Customize template URLs for each builder type
 - **Default Builder**: Set which builder loads first
 
@@ -248,8 +309,21 @@ yarn dev
 | Builder | Icon | Description | Use Case |
 |---------|------|-------------|----------|
 | **Email** | 📧 | Responsive email campaigns | Newsletters, promotional emails, transactional emails |
-| **Page** | 📄 | Landing pages and web content | Marketing pages, product launches, event pages |
+| **Page** | 📄 | Landing pages and web content with **Form block support** | Marketing pages, product launches, event pages, lead capture forms |
 | **Popup** | 🎯 | Overlay and popup content | Lead capture, announcements, special offers |
+
+### **Form Block Support (Page Builder)**
+
+The Page Builder includes a **default form configuration** that enables the Form block in the Content sidebar. When you switch to Page Builder, you'll see a **Form** button in the sidebar that allows you to add forms with:
+
+- **Name field** (required, text input)
+- **Email field** (required, email input)
+- **Message field** (optional, textarea)
+- **Submit button** (customizable)
+
+Users can toggle fields on/off and customize the form layout. The form configuration is defined in `src/config/constants.ts` and can be customized to match your application's needs.
+
+**Learn more**: [Form Block Integration Documentation](https://docs.beefree.io/beefree-sdk/forms/integrating-and-using-the-form-block/passing-forms-to-the-builder)
 
 ### **Features Demonstrated**
 - **Instant Switching**: No page reload required
@@ -381,6 +455,8 @@ yarn build
 ## 📚 Resources
 
 - **[Beefree SDK Documentation](https://docs.beefree.io/beefree-sdk/)**
+- **[Content Options Configuration](https://docs.beefree.io/beefree-sdk/server-side-configurations/server-side-options/content-options)** - Learn how to configure content blocks (HTML, Menu, Title, List, Paragraph, Video, Icons, Spacer, Table) and understand the differences between Email and Page Builder content options. The Form block is available for Page Builder applications.
+- **[Form Block Integration](https://docs.beefree.io/beefree-sdk/forms/integrating-and-using-the-form-block/passing-forms-to-the-builder)** - Comprehensive guide on integrating and using the Form block in your Page Builder application, including how to pass forms to the builder and configure form fields.
 - **[Multi-Builder Configuration Guide](https://docs.beefree.io/beefree-sdk/builders/)**
 - **[React + TypeScript Best Practices](https://react-typescript-cheatsheet.netlify.app/)**
 - **[Vite Documentation](https://vitejs.dev/)**
