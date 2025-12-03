@@ -30,7 +30,6 @@ export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<Be
     const templateData = await loadTemplate()
     const tokenResponse = await authenticate(clientConfig.uid || DEFAULT_CLIENT_CONFIG.uid)
     const token: IToken = await tokenResponse.json()
-
     const BeePlugin = new BeefreeSDK(token)
     const bee = BeePlugin
     
