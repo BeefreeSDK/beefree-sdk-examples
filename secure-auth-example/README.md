@@ -2,7 +2,6 @@
 
 This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
 
-
 ## ✨ Key Features
 
 ### 🔐 **Enterprise-Grade Security**
