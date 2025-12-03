@@ -18,7 +18,7 @@ This example demonstrates **seamless switching between different Beefree builder
 - **Component Composition**: Modular, reusable UI components
 
 ### 🔐 **Secure Authentication**
-- **Server-side Authentication**: Uses shared auth proxy (`secure-auth-example`)
+- **Self-Contained Authentication**: Includes its own local Node.js/Express authentication server
 - **Builder-specific Tokens**: Different client credentials for each builder type
 - **Automatic Token Management**: Fresh tokens for each builder switch
 - **Environment Variables**: Secure credential management
@@ -44,7 +44,8 @@ multi-builder-switch-example/
 │   ├── types/
 │   │   └── index.d.ts          # TypeScript type definitions
 │   └── styles.css              # Global application styles
-├── vite.config.ts              # Vite configuration (port 8083)
+├── server.ts                 # Local authentication server
+├── vite.config.ts              # Vite configuration (port 8006)
 ├── tsconfig.json              # TypeScript configuration
 └── package.json               # Dependencies and scripts
 ```
@@ -179,43 +180,31 @@ export const BUILDER_CONFIGS: Record<BuilderType, BuilderConfig> = {
 
 ### **Prerequisites**
 - Node.js 16+
-- **⚠️ REQUIRED: `secure-auth-example` must be running** (port 3000) - This example depends on the secure-auth-example authentication server
-- Beefree SDK credentials configured in secure-auth-example (potentially different for each builder type)
 
 ### **Installation**
 
-**Step 1: Start the authentication server**
+**Step 1: Install dependencies**
 ```bash
-# In a separate terminal, navigate to secure-auth-example
-cd ../secure-auth-example
-
-# Install and configure if not done yet
 yarn install
-cp .env.example .env
-# Edit .env with your Beefree SDK credentials
-
-# Start the auth server (MUST be running on port 3000)
-yarn dev
 ```
 
-**Step 2: Install and configure this example**
+**Step 2: Configure Environment**
 ```bash
-# Navigate to multi-builder-switch-example
-cd ../multi-builder-switch-example
-
-# Install dependencies
-yarn install
-
-# Configure environment
 cp .env.example .env
-# Edit .env with your configuration
 ```
 
 ### **Environment Configuration**
-Create `.env` file:
+Edit `.env` file with your Beefree SDK credentials:
+
 ```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+# Beefree SDK Credentials
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Optional: Builder-specific Client IDs (if different per builder type)
+VITE_EMAIL_CLIENT_ID=your_email_client_id_here
+VITE_PAGE_CLIENT_ID=your_page_client_id_here  
+VITE_POPUP_CLIENT_ID=your_popup_client_id_here
 
 # Template URLs for different builders
 VITE_EMAIL_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
@@ -224,11 +213,6 @@ VITE_POPUP_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee-popup
 
 # Default builder type on load
 VITE_DEFAULT_BUILDER=email
-
-# Builder-specific Client IDs (if different per builder type)
-VITE_EMAIL_CLIENT_ID=your_email_client_id_here
-VITE_PAGE_CLIENT_ID=your_page_client_id_here  
-VITE_POPUP_CLIENT_ID=your_popup_client_id_here
 ```
 
 **Configuration Options:**
@@ -239,30 +223,22 @@ VITE_POPUP_CLIENT_ID=your_popup_client_id_here
 
 ### **Development**
 
-**⚠️ IMPORTANT: Ensure secure-auth-example is running first!**
-
 ```bash
-# Start development server
+# Start both server and client concurrently
+yarn start
+
+# Or run independently:
+yarn server:dev
 yarn dev
-
-# Build for production
-yarn build
-
-# Preview production build
-yarn preview
-
-# Type checking
-yarn type-check
 ```
 
 ### **Open in browser**
-- **Frontend**: http://localhost:8083
-- **Auth Backend**: http://localhost:3000 ⚠️ **MUST be running** (from secure-auth-example)
+- **Frontend**: http://localhost:8006
 
 ## 🎯 Usage Guide
 
 ### **Switching Between Builders**
-1. **Start the application**: Open http://localhost:8083
+1. **Start the application**: Open http://localhost:8006
 2. **Choose builder type**: Click on Email 📧, Page 📄, or Popup 🎯 buttons
 3. **Watch transition**: The interface smoothly transitions between builder types
 4. **Observe changes**: Each builder loads its specific template and configuration
@@ -379,17 +355,12 @@ Extend services to add:
 NODE_ENV=production
 
 # Auth proxy URL
-VITE_BEEFREE_AUTH_PROXY_URL=https://your-auth-server.com/auth/token
+VITE_BEEFREE_AUTH_PROXY_URL=/auth/token
 
 # Production template URLs
 VITE_EMAIL_TEMPLATE_URL=https://your-templates.com/email
 VITE_PAGE_TEMPLATE_URL=https://your-templates.com/page
 VITE_POPUP_TEMPLATE_URL=https://your-templates.com/popup
-
-# Production client IDs
-VITE_EMAIL_CLIENT_ID=prod_email_client_id
-VITE_PAGE_CLIENT_ID=prod_page_client_id
-VITE_POPUP_CLIENT_ID=prod_popup_client_id
 ```
 
 ### **Build Process**
@@ -426,7 +397,6 @@ When contributing to this example:
 ## 🔗 Integration with Other Examples
 
 This example integrates with:
-- **secure-auth-example**: Uses as authentication provider (port 3000)
 - **shared/auth.js**: Leverages shared authentication logic
 - **Future examples**: Can be extended to support additional builder types
 

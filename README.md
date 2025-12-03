@@ -38,6 +38,7 @@ Before running any example, you need:
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
 | [💾 Auto-Save](#-auto-save-template-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:template-pdf` |
+| [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
 
 ---
 
@@ -353,7 +354,6 @@ BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 
 # Beefree Content Services API
-BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 
 # Server Configuration
@@ -361,9 +361,43 @@ PORT=3003
 VITE_PORT=8003
 ```
 
-**Note**: This example requires the **Beefree Content Services API key** in addition to the standard SDK credentials. Get this from your [Developer Console](https://developers.beefree.io).
-
 Then open http://localhost:8003 in your browser.
+
+---
+
+## 🏗️ Multi-Builder Switch Example
+
+Dynamic switching between different Beefree builder types (Email, Page, Popup) within a single application.
+
+### Features
+
+- **3 Builder Types**: Email, Page, and Popup
+- **Seamless Switching**: Instant transitions without page reload
+- **State Management**: Proper cleanup and initialization for each type
+- **Self-Contained Auth**: Dedicated local authentication server
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:multi-builder
+```
+
+This command will automatically install dependencies and start both the frontend (port 8006) and backend server (port 3006).
+
+**Before running**, configure your credentials in `multi-builder-switch-example/.env`:
+
+```env
+# Beefree SDK Credentials
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Server Configuration
+PORT=3006
+```
+
+Then open http://localhost:8006 in your browser.
 
 ---
 
@@ -399,6 +433,7 @@ beefree-sdk-examples/
 ├── custom-css-example/               # Dynamic theming
 ├── auto-save-template-versioning/    # Auto-save with versioning
 ├── template-export-pdf-example/      # PDF export functionality
+├── multi-builder-switch-example/     # Multi-builder switching
 └── secure-auth-example/              # Shared auth server
 ``` secure-auth-example/              # Shared auth server
 ```

@@ -14,11 +14,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8083,
+    port: 8006,
     host: true,
     proxy: {
       '/auth': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3006',
         changeOrigin: true,
         secure: false
       }
