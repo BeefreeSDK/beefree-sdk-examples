@@ -59,9 +59,7 @@ export const App = () => {
           uid={DEFAULT_UID}
           isInitialized={isInitialized}
           onInitialize={initializeFirstBuilder}
-          onError={(errorMessage) => {
-            console.error('Editor error:', errorMessage)
-          }}
+
         />
       </main>
       

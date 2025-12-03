@@ -11,7 +11,7 @@ This example demonstrates **seamless switching between different Beefree builder
 - **Error Handling**: Graceful handling of switch failures with retry functionality
 
 ### 🏗️ **Modern Architecture**
-- **React 18 + TypeScript**: Type-safe component architecture
+- **React 19 + TypeScript**: Type-safe component architecture
 - **Vite**: Lightning-fast development server and build system
 - **Custom Hooks**: `useBuilderManager` for centralized state management
 - **Service Layer**: Clean separation of Beefree SDK and authentication logic
