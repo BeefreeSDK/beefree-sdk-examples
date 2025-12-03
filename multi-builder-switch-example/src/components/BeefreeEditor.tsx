@@ -1,15 +1,22 @@
-import React, { useEffect, useRef } from 'react'
-import { BeefreeEditorProps } from '../types'
+import { useEffect, useRef } from 'react'
+import { IToken, BuilderType } from '../types'
 import { BUILDER_CONFIGS } from '../config/constants'
 
-export const BeefreeEditor: React.FC<BeefreeEditorProps> = ({
+interface BeefreeEditorProps {
+  builderType: BuilderType
+  token: IToken | null
+  uid: string
+  isInitialized: boolean
+  onInitialize: () => void
+}
+
+export const BeefreeEditor = ({
   builderType,
   token,
   uid,
   isInitialized,
-  onInitialize,
-  onError
-}) => {
+  onInitialize
+}: BeefreeEditorProps) => {
   const builderConfig = BUILDER_CONFIGS[builderType]
   const containerRef = useRef<HTMLDivElement>(null)
 

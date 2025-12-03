@@ -37,27 +37,3 @@ declare global {
     bee?: BeefreeInstance
   }
 }
-
-// Component props interfaces
-export interface BuilderSelectorProps {
-  currentBuilder: BuilderType
-  onBuilderChange: (builder: BuilderType) => void
-  disabled?: boolean
-  availableBuilders: BuilderConfig[]
-}
-
-export interface BeefreeEditorProps {
-  builderType: BuilderType
-  token: IToken | null
-  uid: string
-  isInitialized: boolean
-  onInitialize: () => void
-  onError?: (error: string) => void
-}
-
-export interface HeaderProps {
-  currentBuilder: BuilderType
-  onBuilderChange: (builder: BuilderType) => void
-  isTransitioning: boolean
-  uid?: string
-}

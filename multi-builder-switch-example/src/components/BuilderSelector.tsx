@@ -1,12 +1,18 @@
-import React from 'react'
-import { BuilderSelectorProps } from '../types'
+import { BuilderType, BuilderConfig } from '../types'
 
-export const BuilderSelector: React.FC<BuilderSelectorProps> = ({
+interface BuilderSelectorProps {
+  currentBuilder: BuilderType
+  onBuilderChange: (builder: BuilderType) => void
+  disabled?: boolean
+  availableBuilders: BuilderConfig[]
+}
+
+export const BuilderSelector = ({
   currentBuilder,
   onBuilderChange,
   disabled = false,
   availableBuilders
-}) => {
+}: BuilderSelectorProps) => {
   return (
     <div className="builder-selector">
       <label className="builder-selector-label">

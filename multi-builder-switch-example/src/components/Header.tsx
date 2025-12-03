@@ -1,14 +1,20 @@
-import React from 'react'
-import { HeaderProps } from '../types'
+import { BuilderType } from '../types'
 import { AVAILABLE_BUILDERS } from '../config/constants'
 import { BuilderSelector } from './BuilderSelector'
 
-export const Header: React.FC<HeaderProps> = ({
+interface HeaderProps {
+  currentBuilder: BuilderType
+  onBuilderChange: (builder: BuilderType) => void
+  isTransitioning: boolean
+  uid?: string
+}
+
+export const Header = ({
   currentBuilder,
   onBuilderChange,
   isTransitioning,
   uid
-}) => {
+}: HeaderProps) => {
   return (
     <header className="app-header">
       <div className="header-content">

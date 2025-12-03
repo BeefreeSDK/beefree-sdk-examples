@@ -1,10 +1,9 @@
-import React from 'react'
 import { useBuilderManager } from '../hooks/useBuilderManager'
 import { Header } from './Header'
 import { BeefreeEditor } from './BeefreeEditor'
 import { DEFAULT_UID } from '../config/constants'
 
-export const App: React.FC = () => {
+export const App = () => {
   const {
     currentBuilder,
     isTransitioning,
