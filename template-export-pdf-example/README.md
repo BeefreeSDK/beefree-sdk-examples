@@ -70,9 +70,9 @@ yarn start:template-pdf
 
 This single command will:
 - ✅ Automatically install all dependencies
-- ✅ Start both the frontend (port 5174) and backend server (port 3001) concurrently
+- ✅ Start both the frontend (port 8003) and backend server (port 3003) concurrently
 
-Then open your browser to `http://localhost:5174`
+Then open your browser to `http://localhost:8003`
 
 **Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
 
@@ -80,8 +80,8 @@ Then open your browser to `http://localhost:5174`
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_CS_API_URL=https://api.getbee.io
-PORT=3001
-VITE_PORT=5174
+PORT=3003
+VITE_PORT=8003
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -106,8 +106,8 @@ Edit `.env` with your credentials:
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_CS_API_URL=https://api.getbee.io
-PORT=3001
-VITE_PORT=5174
+PORT=3003
+VITE_PORT=8003
 ```
 
 #### 3. Start Development Environment
@@ -117,10 +117,10 @@ yarn start
 ```
 
 This command starts both:
-- **Frontend** (port 5174): React + Vite development server
-- **Backend** (port 3001): Express.js server with Auth & PDF export API
+- **Frontend** (port 8003): React + Vite development server
+- **Backend** (port 3003): Express.js server with Auth & PDF export API
 
-Open your browser to `http://localhost:5174`
+Open your browser to `http://localhost:8003`
 
 ## 🚀 Available Scripts
 
@@ -140,8 +140,8 @@ Required in `.env` file:
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_CS_API_URL=https://api.getbee.io
-PORT=3001
-VITE_PORT=5174
+PORT=3003
+VITE_PORT=8003
 ```
 
 **🚨 Security**: Never expose Client ID/Secret or API keys in frontend code. All credentials are handled server-side only.
@@ -211,7 +211,7 @@ VITE_PORT=5174
 |-------|----------|
 | "Authentication failed" | Check `.env` credentials from [Beefree Developer Console](https://developers.beefree.io) |
 | "Export failed" | Verify credentials and API permissions |
-| "Server not running" | Run `yarn dev` and check port 3001 |
+| "Server not running" | Run `yarn dev` and check port 3003 |
 | "Template not saving" | Check browser console for onSave callback errors |
 | "PDF not downloading" | Check browser download settings and popup blockers |
 | "TypeScript errors" | Run `yarn type-check` to identify type issues |

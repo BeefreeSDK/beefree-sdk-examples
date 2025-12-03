@@ -60,10 +60,10 @@ yarn start:ai-agent
 
 This single command will:
 - ✅ Install all dependencies
-- ✅ Start the backend server with AI agent (port 8083)
-- ✅ Start the frontend development server (port 8081)
+- ✅ Start the backend server with AI agent (port 3029)
+- ✅ Start the frontend development server (port 8029)
 
-Then open your browser to `http://localhost:8081`
+Then open your browser to `http://localhost:8029`
 
 **Before running**, configure your credentials in `ai-agent-example/.env`:
 
@@ -124,7 +124,7 @@ In one terminal:
 yarn server:dev
 ```
 
-The backend server (AI agent + auth) runs on `http://localhost:8083`
+The backend server (AI agent + auth) runs on `http://localhost:3029`
 
 #### 4. Start Frontend
 
@@ -134,7 +134,7 @@ In another terminal:
 yarn dev
 ```
 
-Open your browser to `http://localhost:8081`
+Open your browser to `http://localhost:8029`
 
 ---
 
@@ -434,7 +434,7 @@ yarn type-check   # Check TypeScript types
 ### AI Not Responding
 **Solution:**
 1. Check OpenAI API key is valid and has credits
-2. Verify backend server is running: `http://localhost:8083`
+2. Verify backend server is running: `http://localhost:3029`
 3. Check browser console and server logs for errors
 4. Ensure WebSocket connection is established
 

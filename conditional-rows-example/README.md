@@ -93,9 +93,9 @@ yarn start:conditional-rows
 This single command will:
 - ✅ Automatically install all dependencies (root, conditional-rows-example, and secure-auth-example)
 - ✅ Start the authentication server (port 3000)
-- ✅ Start the conditional rows example (port 8081)
+- ✅ Start the conditional rows example (port 8014)
 
-Then open your browser to `http://localhost:8081`
+Then open your browser to `http://localhost:8014`
 
 **Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
 
@@ -153,7 +153,7 @@ VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
 # Template URL for default template
 VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
 # Front-end server port
-VITE_PORT=8081
+VITE_PORT=8014
 ```
 
 #### 3. If using the provided Authentication Server
@@ -176,7 +176,7 @@ cd ../conditional-rows-example
 yarn start
 ```
 
-Open your browser to `http://localhost:8081` (or the port specified in your `conditional-rows-example/.env` as VITE_PORT)
+Open your browser to `http://localhost:8014` (or the port specified in your `conditional-rows-example/.env` as VITE_PORT)
 
 ---
 

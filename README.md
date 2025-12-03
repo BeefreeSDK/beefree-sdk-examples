@@ -89,8 +89,8 @@ BEEFREE_UID=ai-agent-demo-user
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
-PORT=8083
-VITE_PORT=8081
+PORT=3029
+VITE_PORT=8029
 ```
 
 To run the example, use the start command from the root of the repository:
@@ -101,10 +101,10 @@ yarn start:ai-agent
 
 This command will automatically:
 - Install all required dependencies
-- Start the backend server with WebSocket (port 8083)
-- Start the frontend with Vite (port 8081)
+- Start the backend server with WebSocket (port 3029)
+- Start the frontend with Vite (port 8029)
 
-Then open http://localhost:8081 in your browser.
+Then open http://localhost:8029 in your browser.
 
 ### How It Works
 
@@ -125,7 +125,7 @@ Try these to get started:
 If you encounter issues:
 - **MCP API Key Error**: Make sure you have an MCP-compatible key (not a standard CSAPI key)
 - **OpenAI Errors**: Verify your OpenAI API key is valid and has credits
-- **Connection Issues**: Check that both frontend (8081) and backend (8083) are running
+- **Connection Issues**: Check that both frontend (8029) and backend (3029) are running
 - **CORS Errors**: The backend handles authentication - ensure it started successfully
 
 For detailed information, see `ai-agent-example/README.md`.
@@ -170,9 +170,9 @@ To run the example, use the start command from the root of the repository:
 yarn start:commenting
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8018) and the authentication server (port 3018).
 
-You can now open http://localhost:8081 in your browser.
+You can now open http://localhost:8018 in your browser.
 
 ### Troubleshooting
 
@@ -222,9 +222,9 @@ To run the example, use the start command from the root of the repository:
 yarn start:conditional-rows
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8018) and the authentication server (port 3018).
 
-You can now open http://localhost:8081 in your browser.
+You can now open http://localhost:8018 in your browser.
 
 ### How It Works
 
@@ -343,7 +343,7 @@ To run this example, use the start command from the root of the repository:
 yarn start:template-pdf
 ```
 
-This command will automatically install all required dependencies and start the frontend (port 5174).
+This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
 
 **Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
 
@@ -357,13 +357,13 @@ BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 
 # Server Configuration
-PORT=3001
-VITE_PORT=5174
+PORT=3003
+VITE_PORT=8003
 ```
 
 **Note**: This example requires the **Beefree Content Services API key** in addition to the standard SDK credentials. Get this from your [Developer Console](https://developers.beefree.io).
 
-Then open http://localhost:5174 in your browser.
+Then open http://localhost:8003 in your browser.
 
 ---
 
