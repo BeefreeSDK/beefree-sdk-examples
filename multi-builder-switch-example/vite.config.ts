@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dotenv from 'dotenv'
+
+// Load environment variables
+dotenv.config()
 
 export default defineConfig({
   plugins: [react()],
@@ -14,11 +18,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8006,
+    port: parseInt(process.env.VITE_PORT || '8006'),
     host: true,
     proxy: {
       '/auth': {
-        target: 'http://localhost:3006',
+        target: `http://localhost:${process.env.PORT || 3006}`,
         changeOrigin: true,
         secure: false
       }
