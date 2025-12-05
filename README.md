@@ -36,9 +36,10 @@ Before running any example, you need:
 | [💬 Commenting](#-commenting-example) | Real-time collaborative commenting | Comments, toast notifications, real-time updates | `yarn start:commenting` |
 | [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
-| [💾 Auto-Save](#-auto-save-template-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
+| [💾 Auto-Save](#-autosave-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:template-pdf` |
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
+| [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 
 ---
 
@@ -314,7 +315,7 @@ yarn start:autosave
 
 This command will automatically install all required dependencies and start both the frontend (port 8008) and the authentication server (port 3008).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `auto-save-template-versioning/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `autosave-versioning-example/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
@@ -414,7 +415,60 @@ Then open http://localhost:8006 in your browser.
 
 ---
 
-## 🔐 Shared Authentication Server
+## 🔐 Secure Auth Example
+
+This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
+
+### Features
+
+- **Backend-Only Credentials**: Client ID/Secret never exposed to frontend
+- **Secure Token Management**: JWT tokens with automatic refresh
+- **Production-Ready Error Handling**: Comprehensive error states and recovery
+- **API Monitor Panel**: Real-time inspection of API calls
+
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Get your Beefree SDK credentials from the [Developer Console](https://developers.beefree.io).
+2. Configure your credentials in `secure-auth-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+VITE_PORT=8080
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:secure-auth
+```
+
+This command will automatically:
+- Install all required dependencies
+- Start the backend server (port 3000)
+- Start the frontend application (port 8080)
+
+Then open http://localhost:8080 in your browser.
+
+### Authentication Flow
+
+1. **Frontend**: User enters a UID (User ID)
+2. **Backend**: Receives request, authenticates with Beefree API using secure credentials
+3. **Token**: Backend returns a JWT token to frontend
+4. **SDK**: Frontend initializes Beefree SDK with the token
+5. **Refresh**: System automatically refreshes tokens before they expire
+
+### Troubleshooting
+
+If you encounter authentication errors:
+- Check that your Client ID and Secret are correct in the `.env` file
+- Ensure the backend server is running on port 3000
+- Verify that `VITE_PORT` matches the frontend port (default 8080)
+
+---
 
 The `secure-auth-example` folder contains a shared authentication server used by most examples. It provides:
 
@@ -441,7 +495,7 @@ beefree-sdk-examples/
 ├── commenting-example/               # Real-time commenting
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
-├── auto-save-template-versioning/    # Auto-save with versioning
+├── autosave-versioning-example/    # Auto-save with versioning
 ├── template-export-pdf-example/      # PDF export functionality
 ├── multi-builder-switch-example/     # Multi-builder switching
 └── secure-auth-example/              # Shared auth server
