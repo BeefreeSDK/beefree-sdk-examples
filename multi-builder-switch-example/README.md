@@ -248,7 +248,10 @@ cp .env.example .env
 Edit `.env` file with your Beefree SDK credentials:
 
 ```env
-# IMPORTANT: Builder-specific Client IDs and Secrets (REQUIRED)
+# IMPORTANT: 
+# Either builder-specific or default Beefree SDK credentials are required
+
+# Builder-specific Credentials (RECOMMENDED):
 # Each builder type requires its own application in the Developer Console
 # to show the correct sidebar options (e.g., Form button for Page builder)
 # At minimum, provide credentials for the builders you plan to use
@@ -259,8 +262,8 @@ PAGE_CLIENT_SECRET=your_page_client_secret_here
 POPUP_CLIENT_ID=your_popup_client_id_here
 POPUP_CLIENT_SECRET=your_popup_client_secret_here
 
-# Optional: Default Beefree SDK Credentials (fallback if builder-specific not provided)
-# Only needed if you want a single set of credentials for all builders
+# Default Beefree SDK Credentials (FALLBACK)
+# If a single set of shared credentials for all builders is available
 # BEEFREE_CLIENT_ID=your_client_id_here
 # BEEFREE_CLIENT_SECRET=your_client_secret_here
 
@@ -272,12 +275,15 @@ VITE_POPUP_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee-popup
 # Default builder type on load
 VITE_DEFAULT_BUILDER=email
 
-# Server Configuration
+# Back-End Server Port
 PORT=3006
+
+# Front-end Server Port
+VITE_PORT=8006
 ```
 
 **Configuration Options:**
-- **Builder-Specific Credentials** (Recommended): Each builder type (Email, Page, Popup) requires its own application in the [Developer Console](https://developers.beefree.io). The builder type is determined by the application configuration, which controls which sidebar options are available (e.g., Form button for Page builder). **You must provide credentials for at least one builder type.**
+- **Builder-Specific Credentials** (Recommended): Each builder type (Email, Page, Popup) requires its own application in the [Developer Console](https://developers.beefree.io). The builder type is determined by the application configuration, which controls which sidebar options are available (e.g., Form button for Page builder). **You must provide credentials for at least one builder type.** Learn more about creating different application types in the [official documentation](https://docs.beefree.io/beefree-sdk/getting-started/readme/create-an-application).
 - **Fallback Credentials** (Optional): If builder-specific credentials are not provided for a builder type, the system will fall back to `EMAIL_CLIENT_ID`/`EMAIL_CLIENT_SECRET` first, then to `BEEFREE_CLIENT_ID`/`BEEFREE_CLIENT_SECRET` if available. However, **builder-specific credentials are strongly recommended** to ensure the correct sidebar options appear for each builder type.
 - **Template URLs**: Customize template URLs for each builder type
 - **Default Builder**: Set which builder loads first
