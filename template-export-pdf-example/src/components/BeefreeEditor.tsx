@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { IBeeConfig } from '@beefree.io/sdk/dist/types/bee'
+import { IBeeConfig, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 import { initializeBeefreeSDK } from '../services/beefree'
 import { clientConfig } from '../config/clientConfig'
+import { useBeefree } from '../context/BeefreeContext'
+import { LoadingOverlay } from './LoadingOverlay'
 
 export const BeefreeEditor = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const initializationRef = useRef(false)
+  const { updateTemplateData, registerSaveHandler } = useBeefree()
 
   useEffect(() => {
     const initializeEditor = async () => {
@@ -15,20 +18,26 @@ export const BeefreeEditor = () => {
       try {
         const config: IBeeConfig = {
           ...clientConfig,
-          onSave: (jsonFile: any, htmlFile: string) => {
+          onSave: (jsonFile: IEntityContentJson, htmlFile: string) => {
             console.log('📄 Template saved:', { jsonFile, htmlFile })
-            window.currentTemplate = { jsonFile, htmlFile }
+            updateTemplateData({ jsonFile, htmlFile })
           },
-          onSaveAsTemplate: (jsonFile: any) => {
+          onSaveAsTemplate: (jsonFile: IEntityContentJson) => {
             console.log('💾 Template saved as template:', jsonFile)
           },
-          onAutoSave: (jsonFile: any) => {
+          onAutoSave: (jsonFile: IEntityContentJson) => {
             console.log('🔄 Auto-save:', jsonFile)
-            window.currentTemplate = { jsonFile }
+            updateTemplateData({ jsonFile })
           }
         }
 
-        await initializeBeefreeSDK(config)
+        const beeInstance = await initializeBeefreeSDK(config)
+        if (beeInstance) {
+          registerSaveHandler(() => {
+            beeInstance.save()
+          })
+        }
+        
         console.log('🚀 Beefree SDK PDF Export demo initialized')
       } catch (error) {
         console.error('Failed to initialize Beefree SDK:', error)
@@ -39,14 +48,11 @@ export const BeefreeEditor = () => {
     // Small delay to ensure DOM is ready (same as custom-css-example)
     const timer = setTimeout(initializeEditor, 100)
     return () => clearTimeout(timer)
-  }, [])
+  }, [updateTemplateData, registerSaveHandler])
 
   return (
     <div className="builder-wrapper">
-      <div id="loading-overlay" className="loading-overlay">
-        <div className="spinner"></div>
-        <span>Loading Beefree SDK...</span>
-      </div>
+      <LoadingOverlay />
       <div 
         id="bee-plugin-container" 
         ref={containerRef}
@@ -55,12 +61,3 @@ export const BeefreeEditor = () => {
   )
 }
 
-// Extend window interface for template storage and Beefree SDK
-declare global {
-  interface Window {
-    currentTemplate?: {
-      jsonFile?: any
-      htmlFile?: string
-    }
-  }
-}

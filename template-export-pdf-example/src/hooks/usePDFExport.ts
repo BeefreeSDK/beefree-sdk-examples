@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { PDFExportService } from '../services/pdfExport'
 import { ExportOptions, PDFExportState, ExportHistoryItem } from '../types'
 import { DEFAULT_EXPORT_OPTIONS } from '../config/constants'
