@@ -51,17 +51,17 @@ yarn start:autosave
 
 This single command will:
 - ✅ Automatically install all dependencies
-- ✅ Start the authentication server (port 3002)
-- ✅ Start the auto-save example (port 5173)
+- ✅ Start the authentication server (port 3008)
+- ✅ Start the auto-save example (port 8008)
 
-Then open your browser to `http://localhost:5173`
+Then open your browser to `http://localhost:8008`
 
 **Before running**, make sure to configure your Beefree SDK credentials in `auto-save-template-versioning/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3002
+PORT=3008
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -91,8 +91,8 @@ BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 
 # Server Configuration
-PORT=3002
-VITE_PORT=5173
+PORT=3008
+VITE_PORT=8008
 ```
 
 #### 3. Start the Application
@@ -113,7 +113,7 @@ yarn server:dev
 yarn client
 ```
 
-Open your browser to `http://localhost:5173`
+Open your browser to `http://localhost:8008`
 
 ### **Additional Commands**
 ```bash
@@ -199,7 +199,7 @@ export class AutosaveVersionsStore {
 
 ### Authentication Flow
 
-This example uses the `secure-auth-example` server to handle credentials securely:
+This example uses its own local server (`server.ts`) to handle credentials securely:
 
 1. **Client** requests a token from `/auth/token`
 2. **Server** validates and creates a signed JWT token
@@ -340,9 +340,8 @@ const formatTimestamp = (timestamp: string) => {
 ## 🐛 Troubleshooting
 
 ### Authentication Fails
-**Solution:** Ensure `secure-auth-example` is running on port 3000
+**Solution:** Ensure the backend server is running on port 3008
 ```bash
-cd ../secure-auth-example
 yarn server:dev
 ```
 
@@ -388,7 +387,7 @@ yarn server:dev
 ## 🔗 Related Resources
 
 - **[Beefree SDK Auto-Save Documentation](https://docs.beefree.io/beefree-sdk/)** - Official documentation
-- **[secure-auth-example](../secure-auth-example/)** - Authentication server used by this demo
+- **[secure-auth-example](../secure-auth-example/)** - Reference for authentication patterns
 - **[Beefree SDK Console](https://developers.beefree.io/)** - Get your credentials
 - **[React Documentation](https://react.dev/)** - React best practices
 - **[TypeScript Handbook](https://www.typescriptlang.org/docs/)** - TypeScript guide

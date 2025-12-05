@@ -78,8 +78,8 @@ BEEFREE_UID=user_unique_id
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
-PORT=8083
-VITE_PORT=8081
+PORT=3029
+VITE_PORT=8029
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -110,8 +110,8 @@ BEEFREE_UID=user_unique_id
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
-PORT=8083
-VITE_PORT=8081
+PORT=3029
+VITE_PORT=8029
 ```
 
 > **Important**: Your MCP API key must be MCP-compatible. Standard CSAPI keys will not work. Request access via the [beta survey](https://growens.typeform.com/to/gyH0gVgp#source=docs).

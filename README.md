@@ -223,9 +223,9 @@ To run the example, use the start command from the root of the repository:
 yarn start:conditional-rows
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8018) and the authentication server (port 3018).
+This command will automatically install all required dependencies and start both the frontend (port 8014) and the authentication server (port 3000).
 
-You can now open http://localhost:8018 in your browser.
+You can now open http://localhost:8014 in your browser.
 
 ### How It Works
 
@@ -270,17 +270,17 @@ To run this example, use the start command from the root of the repository:
 yarn start:custom-css
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8007) and the authentication server (port 3007).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `custom-css-example/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3007
 ```
 
-Then open http://localhost:8081 in your browser.
+Then open http://localhost:8007 in your browser.
 
 ---
 
@@ -304,23 +304,17 @@ To run this example, use the start command from the root of the repository:
 yarn start:autosave
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 5173) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8008) and the authentication server (port 3008).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `auto-save-template-versioning/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3008
 ```
 
-You can also optionally configure auto-save settings in `auto-save-template-versioning/.env`:
-
-```env
-VITE_AUTH_PROXY_URL=http://localhost:3000/auth/token
-```
-
-Then open http://localhost:5173 in your browser.
+Then open http://localhost:8008 in your browser.
 
 ---
 
@@ -424,8 +418,6 @@ The `secure-auth-example` folder contains a shared authentication server used by
 **This server must be running** for the following examples:
 - Commenting Example
 - Conditional Rows Example
-- Custom CSS Example  
-- Auto-Save Template Versioning Example
 
 The root-level start commands automatically start this server for you.
 
