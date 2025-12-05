@@ -18,7 +18,7 @@ This example demonstrates **advanced interface theming** for the Beefree SDK usi
 - **Component Composition**: Modular, reusable components
 
 ### 🔐 **Secure Authentication**
-- **Server-side Authentication**: Uses shared auth proxy (`secure-auth-example`)
+- **Autonomous Authentication**: Includes its own local Node.js/Express authentication server
 - **Token Management**: Automatic token handling via auth service
 - **Environment Variables**: Secure credential management
 
@@ -50,6 +50,7 @@ custom-css-example/
 │       ├── theme-dark.css
 │       ├── theme-high-contrast.css
 │       └── theme-coral.css
+├── server.ts                # Local authentication server
 ├── vite.config.ts           # Vite configuration
 ├── tsconfig.json           # TypeScript configuration
 └── package.json            # Dependencies and scripts
@@ -144,7 +145,6 @@ const savedTheme = localStorage.getItem('theme') as ThemeType || ''
 ### **Prerequisites**
 - Node.js 22+ and Yarn
 - Beefree SDK credentials
-- The `secure-auth-example` server running for authentication
 
 ### Option 1: Run from Repository Root (Recommended)
 
@@ -156,95 +156,54 @@ yarn start:custom-css
 ```
 
 This single command will:
-- ✅ Automatically install all dependencies (root, custom-css-example, and secure-auth-example)
-- ✅ Start the authentication server (port 3000)
-- ✅ Start the custom CSS example (port 8081)
+- ✅ Automatically install all dependencies
+- ✅ Start the local authentication server (port 3007)
+- ✅ Start the custom CSS example frontend (port 8007)
 
-Then open your browser to `http://localhost:8081`
+Then open your browser to `http://localhost:8007`
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `custom-css-example/.env`:
 
+```bash
+cd custom-css-example
+cp .env.example .env
+```
+
+Edit `.env`:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3007
 ```
 
 ### Option 2: Run Manually (Advanced)
 
-If you prefer to run the example independently, you need to manually start both the authentication server and the custom CSS example:
+If you prefer to run the example independently:
 
 #### 1. Install Dependencies
-
-First, install dependencies for both the custom-css-example and the secure-auth-example:
 
 ```bash
 # In the custom-css-example folder
 yarn install
-
-# In the secure-auth-example folder
-cd ../secure-auth-example
-yarn install
-cd ../custom-css-example
 ```
 
 #### 2. Configure Environment
 
-Configure the secure-auth-example with your Beefree SDK credentials:
-
 ```bash
-cd ../secure-auth-example
 cp .env.example .env
 ```
 
-Edit `secure-auth-example/.env`:
-```env
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
-```
+Edit `.env` with your credentials.
 
-Optionally, configure the custom-css-example:
+#### 3. Start the Application
 
 ```bash
-cd ../custom-css-example
-cp .env.example .env
-```
-
-Edit `custom-css-example/.env` if needed:
-```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
-
-# Template URL for default template
-VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-```
-
-**Configuration Options:**
-- **Direct URL**: Set `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` for direct backend communication
-- **Vite Proxy**: Comment out or omit `VITE_BEEFREE_AUTH_PROXY_URL` to use the configured Vite proxy (`/auth/token`)
-
-#### 3. Start Authentication Server
-
-In a separate terminal, start the secure-auth-example server:
-
-```bash
-cd ../secure-auth-example
-yarn server:dev
-```
-
-The auth server should be running on `http://localhost:3000`
-
-#### 4. Start Custom CSS Example
-
-In another terminal, start the custom CSS example:
-
-```bash
-cd ../custom-css-example
 yarn start
 ```
 
-Open your browser to `http://localhost:5174`
+This will concurrently run the backend server (3007) and frontend (8007).
+
+Open your browser to `http://localhost:8007`
 
 ### **Additional Commands**
 ```bash
@@ -261,7 +220,7 @@ yarn type-check
 ## 🎯 Usage Guide
 
 ### **Testing Themes**
-1. **Start the application**: Open http://localhost:8081
+1. **Start the application**: Open http://localhost:8007
 2. **Select a theme**: Use the dropdown in the header
 3. **Observe changes**: The editor interface updates immediately
 4. **Persistence test**: Refresh the page - theme should be remembered
@@ -346,7 +305,7 @@ All Beefree SDK configurations are typed using official SDK types.
 Clean separation between React components and Beefree SDK logic.
 
 #### **🔐 Secure Authentication**
-Never exposes credentials in frontend - all auth handled via proxy.
+Never exposes credentials in frontend - all auth handled via local server proxy.
 
 ## 🎨 Customization Guide
 
@@ -424,7 +383,8 @@ Ensure production environment has:
 
 ## 📚 Resources
 
-- **[Beefree SDK Custom CSS Documentation](https://docs.beefree.io/beefree-sdk/)**
+- **[Beefree SDK Custom CSS Documentation](https://docs.beefree.io/beefree-sdk/other-customizations/appearance/custom-css)**
+- **[Beefree SDK Themes Documentation](https://docs.beefree.io/beefree-sdk/other-customizations/appearance/themes)**
 - **[CSS Variables Reference](https://docs.beefree.io/beefree-sdk/customization/)**
 - **[React + TypeScript Best Practices](https://react-typescript-cheatsheet.netlify.app/)**
 - **[Vite Documentation](https://vitejs.dev/)**

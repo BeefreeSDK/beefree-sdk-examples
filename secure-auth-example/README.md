@@ -7,7 +7,6 @@ This example demonstrates **secure, production-ready authentication** for the Be
 ### 🔐 **Enterprise-Grade Security**
 - **Backend-Only Credentials**: Client ID/Secret never exposed to frontend
 - **Secure Token Management**: JWT tokens with automatic refresh
-- **Shared Authentication Module**: Reusable auth logic across examples
 - **Production-Ready Error Handling**: Comprehensive error states and recovery
 
 ### 🏗️ **Modern Architecture**
@@ -258,25 +257,19 @@ export class BeefreeService {
 #### **🛡️ TypeScript Express.js Server** - Secure Backend
 ```typescript
 import express, { Request, Response } from 'express'
-import { setupAuthEndpoint } from '../shared/auth.js'
 
 const app = express()
 
-// Setup shared authentication endpoint
-setupAuthEndpoint(app, process.env.BEEFREE_CLIENT_ID, process.env.BEEFREE_CLIENT_SECRET)
+// Setup authentication endpoint directly
+app.post('/auth/token', async (req: Request, res: Response) => {
+  // ... authentication logic
+})
 
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'healthy', timestamp: new Date().toISOString() })
 })
 ```
-
-#### **🔒 Shared Authentication Module** - `../shared/auth.js`
-The backend uses a shared authentication module that:
-- Handles Beefree SDK authentication
-- Manages token generation and validation
-- Provides consistent error handling
-- Implements security best practices
 
 ## 🚀 Quick Start
 
@@ -569,13 +562,6 @@ This example serves as the **authentication provider** for other examples:
 - **custom-css-example**: Uses this server for auth proxy
 - **template-export-pdf-example**: Shares authentication logic
 - **Future examples**: Can leverage the shared auth module
-
-### **Shared Authentication Module**
-Located in `../shared/auth.js`, this module provides:
-- Consistent authentication logic
-- Token management utilities  
-- Error handling patterns
-- Security best practices
 
 ---
 

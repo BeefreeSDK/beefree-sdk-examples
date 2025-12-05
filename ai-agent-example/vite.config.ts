@@ -14,11 +14,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: parseInt(process.env.VITE_PORT || '8081', 10),
+    port: parseInt(process.env.VITE_PORT || '8029', 10),
     host: true,
     proxy: {
       '/auth': {
-        target: 'http://localhost:3000',
+        target: `http://localhost:${process.env.PORT || 3029}`,
         changeOrigin: true,
         secure: false,
       }

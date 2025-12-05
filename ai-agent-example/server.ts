@@ -13,8 +13,8 @@ const envSchema = z.object({
   BEEFREE_MCP_API_KEY: z.string().min(1, 'BEEFREE_MCP_API_KEY is required'),
   BEEFREE_UID: z.string().default('ai-agent-user'),
   OPENAI_API_KEY: z.string().min(1, 'OPENAI_API_KEY is required'),
-  PORT: z.string().default('8083'),
-  VITE_PORT: z.string().default('8082'),
+  PORT: z.string().default('3029'),
+  VITE_PORT: z.string().default('8029'),
 })
 
 let env: z.infer<typeof envSchema>

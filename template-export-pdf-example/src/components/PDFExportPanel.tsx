@@ -1,30 +1,23 @@
 import { useState, useCallback } from 'react'
 import { ExportOptions, PDFExportPanelProps } from '../types'
 import { DEFAULT_EXPORT_OPTIONS } from '../config/constants'
+import { useBeefree } from '../context/BeefreeContext'
 
 export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
   const [exportOptions, setExportOptions] = useState<ExportOptions>(DEFAULT_EXPORT_OPTIONS)
+  const { triggerSave } = useBeefree()
 
   const handleExport = useCallback(async () => {
     try {
       console.log('🔍 Starting PDF export process...')
       
-      // First, trigger Beefree SDK save to get fresh JSON and HTML
-      const bee = (window as any).bee
-      if (bee?.save) {
-        console.log('💾 Triggering Beefree SDK save...')
-        const saveResult = await bee.save()
-        console.log('✅ Save result:', saveResult)
-      } else {
-        console.warn('⚠️ Beefree SDK save method not available')
-      }
-
-      // Wait a moment for onSave callback to update window.currentTemplate
-      await new Promise(resolve => setTimeout(resolve, 500))
+      // Trigger save via context and wait for the data
+      console.log('💾 Triggering Beefree SDK save via context...')
+      const templateData = await triggerSave()
       
       // Get the saved template data (both JSON and HTML)
-      const templateJson = window.currentTemplate?.jsonFile
-      const templateHtml = window.currentTemplate?.htmlFile
+      const templateJson = templateData.jsonFile
+      const templateHtml = templateData.htmlFile
       
       console.log('🔍 Template JSON available:', !!templateJson)
       console.log('🔍 Template HTML available:', !!templateHtml)
@@ -36,21 +29,21 @@ export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
       }
 
       // Prepare template data - prefer HTML for PDF export
-      let templateData
+      let exportData
       if (templateHtml) {
         console.log('📄 Using HTML template for export')
-        templateData = templateHtml
+        exportData = templateHtml
       } else if (templateJson) {
         console.log('📄 Using JSON template for export') 
-        templateData = templateJson
+        exportData = templateJson
       }
       
-      await pdfExport.exportTemplate(templateData, exportOptions)
+      await pdfExport.exportTemplate(exportData, exportOptions)
     } catch (error) {
       console.error('Export failed:', error)
       alert(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
-  }, [exportOptions, pdfExport])
+  }, [exportOptions, pdfExport, triggerSave])
 
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -209,14 +202,4 @@ export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
       )}
     </>
   )
-}
-
-// Extend window interface for template storage
-declare global {
-  interface Window {
-    currentTemplate?: {
-      jsonFile?: any
-      htmlFile?: string
-    }
-  }
 }

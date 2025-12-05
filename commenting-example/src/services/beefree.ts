@@ -56,12 +56,40 @@ const removeLoadingOverlay = (): void => {
   }
 }
 
-export const initializeBeefreeSDK = async (clientConfig: IBeeConfig): Promise<BeefreeSDK | undefined> => {
+export const initializeBeefreeSDK = async (
+  clientConfig: IBeeConfig, 
+  onPlanCheck?: (plan: string) => void
+): Promise<BeefreeSDK | undefined> => {
   // Initialize Beefree SDK when BeePlugin is available
   try {
     const templateData = await loadTemplate()
     const tokenResponse = await authenticate(clientConfig.uid || DEFAULT_CLIENT_CONFIG.uid)
     const token: IToken = await tokenResponse.json()
+    
+    // Check plan restrictions
+    if (token.access_token) {
+      try {
+        const base64Url = token.access_token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        
+        const payload = JSON.parse(jsonPayload);
+        console.log('🔍 Decoded Token Payload:', payload);
+
+        // Check for incompatible plans (free or essentials)
+        const plan = payload.plan || '';
+        if ((plan.includes('free') || plan.includes('essentials')) && onPlanCheck) {
+          onPlanCheck(plan);
+          console.warn('⚠️ Plan restriction detected:', plan);
+        }
+
+      } catch (e) {
+        console.warn('Could not decode token to check plan:', e);
+      }
+    }
+
     const BeePlugin = new BeefreeSDK(token)
     const bee = BeePlugin
     window.bee = bee as unknown as BeefreeInstance
