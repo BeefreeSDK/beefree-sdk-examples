@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx,js --fix",
-    "start:autosave": "yarn install --check-files && cd autosave-versioning-example && yarn install --check-files && cd .. && concurrently \"cd autosave-versioning-example && yarn server:dev\" \"cd autosave-versioning-example && yarn client\" --names \"autosave-backend,autosave-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:autosave": "yarn install --check-files && cd autosave-versioning-example && yarn install --check-files && cd .. && concurrently \"cd autosave-versioning-example && yarn server:dev\" \"cd autosave-versioning-example && yarn dev\" --names \"autosave-backend,autosave-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:commenting": "yarn install --check-files && cd commenting-example && yarn install --check-files && cd .. && concurrently \"cd commenting-example && yarn server:dev\" \"cd commenting-example && yarn dev\" --names \"commenting-backend,commenting-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:conditional-rows": "yarn install --check-files && cd conditional-rows-example && yarn install --check-files && cd .. && concurrently \"cd conditional-rows-example && yarn server:dev\" \"cd conditional-rows-example && yarn dev\" --names \"conditional-rows-backend,conditional-rows-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn server:dev\" \"cd custom-css-example && yarn dev\" --names \"custom-css-backend,custom-css-frontend\" --prefix-colors \"yellow,cyan\"",
