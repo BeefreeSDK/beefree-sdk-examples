@@ -58,7 +58,7 @@ beefree-sdk-examples/
 15. ↩️  schema-conversion-example           → Convert Simple ↔ Full JSON through CSAPI.
 16.     custom-file-system-example          → For example written in GO and integrated with an external file system (e.g., S3).
 17.     advanced-permissions-example        → Define roles (admin, editor, read-only).                                              → 🔐
-18. ✅  commenting-example                  → Comments configuration. Frontend only. Use callback to trigger toast notifications.
+18. ✅  commenting-example                  → Comments configuration. Use callback to trigger toast notifications.                  → 🔐
 19. ↩️  form-block-prepopulate-example      → Prepopulated forms for lead capture.                                                  → 🔐
 20. ↩️  form-block-contentdialog-example    → Form block with content dialog with custom UI.                                        → 🔐
 21.     multilanguage-template-example      → Full multilingual templates example.                                                  → 🔐
@@ -81,7 +81,7 @@ beefree-sdk-examples/
 ### Shared Services Pattern
 - Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own, by specifying its endpoint in the specific example's .env file as `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token`. This requires manually starting the `secure-auth-example` back-end server with `yarn server:dev` (launched from within its folder).
 - This needs to be clearly documented in all README.md and specific .env.example files.
-- The ability to use the shared server needs to be implemented in the specific example's vite configuration.
+- Handle the ability to use the shared server in src/config/constants.ts by using import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL to set the absolute URL for the fetch call.
 
 ### Technology Stack
 All examples use a **consistent, modern full-stack TypeScript architecture**:

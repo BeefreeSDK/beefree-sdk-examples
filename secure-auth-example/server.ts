@@ -56,12 +56,30 @@ async function authenticateBeefree(clientId: string, clientSecret: string, uid: 
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:8080',  // secure-auth-example frontend
-    'http://localhost:8081',  // custom-css-example
-    'http://localhost:8082',  // custom-css-example fallback
-    'http://localhost:5174'   // template-export-pdf-example
-  ],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow any localhost origin on port 80xx (frontend examples) or 30xx (backend/proxy)
+    if (origin.match(/^http:\/\/localhost:(80\d{2}|30\d{2})$/)) {
+      return callback(null, true);
+    }
+    
+    // Default allowed origins
+    const allowedOrigins = [
+      'http://localhost:8080', // secure-auth-example frontend
+      'http://localhost:5173', // Vite default
+      'http://localhost:5174'  // Vite default 2
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    
+    // For development convenience, we can log blocked origins
+    console.log('⚠️ CORS blocked origin:', origin);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }))
 app.use(express.json())
