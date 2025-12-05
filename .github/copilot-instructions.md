@@ -32,8 +32,6 @@ This is a **monorepo** where each folder represents an **independent, self-conta
 beefree-sdk-examples/
 ├── .eslintrc.cjs                  # Shared ESLint config (root-level)
 ├── package.json                   # Root scripts (start:commenting, start:custom-css)
-├── shared/
-│   └── auth.js                    # Shared authentication module (JWT tokens)
 ├── commenting-example/            # Real-time commenting system
 ├── custom-css-example/            # Dynamic theming and CSS customization
 ├── secure-auth-example/           # Authentication server (shared by multiple examples)
@@ -41,17 +39,49 @@ beefree-sdk-examples/
 └── [future examples...]
 ```
 
+## List of currently implemented examples (and more to come)
+
+1.  ✅  secure-auth-example                 → Simple Front-End with secure authentication via Back-End + token.
+2.  ⌛  template-load-example               → Load saved templates from DB.
+3.  ✅  template-export-pdf-example         → Export template to PDF via CSAPI.
+4.  ↩️  template-thumbnail-example          → Generate template thumbnails via CSAPI.
+5.  ↩️  html-importer-example               → Convert legacy HTML into Beefree JSON.
+6.  ✅  multi-builder-switch-example        → Switch between Email Builder, Page Builder and Popup Builder.                         → 🔐
+7.  ✅  custom-css-example                  → Apply custom CSS to the builder.                                                      → 🔐
+8.  ✅  autosave-versioning-example         → Autosave with template versioning. 
+9.  ↩️  liquid-personalization-example      → Advanced personalization with Liquid.                                                 → 🔐
+10.     multiuser-collaboration-example     → Real-time collaboration via co-edit server.
+11.     special-links-groups-example        → Special Links grouped by categories.                                                  → 🔐
+12.     reusable-rows-example               → Manage reusable rows across templates.
+13.     locked-content-example              → Lock sections/modules with advanced permissions.                                      → 🔐
+14. ✅  conditional-rows-example            → Show/hide rows conditionally. 
+15. ↩️  schema-conversion-example           → Convert Simple ↔ Full JSON through CSAPI.
+16.     custom-file-system-example          → For example written in GO and integrated with an external file system (e.g., S3).
+17.     advanced-permissions-example        → Define roles (admin, editor, read-only).                                              → 🔐
+18. ✅  commenting-example                  → Comments configuration. Frontend only. Use callback to trigger toast notifications.
+19. ↩️  form-block-prepopulate-example      → Prepopulated forms for lead capture.                                                  → 🔐
+20. ↩️  form-block-contentdialog-example    → Form block with content dialog with custom UI.                                        → 🔐
+21.     multilanguage-template-example      → Full multilingual templates example.                                                  → 🔐
+22.     content-ai-generate-example         → Generate text with AI from a prompt.                                                  → 🔐
+23.     content-ai-style-example            → Transform text into a specific tone/style.                                            → 🔐
+24.     video-block-example                 → Email/Page Builder with different Video block types.                                  → 🔐
+25.     custom-add-ons-blocks-example       → Custom block types using custom Add-ons.                                              → 🔐
+26.     content-defaults-example            → Full branding (logo, colors, fonts).                                                  → 🔐
+27.     custom-fonts-example                → Full fonts configuration (system fonts, web fonts).                                   → 🔐
+28.     checker-example                     → Implementation of our SDK Checker API (SEO, accessibility).
+29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
+
 ## Key Principles
 
 ### Independence & Portability
 - Each example folder **must work independently** when copied to another location
 - After copying: `yarn install && yarn start` should be sufficient to run
-- No cross-folder dependencies except for explicitly documented shared services
+- No cross-folder dependencies (except for explicitly documented optional shared services)
 
 ### Shared Services Pattern
-- Some examples share the `secure-auth-example` authentication server
-- This is clearly documented and handled by root-level start commands
-- Examples: `commenting-example` and `custom-css-example` use shared auth
+- Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own, by specifying its endpoint in the specific example's .env file as `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token`. This requires manually starting the `secure-auth-example` back-end server with `yarn server:dev` (launched from within its folder).
+- This needs to be clearly documented in all README.md and specific .env.example files.
+- The ability to use the shared server needs to be implemented in the specific example's vite configuration.
 
 ### Technology Stack
 All examples use a **consistent, modern full-stack TypeScript architecture**:
@@ -65,13 +95,15 @@ All examples use a **consistent, modern full-stack TypeScript architecture**:
 - React 19 with hooks
 - TypeScript for type safety
 - Vite for fast development and optimized builds
+- Defaults to port 8000 + corresponding example number (e.g.: ai-agent-example runs on port 8029) except secure-auth-example (which runs on port 8080) 
 
 **Backend:**
 - TypeScript + Express.js
 - ES Modules
 - tsx for hot reloading during development
-- Shared auth module for consistency
+- Shared auth module structure for consistency (but each example shall be able to run independently)
 - Environment variables for secure credential management
+- Defaults to port 3000 + corresponding example number (e.g.: ai-agent-example runs on port 3029) except secure-auth-example (which runs on port 3000)
 
 ## Security Requirements
 
@@ -106,16 +138,19 @@ Frontend → Backend Auth Server → Beefree SDK API
 ```bash
 yarn start:commenting  # Start commenting example + auth server
 yarn start:custom-css  # Start custom-css example + auth server
+...
 ```
 
 ### Individual Example Commands
 ```bash
 cd [example-folder]
-yarn install               # Install dependencies
-yarn start                 # Start the example
-yarn dev               # Development mode (Vite)
-yarn build             # Production build
-yarn type-check        # TypeScript type checking
+yarn install            # Install dependencies
+yarn start              # Start the example (both Front-End and Back-End)
+yarn dev                # Start the Front-End in development mode (Vite)
+yarn build              # Production build
+yarn type-check         # TypeScript type checking
+yarn server             # Start the Back-End
+yarn server:dev         # Start the Back-End in development mode
 ```
 
 ## Example Structure Pattern
@@ -130,7 +165,7 @@ example-name/
 ├── tsconfig.json         # TypeScript configuration
 ├── vite.config.ts        # Vite configuration (for React examples)
 ├── index.html            # HTML entry point
-├── server.ts             # Backend server (if needed)
+├── server.ts             # Backend server
 ├── src/
 │   ├── index.tsx         # Frontend entry point
 │   ├── styles.css        # Global styles
@@ -158,7 +193,7 @@ example-name/
 1. Maintain the existing architecture patterns
 2. Preserve TypeScript type safety
 3. Keep security best practices (backend-only credentials)
-4. Update documentation if behavior changes
+4. Update documentation when behavior and/or configuration change
 
 ### Documentation Requirements
 - Each example MUST have a comprehensive README
