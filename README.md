@@ -210,11 +210,11 @@ It is **not available** on Free and Essentials plans.
 - Find the **Display Conditions** option and toggle it to **ON**
 - Save your changes
 
-3. Add your Beefree SDK credentials to the `secure-auth-example/.env` file:
+3. Add your Beefree SDK credentials to the `conditional-rows-example/.env` file:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3014
 ```
 
 To run the example, use the start command from the root of the repository:
@@ -223,7 +223,15 @@ To run the example, use the start command from the root of the repository:
 yarn start:conditional-rows
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8014) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8014) and the authentication server (port 3014).
+
+**Before running**, make sure to configure your Beefree SDK credentials in `conditional-rows-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3014
+```
 
 You can now open http://localhost:8014 in your browser.
 
@@ -417,7 +425,6 @@ The `secure-auth-example` folder contains a shared authentication server used by
 
 **This server must be running** for the following examples:
 - Commenting Example
-- Conditional Rows Example
 
 The root-level start commands automatically start this server for you.
 

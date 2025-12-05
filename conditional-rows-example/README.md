@@ -79,7 +79,7 @@ The example demonstrates the advanced **Content Dialog** feature, allowing users
 - Node.js 22+ and Yarn
 - A Beefree SDK account on a **Core plan or above** (required for Display Conditions)
 - Display Conditions feature [enabled in your Beefree SDK Console](#1-enable-display-conditions-in-your-beefree-sdk-console)
-- The `secure-auth-example` server running for authentication
+- Beefree SDK credentials
 
 ### Option 1: Run from Repository Root (Recommended)
 
@@ -91,18 +91,18 @@ yarn start:conditional-rows
 ```
 
 This single command will:
-- ✅ Automatically install all dependencies (root, conditional-rows-example, and secure-auth-example)
-- ✅ Start the authentication server (port 3000)
+- ✅ Automatically install all dependencies
+- ✅ Start the authentication server (port 3014)
 - ✅ Start the conditional rows example (port 8014)
 
 Then open your browser to `http://localhost:8014`
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `conditional-rows-example/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3014
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -111,72 +111,50 @@ If you prefer to run the example independently, you need to manually start both 
 
 #### 1. Install Dependencies
 
-First, install dependencies for both the conditional rows example and the secure-auth-example:
-
 ```bash
-# In the main folder
-cd ./secure-auth-example
-yarn install
-cd ../conditional-rows-example
+cd conditional-rows-example
 yarn install
 ```
 
 #### 2. Configure Environment
 
-Configure the `secure-auth-example/.env` file with your Beefree SDK credentials:
+Create a `conditional-rows-example/.env` file:
 
 ```bash
-cd ../secure-auth-example
 cp .env.example .env
 ```
 
-Edit `secure-auth-example/.env`:
+Modify `conditional-rows-example/.env`:
 
 ```env
+# Beefree SDK Credentials (Backend Only)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
-```
 
-If using a different custom authentication proxy, create a `conditional-rows-example/.env` file:
-
-```bash
-cd ../conditional-rows-example
-cp .env.example .env
-```
-
-Modify `conditional-rows-example/.env` with your custom proxy URL and port info:
-
-```env
-# Auth proxy URL (points to secure-auth-example)
-VITE_BEEFREE_AUTH_PROXY_URL=http://your_auth_proxy:port/auth/token
-# Template URL for default template
-VITE_BEEFREE_TEMPLATE_URL=https://rsrc.getbee.io/api/templates/m-bee
-# Front-end server port
+# Server Configuration
+PORT=3014
 VITE_PORT=8014
 ```
 
-#### 3. If using the provided Authentication Server
+#### 3. Start the Application
 
-In a separate terminal, start the secure-auth-example server:
-
-```bash
-cd ../secure-auth-example
-yarn server:dev
-```
-
-The auth server should be running on `http://localhost:3000`
-
-#### 4. Start Conditional Rows Example
-
-In another terminal, start the conditional rows example:
+You can start both the backend server and frontend client with a single command:
 
 ```bash
-cd ../conditional-rows-example
 yarn start
 ```
 
-Open your browser to `http://localhost:8014` (or the port specified in your `conditional-rows-example/.env` as VITE_PORT)
+Or run them separately in different terminals:
+
+```bash
+# Terminal 1: Backend Server
+yarn server:dev
+
+# Terminal 2: Frontend Client
+yarn dev
+```
+
+Open your browser to `http://localhost:8014`
 
 ---
 
@@ -321,7 +299,7 @@ export const clientConfig: IBeeConfig = {
 
 ### Authentication Flow
 
-This example uses the `secure-auth-example` server to handle credentials securely:
+This example uses its own local server (`server.ts`) to handle credentials securely:
 
 1. **Client** requests a token from `/auth/token`
 2. **Server** validates and creates a signed JWT token
@@ -565,9 +543,8 @@ yarn type-check   # Check TypeScript types
 4. Ensure modal state management is working (check `App.tsx`)
 
 ### Authentication Fails
-**Solution:** Ensure `secure-auth-example` is running on port 3000
+**Solution:** Ensure the backend server is running on port 3014
 ```bash
-cd ../secure-auth-example
 yarn server:dev
 ```
 
