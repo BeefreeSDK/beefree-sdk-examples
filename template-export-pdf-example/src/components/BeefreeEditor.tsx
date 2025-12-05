@@ -18,16 +18,19 @@ export const BeefreeEditor = () => {
       try {
         const config: IBeeConfig = {
           ...clientConfig,
-          onSave: (jsonFile: IEntityContentJson, htmlFile: string) => {
+          onSave: (jsonFile: string, htmlFile: string) => {
             console.log('📄 Template saved:', { jsonFile, htmlFile })
-            updateTemplateData({ jsonFile, htmlFile })
+            const parsedJson = (typeof jsonFile === 'string' ? JSON.parse(jsonFile) : jsonFile) as IEntityContentJson
+            updateTemplateData({ jsonFile: parsedJson, htmlFile })
           },
-          onSaveAsTemplate: (jsonFile: IEntityContentJson) => {
-            console.log('💾 Template saved as template:', jsonFile)
+          onSaveAsTemplate: (jsonFile: string) => {
+            const parsedJson = (typeof jsonFile === 'string' ? JSON.parse(jsonFile) : jsonFile) as IEntityContentJson
+            console.log('💾 Template saved as template:', parsedJson)
           },
-          onAutoSave: (jsonFile: IEntityContentJson) => {
+          onAutoSave: (jsonFile: string) => {
             console.log('🔄 Auto-save:', jsonFile)
-            updateTemplateData({ jsonFile })
+            const parsedJson = (typeof jsonFile === 'string' ? JSON.parse(jsonFile) : jsonFile) as IEntityContentJson
+            updateTemplateData({ jsonFile: parsedJson })
           }
         }
 
