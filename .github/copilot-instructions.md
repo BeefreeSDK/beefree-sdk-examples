@@ -39,7 +39,7 @@ beefree-sdk-examples/
 └── [future examples...]
 ```
 
-## List of currently implemented examples (and more to come)
+## List of examples (available here ✅, available in other repos ↩️, work-in-progress ⌛, and future ones)
 
 1.  ✅  secure-auth-example                 → Simple Front-End with secure authentication via Back-End + token.
 2.  ⌛  template-load-example               → Load saved templates from DB.
@@ -48,7 +48,7 @@ beefree-sdk-examples/
 5.  ↩️  html-importer-example               → Convert legacy HTML into Beefree JSON.
 6.  ✅  multi-builder-switch-example        → Switch between Email Builder, Page Builder and Popup Builder.                         → 🔐
 7.  ✅  custom-css-example                  → Apply custom CSS to the builder.                                                      → 🔐
-8.  ✅  autosave-versioning-example         → Autosave with template versioning. 
+8.  ✅  autosave-versioning-example         → Autosave with template versioning.                                                    → 🔐
 9.  ↩️  liquid-personalization-example      → Advanced personalization with Liquid.                                                 → 🔐
 10.     multiuser-collaboration-example     → Real-time collaboration via co-edit server.
 11.     special-links-groups-example        → Special Links grouped by categories.                                                  → 🔐
@@ -71,6 +71,8 @@ beefree-sdk-examples/
 28.     checker-example                     → Implementation of our SDK Checker API (SEO, accessibility).
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
 
+Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own.
+
 ## Key Principles
 
 ### Independence & Portability
@@ -79,7 +81,8 @@ beefree-sdk-examples/
 - No cross-folder dependencies (except for explicitly documented optional shared services)
 
 ### Shared Services Pattern
-- Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own, by specifying its endpoint in the specific example's .env file as `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token`. This requires manually starting the `secure-auth-example` back-end server with `yarn server:dev` (launched from within its folder).
+- The examples marked with → 🔐 can authenticate with the `secure-auth-example` back-end by setting `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` in the specific example's .env file.
+- This requires manually starting the `secure-auth-example` back-end server with `yarn server:dev` (launched from within its folder).
 - This needs to be clearly documented in all README.md and specific .env.example files.
 - Handle the ability to use the shared server in src/config/constants.ts by using import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL to set the absolute URL for the fetch call.
 

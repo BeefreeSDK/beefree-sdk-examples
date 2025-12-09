@@ -5,11 +5,10 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "concurrently --names 'SERVER,CLIENT' \"yarn server:dev\" \"yarn client\"",
-    "start": "yarn build && yarn server",
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
     "server": "node dist/server.js",
-    "server:dev": "tsx server.ts",
-    "client": "vite",
+    "server:dev": "tsx watch server.ts",
     "build": "vite build && tsc -p tsconfig.server.json",
     "preview": "vite preview",
     "type-check": "tsc --noEmit"

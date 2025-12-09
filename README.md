@@ -33,12 +33,12 @@ Before running any example, you need:
 | Example | Description | Features | Start Command |
 |---------|-------------|----------|---------------|
 | [🤖 AI Agent](#-ai-agent-example) | Natural language email design with AI | OpenAI Agents, MCP integration, 40+ tools, real-time streaming | `yarn start:ai-agent` |
+| [💾 Autosave](#-autosave-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [💬 Commenting](#-commenting-example) | Real-time collaborative commenting | Comments, toast notifications, real-time updates | `yarn start:commenting` |
 | [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
-| [💾 Auto-Save](#-autosave-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
-| [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:template-pdf` |
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
+| [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 
 ---
@@ -131,6 +131,40 @@ If you encounter issues:
 - **CORS Errors**: The backend handles authentication - ensure it started successfully
 
 For detailed information, see `ai-agent-example/README.md`.
+
+---
+
+## 💾 Autosave Template Versioning Example
+
+Automatic template versioning with save history and version management.
+
+### Features
+
+- Automatic template saving at configurable intervals
+- Version history with timestamps
+- Restore previous versions
+- Visual diff between versions
+- Save progress indicator
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:autosave
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8008) and the authentication server (port 3008).
+
+**Before running**, make sure to configure your Beefree SDK credentials in `autosave-versioning-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3008
+```
+
+Then open http://localhost:8008 in your browser.
 
 ---
 
@@ -293,81 +327,6 @@ Then open http://localhost:8007 in your browser.
 
 ---
 
-## 💾 Auto-Save Template Versioning Example
-
-Automatic template versioning with save history and version management.
-
-### Features
-
-- Automatic template saving at configurable intervals
-- Version history with timestamps
-- Restore previous versions
-- Visual diff between versions
-- Save progress indicator
-
-### How to Run
-
-To run this example, use the start command from the root of the repository:
-
-```bash
-yarn start:autosave
-```
-
-This command will automatically install all required dependencies and start both the frontend (port 8008) and the authentication server (port 3008).
-
-**Before running**, make sure to configure your Beefree SDK credentials in `autosave-versioning-example/.env`:
-
-```env
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3008
-```
-
-Then open http://localhost:8008 in your browser.
-
----
-
-## 📄 Template Export PDF Example
-
-Export templates to PDF using the Beefree Content Services API.
-
-### Features
-
-- Export templates to PDF format
-- Multiple export formats (HTML, JSON)
-- Progress tracking during export
-- Download generated PDFs
-- Template preview before export
-
-### How to Run
-
-To run this example, use the start command from the root of the repository:
-
-```bash
-yarn start:template-pdf
-```
-
-This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
-
-**Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
-
-```env
-# Beefree SDK Credentials
-BEEFREE_CLIENT_ID=your_client_id_here
-BEEFREE_CLIENT_SECRET=your_client_secret_here
-
-# Beefree Content Services API
-BEEFREE_CS_API_URL=https://api.getbee.io
-
-# Server Configuration
-PORT=3003
-VITE_PORT=8003
-```
-
-Then open http://localhost:8003 in your browser.
-
----
-
 ## 🏗️ Multi-Builder Switch Example
 
 Dynamic switching between different Beefree builder types (Email, Page, Popup) within a single application.
@@ -412,6 +371,47 @@ PORT=3006
 **Note**: To show builder-specific sidebar options (e.g., Form button for Page builder), each builder type requires its own application configured in the [Developer Console](https://developers.beefree.io) with the corresponding builder type selected.
 
 Then open http://localhost:8006 in your browser.
+
+---
+
+## 📄 Template Export PDF Example
+
+Export templates to PDF using the Beefree Content Services API.
+
+### Features
+
+- Export templates to PDF format
+- Multiple export formats (HTML, JSON)
+- Progress tracking during export
+- Download generated PDFs
+- Template preview before export
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:template-pdf
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
+
+**Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
+
+```env
+# Beefree SDK Credentials
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Beefree Content Services API
+BEEFREE_CS_API_URL=https://api.getbee.io
+
+# Server Configuration
+PORT=3003
+VITE_PORT=8003
+```
+
+Then open http://localhost:8003 in your browser.
 
 ---
 
@@ -470,15 +470,18 @@ If you encounter authentication errors:
 
 ---
 
-The `secure-auth-example` folder contains a shared authentication server used by most examples. It provides:
+The `secure-auth-example` folder contains an authentication server that can be used by most examples. It provides:
 
 - Enterprise-grade JWT token management
 - Automatic token refresh every 5 minutes
 - Secure credential storage (backend-only)
 - Production-ready error handling
 
-**This server must be running** for the following examples:
-- Commenting Example
+**This server can be leveraged by the following examples:**:
+- Autosave example
+- Commenting example
+- Custom CSS example
+- Multi-Builder Switch example
 
 The root-level start commands automatically start this server for you.
 
@@ -492,14 +495,13 @@ beefree-sdk-examples/
 ├── shared/
 │   └── auth.js                       # Shared authentication module
 ├── ai-agent-example/                 # AI-powered email design (NEW!)
+├── autosave-versioning-example/      # Auto-save with versioning
 ├── commenting-example/               # Real-time commenting
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
-├── autosave-versioning-example/    # Auto-save with versioning
-├── template-export-pdf-example/      # PDF export functionality
 ├── multi-builder-switch-example/     # Multi-builder switching
-└── secure-auth-example/              # Shared auth server
-``` secure-auth-example/              # Shared auth server
+├── secure-auth-example/              # Simple client with secure auth server
+└── template-export-pdf-example/      # PDF export functionality
 ```
 
 ---
