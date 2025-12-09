@@ -481,7 +481,7 @@ The `secure-auth-example` folder contains an authentication server that can be u
 - Autosave example
 - Commenting example
 - Custom CSS example
-- Multi-Builder Switch example
+- Multi-Builder Switch example (NOTE: consult the multi-builder-switch-example/README.md to understand the limitations when using the shared auth server).
 
 To use the `secure-auth-example` server for authentication in another example:
 

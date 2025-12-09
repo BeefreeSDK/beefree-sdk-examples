@@ -280,6 +280,14 @@ PORT=3006
 
 # Front-end Server Port
 VITE_PORT=8006
+
+# Optional: Use Shared Authentication Server
+# If set, the local server authentication logic is bypassed, and requests are sent to this URL.
+# This is useful when using the secure-auth-example server.
+# Note: Using a shared server means all builders will share the same credentials (BEEFREE_CLIENT_ID),
+#   resulting in all builders showing an identical set of option tiles in the right-hand content panel.
+# Use the recommended builder-specific credentials for this example's full experience.
+# VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
 ```
 
 **Configuration Options:**

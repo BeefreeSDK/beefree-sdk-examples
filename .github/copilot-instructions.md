@@ -46,7 +46,7 @@ beefree-sdk-examples/
 3.  ✅  template-export-pdf-example         → Export template to PDF via CSAPI.
 4.  ↩️  template-thumbnail-example          → Generate template thumbnails via CSAPI.
 5.  ↩️  html-importer-example               → Convert legacy HTML into Beefree JSON.
-6.  ✅  multi-builder-switch-example        → Switch between Email Builder, Page Builder and Popup Builder.                         → 🔐
+6.  ✅  multi-builder-switch-example        → Switch between Email Builder, Page Builder and Popup Builder.
 7.  ✅  custom-css-example                  → Apply custom CSS to the builder.                                                      → 🔐
 8.  ✅  autosave-versioning-example         → Autosave with template versioning.                                                    → 🔐
 9.  ↩️  liquid-personalization-example      → Advanced personalization with Liquid.                                                 → 🔐
