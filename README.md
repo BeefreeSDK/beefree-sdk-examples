@@ -483,7 +483,25 @@ The `secure-auth-example` folder contains an authentication server that can be u
 - Custom CSS example
 - Multi-Builder Switch example
 
-The root-level start commands automatically start this server for you.
+To use the `secure-auth-example` server for authentication in another example:
+
+1. Start the `secure-auth-example` server:
+   ```bash
+   yarn start:secure-auth
+   ```
+2. In the target example folder (e.g., `commenting-example`), create or update the `.env` file to point to the shared auth server:
+   ```env
+   # Point to the secure-auth-example server
+   VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+   
+   # You can omit BEEFREE_CLIENT_ID and BEEFREE_CLIENT_SECRET in this .env 
+   # as authentication is handled by the shared server
+   ```
+3. Run the target example (only the frontend is needed if the example doesn't have other backend logic):
+   ```bash
+   cd commenting-example
+   yarn dev
+   ```
 
 ---
 
