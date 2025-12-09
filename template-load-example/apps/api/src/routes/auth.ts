@@ -1,14 +1,41 @@
 import express from 'express';
-// Import the shared auth module
-// @ts-expect-error - Shared module is JavaScript without type declarations
-import { authenticateBeefree } from '../../../../../shared/auth.js';
 
 const router = express.Router();
 
 /**
+ * Authenticate with Beefree SDK and get access token
+ */
+async function authenticateBeefree(
+  clientId: string,
+  clientSecret: string,
+  uid: string
+) {
+  const authUrl = 'https://auth.getbee.io/loginV2';
+
+  const response = await fetch(authUrl, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      uid: uid,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Authentication failed: ${response.status} ${errorText}`);
+  }
+
+  return await response.json();
+}
+
+/**
  * POST /auth
- * Authenticate with Beefree SDK and return token using shared auth module
- * This matches the shared auth module's expected endpoint structure
+ * Authenticate with Beefree SDK and return token
  */
 router.post('', async (req, res) => {
   try {
@@ -26,7 +53,7 @@ router.post('', async (req, res) => {
     // Use default UID from environment (frontend doesn't send UID)
     const userId = defaultUid;
 
-    // Use shared authentication module
+    // Use local authentication function
     const token = await authenticateBeefree(clientId, clientSecret, userId);
 
     res.json(token);

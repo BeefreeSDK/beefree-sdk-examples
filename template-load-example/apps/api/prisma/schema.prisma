@@ -2,12 +2,12 @@
 // Simple SQLite setup for development
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "./generated"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 // Template model matching the TypeScript interface

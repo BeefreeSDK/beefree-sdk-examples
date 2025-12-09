@@ -21,8 +21,8 @@ yarn dev
 
 **That's it!** The demo will be running at:
 
-- 🌐 **Frontend**: http://localhost:3001
-- 🔧 **API**: http://localhost:3008
+- 🌐 **Frontend**: http://localhost:8002
+- 🔧 **API**: http://localhost:3002
 
 > **Note**: You'll need to add your Beefree SDK credentials to `apps/api/.env` for the backend to handle authentication. See the [Configuration](#-configuration) section below for details.
 
@@ -64,7 +64,7 @@ template-load-example/
 **Backend API** (`apps/api/.env`):
 
 ```bash
-PORT=3008
+PORT=3002
 API_KEY=changeme                    # Optional - leave empty for demo mode
 DATABASE_URL="file:./var/dev.db"    # SQLite database location
 
@@ -77,11 +77,11 @@ BEEFREE_UID=demo-user
 **Frontend Web** (`apps/web/.env`):
 
 ```bash
-VITE_API_URL=http://localhost:3008
+VITE_API_URL=http://localhost:3002
 VITE_API_KEY=changeme               # Optional - matches backend API_KEY
 
 # Auth Proxy Configuration
-VITE_AUTH_PROXY_URL=http://localhost:3008/auth
+VITE_AUTH_PROXY_URL=http://localhost:3002/auth
 ```
 
 ## 🔌 API Reference
@@ -102,26 +102,26 @@ VITE_AUTH_PROXY_URL=http://localhost:3008/auth
 
 ```bash
 # Health check
-curl http://localhost:3008/health
+curl http://localhost:3002/health
 # Response: {"status":"ok"}
 
 # Authenticate with Beefree SDK
 curl -X POST -H "Content-Type: application/json" \
   -d '{}' \
-  http://localhost:3008/auth
+  http://localhost:3002/auth
 # Response: {"access_token":"...","expires_in":3600,"token_type":"Bearer",...}
 
 # List templates
-curl http://localhost:3008/templates
+curl http://localhost:3002/templates
 # Response: {"templates":[...],"total":2}
 
 # Create a template
 curl -X POST -H "Content-Type: application/json" \
   -d '{"name":"My Template","content":"{\"subject\":\"Hello\",\"body\":\"World\"}"}' \
-  http://localhost:3008/templates
+  http://localhost:3002/templates
 
 # With API key (when enabled)
-curl -H "x-api-key: changeme" http://localhost:3008/health
+curl -H "x-api-key: changeme" http://localhost:3002/health
 ```
 
 ## 🗄️ Database
@@ -183,7 +183,7 @@ yarn typecheck    # Run TypeScript checks
 
 **Port already in use**
 
-- API runs on port 3008, frontend on 3001
+- API runs on port 3002, frontend on 8002
 - Kill existing processes or change ports in `.env` files
 
 **CORS errors in production**
@@ -240,7 +240,7 @@ This demo showcases:
 2. **Setup environment**: Copy the `.env.example` files
 3. **Add Beefree credentials**: Get them from [Beefree Developer Console](https://docs.beefree.io/beefree-sdk/getting-started/readme/create-an-application.md)
 4. **Run the demo**: `yarn dev`
-5. **Start building**: Open http://localhost:3001 and create your first template!
+5. **Start building**: Open http://localhost:8002 and create your first template!
 
 ---
 
