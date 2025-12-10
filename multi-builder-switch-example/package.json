@@ -1,0 +1,52 @@
+{
+  "name": "beefree-sdk-multi-builder-switch-example",
+  "version": "1.0.0",
+  "description": "Beefree SDK Multi-Builder Switch Example - Switch between Email, Page, and Popup builders",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc && vite build && tsc --project tsconfig.server.json",
+    "build:client": "tsc && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "preview": "vite preview",
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit",
+    "client": "vite"
+  },
+  "keywords": [
+    "beefree",
+    "beefree-sdk",
+    "email-builder",
+    "page-builder",
+    "popup-builder",
+    "multi-builder",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "author": "Beefree SDK Examples",
+  "license": "MIT",
+  "dependencies": {
+    "@beefree.io/sdk": "^9.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7"
+  }
+}

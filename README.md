@@ -33,11 +33,13 @@ Before running any example, you need:
 | Example | Description | Features | Start Command |
 |---------|-------------|----------|---------------|
 | [🤖 AI Agent](#-ai-agent-example) | Natural language email design with AI | OpenAI Agents, MCP integration, 40+ tools, real-time streaming | `yarn start:ai-agent` |
+| [💾 Autosave](#-autosave-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [💬 Commenting](#-commenting-example) | Real-time collaborative commenting | Comments, toast notifications, real-time updates | `yarn start:commenting` |
 | [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
-| [💾 Auto-Save](#-auto-save-template-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
-| [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:template-pdf` |
+| [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
+| [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
+| [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 
 ---
 
@@ -89,8 +91,8 @@ BEEFREE_UID=ai-agent-demo-user
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Server Configuration
-PORT=8083
-VITE_PORT=8081
+PORT=3029
+VITE_PORT=8029
 ```
 
 To run the example, use the start command from the root of the repository:
@@ -101,10 +103,10 @@ yarn start:ai-agent
 
 This command will automatically:
 - Install all required dependencies
-- Start the backend server with WebSocket (port 8083)
-- Start the frontend with Vite (port 8081)
+- Start the backend server with WebSocket (port 3029)
+- Start the frontend with Vite (port 8029)
 
-Then open http://localhost:8081 in your browser.
+Then open http://localhost:8029 in your browser.
 
 ### How It Works
 
@@ -125,10 +127,44 @@ Try these to get started:
 If you encounter issues:
 - **MCP API Key Error**: Make sure you have an MCP-compatible key (not a standard CSAPI key)
 - **OpenAI Errors**: Verify your OpenAI API key is valid and has credits
-- **Connection Issues**: Check that both frontend (8081) and backend (8083) are running
+- **Connection Issues**: Check that both frontend (8029) and backend (3029) are running
 - **CORS Errors**: The backend handles authentication - ensure it started successfully
 
 For detailed information, see `ai-agent-example/README.md`.
+
+---
+
+## 💾 Autosave Template Versioning Example
+
+Automatic template versioning with save history and version management.
+
+### Features
+
+- Automatic template saving at configurable intervals
+- Version history with timestamps
+- Restore previous versions
+- Visual diff between versions
+- Save progress indicator
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:autosave
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8008) and the authentication server (port 3008).
+
+**Before running**, make sure to configure your Beefree SDK credentials in `autosave-versioning-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3008
+```
+
+Then open http://localhost:8008 in your browser.
 
 ---
 
@@ -170,9 +206,9 @@ To run the example, use the start command from the root of the repository:
 yarn start:commenting
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8018) and the authentication server (port 3018).
 
-You can now open http://localhost:8081 in your browser.
+You can now open http://localhost:8018 in your browser.
 
 ### Troubleshooting
 
@@ -209,11 +245,11 @@ It is **not available** on Free and Essentials plans.
 - Find the **Display Conditions** option and toggle it to **ON**
 - Save your changes
 
-3. Add your Beefree SDK credentials to the `secure-auth-example/.env` file:
+3. Add your Beefree SDK credentials to the `conditional-rows-example/.env` file:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3014
 ```
 
 To run the example, use the start command from the root of the repository:
@@ -222,9 +258,17 @@ To run the example, use the start command from the root of the repository:
 yarn start:conditional-rows
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8014) and the authentication server (port 3014).
 
-You can now open http://localhost:8081 in your browser.
+**Before running**, make sure to configure your Beefree SDK credentials in `conditional-rows-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3014
+```
+
+You can now open http://localhost:8014 in your browser.
 
 ### How It Works
 
@@ -269,57 +313,64 @@ To run this example, use the start command from the root of the repository:
 yarn start:custom-css
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8081) and the authentication server (port 3000).
+This command will automatically install all required dependencies and start both the frontend (port 8007) and the authentication server (port 3007).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, make sure to configure your Beefree SDK credentials in `custom-css-example/.env`:
 
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+PORT=3007
 ```
 
-Then open http://localhost:8081 in your browser.
+Then open http://localhost:8007 in your browser.
 
 ---
 
-## 💾 Auto-Save Template Versioning Example
+## 🏗️ Multi-Builder Switch Example
 
-Automatic template versioning with save history and version management.
+Dynamic switching between different Beefree builder types (Email, Page, Popup) within a single application.
 
 ### Features
 
-- Automatic template saving at configurable intervals
-- Version history with timestamps
-- Restore previous versions
-- Visual diff between versions
-- Save progress indicator
+- **3 Builder Types**: Email, Page, and Popup
+- **Seamless Switching**: Instant transitions without page reload
+- **State Management**: Proper cleanup and initialization for each type
+- **Self-Contained Auth**: Dedicated local authentication server
 
 ### How to Run
 
 To run this example, use the start command from the root of the repository:
 
 ```bash
-yarn start:autosave
+yarn start:multi-builder
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 5173) and the authentication server (port 3000).
+This command will automatically install dependencies and start both the frontend (port 8006) and backend server (port 3006).
 
-**Before running**, make sure to configure your Beefree SDK credentials in `secure-auth-example/.env`:
+**Before running**, configure your credentials in `multi-builder-switch-example/.env`:
 
 ```env
+# Default Beefree SDK Credentials (fallback)
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3000
+
+# IMPORTANT: Builder-specific credentials required for correct sidebar options
+# Each builder type needs its own application in Developer Console
+EMAIL_CLIENT_ID=your_email_client_id_here
+EMAIL_CLIENT_SECRET=your_email_client_secret_here
+PAGE_CLIENT_ID=your_page_client_id_here
+PAGE_CLIENT_SECRET=your_page_client_secret_here
+POPUP_CLIENT_ID=your_popup_client_id_here
+POPUP_CLIENT_SECRET=your_popup_client_secret_here
+
+# Server Configuration
+PORT=3006
 ```
 
-You can also optionally configure auto-save settings in `auto-save-template-versioning/.env`:
+**Note**: To show builder-specific sidebar options (e.g., Form button for Page builder), each builder type requires its own application configured in the [Developer Console](https://developers.beefree.io) with the corresponding builder type selected.
 
-```env
-VITE_AUTH_PROXY_URL=http://localhost:3000/auth/token
-```
-
-Then open http://localhost:5173 in your browser.
+Then open http://localhost:8006 in your browser.
 
 ---
 
@@ -343,7 +394,7 @@ To run this example, use the start command from the root of the repository:
 yarn start:template-pdf
 ```
 
-This command will automatically install all required dependencies and start the frontend (port 5174).
+This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
 
 **Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
 
@@ -353,36 +404,104 @@ BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 
 # Beefree Content Services API
-BEEFREE_CS_API_KEY=your_content_services_api_key_here
 BEEFREE_CS_API_URL=https://api.getbee.io
 
 # Server Configuration
-PORT=3001
-VITE_PORT=5174
+PORT=3003
+VITE_PORT=8003
 ```
 
-**Note**: This example requires the **Beefree Content Services API key** in addition to the standard SDK credentials. Get this from your [Developer Console](https://developers.beefree.io).
-
-Then open http://localhost:5174 in your browser.
+Then open http://localhost:8003 in your browser.
 
 ---
 
-## 🔐 Shared Authentication Server
+## 🔐 Secure Auth Example
 
-The `secure-auth-example` folder contains a shared authentication server used by most examples. It provides:
+This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
+
+### Features
+
+- **Backend-Only Credentials**: Client ID/Secret never exposed to frontend
+- **Secure Token Management**: JWT tokens with automatic refresh
+- **Production-Ready Error Handling**: Comprehensive error states and recovery
+- **API Monitor Panel**: Real-time inspection of API calls
+
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Get your Beefree SDK credentials from the [Developer Console](https://developers.beefree.io).
+2. Configure your credentials in `secure-auth-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3000
+VITE_PORT=8080
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:secure-auth
+```
+
+This command will automatically:
+- Install all required dependencies
+- Start the backend server (port 3000)
+- Start the frontend application (port 8080)
+
+Then open http://localhost:8080 in your browser.
+
+### Authentication Flow
+
+1. **Frontend**: User enters a UID (User ID)
+2. **Backend**: Receives request, authenticates with Beefree API using secure credentials
+3. **Token**: Backend returns a JWT token to frontend
+4. **SDK**: Frontend initializes Beefree SDK with the token
+5. **Refresh**: System automatically refreshes tokens before they expire
+
+### Troubleshooting
+
+If you encounter authentication errors:
+- Check that your Client ID and Secret are correct in the `.env` file
+- Ensure the backend server is running on port 3000
+- Verify that `VITE_PORT` matches the frontend port (default 8080)
+
+---
+
+The `secure-auth-example` folder contains an authentication server that can be used by most examples. It provides:
 
 - Enterprise-grade JWT token management
 - Automatic token refresh every 5 minutes
 - Secure credential storage (backend-only)
 - Production-ready error handling
 
-**This server must be running** for the following examples:
-- Commenting Example
-- Conditional Rows Example
-- Custom CSS Example  
-- Auto-Save Template Versioning Example
+**This server can be leveraged by the following examples:**:
+- Autosave example
+- Commenting example
+- Custom CSS example
+- Multi-Builder Switch example (NOTE: consult the multi-builder-switch-example/README.md to understand the limitations when using the shared auth server).
 
-The root-level start commands automatically start this server for you.
+To use the `secure-auth-example` server for authentication in another example:
+
+1. Start the `secure-auth-example` server:
+   ```bash
+   yarn start:secure-auth
+   ```
+2. In the target example folder (e.g., `commenting-example`), create or update the `.env` file to point to the shared auth server:
+   ```env
+   # Point to the secure-auth-example server
+   VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token
+   
+   # You can omit BEEFREE_CLIENT_ID and BEEFREE_CLIENT_SECRET in this .env 
+   # as authentication is handled by the shared server
+   ```
+3. Run the target example (only the frontend is needed if the example doesn't have other backend logic):
+   ```bash
+   cd commenting-example
+   yarn dev
+   ```
 
 ---
 
@@ -394,13 +513,13 @@ beefree-sdk-examples/
 ├── shared/
 │   └── auth.js                       # Shared authentication module
 ├── ai-agent-example/                 # AI-powered email design (NEW!)
+├── autosave-versioning-example/      # Auto-save with versioning
 ├── commenting-example/               # Real-time commenting
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
-├── auto-save-template-versioning/    # Auto-save with versioning
-├── template-export-pdf-example/      # PDF export functionality
-└── secure-auth-example/              # Shared auth server
-``` secure-auth-example/              # Shared auth server
+├── multi-builder-switch-example/     # Multi-builder switching
+├── secure-auth-example/              # Simple client with secure auth server
+└── template-export-pdf-example/      # PDF export functionality
 ```
 
 ---
@@ -467,6 +586,8 @@ cd [example-folder] && yarn install && cd ..
 - **📖 [Beefree SDK Documentation](https://docs.beefree.io/beefree-sdk/)**
 - **🔑 [Developer Console](https://developers.beefree.io)** - Get your credentials
 - **🔧 [API Reference](https://docs.beefree.io/beefree-sdk/apis/)**
+- **📦 [Content Options Configuration](https://docs.beefree.io/beefree-sdk/server-side-configurations/server-side-options/content-options)** - Configure content blocks (HTML, Menu, Title, List, Paragraph, Video, Icons, Spacer, Table) and understand differences between Email and Page Builder. Form block is available for Page Builder applications.
+- **📝 [Form Block Integration](https://docs.beefree.io/beefree-sdk/forms/integrating-and-using-the-form-block/passing-forms-to-the-builder)** - Guide on integrating and using the Form block in Page Builder applications, including how to pass forms to the builder and configure form fields.
 - **💬 [Community Support](https://beefree.io/support/)**
 - **🎥 [Video Tutorials](https://docs.beefree.io/beefree-sdk/resources/videos)**
 

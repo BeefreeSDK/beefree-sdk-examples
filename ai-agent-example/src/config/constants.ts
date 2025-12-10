@@ -1,5 +1,5 @@
 // Backend server configuration
-const BACKEND_PORT = import.meta.env.VITE_BACKEND_PORT || '8083'
+const BACKEND_PORT = import.meta.env.VITE_BACKEND_PORT || '3029'
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST || 'localhost'
 
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`

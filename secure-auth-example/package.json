@@ -5,12 +5,11 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "concurrently --names 'SERVER,CLIENT' \"npm run server:dev\" \"npm run client\"",
-    "start": "npm run build && npm run server",
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
     "server": "node dist/server.js",
-    "server:dev": "tsx server.ts",
-    "client": "vite",
-    "build": "tsc -p tsconfig.server.json && vite build",
+    "server:dev": "tsx watch server.ts",
+    "build": "vite build && tsc -p tsconfig.server.json",
     "preview": "vite preview",
     "type-check": "tsc --noEmit"
   },
@@ -31,8 +30,8 @@
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
     "tsx": "^4.20.5",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7"
   },
   "keywords": [
     "beefree",

@@ -7,15 +7,16 @@ export default defineConfig({
   plugins: [react()],
   base: './',
   server: {
-    port: parseInt(process.env.VITE_PORT || '5174'),
+    port: parseInt(process.env.VITE_PORT || '8003'),
     proxy: {
       '/api': {
-        target: `http://localhost:${process.env.PORT || 3001}`,
+        target: `http://localhost:${process.env.PORT || 3003}`,
         changeOrigin: true
       },
       '/auth': {
-        target: `http://localhost:${process.env.PORT || 3001}`,
-        changeOrigin: true
+        target: `http://localhost:${process.env.PORT || 3003}`,
+        changeOrigin: true,
+        secure: false
       }
     }
   },

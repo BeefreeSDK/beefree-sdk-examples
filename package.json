@@ -7,13 +7,15 @@
   "scripts": {
     "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx,js --fix",
-    "start:commenting": "yarn install --check-files && cd commenting-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd commenting-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"commenting,auth-server\" --prefix-colors \"cyan,magenta\"",
-    "start:conditional-rows": "yarn install --check-files && cd conditional-rows-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd conditional-rows-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"conditional-rows,auth-server\" --prefix-colors \"cyan,magenta\"",
-    "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn start\" \"cd secure-auth-example && yarn server:dev\" --names \"custom-css,auth-server\" --prefix-colors \"cyan,magenta\"",
-    "start:autosave": "yarn install --check-files && cd auto-save-template-versioning && yarn install --check-files && cd ../secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd auto-save-template-versioning && yarn dev\" \"cd secure-auth-example && yarn server:dev\" --names \"autosave,auth-server\" --prefix-colors \"cyan,magenta\"",
-    "start:template-pdf": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && yarn dev",
+    "prepare": "husky",
     "start:ai-agent": "yarn install --check-files && cd ai-agent-example && yarn install --check-files && cd .. && concurrently \"cd ai-agent-example && yarn server:dev\" \"cd ai-agent-example && yarn dev\" --names \"ai-backend,ai-frontend\" --prefix-colors \"yellow,cyan\"",
-    "prepare": "husky"
+    "start:autosave": "yarn install --check-files && cd autosave-versioning-example && yarn install --check-files && cd .. && concurrently \"cd autosave-versioning-example && yarn server:dev\" \"cd autosave-versioning-example && yarn dev\" --names \"autosave-backend,autosave-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:commenting": "yarn install --check-files && cd commenting-example && yarn install --check-files && cd .. && concurrently \"cd commenting-example && yarn server:dev\" \"cd commenting-example && yarn dev\" --names \"commenting-backend,commenting-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:conditional-rows": "yarn install --check-files && cd conditional-rows-example && yarn install --check-files && cd .. && concurrently \"cd conditional-rows-example && yarn server:dev\" \"cd conditional-rows-example && yarn dev\" --names \"conditional-rows-backend,conditional-rows-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn server:dev\" \"cd custom-css-example && yarn dev\" --names \"custom-css-backend,custom-css-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:multi-builder": "yarn install --check-files && cd multi-builder-switch-example && yarn install --check-files && cd .. && concurrently \"cd multi-builder-switch-example && yarn server:dev\" \"cd multi-builder-switch-example && yarn dev\" --names \"multi-builder-backend,multi-builder-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:pdf-export": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && cd .. && concurrently \"cd template-export-pdf-example && yarn server:dev\" \"cd template-export-pdf-example && yarn dev\" --names \"pdf-backend,pdf-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:secure-auth": "yarn install --check-files && cd secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd secure-auth-example && yarn server:dev\" \"cd secure-auth-example && yarn dev\" --names \"auth-backend,auth-frontend\" --prefix-colors \"yellow,cyan\""
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs}": "eslint"
@@ -32,14 +34,14 @@
   "license": "MIT",
   "devDependencies": {
     "@commitlint/config-conventional": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
-    "typescript": "^5.3.3"
+    "typescript": "^5.9.3"
   }
 }

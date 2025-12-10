@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { PDFExportService } from '../services/pdfExport'
 import { ExportOptions, PDFExportState, ExportHistoryItem } from '../types'
 import { DEFAULT_EXPORT_OPTIONS } from '../config/constants'
@@ -10,7 +10,7 @@ export const usePDFExport = () => {
     exportHistory: []
   })
 
-  const pdfService = new PDFExportService()
+  const pdfService = useRef(new PDFExportService()).current
 
   const exportTemplate = useCallback(async (
     templateData: any,
@@ -76,7 +76,7 @@ export const usePDFExport = () => {
       }))
       throw error
     }
-  }, [])
+  }, [pdfService])
 
   const clearHistory = useCallback(() => {
     setExportState(prev => ({
