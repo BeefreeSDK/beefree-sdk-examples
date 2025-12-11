@@ -24,7 +24,7 @@ yarn dev
 - 🌐 **Frontend**: http://localhost:8002
 - 🔧 **API**: http://localhost:3002
 
-> **Note**: You'll need to add your Beefree SDK credentials to `apps/api/.env` for the backend to handle authentication. See the [Configuration](#-configuration) section below for details.
+> **Note**: You'll need to add your Beefree SDK credentials to `api/.env` for the backend to handle authentication. See the [Configuration](#-configuration) section below for details.
 
 ## 🎯 What This Demo Shows
 
