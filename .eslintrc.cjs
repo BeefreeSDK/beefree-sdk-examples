@@ -10,7 +10,6 @@ module.exports = {
     '.eslintrc.cjs',
     '*.config.js',
     '*.config.ts',
-    'shared/**/*',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', '@typescript-eslint', 'react-hooks'],

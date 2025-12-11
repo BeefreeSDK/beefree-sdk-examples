@@ -553,8 +553,6 @@ Then open http://localhost:8002 in your browser.
 beefree-sdk-examples/
 ├── .eslintrc.cjs                     # Shared ESLint configuration
 ├── package.json                      # Root scripts for starting examples
-├── shared/
-│   └── auth.js                       # Shared authentication module
 ├── ai-agent-example/                 # AI-powered email design (NEW!)
 ├── autosave-versioning-example/      # Auto-save with versioning
 ├── commenting-example/               # Real-time commenting
