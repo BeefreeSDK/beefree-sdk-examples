@@ -529,7 +529,7 @@ A full-stack example demonstrating how to load, edit, and save templates with pe
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
 PORT=3002
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="file:./var/dev.db"
 ```
 
 To run the example, use the start command from the root of the repository:
