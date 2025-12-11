@@ -11,23 +11,16 @@ import authRoutes from './routes/auth';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3008;
+const PORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(express.json({ limit: '5mb' })); // JSON body parser with 5MB limit
 app.use(
   cors({
     origin: [
-      'http://localhost:3001', // Default Vite dev port
-      'http://localhost:3002', // Fallback ports
-      'http://localhost:3003',
-      'http://localhost:3004',
-      'http://localhost:3005',
-      'http://localhost:3006',
-      'http://localhost:3007',
+      'http://localhost:8002', // Frontend Vite dev port (8000 + example #2)
       'http://localhost:4173', // Vite preview server port (default)
       'http://localhost:4174', // Vite preview server port (fallback)
-      'http://localhost:4175', // Vite preview server port (fallback)
     ],
     credentials: true,
   })

@@ -1,48 +1,22 @@
 {
   "name": "template-load-example",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Beefree SDK template load/save example with React, TypeScript & Prisma",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "api",
+    "web"
   ],
   "scripts": {
-    "dev": "yarn db:ensure && concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && yarn dev\" \"cd apps/web && yarn dev\"",
-    "dev:api": "cd apps/api && yarn dev",
-    "dev:web": "cd apps/web && yarn dev",
-    "build": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && yarn build\" \"cd apps/web && yarn build\"",
-    "build:api": "cd apps/api && yarn build",
-    "build:web": "cd apps/web && yarn build",
-    "start": "yarn db:ensure && concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && yarn start\" \"cd apps/web && yarn preview\"",
-    "start:api": "cd apps/api && yarn start",
-    "start:web": "cd apps/web && yarn preview",
-    "db:ensure": "cd apps/api && yarn db:ensure",
-    "preview": "cd apps/web && yarn preview",
-    "setup-hooks": "./setup-hooks.sh",
-    "typecheck": "concurrently --kill-others-on-fail --prefix-colors \"cyan,magenta\" --names \"API,WEB\" \"cd apps/api && yarn tsc --noEmit\" \"cd apps/web && yarn tsc --noEmit\"",
-    "typecheck:api": "cd apps/api && yarn tsc --noEmit",
-    "typecheck:web": "cd apps/web && yarn tsc --noEmit",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "lint-staged": "lint-staged"
+    "dev": "yarn db:ensure && concurrently \"cd api && yarn dev\" \"cd web && yarn dev\"",
+    "start": "yarn db:ensure && concurrently \"cd api && yarn dev\" \"cd web && yarn dev\"",
+    "build": "concurrently \"cd api && yarn build\" \"cd web && yarn build\"",
+    "server:dev": "cd api && yarn dev",
+    "db:ensure": "cd api && yarn db:ensure",
+    "type-check": "concurrently \"cd api && tsc --noEmit\" \"cd web && tsc --noEmit\""
   },
   "devDependencies": {
-    "@eslint/js": "^9.35.0",
-    "@typescript-eslint/eslint-plugin": "^8.42.0",
-    "@typescript-eslint/parser": "^8.42.0",
-    "baseline-browser-mapping": "^2.9.5",
-    "concurrently": "^9.2.1",
-    "cross-env": "^10.0.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.1.6",
-    "prettier": "^3.6.2"
-  },
-  "dependencies": {
-    "chalk": "^5.6.2"
+    "concurrently": "^9.2.1"
   }
 }

@@ -9,10 +9,10 @@ A complete demo showcasing **Beefree SDK integration** with a full-stack templat
 yarn install
 
 # 2. Setup environment (copy examples)
-cp apps/api/.env.example apps/api/.env
-cp apps/web/env.example apps/web/.env
+cp api/.env.example api/.env
+cp web/.env.example web/.env
 
-# 3. Update Beefree credentials in apps/api/.env
+# 3. Update Beefree credentials in api/.env
 # Get your Beefree credentials from your application in the SDK console (https://developers.beefree.io/accounts/login/)
 
 # 4. Start the demo (database auto-initialized)
@@ -39,9 +39,8 @@ yarn dev
 
 ```
 template-load-example/
-├── apps/
-│   ├── web/          # React frontend with Beefree SDK
-│   └── api/          # Express backend with Prisma
+├── web/          # React frontend with Beefree SDK
+├── api/          # Express backend with Prisma
 └── README.md
 ```
 
@@ -61,7 +60,7 @@ template-load-example/
 
 ### Environment Setup
 
-**Backend API** (`apps/api/.env`):
+**Backend API** (`api/.env`):
 
 ```bash
 PORT=3002
@@ -74,7 +73,7 @@ BEEFREE_CLIENT_SECRET=your_client_secret_here
 BEEFREE_UID=demo-user
 ```
 
-**Frontend Web** (`apps/web/.env`):
+**Frontend Web** (`web/.env`):
 
 ```bash
 VITE_API_URL=http://localhost:3002
@@ -127,15 +126,15 @@ curl -H "x-api-key: changeme" http://localhost:3002/health
 ## 🗄️ Database
 
 - **Type**: SQLite with Prisma ORM
-- **Location**: `apps/api/var/dev.db`
-- **Schema**: `apps/api/prisma/schema.prisma`
+- **Location**: `api/var/dev.db`
+- **Schema**: `api/prisma/schema.prisma`
 - **Auto-initialized**: Database is created automatically on first run
 
 **Manual Commands** (if needed):
 
 ```bash
 yarn db:ensure    # Generate client and push schema
-yarn -C apps/api db:studio  # Open database viewer
+yarn -C api db:studio  # Open database viewer
 ```
 
 ## 🛠️ Development
@@ -154,7 +153,7 @@ yarn start        # Start production servers
 
 # Database
 yarn db:ensure    # Generate Prisma client and push schema
-yarn -C apps/api db:studio  # Open database viewer
+yarn -C api db:studio  # Open database viewer
 
 # Code Quality
 yarn lint         # Run ESLint
@@ -168,7 +167,7 @@ yarn typecheck    # Run TypeScript checks
 
 **"Missing Beefree credentials" error**
 
-- Ensure you've copied `apps/api/env.example` to `apps/api/.env`
+- Ensure you've copied `api/.env.example` to `api/.env`
 - Add your Beefree SDK credentials to the backend `.env` file
 
 **"Invalid or missing API key" error**
@@ -179,7 +178,7 @@ yarn typecheck    # Run TypeScript checks
 **Database connection issues**
 
 - Run `yarn db:ensure` to initialize the database
-- Check that `apps/api/var/` directory exists and is writable
+- Check that `api/var/` directory exists and is writable
 
 **Port already in use**
 
@@ -188,7 +187,7 @@ yarn typecheck    # Run TypeScript checks
 
 **CORS errors in production**
 
-- Ensure frontend URL is in the CORS origins list in `apps/api/src/index.ts`
+- Ensure frontend URL is in the CORS origins list in `api/src/index.ts`
 
 ### Getting Help
 
@@ -200,21 +199,12 @@ yarn typecheck    # Run TypeScript checks
 
 ### Git Hooks
 
-This project uses project-specific git hooks for code quality:
-
-```bash
-# Setup hooks (run once)
-yarn setup-hooks
-
-# Hooks run automatically on:
-# - Pre-commit: Format and lint staged files
-# - Pre-push: Type check before pushing
-```
+This project uses the root repository's husky configuration for git hooks. Linting and formatting run automatically on pre-commit.
 
 ### Monorepo Structure
 
-- **`/apps/web`** - React frontend with Beefree SDK
-- **`/apps/api`** - Express backend with Prisma
+- **`/web`** - React frontend with Beefree SDK
+- **`/api`** - Express backend with Prisma
 
 ### Code Quality
 

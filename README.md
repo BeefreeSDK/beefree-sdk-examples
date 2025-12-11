@@ -40,6 +40,7 @@ Before running any example, you need:
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
+| [📂 Template Load](#-template-load-example) | Load saved templates from DB | Template management, Prisma ORM, CRUD operations | `yarn start:template-load` |
 
 ---
 
@@ -505,6 +506,48 @@ To use the `secure-auth-example` server for authentication in another example:
 
 ---
 
+## 📂 Template Load Example
+
+A full-stack example demonstrating how to load, edit, and save templates with persistent storage.
+
+### Features
+
+- **Full CRUD Operations**: Create, Read, Update, Delete templates
+- **Database Persistence**: SQLite database with Prisma ORM
+- **Template Management**: List view with filtering and management actions
+- **Production-Ready**: Error handling, validation, and loading states
+- **Shared Auth**: Uses the shared authentication module pattern
+
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Get your Beefree SDK credentials from the [Developer Console](https://developers.beefree.io).
+2. Configure your credentials in `template-load-example/api/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3002
+DATABASE_URL="file:./dev.db"
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:template-load
+```
+
+This command will automatically:
+- Install all required dependencies
+- Initialize the SQLite database
+- Start the backend server (port 3002)
+- Start the frontend application (port 8002)
+
+Then open http://localhost:8002 in your browser.
+
+---
+
 ## 🏗️ Repository Structure
 ```
 beefree-sdk-examples/
@@ -519,7 +562,8 @@ beefree-sdk-examples/
 ├── custom-css-example/               # Dynamic theming
 ├── multi-builder-switch-example/     # Multi-builder switching
 ├── secure-auth-example/              # Simple client with secure auth server
-└── template-export-pdf-example/      # PDF export functionality
+├── template-export-pdf-example/      # PDF export functionality
+└── template-load-example/            # Load/Save templates with DB
 ```
 
 ---

@@ -15,7 +15,8 @@
     "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn server:dev\" \"cd custom-css-example && yarn dev\" --names \"custom-css-backend,custom-css-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:multi-builder": "yarn install --check-files && cd multi-builder-switch-example && yarn install --check-files && cd .. && concurrently \"cd multi-builder-switch-example && yarn server:dev\" \"cd multi-builder-switch-example && yarn dev\" --names \"multi-builder-backend,multi-builder-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:pdf-export": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && cd .. && concurrently \"cd template-export-pdf-example && yarn server:dev\" \"cd template-export-pdf-example && yarn dev\" --names \"pdf-backend,pdf-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:secure-auth": "yarn install --check-files && cd secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd secure-auth-example && yarn server:dev\" \"cd secure-auth-example && yarn dev\" --names \"auth-backend,auth-frontend\" --prefix-colors \"yellow,cyan\""
+    "start:secure-auth": "yarn install --check-files && cd secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd secure-auth-example && yarn server:dev\" \"cd secure-auth-example && yarn dev\" --names \"auth-backend,auth-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:template-load": "yarn install --check-files && cd template-load-example && yarn install --check-files && cd .. && concurrently \"cd template-load-example && yarn server:dev\" \"cd template-load-example && yarn dev\" --names \"load-backend,load-frontend\" --prefix-colors \"yellow,cyan\""
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs}": "eslint"

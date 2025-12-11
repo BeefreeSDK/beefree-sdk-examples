@@ -48,6 +48,7 @@ module.exports = {
           './*/tsconfig.json',
           './*/tsconfig.app.json',
           './*/tsconfig.node.json',
+          './*/*/tsconfig.json',       // For nested structures like template-load-example/api/
         ],
         tsconfigRootDir: __dirname,
       },

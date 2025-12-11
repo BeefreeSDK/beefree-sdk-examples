@@ -2,25 +2,13 @@
   "name": "@template-load-example/api",
   "version": "1.0.0",
   "type": "module",
-  "description": "Minimal Express + TypeScript API server for template management",
-  "main": "dist/index.js",
+  "description": "Express + TypeScript API server with Prisma for template management",
   "scripts": {
     "dev": "yarn db:ensure && tsx watch src/index.ts",
     "build": "tsc",
-    "start": "yarn db:ensure && node dist/index.js",
-    "prisma:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:ensure": "prisma generate && prisma db push"
+    "db:ensure": "prisma generate && prisma db push",
+    "db:studio": "prisma studio"
   },
-  "keywords": [
-    "express",
-    "typescript",
-    "api",
-    "template"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.1.0",
     "@prisma/client": "^7.1.0",
