@@ -10,7 +10,6 @@ module.exports = {
     '.eslintrc.cjs',
     '*.config.js',
     '*.config.ts',
-    'shared/**/*',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', '@typescript-eslint', 'react-hooks'],
@@ -48,6 +47,7 @@ module.exports = {
           './*/tsconfig.json',
           './*/tsconfig.app.json',
           './*/tsconfig.node.json',
+          './*/*/tsconfig.json',       // For nested structures like template-load-example/api/
         ],
         tsconfigRootDir: __dirname,
       },

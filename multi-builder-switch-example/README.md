@@ -486,9 +486,7 @@ When contributing to this example:
 
 ## 🔗 Integration with Other Examples
 
-This example integrates with:
-- **shared/auth.js**: Leverages shared authentication logic
-- **Future examples**: Can be extended to support additional builder types
+Although an authentication server is provided with this example, it can also leverage the secure auth example (or other authentication server implementation) through the .env variable VITE_BEEFREE_AUTH_PROXY_URL.
 
 ---
 

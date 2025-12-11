@@ -42,7 +42,7 @@ beefree-sdk-examples/
 ## List of examples (available here ✅, available in other repos ↩️, work-in-progress ⌛, and future ones)
 
 1.  ✅  secure-auth-example                 → Simple Front-End with secure authentication via Back-End + token.
-2.  ⌛  template-load-example               → Load saved templates from DB.
+2.  ✅  template-load-example               → Load saved templates from DB.
 3.  ✅  template-export-pdf-example         → Export template to PDF via CSAPI.
 4.  ↩️  template-thumbnail-example          → Generate template thumbnails via CSAPI.
 5.  ↩️  html-importer-example               → Convert legacy HTML into Beefree JSON.

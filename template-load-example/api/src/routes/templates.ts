@@ -1,0 +1,120 @@
+import { Router, Request, Response } from 'express';
+import { templateService } from '../services/templateService';
+import {
+  TemplateListResponse,
+  TemplateResponse,
+  TemplateFormData,
+} from '../validation/schemas';
+
+const router: Router = Router();
+
+/**
+ * GET /templates
+ * Returns list of all templates
+ */
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const result = await templateService.listTemplates();
+
+    // Validate response with Zod schema
+    const validatedResponse = TemplateListResponse.parse(result);
+
+    res.json(validatedResponse);
+  } catch (error) {
+    console.error('Error fetching templates:', error);
+    res.status(500).json({ message: 'Failed to fetch templates' });
+  }
+});
+
+/**
+ * POST /templates
+ * Create a new template
+ */
+router.post('/', async (req: Request, res: Response) => {
+  try {
+    // Validate request body
+    const validatedData = TemplateFormData.parse(req.body);
+
+    const result = await templateService.createTemplate(validatedData);
+    const validatedResponse = TemplateResponse.parse(result);
+
+    res.status(201).json(validatedResponse);
+  } catch (error) {
+    console.error('Error creating template:', error);
+
+    if (error instanceof Error && error.message.includes('already exists')) {
+      return res.status(409).json({ message: error.message });
+    }
+
+    if (error instanceof Error && error.message.includes('Invalid JSON')) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    res.status(500).json({ message: 'Failed to create template' });
+  }
+});
+
+/**
+ * PUT /templates/:id
+ * Update an existing template
+ */
+router.put('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Template ID is required' });
+    }
+
+    // Validate request body
+    const validatedData = TemplateFormData.parse(req.body);
+
+    const result = await templateService.updateTemplate(id, validatedData);
+    const validatedResponse = TemplateResponse.parse(result);
+
+    res.json(validatedResponse);
+  } catch (error) {
+    console.error('Error updating template:', error);
+
+    if (error instanceof Error && error.message.includes('not found')) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+
+    if (error instanceof Error && error.message.includes('already exists')) {
+      return res.status(409).json({ message: error.message });
+    }
+
+    if (error instanceof Error && error.message.includes('Invalid JSON')) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    res.status(500).json({ message: 'Failed to update template' });
+  }
+});
+
+/**
+ * DELETE /templates/:id
+ * Delete a template by ID
+ */
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Template ID is required' });
+    }
+
+    await templateService.deleteTemplate(id);
+    res.status(204).send(); // No content response for successful deletion
+  } catch (error) {
+    console.error('Error deleting template:', error);
+
+    if (error instanceof Error && error.message.includes('not found')) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+
+    res.status(500).json({ message: 'Failed to delete template' });
+  }
+});
+
+export default router;

@@ -1,0 +1,22 @@
+{
+  "name": "template-load-example",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Beefree SDK template load/save example with React, TypeScript & Prisma",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev": "yarn db:ensure && concurrently \"cd api && yarn dev\" \"cd web && yarn dev\"",
+    "start": "yarn db:ensure && concurrently \"cd api && yarn dev\" \"cd web && yarn dev\"",
+    "build": "concurrently \"cd api && yarn build\" \"cd web && yarn build\"",
+    "server:dev": "cd api && yarn dev",
+    "db:ensure": "cd api && yarn db:ensure",
+    "type-check": "concurrently \"cd api && tsc --noEmit\" \"cd web && tsc --noEmit\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
