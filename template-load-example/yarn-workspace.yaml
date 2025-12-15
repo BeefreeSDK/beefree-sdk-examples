@@ -1,0 +1,5 @@
+# yarn workspace configuration
+# This file tells yarn which directories contain packages in the monorepo
+packages:
+  - 'apps/*'
+  - 'packages/*'
