@@ -33,6 +33,9 @@
   },
   "author": "Beefree",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",

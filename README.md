@@ -22,11 +22,16 @@ Beefree SDK is an embeddable no-code builder that gives your end users the freed
 
 Before running any example, you need:
 
-1. **Node.js 22+** installed on your machine
-2. **Beefree SDK credentials** from the [Developer Console](https://developers.beefree.io)
+1. **Node.js 22+** installed on your machine ([download here](https://nodejs.org/))
+2. **Yarn** package manager ([install instructions](https://classic.yarnpkg.com/en/docs/install))
+   ```bash
+   # After installing Node.js, install Yarn globally:
+   npm install -g yarn
+   ```
+3. **Beefree SDK credentials** from the [Developer Console](https://developers.beefree.io)
    - Client ID
    - Client Secret
-3. **Git** to clone the repository
+4. **Git** to clone the repository
 
 ## 🎯 Available Examples
 
@@ -319,7 +324,7 @@ Export templates to PDF using the Beefree Content Services API.
 To run this example, use the start command from the root of the repository:
 
 ```bash
-yarn start:template-pdf
+yarn start:pdf-export
 ```
 
 This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
@@ -508,7 +513,7 @@ ESLint runs automatically in two ways:
 - **Frontend**: React 19+ + TypeScript + Vite
 - **Backend**: TypeScript + Express.js + tsx
 - **Authentication**: JWT tokens with auto-refresh
-- **Package Manager**: yarn or npm (yarn preferred)
+- **Package Manager**: Yarn (required — do not use npm or pnpm)
 
 ---
 
