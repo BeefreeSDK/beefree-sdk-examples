@@ -230,7 +230,8 @@ This form configuration is automatically added to the Page Builder's `IBeeConfig
 ## 🚀 Quick Start
 
 ### **Prerequisites**
-- Node.js 16+
+- Node.js 22+ ([download here](https://nodejs.org/))
+- Yarn package manager (`npm install -g yarn`)
 
 ### **Installation**
 

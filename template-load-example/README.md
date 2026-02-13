@@ -2,6 +2,12 @@
 
 A complete demo showcasing **Beefree SDK integration** with a full-stack template management system. This monorepo demonstrates how to build a production-ready email template editor with persistent storage, user authentication, and modern development practices.
 
+## 📋 Prerequisites
+
+- **Node.js 22+** ([download here](https://nodejs.org/))
+- **Yarn** package manager (`npm install -g yarn`)
+- **Beefree SDK credentials** from the [Developer Console](https://developers.beefree.io)
+
 ## 🚀 Quick Start
 
 ```bash
