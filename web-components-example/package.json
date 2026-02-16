@@ -1,0 +1,43 @@
+{
+  "name": "beefree-sdk-web-components-example",
+  "version": "1.0.0",
+  "description": "A simple web component for Beefree SDK",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc -b && vite build && tsc --project tsconfig.server.json",
+    "build:client": "tsc -b && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "preview": "vite preview",
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit",
+    "client": "vite"
+  },
+  "keywords": [
+    "beefree",
+    "sdk",
+    "web-components",
+    "shadow-dom",
+    "typescript"
+  ],
+  "author": "Beefree",
+  "dependencies": {
+    "@beefree.io/sdk": "11.2.2-feat-BEE-11067-shadow-dom-compatibility.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7"
+  }
+}
