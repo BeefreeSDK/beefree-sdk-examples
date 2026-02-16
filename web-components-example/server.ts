@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3007; // Default to 3007 for this example
+const PORT = process.env.PORT || 3030; // Default to 3030 for this example
 
 // Middleware
 app.use(cors());

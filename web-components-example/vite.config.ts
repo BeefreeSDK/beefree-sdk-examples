@@ -1,4 +1,7 @@
 import { defineConfig } from 'vite'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default defineConfig({
   plugins: [],
@@ -13,11 +16,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: parseInt(process.env.VITE_PORT || '8007', 10),
+    port: parseInt(process.env.VITE_PORT || '8030', 10),
     host: true,
     proxy: {
       '/auth': {
-        target: `http://localhost:${process.env.PORT || 3007}`,
+        target: `http://localhost:${process.env.PORT || 3030}`,
         changeOrigin: true,
         secure: false
       }
