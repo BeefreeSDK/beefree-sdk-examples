@@ -274,7 +274,8 @@ app.get('/health', (_req: Request, res: Response) => {
 ## 🚀 Quick Start
 
 ### **Prerequisites**
-- Node.js 16+
+- Node.js 22+ ([download here](https://nodejs.org/))
+- Yarn package manager (`npm install -g yarn`)
 - Beefree SDK credentials (Client ID + Secret)
 
 ### **Installation**

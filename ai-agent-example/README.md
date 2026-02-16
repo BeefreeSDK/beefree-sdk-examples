@@ -17,7 +17,7 @@ We have moved the AI Agent example to a standalone repository to provide:
 
 ## What you will find in the new repository
 
-- **Natural Language Email Design**: Create emails using simple text prompts.
+- **Natural Language Email Design**: Create emails using simple text prompts. 
 - **MCP Integration**: Full support for the Model Context Protocol to connect AI agents with the Beefree editor.
 - **Real-time Streaming**: improved streaming responses for a better user experience.
 - **Latest Tools**: Access to the most recent tools and capabilities for AI-driven content creation.
