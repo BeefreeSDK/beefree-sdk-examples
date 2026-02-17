@@ -1,5 +1,5 @@
 import type { IEntityContentJson, IToken } from '@beefree.io/sdk/dist/types/bee'
-import { AUTH_URL, DEFAULT_UID, TEMPLATE_URL } from './config/constants.ts'
+import { AUTH_PROXY_URL, DEFAULT_UID, DEFAULT_TEMPLATE_URL } from './config/constants.ts'
 
 type BeefreeElement = HTMLElement & Record<string, unknown>
 
@@ -63,7 +63,7 @@ export const updateBeefreeComponent = (prop: string, value: unknown): void => {
 }
 
 export const getTemplate = async (): Promise<IEntityContentJson> => {
-  const response = await fetch(TEMPLATE_URL)
+  const response = await fetch(DEFAULT_TEMPLATE_URL)
   if (!response.ok) {
     throw new Error(`Failed to load template: ${response.status} ${response.statusText}`)
   }
@@ -71,7 +71,7 @@ export const getTemplate = async (): Promise<IEntityContentJson> => {
 }
 
 export const loginV2 = async (): Promise<IToken> => {
-  const response = await fetch(AUTH_URL, {
+  const response = await fetch(AUTH_PROXY_URL, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

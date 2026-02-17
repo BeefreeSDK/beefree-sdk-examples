@@ -70,6 +70,7 @@ beefree-sdk-examples/
 27.     custom-fonts-example                → Full fonts configuration (system fonts, web fonts).                                   → 🔐
 28.     checker-example                     → Implementation of our SDK Checker API (SEO, accessibility).
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
+30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                       → 🔐
 
 Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own.
 

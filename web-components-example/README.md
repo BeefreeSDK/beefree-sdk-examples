@@ -133,10 +133,10 @@ yarn start:web-components
 
 This single command will:
 - ✅ Automatically install all dependencies
-- ✅ Start the local authentication server (port 3007)
-- ✅ Start the web components example frontend (port 8007)
+- ✅ Start the local authentication server (port 3030)
+- ✅ Start the web components example frontend (port 8030)
 
-Then open your browser to `http://localhost:8007`
+Then open your browser to `http://localhost:8030`
 
 **Before running**, make sure to configure your Beefree SDK credentials in `web-components-example/.env`:
 
@@ -149,7 +149,7 @@ Edit `.env`:
 ```env
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-PORT=3007
+PORT=3030
 ```
 
 ### Option 2: Run Manually (Advanced)
@@ -177,9 +177,9 @@ Edit `.env` with your credentials.
 yarn start
 ```
 
-This will concurrently run the backend server (3007) and frontend (8007).
+This will concurrently run the backend server (3030) and frontend (8030).
 
-Open your browser to `http://localhost:8007`
+Open your browser to `http://localhost:8030`
 
 ### **Additional Commands**
 ```bash
@@ -301,7 +301,7 @@ yarn build
 Ensure production environment has:
 - `BEEFREE_CLIENT_ID`: Your Beefree SDK client ID
 - `BEEFREE_CLIENT_SECRET`: Your Beefree SDK client secret
-- `PORT`: Backend server port (default 3007)
+- `PORT`: Backend server port (default 3030)
 
 ## 📚 Resources
 
