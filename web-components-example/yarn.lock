@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.6.tgz#d267a43cb1836dc4d182cce93ae75ba954ef6d2b"
   integrity sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA==
 
-"@beefree.io/sdk@11.2.2-feat-BEE-11067-shadow-dom-compatibility.0":
-  version "11.2.2-feat-BEE-11067-shadow-dom-compatibility.0"
-  resolved "https://registry.yarnpkg.com/@beefree.io/sdk/-/sdk-11.2.2-feat-BEE-11067-shadow-dom-compatibility.0.tgz#d3f53597dd70bcaa227ac61b7a63efd8ee4f1b1f"
-  integrity sha512-FZ0n5bB+L1pErbuPCDnkI/pExXldwC2jGvP8vlaE6D8+W1POuzqZe6k6V04WRY1K9ScByU1ZdnQlh5Ax6c30dA==
+"@beefree.io/sdk@11.2.2":
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/@beefree.io/sdk/-/sdk-11.2.2.tgz#8454b8dc09efe711351cbd1c457ae5676aa766d7"
+  integrity sha512-kjA1DSqrmiDwxugs3RzZDFvoqF4PsWHjyyGT/eAIg2YSpu9bGd7OqAF49KubXGELqXikbzwjFfEuxtJRLYDXPw==
   dependencies:
     fp-ts "^2.13.1"
     load-script "^2.0.0"

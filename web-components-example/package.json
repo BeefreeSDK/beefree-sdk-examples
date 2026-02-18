@@ -26,7 +26,7 @@
   ],
   "author": "Beefree",
   "dependencies": {
-    "@beefree.io/sdk": "11.2.2-feat-BEE-11067-shadow-dom-compatibility.0",
+    "@beefree.io/sdk": "11.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2"
