@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #595959;
+  height: 100vh;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 10px;
+  color: #f4f4f4;
+  font-size: 1.5rem; 
+  font-weight: normal;
+}

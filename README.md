@@ -46,6 +46,7 @@ Before running any example, you need:
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 | [📂 Template Load](#-template-load-example) | Load saved templates from DB | Template management, Prisma ORM, CRUD operations | `yarn start:template-load` |
+| [🧩 Web Components](#-web-components-example) | Shadow DOM integration | Custom element, Shadow DOM, framework-agnostic | `yarn start:web-components` |
 
 ---
 
@@ -480,6 +481,61 @@ Then open http://localhost:8002 in your browser.
 
 ---
 
+## 🧩 Web Components Example
+
+Embed the Beefree SDK as a **custom HTML element** (`<beefree-component>`) using Web Components and Shadow DOM — no framework required.
+
+### Features
+
+- **Custom Element**: Drop `<beefree-component>` into any HTML page
+- **Shadow DOM Isolation**: Editor styles are encapsulated and won't leak into the host page
+- **Property-Driven API**: Set `config`, `token`, and `template` via JS properties or HTML attributes
+- **Auto-Initialization**: SDK starts automatically once all required properties are set (in any order)
+- **Framework-Agnostic**: Works in React, Vue, Angular, or plain HTML
+- **Co-Editing Ready**: Built-in `sessionId` property for collaborative sessions
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:web-components
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8030) and the authentication server (port 3030).
+
+**Before running**, make sure to configure your Beefree SDK credentials in `web-components-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3030
+```
+
+Then open http://localhost:8030 in your browser.
+
+### How It Works
+
+```html
+<!-- Just drop the custom element into any page -->
+<script type="module" src="/src/index.ts"></script>
+<beefree-component id="beefree-component" />
+```
+
+```typescript
+// Set properties in any order — SDK auto-initializes when ready
+const el = document.querySelector('beefree-component')
+el.token = tokenFromAuthServer
+el.config = { beeConfig: { uid: 'my-app' }, startOptions: { shared: false } }
+el.template = templateJson
+```
+
+### Troubleshooting
+
+If you didn't get the example to run, take a look at the `web-components-example/README.md` for more detailed instructions.
+
+---
+
 ## 🏗️ Repository Structure
 ```
 beefree-sdk-examples/
@@ -493,7 +549,8 @@ beefree-sdk-examples/
 ├── multi-builder-switch-example/     # Multi-builder switching
 ├── secure-auth-example/              # Simple client with secure auth server
 ├── template-export-pdf-example/      # PDF export functionality
-└── template-load-example/            # Load/Save templates with DB
+├── template-load-example/            # Load/Save templates with DB
+└── web-components-example/           # Web Component with Shadow DOM
 ```
 
 ---
