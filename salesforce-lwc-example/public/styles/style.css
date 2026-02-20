@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  color: #555;
+  background-image: url(/lightning_blue_background.png);
+  background-repeat: repeat-x;
+  background-position: 0 64px;
+  background-color: #b4c4dd;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 20px;
+  background: white;
+  color: #555;
+  gap: 1rem;
+}
+
+.app-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.lwc-container {
+  position: absolute;
+  inset: 15px;
+  top: 80px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,51 @@
+{
+  "name": "beefree-sdk-salesforce-lwc-example",
+  "version": "1.0.1",
+  "description": "Salesforce Lightning Web Components (LWC) example for Beefree SDK — runnable locally without Salesforce",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently -c \"green,cyan\" --names \"backend,frontend\" \"yarn server\" \"vite\"",
+    "build:sdk": "node scripts/build-sdk-bundle.mjs",
+    "build:salesforce": "node scripts/copy-to-salesforce.mjs",
+    "test": "sfdx-lwc-jest -- --no-watchman",
+    "server": "tsx watch server.ts",
+    "sf:org:list": "source .env && sfdx org list",
+    "sf:login": "source .env && sfdx org login web --set-default --alias $SALESFORCE_ORG_ALIAS",
+    "sf:org:alias": "source .env && sfdx force:alias:set $SALESFORCE_ORG_ALIAS=$SALESFORCE_USERNAME",
+    "sf:org:open": "source .env && sfdx org open --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy": "yarn build:salesforce && source .env && sfdx project deploy start --source-dir force-app --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:sdk": "source .env && sfdx project deploy start --source-dir force-app/main/default/staticresources --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:lwc": "yarn build:salesforce && source .env && sfdx project deploy start --source-dir force-app/main/default/lwc --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:apex": "source .env && sfdx project deploy start --source-dir force-app/main/default/classes --target-org $SALESFORCE_ORG_ALIAS"
+  },
+  "keywords": [
+    "beefree",
+    "sdk",
+    "salesforce",
+    "lwc",
+    "lightning-web-components",
+    "shadow-dom"
+  ],
+  "author": "Beefree SDK Examples",
+  "license": "MIT",
+  "dependencies": {
+    "@beefree.io/sdk": "^11.2.2",
+    "lwc": "^9.0.2"
+  },
+  "devDependencies": {
+    "@salesforce/cli": "^2.123.1",
+    "@salesforce/sfdx-lwc-jest": "^7.1.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^6.3.5",
+    "vite-plugin-lwc": "^4.1.0"
+  }
+}
