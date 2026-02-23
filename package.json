@@ -14,6 +14,7 @@
     "start:conditional-rows": "yarn install && yarn --cwd conditional-rows-example install && yarn && yarn --cwd conditional-rows-example start",
     "start:custom-css": "yarn install && yarn --cwd custom-css-example install && yarn --cwd custom-css-example start",
     "start:multi-builder": "yarn install && yarn --cwd multi-builder-switch-example install && yarn --cwd multi-builder-switch-example start",
+    "start:multi-language": "yarn install && yarn --cwd multi-language-template-example install && yarn --cwd multi-language-template-example start",
     "start:pdf-export": "yarn install && yarn --cwd template-export-pdf-example install && yarn --cwd template-export-pdf-example start",
     "start:salesforce-lwc": "yarn install && yarn --cwd salesforce-lwc-example install && yarn --cwd salesforce-lwc-example start",
     "start:secure-auth": "yarn install && yarn --cwd secure-auth-example install && yarn --cwd secure-auth-example start",
