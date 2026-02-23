@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "憑據無效或缺失",
+    "description": "<strong>{{type}}</strong> 的身份驗證失敗。請檢查 <code>.env</code> 中的 <code>*_CLIENT_ID</code> 和 <code>*_CLIENT_SECRET</code>。",
+    "step1": "前往 Beefree Developer Console 並建立應用程式。",
+    "step2": "將 Client ID 和 Client Secret 複製到您的 .env 檔案中。",
+    "step3": "重新載入此頁面或點擊重試。",
+    "docs": "請參閱",
+    "retry": "重試"
+  }
+}

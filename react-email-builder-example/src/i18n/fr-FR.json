@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Identifiants invalides ou manquants",
+    "description": "L'authentification a échoué pour <strong>{{type}}</strong>. Vérifiez <code>*_CLIENT_ID</code> et <code>*_CLIENT_SECRET</code> dans <code>.env</code>.",
+    "step1": "Accédez à la Beefree Developer Console et créez une application.",
+    "step2": "Copiez le Client ID et le Client Secret dans votre fichier .env.",
+    "step3": "Rechargez la page ou cliquez sur Réessayer.",
+    "docs": "Consultez le",
+    "retry": "Réessayer"
+  }
+}

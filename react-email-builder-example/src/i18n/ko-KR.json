@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "유효하지 않거나 누락된 자격 증명",
+    "description": "<strong>{{type}}</strong>에 대한 인증에 실패했습니다. <code>.env</code>에서 <code>*_CLIENT_ID</code>와 <code>*_CLIENT_SECRET</code>을 확인해 주세요.",
+    "step1": "Beefree Developer Console로 이동하여 애플리케이션을 생성하세요.",
+    "step2": "Client ID와 Client Secret을 .env 파일에 복사하세요.",
+    "step3": "이 페이지를 새로고침하거나 다시 시도를 클릭하세요.",
+    "docs": "참조:",
+    "retry": "다시 시도"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Ungültige oder fehlende Anmeldedaten",
+    "description": "Authentifizierung fehlgeschlagen für <strong>{{type}}</strong>. Überprüfen Sie <code>*_CLIENT_ID</code> und <code>*_CLIENT_SECRET</code> in <code>.env</code>.",
+    "step1": "Gehen Sie zur Beefree Developer Console und erstellen Sie eine Anwendung.",
+    "step2": "Kopieren Sie Client ID und Client Secret in Ihre .env-Datei.",
+    "step3": "Laden Sie die Seite neu oder klicken Sie auf Erneut versuchen.",
+    "docs": "Siehe den",
+    "retry": "Erneut versuchen"
+  }
+}

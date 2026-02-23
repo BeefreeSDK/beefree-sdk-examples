@@ -44,6 +44,7 @@ Before running any example, you need:
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
+| [📦 React Email Builder](#-react-email-builder-example) | React wrapper for Beefree SDK | Builder component, useBuilder hook, co-editing, i18n | `yarn start:react-email-builder` |
 | [⚡ Salesforce LWC](#-salesforce-lwc-example) | Beefree SDK in Salesforce | LWC, local dev sandbox, deploy to Salesforce, Apex auth | `yarn start:salesforce-lwc` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 | [📂 Template Load](#-template-load-example) | Load saved templates from DB | Template management, Prisma ORM, CRUD operations | `yarn start:template-load` |
@@ -519,6 +520,58 @@ Then open http://localhost:8002 in your browser.
 
 ---
 
+## 📦 React Email Builder Example
+
+Use the [`@beefree.io/react-email-builder`](https://www.npmjs.com/package/@beefree.io/react-email-builder) wrapper to integrate Beefree SDK with a declarative `<Builder>` component and `useBuilder()` hook.
+
+### Features
+
+- **`<Builder>` Component** - Declarative SDK embedding via token prop
+- **`useBuilder()` Hook** - Programmatic control (preview, save, load, export)
+- **4 Builder Types** - Email, Page, Popup, and File Manager
+- **Co-editing** - Real-time collaboration with split-pane view
+- **22 UI Languages** - Live language switching
+- **Per-builder Credentials** - Separate credentials per builder type
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:react-email-builder
+```
+
+This command will automatically install dependencies and start both the frontend (port 8032) and backend server (port 3032).
+
+**Before running**, configure your credentials in `react-email-builder-example/.env`:
+
+```env
+# At minimum, provide default credentials (fallback for all builders)
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Or builder-specific credentials for correct sidebar options
+EMAIL_CLIENT_ID=your_email_client_id_here
+EMAIL_CLIENT_SECRET=your_email_client_secret_here
+PAGE_CLIENT_ID=your_page_client_id_here
+PAGE_CLIENT_SECRET=your_page_client_secret_here
+POPUP_CLIENT_ID=your_popup_client_id_here
+POPUP_CLIENT_SECRET=your_popup_client_secret_here
+FILE_MANAGER_CLIENT_ID=your_file_manager_client_id_here
+FILE_MANAGER_CLIENT_SECRET=your_file_manager_client_secret_here
+
+# Server Configuration
+PORT=3032
+```
+
+Then open http://localhost:8032 in your browser.
+
+### Troubleshooting
+
+If you didn't get the example to run, take a look at the `react-email-builder-example/README.md` for more detailed instructions.
+
+---
+
 ## 🧩 Web Components Example
 
 Embed the Beefree SDK as a **custom HTML element** (`<beefree-component>`) using Web Components and Shadow DOM — no framework required.
@@ -585,6 +638,7 @@ beefree-sdk-examples/
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
 ├── multi-builder-switch-example/     # Multi-builder switching
+├── react-email-builder-example/      # React wrapper (@beefree.io/react-email-builder)
 ├── salesforce-lwc-example/           # Beefree SDK in Salesforce LWC
 ├── secure-auth-example/              # Simple client with secure auth server
 ├── template-export-pdf-example/      # PDF export functionality

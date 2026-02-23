@@ -42,39 +42,40 @@ beefree-sdk-examples/
 
 ## List of examples (available here ✅, available in other repos ↩️, work-in-progress ⌛, and future ones)
 
+Note: Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own.
+
 1.  ✅  secure-auth-example                 → Simple Front-End with secure authentication via Back-End + token.
 2.  ✅  template-load-example               → Load saved templates from DB.
 3.  ✅  template-export-pdf-example         → Export template to PDF via CSAPI.
 4.  ↩️  template-thumbnail-example          → Generate template thumbnails via CSAPI.
 5.  ↩️  html-importer-example               → Convert legacy HTML into Beefree JSON.
 6.  ✅  multi-builder-switch-example        → Switch between Email Builder, Page Builder and Popup Builder.
-7.  ✅  custom-css-example                  → Apply custom CSS to the builder.                                                      → 🔐
-8.  ✅  autosave-versioning-example         → Autosave with template versioning.                                                    → 🔐
-9.  ↩️  liquid-personalization-example      → Advanced personalization with Liquid.                                                 → 🔐
+7.  ✅  custom-css-example                  → Apply custom CSS to the builder.                                                          → 🔐
+8.  ✅  autosave-versioning-example         → Autosave with template versioning.                                                        → 🔐
+9.  ↩️  liquid-personalization-example      → Advanced personalization with Liquid.                                                     → 🔐
 10.     multiuser-collaboration-example     → Real-time collaboration via co-edit server.
-11.     special-links-groups-example        → Special Links grouped by categories.                                                  → 🔐
+11.     special-links-groups-example        → Special Links grouped by categories.                                                      → 🔐
 12.     reusable-rows-example               → Manage reusable rows across templates.
-13.     locked-content-example              → Lock sections/modules with advanced permissions.                                      → 🔐
+13.     locked-content-example              → Lock sections/modules with advanced permissions.                                          → 🔐
 14. ✅  conditional-rows-example            → Show/hide rows conditionally. 
 15. ↩️  schema-conversion-example           → Convert Simple ↔ Full JSON through CSAPI.
 16.     custom-file-system-example          → For example written in GO and integrated with an external file system (e.g., S3).
-17.     advanced-permissions-example        → Define roles (admin, editor, read-only).                                              → 🔐
-18. ✅  commenting-example                  → Comments configuration. Use callback to trigger toast notifications.                  → 🔐
-19. ↩️  form-block-prepopulate-example      → Prepopulated forms for lead capture.                                                  → 🔐
-20. ↩️  form-block-contentdialog-example    → Form block with content dialog with custom UI.                                        → 🔐
-21.     multilanguage-template-example      → Full multilingual templates example.                                                  → 🔐
-22.     content-ai-generate-example         → Generate text with AI from a prompt.                                                  → 🔐
-23.     content-ai-style-example            → Transform text into a specific tone/style.                                            → 🔐
-24.     video-block-example                 → Email/Page Builder with different Video block types.                                  → 🔐
-25.     custom-add-ons-blocks-example       → Custom block types using custom Add-ons.                                              → 🔐
-26.     content-defaults-example            → Full branding (logo, colors, fonts).                                                  → 🔐
-27.     custom-fonts-example                → Full fonts configuration (system fonts, web fonts).                                   → 🔐
+17.     advanced-permissions-example        → Define roles (admin, editor, read-only).                                                  → 🔐
+18. ✅  commenting-example                  → Comments configuration. Use callback to trigger toast notifications.                      → 🔐
+19. ↩️  form-block-prepopulate-example      → Prepopulated forms for lead capture.                                                      → 🔐
+20. ↩️  form-block-contentdialog-example    → Form block with content dialog with custom UI.                                            → 🔐
+21.     multilanguage-template-example      → Full multilingual templates example.                                                      → 🔐
+22.     content-ai-generate-example         → Generate text with AI from a prompt.                                                      → 🔐
+23.     content-ai-style-example            → Transform text into a specific tone/style.                                                → 🔐
+24.     video-block-example                 → Email/Page Builder with different Video block types.                                      → 🔐
+25.     custom-add-ons-blocks-example       → Custom block types using custom Add-ons.                                                  → 🔐
+26.     content-defaults-example            → Full branding (logo, colors, fonts).                                                      → 🔐
+27.     custom-fonts-example                → Full fonts configuration (system fonts, web fonts).                                       → 🔐
 28.     checker-example                     → Implementation of our SDK Checker API (SEO, accessibility).
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
-30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                       → 🔐
+30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                           → 🔐
 31. ✅  salesforce-lwc-example              → Beefree SDK in Salesforce Lightning Web Components (local dev + deploy to Salesforce).
-
-Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own.
+32. ✅  react-email-builder-example         → React wrapper for Beefree SDK using @beefree.io/react-email-builder.                      → 🔐
 
 ## Key Principles
 

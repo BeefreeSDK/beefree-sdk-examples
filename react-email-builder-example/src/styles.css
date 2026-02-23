@@ -1,0 +1,430 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bright-blue: oklch(51.01% 0.274 263.83);
+  --electric-violet: oklch(53.18% 0.28 296.97);
+  --ultraviolet: #7638ff;
+  --french-violet: oklch(47.66% 0.246 305.88);
+  --vivid-pink: oklch(69.02% 0.277 332.77);
+  --hot-red: oklch(61.42% 0.238 15.34);
+  --orange-red: oklch(63.32% 0.24 31.68);
+
+  --react-blue: #61dafb;
+
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gray-400: oklch(70.9% 0.015 304.04);
+  --gray-200: oklch(88.89% 0.015 304.04);
+
+  --white-to-react-horizontal-gradient: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 30%,
+    rgb(88, 196, 220) 50%,
+    rgb(8, 126, 164) 65%,
+    #7638ff 80%
+  );
+
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* ---------- Header ---------- */
+
+header {
+  display: flex;
+  height: 64px;
+}
+
+header .left-side {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  flex-shrink: 0;
+}
+
+header .right-side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  padding-right: 1rem;
+  gap: 20px;
+  background: var(--white-to-react-horizontal-gradient);
+  height: 100%;
+}
+
+header .right-side img {
+  height: 28px;
+  width: auto;
+}
+
+.react-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.react-brand span {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-select-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-select-group label {
+  font-size: 13px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.header-select-group select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 6px 28px 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z" fill="white"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 18px;
+}
+
+.header-select-group select option {
+  background: #333;
+  color: white;
+}
+
+/* ---------- Layout ---------- */
+
+.main {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: inherit;
+  position: relative;
+}
+
+header,
+.content {
+  margin: 0;
+  align-items: center;
+  width: 100%;
+}
+
+.content {
+  height: calc(100vh - 64px);
+}
+
+/* ---------- Controls bar ---------- */
+
+.beefree-example {
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.controls {
+  background: #262626;
+  color: white;
+  font-size: 13px;
+  padding: 0 15px;
+  height: 64px;
+  margin-bottom: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.controls select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px 10px;
+  color: var(--gray-900);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  margin-left: 6px;
+  padding-right: 20px;
+  background: white url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat;
+}
+
+#contentLanguage {
+  background: var(--ultraviolet) url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z" fill="white"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat;
+  color: white;
+  border-color: var(--ultraviolet);
+}
+
+.button-group {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-right: auto;
+}
+
+.button-group button {
+  padding: 8px 16px;
+  background: var(--ultraviolet);
+  color: white;
+  border: 1px solid var(--ultraviolet);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 13px;
+}
+
+.button-group button:disabled {
+  cursor: not-allowed;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 4px,
+      rgba(255, 255, 255, 0.15) 4px,
+      rgba(255, 255, 255, 0.15) 6px
+    ),
+    var(--ultraviolet);
+  opacity: 0.6;
+}
+
+.button-group button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.button-group button.active {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+.selectors {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+}
+
+.info p {
+  margin: 2px 0;
+  color: var(--gray-400);
+  font-size: 11px;
+}
+
+/* ---------- Loading / Error / Credentials ---------- */
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+}
+
+.credentials-notice {
+  max-width: 560px;
+  margin: 60px auto;
+  padding: 32px;
+  background: #eef6fb;
+  border: 1px solid #8fc9e0;
+  border-radius: 8px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.credentials-notice h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  background: linear-gradient(315deg, rgb(8, 126, 164) 25%, #61dafb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.credentials-notice code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.credentials-notice ol {
+  padding-left: 20px;
+  margin: 12px 0;
+}
+
+.credentials-notice a {
+  color: #1677ff;
+  text-decoration: none;
+}
+
+.credentials-notice a:hover {
+  text-decoration: underline;
+}
+
+.credentials-notice button {
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(315deg, rgb(8, 126, 164) 25%, #61dafb);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.credentials-notice button:hover {
+  opacity: 0.85;
+}
+
+.error button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ---------- Builders area and split pane ---------- */
+
+.builders-area {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 128px);
+  overflow: hidden;
+}
+
+.builder-panel {
+  overflow: hidden;
+  height: 100%;
+  min-width: 0;
+  position: relative;
+}
+
+.builder-panel.dragging {
+  pointer-events: none;
+}
+
+.split-divider {
+  flex-shrink: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.split-divider:hover,
+.split-divider.dragging {
+  background: #b0b0b0;
+}
+
+.split-divider-handle {
+  width: 2px;
+  height: 32px;
+  border-radius: 1px;
+  background: #999;
+}
+
+.split-divider.dragging .split-divider-handle {
+  background: #666;
+}
+
+/* ---------- Toast ---------- */
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  min-width: 280px;
+  animation: toast-slide-in 0.4s ease-out;
+}
+
+.toast.toast-exit {
+  animation: toast-slide-out 0.4s ease-in forwards;
+}
+
+.toast h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.toast p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.4;
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}

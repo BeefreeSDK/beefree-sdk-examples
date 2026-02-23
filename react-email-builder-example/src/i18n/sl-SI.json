@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Neveljavni ali manjkajoči prijavni podatki",
+    "description": "Preverjanje pristnosti za <strong>{{type}}</strong> ni uspelo. Preverite <code>*_CLIENT_ID</code> in <code>*_CLIENT_SECRET</code> v <code>.env</code>.",
+    "step1": "Odprite Beefree Developer Console in ustvarite aplikacijo.",
+    "step2": "Kopirajte Client ID in Client Secret v datoteko .env.",
+    "step3": "Znova naložite to stran ali kliknite Poskusi znova.",
+    "docs": "Glejte",
+    "retry": "Poskusi znova"
+  }
+}

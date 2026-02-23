@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Ongeldige of ontbrekende inloggegevens",
+    "description": "Authenticatie mislukt voor <strong>{{type}}</strong>. Controleer de <code>*_CLIENT_ID</code> en <code>*_CLIENT_SECRET</code> in <code>.env</code>.",
+    "step1": "Ga naar de Beefree Developer Console en maak een applicatie aan.",
+    "step2": "Kopieer de Client ID en Client Secret naar uw .env-bestand.",
+    "step3": "Laad deze pagina opnieuw of klik op Opnieuw proberen.",
+    "docs": "Zie de",
+    "retry": "Opnieuw proberen"
+  }
+}

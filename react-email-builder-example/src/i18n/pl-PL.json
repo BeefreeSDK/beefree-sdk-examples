@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Nieprawidłowe lub brakujące dane uwierzytelniające",
+    "description": "Uwierzytelnianie nie powiodło się dla <strong>{{type}}</strong>. Sprawdź <code>*_CLIENT_ID</code> i <code>*_CLIENT_SECRET</code> w <code>.env</code>.",
+    "step1": "Przejdź do Beefree Developer Console i utwórz aplikację.",
+    "step2": "Skopiuj Client ID i Client Secret do pliku .env.",
+    "step3": "Przeładuj tę stronę lub kliknij Ponów.",
+    "docs": "Zobacz",
+    "retry": "Ponów"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Neplatné nebo chybějící přihlašovací údaje",
+    "description": "Ověření pro <strong>{{type}}</strong> selhalo. Zkontrolujte prosím <code>*_CLIENT_ID</code> a <code>*_CLIENT_SECRET</code> v <code>.env</code>.",
+    "step1": "Přejděte do Beefree Developer Console a vytvořte aplikaci.",
+    "step2": "Zkopírujte Client ID a Client Secret do souboru .env.",
+    "step3": "Znovu načtěte tuto stránku nebo klikněte na Zkusit znovu.",
+    "docs": "Viz",
+    "retry": "Zkusit znovu"
+  }
+}

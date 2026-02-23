@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Kredensial tidak valid atau tidak ditemukan",
+    "description": "Autentikasi gagal untuk <strong>{{type}}</strong>. Silakan periksa <code>*_CLIENT_ID</code> dan <code>*_CLIENT_SECRET</code> di <code>.env</code>.",
+    "step1": "Buka Beefree Developer Console dan buat aplikasi.",
+    "step2": "Salin Client ID dan Client Secret ke file .env Anda.",
+    "step3": "Muat ulang halaman ini atau klik Coba Lagi.",
+    "docs": "Lihat",
+    "retry": "Coba Lagi"
+  }
+}

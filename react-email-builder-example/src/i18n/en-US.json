@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Invalid or missing credentials",
+    "description": "Authentication failed for <strong>{{type}}</strong>. Please check <code>*_CLIENT_ID</code> and <code>*_CLIENT_SECRET</code> in <code>.env</code>.",
+    "step1": "Go to the Beefree Developer Console and create an application.",
+    "step2": "Copy the Client ID and Client Secret into your .env file.",
+    "step3": "Reload this page or click Retry.",
+    "docs": "See the",
+    "retry": "Retry"
+  }
+}

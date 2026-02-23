@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Virheelliset tai puuttuvat tunnistetiedot",
+    "description": "Todennus epäonnistui kohteelle <strong>{{type}}</strong>. Tarkista <code>*_CLIENT_ID</code> ja <code>*_CLIENT_SECRET</code> tiedostossa <code>.env</code>.",
+    "step1": "Siirry Beefree Developer Consoleen ja luo sovellus.",
+    "step2": "Kopioi Client ID ja Client Secret .env-tiedostoosi.",
+    "step3": "Lataa tämä sivu uudelleen tai napsauta Yritä uudelleen.",
+    "docs": "Katso",
+    "retry": "Yritä uudelleen"
+  }
+}

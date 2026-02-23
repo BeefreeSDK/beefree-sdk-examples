@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Érvénytelen vagy hiányzó hitelesítő adatok",
+    "description": "A hitelesítés sikertelen a következőhöz: <strong>{{type}}</strong>. Kérjük, ellenőrizze a <code>*_CLIENT_ID</code> és <code>*_CLIENT_SECRET</code> értékeket a <code>.env</code> fájlban.",
+    "step1": "Nyissa meg a Beefree Developer Console-t és hozzon létre egy alkalmazást.",
+    "step2": "Másolja a Client ID-t és a Client Secret-et az .env fájlba.",
+    "step3": "Töltse újra ezt az oldalt, vagy kattintson az Újra gombra.",
+    "docs": "Lásd a",
+    "retry": "Újra"
+  }
+}

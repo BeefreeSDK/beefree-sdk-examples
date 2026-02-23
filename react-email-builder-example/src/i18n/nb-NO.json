@@ -1,0 +1,11 @@
+{
+  "credentials": {
+    "title": "Ugyldige eller manglende legitimasjonsopplysninger",
+    "description": "Autentisering mislyktes for <strong>{{type}}</strong>. Vennligst sjekk <code>*_CLIENT_ID</code> og <code>*_CLIENT_SECRET</code> i <code>.env</code>.",
+    "step1": "Gå til Beefree Developer Console og opprett en applikasjon.",
+    "step2": "Kopier Client ID og Client Secret til .env-filen din.",
+    "step3": "Last inn denne siden på nytt eller klikk Prøv igjen.",
+    "docs": "Se",
+    "retry": "Prøv igjen"
+  }
+}
