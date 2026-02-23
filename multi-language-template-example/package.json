@@ -1,0 +1,63 @@
+{
+  "name": "beefree-sdk-multi-language-template-example",
+  "version": "1.0.0",
+  "description": "React Email Builder (Beefree SDK wrapper) Multilanguage Template Example - Email editor with multiple translations of LTR or RTL languages, using @beefree.io/react-email-builder",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "build": "tsc -b && vite build && tsc --project tsconfig.server.json",
+    "build:client": "tsc -b && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "preview": "vite preview",
+    "server": "node dist/server.js",
+    "server:dev": "tsx watch server.ts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit",
+    "type-check:server": "tsc --project tsconfig.server.json --noEmit"
+  },
+  "keywords": [
+    "beefree",
+    "beefree-sdk",
+    "multi-language",
+    "email-builder",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "author": "Beefree SDK Examples",
+  "license": "MIT",
+  "resolutions": {
+    "tinyexec": "1.0.2"
+  },
+  "dependencies": {
+    "@beefree.io/react-email-builder": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/coverage-istanbul": "^4.0.18",
+    "concurrently": "^8.2.2",
+    "jsdom": "^25.0.1",
+    "tinyexec": "1.0.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7",
+    "vitest": "^4.0.18"
+  },
+  "packageManager": "yarn@4.13.0"
+}

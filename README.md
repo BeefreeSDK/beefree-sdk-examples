@@ -43,6 +43,7 @@ Before running any example, you need:
 | [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
+| [🌐 Multi-language Template](#-multi-language-template-example) | Multi-lingual email templates | LTR/RTL collections (10 languages each, 7 accessible on Superpowers / all 10 on Enterprise), plan-aware language guard, sample/blank mode toggle, Email Builder only | `yarn start:multi-language` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
 | [⚡ Salesforce LWC](#-salesforce-lwc-example) | Beefree SDK in Salesforce | LWC, local dev sandbox, deploy to Salesforce, Apex auth | `yarn start:salesforce-lwc` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
@@ -309,44 +310,41 @@ Then open http://localhost:8006 in your browser.
 
 ---
 
-## 📄 Template Export PDF Example
+## 🌐 Multi-language Template Example
 
-Export templates to PDF using the Beefree Content Services API.
+This example is part of the collection that uses the [`@beefree.io/react-email-builder`](https://www.npmjs.com/package/@beefree.io/react-email-builder) wrapper. It demonstrates multilingual email templates with content-language switching: one Email Builder, an **LTR/RTL** toggle to switch between two language collections (10 languages each), and secure backend auth.
 
 ### Features
 
-- Export templates to PDF format
-- Multiple export formats (HTML, JSON)
-- Progress tracking during export
-- Download generated PDFs
-- Template preview before export
+- **Email Builder only** – Single builder type, single credential set
+- **LTR/RTL language collections** – Toggle between LTR (English, 普通话, हिन्दी, Español, Français, বাংলা, Napulitano, Català, Euskara, Galego) and RTL (فارسی, 日本語, العربية, Türkçe, ދިވެހި, اردو, پښتو, سنڌي, ئۇيغۇرچە, سۆرانی). Switching orientation loads the matching sample or blank template for that direction.
+- **Plan-aware language guard** – The Beefree SDK supports up to 7 template languages on Superpowers (1 main + 6 translations) and up to 21 on Enterprise (1 main + 20 translations). Languages beyond position 7 are marked with dashes in the dropdown and show an upgrade prompt when selected; Enterprise users see all 10 languages fully accessible.
+- **Plan-aware MLT banners** – Restricted plans show a warning banner and keep controls blocked (even after dismissing the banner); supported plans show a dismissible informational tip banner about enabling MLT at app level.
+- **Template mode toggle** – A single button switches between **Load Blank Template** and **Load Sample Template**. In blank mode, the example loads either LTR blank or RTL blank (with Noto Sans Arabic defaults).
+- **`<Builder>` and `useBuilder()`** – Declarative SDK embedding and programmatic control (save, save as template)
+- **Secure auth** – Backend-only credentials (backend **3021**, frontend **8921**; example 21 — frontend uses 8921 instead of 8021 to avoid port conflicts)
 
 ### How to Run
 
-To run this example, use the start command from the root of the repository:
+From the root of the repository:
 
 ```bash
-yarn start:pdf-export
+yarn start:multi-language
 ```
 
-This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
-
-**Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
+**Before running**, configure your credentials in `multi-language-template-example/.env`:
 
 ```env
-# Beefree SDK Credentials
 BEEFREE_CLIENT_ID=your_client_id_here
 BEEFREE_CLIENT_SECRET=your_client_secret_here
-
-# Beefree Content Services API
-BEEFREE_CS_API_URL=https://api.getbee.io
-
-# Server Configuration
-PORT=3003
-VITE_PORT=8003
+PORT=3021
 ```
 
-Then open http://localhost:8003 in your browser.
+Backend runs on **3021**, frontend on **8921**. Open http://localhost:8921 in your browser. (This example uses port 8921 for the frontend instead of the usual 8021 to avoid conflicts with other applications; see `multi-language-template-example/README.md` for details.)
+
+### Troubleshooting
+
+See `multi-language-template-example/README.md` for detailed setup, env vars, and troubleshooting.
 
 ---
 
@@ -454,6 +452,7 @@ The `secure-auth-example` folder contains an authentication server that can be u
 - Commenting example
 - Custom CSS example
 - Multi-Builder Switch example (NOTE: consult the multi-builder-switch-example/README.md to understand the limitations when using the shared auth server).
+- Multi-Language Template example
 
 To use the `secure-auth-example` server for authentication in another example:
 
@@ -474,6 +473,47 @@ To use the `secure-auth-example` server for authentication in another example:
    cd commenting-example
    yarn dev
    ```
+
+---
+
+## 📄 Template Export PDF Example
+
+Export templates to PDF using the Beefree Content Services API.
+
+### Features
+
+- Export templates to PDF format
+- Multiple export formats (HTML, JSON)
+- Progress tracking during export
+- Download generated PDFs
+- Template preview before export
+
+### How to Run
+
+To run this example, use the start command from the root of the repository:
+
+```bash
+yarn start:pdf-export
+```
+
+This command will automatically install all required dependencies and start both the frontend (port 8003) and backend server (port 3003).
+
+**Before running**, make sure to configure your credentials in `template-export-pdf-example/.env`:
+
+```env
+# Beefree SDK Credentials
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+
+# Beefree Content Services API
+BEEFREE_CS_API_URL=https://api.getbee.io
+
+# Server Configuration
+PORT=3003
+VITE_PORT=8003
+```
+
+Then open http://localhost:8003 in your browser.
 
 ---
 
@@ -585,6 +625,7 @@ beefree-sdk-examples/
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
 ├── multi-builder-switch-example/     # Multi-builder switching
+├── multi-language-template-example/ # Multilingual templates (LTR/RTL, 10 languages each; 7 on Superpowers, 10 on Enterprise)
 ├── salesforce-lwc-example/           # Beefree SDK in Salesforce LWC
 ├── secure-auth-example/              # Simple client with secure auth server
 ├── template-export-pdf-example/      # PDF export functionality
