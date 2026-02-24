@@ -79,6 +79,7 @@ export default class BeefreeEditor extends LightningElement {
       this._initialized = true
     } catch (error) {
       console.error('[c-beefree-editor] SDK initialization failed', error)
+    } finally {
       this._initInProgress = false
     }
   }

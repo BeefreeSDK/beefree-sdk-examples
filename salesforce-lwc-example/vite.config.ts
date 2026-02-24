@@ -16,11 +16,11 @@ export default defineConfig(({ mode }) => {
     root: '.',
     publicDir: 'public',
     server: {
-      port: Number(env.VITE_PORT) || 8031,
+      port: parseInt(env.VITE_PORT) || 8031,
       host: true,
       proxy: {
         '/auth': {
-          target: `http://localhost:${env.PORT || 3031}`,
+          target: `http://localhost:${parseInt(env.PORT) || 3031}`,
           changeOrigin: true,
           secure: false,
         },
