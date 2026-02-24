@@ -26,18 +26,23 @@ if (isProduction && fs.existsSync(path.join(__dirname, 'dist'))) {
 
 async function authenticateBeefree(clientId: string, clientSecret: string, uid: string) {
   const authUrl = 'https://auth.getbee.io/loginV2';
-  const response = await fetch(authUrl, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      client_id: clientId,
-      client_secret: clientSecret,
-      uid: uid
-    })
-  });
+  let response: globalThis.Response;
+  try {
+    response = await fetch(authUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        uid: uid
+      })
+    });
+  } catch (error: any) {
+    throw new Error(`Network error contacting Beefree auth service: ${error.message}`);
+  }
 
   if (!response.ok) {
     const errorText = await response.text();

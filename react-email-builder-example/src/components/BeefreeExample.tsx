@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BeePluginError,
   Builder,
@@ -97,6 +97,17 @@ const I18N_MAP: Record<string, typeof i18nEnUS> = {
   'sl-SI': i18nSlSI,
 }
 
+function renderSafeHtml(html: string): React.ReactNode {
+  const parts = html.split(/(<strong>.*?<\/strong>|<code>.*?<\/code>)/g)
+  return parts.map((part, i) => {
+    const strongMatch = part.match(/^<strong>(.*)<\/strong>$/)
+    if (strongMatch) return <strong key={i}>{strongMatch[1]}</strong>
+    const codeMatch = part.match(/^<code>(.*)<\/code>$/)
+    if (codeMatch) return <code key={i}>{codeMatch[1]}</code>
+    return part
+  })
+}
+
 function isAuthError(error: unknown): boolean {
   if (error instanceof Error) {
     const msg = error.message.toLowerCase()
@@ -125,7 +136,6 @@ export const BeefreeExample = ({ builderType, builderLanguage }: BeefreeExampleP
   const [builderKey, setBuilderKey] = useState(0)
 
   const buildersAreaRef = useRef<HTMLDivElement>(null)
-  const isFirstMountRef = useRef(true)
   const isSharedRef = useRef(isShared)
   const builderTypeRef = useRef(builderType)
 
@@ -340,28 +350,21 @@ export const BeefreeExample = ({ builderType, builderLanguage }: BeefreeExampleP
   // ---- Effects ----
 
   useEffect(() => {
-    void loadBeefreeToken(builderType as BuilderType).then(() => {
-      isFirstMountRef.current = false
-    })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (isFirstMountRef.current) return
     if (isSharedRef.current) {
       stopCoEditing()
     } else {
       setBuilderKey((k) => k + 1)
     }
     void loadBeefreeToken(builderType as BuilderType)
-  }, [builderType]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [builderType, loadBeefreeToken, stopCoEditing])
 
   useEffect(() => {
-    if (isFirstMountRef.current || !builderReady || !builderLoaded) return
+    if (!builderReady || !builderLoaded) return
     void updateConfig({ language: builderLanguage })
     if (isSharedRef.current) {
       void coEditingUpdateConfig({ language: builderLanguage })
     }
-  }, [builderLanguage]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [builderLanguage, builderReady, builderLoaded, updateConfig, coEditingUpdateConfig])
 
   useEffect(() => {
     return () => {
@@ -448,7 +451,7 @@ export const BeefreeExample = ({ builderType, builderLanguage }: BeefreeExampleP
       {credentialsError ? (
         <div className="credentials-notice">
           <h2>{i18nStrings.title}</h2>
-          <p dangerouslySetInnerHTML={{ __html: i18nDescription }} />
+          <p>{renderSafeHtml(i18nDescription)}</p>
           <ol>
             <li>
               <a href="https://developers.beefree.io/console" target="_blank" rel="noopener noreferrer">

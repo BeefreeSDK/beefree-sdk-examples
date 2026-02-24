@@ -17,19 +17,16 @@ export const App = () => {
   const [toastExiting, setToastExiting] = useState(false)
 
   useEffect(() => {
-    const showTimer = setTimeout(() => setShowToast(true), 500)
-    const hideTimer = setTimeout(() => {
-      setToastExiting(true)
-      setTimeout(() => {
-        setShowToast(false)
-        setToastExiting(false)
-      }, 400)
-    }, 5000)
+    const timers: ReturnType<typeof setTimeout>[] = []
 
-    return () => {
-      clearTimeout(showTimer)
-      clearTimeout(hideTimer)
-    }
+    timers.push(setTimeout(() => setShowToast(true), 500))
+    timers.push(setTimeout(() => setToastExiting(true), 5000))
+    timers.push(setTimeout(() => {
+      setShowToast(false)
+      setToastExiting(false)
+    }, 5400))
+
+    return () => timers.forEach(clearTimeout)
   }, [])
 
   return (
