@@ -17,6 +17,7 @@ export default class BeefreeEditor extends LightningElement {
   @api uid = 'salesforce-lwc-example'
 
   _sdkInstance = null
+  _initInProgress = false
   _initialized = false
   _sdkLoaded = false
 
@@ -25,10 +26,10 @@ export default class BeefreeEditor extends LightningElement {
   }
 
   renderedCallback() {
-    if (this._initialized || !this.tokenData || !this.templateJson) {
+    if (this._initialized || this._initInProgress || !this.tokenData || !this.templateJson) {
       return
     }
-    this._initialized = true
+    this._initInProgress = true
     this.loadSdkAndInit()
   }
 
@@ -39,6 +40,7 @@ export default class BeefreeEditor extends LightningElement {
         this._sdkLoaded = true
       } catch (error) {
         console.error('[c-beefree-editor] Failed to load Beefree SDK', error)
+        this._initInProgress = false
         return
       }
     }
@@ -49,12 +51,14 @@ export default class BeefreeEditor extends LightningElement {
     const container = this.template.querySelector('.beefree-container')
     if (!container) {
       console.error('[c-beefree-editor] Container element not found')
+      this._initInProgress = false
       return
     }
 
     const BeefreeSDK = window.BeefreeSDK
     if (!BeefreeSDK) {
       console.error('[c-beefree-editor] BeefreeSDK not found on window')
+      this._initInProgress = false
       return
     }
 
@@ -72,8 +76,10 @@ export default class BeefreeEditor extends LightningElement {
       this._sdkInstance.start(beeConfig, template, undefined, {
         shared: false,
       })
+      this._initialized = true
     } catch (error) {
       console.error('[c-beefree-editor] SDK initialization failed', error)
+      this._initInProgress = false
     }
   }
 

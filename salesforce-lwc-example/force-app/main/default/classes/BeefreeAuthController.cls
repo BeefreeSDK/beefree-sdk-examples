@@ -21,16 +21,18 @@ public with sharing class BeefreeAuthController {
         try {
             // Get credentials from Custom Metadata or Named Credential
             // For production, use Named Credentials instead
-            Beefree_Settings__mdt settings = [
+            List<Beefree_Settings__mdt> settingsList = [
                 SELECT Client_Id__c, Client_Secret__c 
                 FROM Beefree_Settings__mdt 
                 WHERE DeveloperName = 'Default' 
                 LIMIT 1
             ];
             
-            if (settings == null) {
+            if (settingsList.isEmpty()) {
                 throw new AuraHandledException('Beefree credentials not configured. Please set up Beefree_Settings__mdt.');
             }
+            
+            Beefree_Settings__mdt settings = settingsList[0];
             
             HttpRequest req = new HttpRequest();
             req.setEndpoint('https://auth.getbee.io/loginV2');
@@ -54,8 +56,6 @@ public with sharing class BeefreeAuthController {
             
             return (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
             
-        } catch (QueryException e) {
-            throw new AuraHandledException('Beefree credentials not found. Please configure Beefree_Settings__mdt Custom Metadata.');
         } catch (Exception e) {
             throw new AuraHandledException('Authentication error: ' + e.getMessage());
         }

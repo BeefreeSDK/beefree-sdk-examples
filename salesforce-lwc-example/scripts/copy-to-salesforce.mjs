@@ -8,12 +8,17 @@
  * Usage: node scripts/copy-to-salesforce.mjs
  */
 
-import { copyFileSync, writeFileSync, existsSync, mkdirSync, rmSync, readdirSync } from 'fs'
+import { copyFileSync, writeFileSync, existsSync, mkdirSync, rmSync, readdirSync, readFileSync } from 'fs'
 import { join, dirname, extname, basename } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = join(__dirname, '..')
+
+// Read API version from sfdx-project.json
+const sfdxProjectPath = join(ROOT_DIR, 'sfdx-project.json')
+const sfdxProject = JSON.parse(readFileSync(sfdxProjectPath, 'utf-8'))
+const API_VERSION = sfdxProject.sourceApiVersion || '64.0'
 
 const SOURCE_DIR = join(ROOT_DIR, 'src/modules/c')
 const TARGET_DIR = join(ROOT_DIR, 'force-app/main/default/lwc')
@@ -44,7 +49,7 @@ function generateMetaXml(config) {
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>59.0</apiVersion>
+    <apiVersion>${API_VERSION}</apiVersion>
     <isExposed>${config.isExposed}</isExposed>
     <description>${config.description}</description>${targets}
 </LightningComponentBundle>
@@ -53,6 +58,7 @@ function generateMetaXml(config) {
 
 function copyComponents() {
   console.log('Copying LWC components to force-app...\n')
+  console.log(`API Version: ${API_VERSION}`)
   console.log(`Source: ${SOURCE_DIR}`)
   console.log(`Target: ${TARGET_DIR}\n`)
 
