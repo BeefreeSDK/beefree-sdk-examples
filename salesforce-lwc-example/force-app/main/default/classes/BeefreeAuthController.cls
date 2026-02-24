@@ -69,8 +69,10 @@ public with sharing class BeefreeAuthController {
     @AuraEnabled(cacheable=true)
     public static Map<String, Object> getTemplate(String templateId) {
         try {
+            String safeTemplateId = String.isBlank(templateId) ? 'm-bee' : templateId;
+            
             HttpRequest req = new HttpRequest();
-            req.setEndpoint('https://rsrc.getbee.io/api/templates/' + EncodingUtil.urlEncode(templateId, 'UTF-8'));
+            req.setEndpoint('https://rsrc.getbee.io/api/templates/' + EncodingUtil.urlEncode(safeTemplateId, 'UTF-8'));
             req.setMethod('GET');
             req.setHeader('Accept', 'application/json');
             

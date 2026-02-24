@@ -3,6 +3,7 @@ import getAuthToken from '@salesforce/apex/BeefreeAuthController.getAuthToken'
 import getTemplate from '@salesforce/apex/BeefreeAuthController.getTemplate'
 
 const DEFAULT_UID = 'salesforce-lwc-example'
+const DEFAULT_TEMPLATE_ID = 'm-bee'
 
 export default class App extends LightningElement {
   tokenData = null
@@ -43,7 +44,7 @@ export default class App extends LightningElement {
   }
 
   async fetchTemplate() {
-    const result = await getTemplate()
+    const result = await getTemplate({ templateId: DEFAULT_TEMPLATE_ID })
     return typeof result === 'string' ? JSON.parse(result) : result
   }
 
