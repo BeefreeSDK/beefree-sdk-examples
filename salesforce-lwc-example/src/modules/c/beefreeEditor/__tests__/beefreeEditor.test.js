@@ -16,11 +16,24 @@ describe('c-beefree-editor', () => {
     // Clear all mocks
     loadScript.mockClear()
     
-    // Setup mock SDK on window
+    // Setup mock SDK instance
     mockSdkInstance = {
-      start: jest.fn()
+      start: jest.fn(),
+      saveAsTemplate: jest.fn(),
+      save: jest.fn(),
+      preview: jest.fn(),
+      toggleStructure: jest.fn(),
+      togglePreview: jest.fn(),
+      undo: jest.fn(),
+      redo: jest.fn(),
     }
-    window.BeefreeSDK = jest.fn(() => mockSdkInstance)
+    
+    // Mock BeePlugin.create() - calls callback with instance
+    window.BeePlugin = {
+      create: jest.fn((token, config, callback) => {
+        callback(mockSdkInstance)
+      })
+    }
     
     // loadScript resolves immediately
     loadScript.mockResolvedValue(undefined)
@@ -31,7 +44,7 @@ describe('c-beefree-editor', () => {
       document.body.removeChild(document.body.firstChild)
     }
     jest.clearAllMocks()
-    delete window.BeefreeSDK
+    delete window.BeePlugin
   })
 
   function createComponent(props = {}) {
@@ -68,7 +81,31 @@ describe('c-beefree-editor', () => {
     expect(loadScript).not.toHaveBeenCalled()
   })
 
-  it('should call loadScript when both tokenData and templateJson are provided', async () => {
+  it('should skip loadScript when BeePlugin is already on window', async () => {
+    // BeePlugin is already set in beforeEach
+    createComponent({
+      tokenData: mockTokenData,
+      templateJson: mockTemplateJson,
+    })
+    await flushPromises()
+    
+    // loadScript should NOT be called since BeePlugin is already available
+    expect(loadScript).not.toHaveBeenCalled()
+    // But SDK should still be initialized
+    expect(window.BeePlugin.create).toHaveBeenCalled()
+  })
+
+  it('should call loadScript when BeePlugin is not on window (Salesforce path)', async () => {
+    // Remove BeePlugin to simulate Salesforce environment
+    const originalBeePlugin = window.BeePlugin
+    delete window.BeePlugin
+    
+    // loadScript will "load" BeePlugin
+    loadScript.mockImplementation(() => {
+      window.BeePlugin = originalBeePlugin
+      return Promise.resolve()
+    })
+    
     createComponent({
       tokenData: mockTokenData,
       templateJson: mockTemplateJson,
@@ -76,6 +113,7 @@ describe('c-beefree-editor', () => {
     await flushPromises()
     
     expect(loadScript).toHaveBeenCalled()
+    expect(window.BeePlugin.create).toHaveBeenCalled()
   })
 
   it('should initialize SDK after loadScript completes', async () => {
@@ -85,7 +123,11 @@ describe('c-beefree-editor', () => {
     })
     await flushPromises()
     
-    expect(window.BeefreeSDK).toHaveBeenCalledWith(mockTokenData)
+    expect(window.BeePlugin.create).toHaveBeenCalledWith(
+      mockTokenData,
+      expect.objectContaining({ container: expect.any(Element) }),
+      expect.any(Function)
+    )
     expect(mockSdkInstance.start).toHaveBeenCalled()
   })
 
@@ -97,13 +139,18 @@ describe('c-beefree-editor', () => {
     })
     await flushPromises()
     
-    expect(mockSdkInstance.start).toHaveBeenCalledWith(
+    // BeePlugin.create receives token and config
+    expect(window.BeePlugin.create).toHaveBeenCalledWith(
+      mockTokenData,
       expect.objectContaining({
         uid: 'custom-uid',
         container: expect.any(Element),
       }),
+      expect.any(Function)
+    )
+    // instance.start receives template and options
+    expect(mockSdkInstance.start).toHaveBeenCalledWith(
       mockTemplateJson,
-      undefined,
       { shared: false }
     )
   })
@@ -115,13 +162,12 @@ describe('c-beefree-editor', () => {
     })
     await flushPromises()
     
-    expect(mockSdkInstance.start).toHaveBeenCalledWith(
+    expect(window.BeePlugin.create).toHaveBeenCalledWith(
+      expect.anything(),
       expect.objectContaining({
         uid: 'salesforce-lwc-example',
       }),
-      expect.anything(),
-      undefined,
-      expect.anything()
+      expect.any(Function)
     )
   })
 
@@ -132,15 +178,20 @@ describe('c-beefree-editor', () => {
     })
     await flushPromises()
     
+    const initialCreateCalls = window.BeePlugin.create.mock.calls.length
+    
     // Force a re-render by changing a property
     el.uid = 'new-uid'
     await flushPromises()
     
-    // loadScript should still only be called once
-    expect(loadScript).toHaveBeenCalledTimes(1)
+    // BeePlugin.create should still only be called once
+    expect(window.BeePlugin.create).toHaveBeenCalledTimes(initialCreateCalls)
   })
 
   it('should handle loadScript failure gracefully', async () => {
+    // Remove BeePlugin from window to force loadScript path
+    delete window.BeePlugin
+    
     loadScript.mockRejectedValue(new Error('Failed to load'))
     const errorSpy = jest.spyOn(console, 'error').mockImplementation()
 
@@ -151,10 +202,9 @@ describe('c-beefree-editor', () => {
     await flushPromises()
     
     expect(errorSpy).toHaveBeenCalledWith(
-      '[c-beefree-editor] Failed to load Beefree SDK',
+      '[c-beefree-editor] Failed to load BeePlugin',
       expect.any(Error)
     )
-    expect(window.BeefreeSDK).not.toHaveBeenCalled()
 
     errorSpy.mockRestore()
   })
@@ -170,14 +220,15 @@ describe('c-beefree-editor', () => {
     })
     await flushPromises()
     
-    // The SDK should receive plain objects (unwrapped)
-    expect(window.BeefreeSDK).toHaveBeenCalledWith(
-      expect.objectContaining({ token: 'proxy-token' })
+    // BeePlugin.create should receive plain objects (unwrapped)
+    expect(window.BeePlugin.create).toHaveBeenCalledWith(
+      expect.objectContaining({ token: 'proxy-token' }),
+      expect.any(Object),
+      expect.any(Function)
     )
+    // instance.start should receive plain template
     expect(mockSdkInstance.start).toHaveBeenCalledWith(
-      expect.anything(),
       expect.objectContaining({ page: { rows: [{ id: 1 }] } }),
-      undefined,
       expect.anything()
     )
   })
@@ -187,20 +238,6 @@ describe('c-beefree-editor', () => {
   // ─────────────────────────────────────────────────────────────────────────
 
   describe('public @api methods', () => {
-    beforeEach(async () => {
-      mockSdkInstance = {
-        start: jest.fn(),
-        saveAsTemplate: jest.fn(),
-        save: jest.fn(),
-        preview: jest.fn(),
-        toggleStructure: jest.fn(),
-        togglePreview: jest.fn(),
-        undo: jest.fn(),
-        redo: jest.fn(),
-      }
-      window.BeefreeSDK = jest.fn(() => mockSdkInstance)
-    })
-
     async function createInitializedComponent() {
       const el = createComponent({
         tokenData: mockTokenData,

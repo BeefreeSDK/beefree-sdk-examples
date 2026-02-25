@@ -1,23 +1,40 @@
 /**
- * Build script to create a UMD bundle of Beefree SDK for Salesforce Static Resource
+ * Build script to download BeePlugin.js for Salesforce Static Resource
  * 
- * This script creates a self-contained bundle that can be uploaded to Salesforce
- * as a Static Resource and loaded via loadScript.
+ * This script downloads the BeePlugin.js directly from Beefree CDN
+ * to be used as a Static Resource in Salesforce LWC.
  * 
  * Usage: node scripts/build-sdk-bundle.mjs
  */
 
-import { build } from 'vite'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 import fs from 'fs'
+import https from 'https'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const rootDir = resolve(__dirname, '..')
 
+const BEE_PLUGIN_URL = 'https://app-rsrc.getbee.io/plugin/v2/BeePlugin.js'
+
+function downloadFile(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to download: ${response.statusCode}`))
+        return
+      }
+      let data = ''
+      response.on('data', chunk => data += chunk)
+      response.on('end', () => resolve(data))
+      response.on('error', reject)
+    }).on('error', reject)
+  })
+}
+
 async function buildSdkBundle() {
-  console.log('Building Beefree SDK bundle for Salesforce...')
+  console.log('Downloading BeePlugin.js for Salesforce...')
 
   const outputDir = resolve(rootDir, 'force-app/main/default/staticresources')
   
@@ -27,35 +44,21 @@ async function buildSdkBundle() {
   }
 
   try {
-    await build({
-      configFile: false,
-      build: {
-        lib: {
-          entry: resolve(rootDir, 'node_modules/@beefree.io/sdk/dist/index.js'),
-          name: 'BeefreeSDK',
-          formats: ['iife'],
-          fileName: () => 'beefree_sdk.js',
-        },
-        outDir: outputDir,
-        emptyOutDir: false,
-        minify: true,
-        sourcemap: false,
-        rollupOptions: {
-          output: {
-            extend: true,
-            globals: {},
-          },
-        },
-      },
-      logLevel: 'info',
-    })
+    // Download BeePlugin.js
+    console.log(`Fetching from: ${BEE_PLUGIN_URL}`)
+    const beePluginContent = await downloadFile(BEE_PLUGIN_URL)
+    
+    // Write the file
+    const outputFile = resolve(outputDir, 'beefree_sdk.js')
+    fs.writeFileSync(outputFile, beePluginContent)
+    console.log(`✓ Downloaded BeePlugin.js (${Math.round(beePluginContent.length / 1024)} KB)`)
 
     // Create the .resource-meta.xml file required by Salesforce
     const metaXml = `<?xml version="1.0" encoding="UTF-8"?>
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Public</cacheControl>
     <contentType>application/javascript</contentType>
-    <description>Beefree SDK - Embeddable email/page builder</description>
+    <description>Beefree SDK - BeePlugin.js from CDN</description>
 </StaticResource>
 `
     fs.writeFileSync(resolve(outputDir, 'beefree_sdk.resource-meta.xml'), metaXml)

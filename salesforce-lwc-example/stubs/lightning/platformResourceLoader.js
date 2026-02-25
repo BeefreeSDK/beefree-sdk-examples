@@ -1,34 +1,30 @@
 /**
  * Stub for lightning/platformResourceLoader
  * 
- * In local development, this loads the SDK from node_modules.
+ * In local development, BeePlugin.js is loaded from CDN via index.html.
  * In Salesforce, the real loadScript loads from Static Resources.
+ * 
+ * This stub is essentially a no-op since BeePlugin is already available.
  */
 
 // Track loaded scripts to avoid duplicate loading
 const loadedScripts = new Set()
 
 /**
- * Mock loadScript that loads the Beefree SDK from node_modules
+ * Mock loadScript - in local dev, BeePlugin is already loaded from CDN
  * @param {Object} component - The LWC component instance
  * @param {string} resourceUrl - The resource URL (ignored in local dev)
  */
 export async function loadScript(component, resourceUrl) {
-  // In local dev, we load from node_modules instead of static resource
-  if (loadedScripts.has('beefree_sdk')) {
+  // BeePlugin is loaded from CDN in index.html, so this is a no-op
+  if (window.BeePlugin) {
+    loadedScripts.add('beefree_sdk')
     return Promise.resolve()
   }
 
-  try {
-    // Dynamically import the SDK and attach to window
-    const sdk = await import('@beefree.io/sdk')
-    window.BeefreeSDK = sdk.default || sdk
-    loadedScripts.add('beefree_sdk')
-    return Promise.resolve()
-  } catch (error) {
-    console.error('[stub:loadScript] Failed to load SDK:', error)
-    return Promise.reject(error)
-  }
+  // Fallback error if BeePlugin wasn't loaded
+  console.error('[stub:loadScript] BeePlugin not found - ensure index.html loads BeePlugin.js')
+  return Promise.reject(new Error('BeePlugin not loaded'))
 }
 
 /**

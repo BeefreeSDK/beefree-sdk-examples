@@ -2,5 +2,5 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Public</cacheControl>
     <contentType>application/javascript</contentType>
-    <description>Beefree SDK - Embeddable email/page builder</description>
+    <description>Beefree SDK - BeePlugin.js from CDN</description>
 </StaticResource>

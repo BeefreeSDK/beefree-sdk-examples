@@ -10,14 +10,15 @@
     "build:salesforce": "node scripts/copy-to-salesforce.mjs",
     "test": "sfdx-lwc-jest -- --no-watchman",
     "server": "tsx watch server.ts",
-    "sf:org:list": "dotenv -- sfdx org list",
-    "sf:login": "dotenv -- sfdx org login web --set-default --alias $SALESFORCE_ORG_ALIAS",
-    "sf:org:alias": "dotenv -- sfdx force:alias:set $SALESFORCE_ORG_ALIAS=$SALESFORCE_USERNAME",
-    "sf:org:open": "dotenv -- sfdx org open --target-org $SALESFORCE_ORG_ALIAS",
-    "sf:deploy": "yarn build:salesforce && dotenv -- sfdx project deploy start --source-dir force-app --target-org $SALESFORCE_ORG_ALIAS",
-    "sf:deploy:sdk": "dotenv -- sfdx project deploy start --source-dir force-app/main/default/staticresources --target-org $SALESFORCE_ORG_ALIAS",
-    "sf:deploy:lwc": "yarn build:salesforce && dotenv -- sfdx project deploy start --source-dir force-app/main/default/lwc --target-org $SALESFORCE_ORG_ALIAS",
-    "sf:deploy:apex": "dotenv -- sfdx project deploy start --source-dir force-app/main/default/classes --target-org $SALESFORCE_ORG_ALIAS"
+    "sf:org:list": "source .env && sfdx org list",
+    "sf:login": "source .env && sfdx org login web --set-default --alias $SALESFORCE_ORG_ALIAS",
+    "sf:org:alias": "source .env && sfdx force:alias:set $SALESFORCE_ORG_ALIAS=$SALESFORCE_USERNAME",
+    "sf:org:open": "source .env && sfdx org open --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy": "yarn build:sdk && yarn build:salesforce && source .env && sfdx project deploy start --source-dir force-app --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:sdk": "yarn build:sdk && source .env && sfdx project deploy start --source-dir force-app/main/default/staticresources --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:lwc": "yarn build:salesforce && source .env && sfdx project deploy start --source-dir force-app/main/default/lwc --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:apex": "source .env && sfdx project deploy start --source-dir force-app/main/default/classes --target-org $SALESFORCE_ORG_ALIAS",
+    "sf:deploy:objects": "source .env && sfdx project deploy start --source-dir force-app/main/default/objects --target-org $SALESFORCE_ORG_ALIAS"
   },
   "keywords": [
     "beefree",
@@ -30,7 +31,6 @@
   "author": "Beefree SDK Examples",
   "license": "MIT",
   "dependencies": {
-    "@beefree.io/sdk": "^11.2.2",
     "lwc": "^9.0.2"
   },
   "devDependencies": {

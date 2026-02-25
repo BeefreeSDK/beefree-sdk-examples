@@ -87,15 +87,20 @@ function copyComponents() {
     // Create target directory
     mkdirSync(targetPath, { recursive: true })
 
-    // Copy files (excluding __tests__ and test files)
+    // Copy files (excluding __tests__, test files, and images)
+    const EXCLUDED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.webp']
     const files = readdirSync(srcPath)
     for (const file of files) {
       if (file === '__tests__' || file.endsWith('.test.js') || file.endsWith('.spec.js')) {
         continue
       }
 
+      const ext = extname(file).toLowerCase()
+      if (EXCLUDED_EXTENSIONS.includes(ext)) {
+        continue
+      }
+
       const srcFile = join(srcPath, file)
-      const ext = extname(file)
       const base = basename(file, ext)
       
       // Rename file if component is being renamed and file matches source name

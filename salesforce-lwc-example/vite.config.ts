@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     optimizeDeps: {
-      include: ['lwc', '@beefree.io/sdk'],
+      include: ['lwc'],
     },
   }
 })

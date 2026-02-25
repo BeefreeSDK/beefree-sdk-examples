@@ -10,6 +10,7 @@ export default class App extends LightningElement {
   templateJson = null
   error = null
   isLoading = true
+  sdkVersion = '1.0.2'
 
   get isReady() {
     return !this.isLoading && !this.error && this.tokenData && this.templateJson
