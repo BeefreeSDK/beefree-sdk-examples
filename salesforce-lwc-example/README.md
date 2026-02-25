@@ -133,7 +133,7 @@ This copies components from `src/modules/c/` to `force-app/main/default/lwc/`, r
 ## 🚀 Quick Start (Local Development)
 
 ### Prerequisites
-- **Node.js** ≥ 18
+- **Node.js** ≥ 22
 - **Yarn** package manager
 - **Beefree SDK credentials** from [developers.beefree.io](https://developers.beefree.io)
 

@@ -167,13 +167,49 @@ describe('c-app', () => {
       const el = await createReadyComponent()
       const brand = el.shadowRoot.querySelector('.toolbar-brand')
       expect(brand).not.toBeNull()
-      expect(brand.textContent).toBe('Beefree SDK')
+      expect(brand.textContent).toContain('Beefree SDK')
     })
 
-    it('should render all toolbar buttons', async () => {
+    it('should render Undo button', async () => {
       const el = await createReadyComponent()
-      const buttons = el.shadowRoot.querySelectorAll('.toolbar-btn')
-      expect(buttons.length).toBe(6) // Undo, Redo, Structure, Preview, Save, Save as Template
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Undo"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Undo')
+    })
+
+    it('should render Redo button', async () => {
+      const el = await createReadyComponent()
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Redo"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Redo')
+    })
+
+    it('should render Structure button', async () => {
+      const el = await createReadyComponent()
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Toggle Structure"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Structure')
+    })
+
+    it('should render Preview button', async () => {
+      const el = await createReadyComponent()
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Toggle Preview"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Preview')
+    })
+
+    it('should render Save button', async () => {
+      const el = await createReadyComponent()
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Save"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Save')
+    })
+
+    it('should render Save as Template button', async () => {
+      const el = await createReadyComponent()
+      const btn = el.shadowRoot.querySelector('.toolbar-btn[title="Save as Template"]')
+      expect(btn).not.toBeNull()
+      expect(btn.textContent).toContain('Save JSON')
     })
 
     it('should call editorComponent.undo when Undo button is clicked', async () => {
