@@ -1,0 +1,13 @@
+.env
+dist
+node_modules
+force-app/main/default/lwc/
+force-app/main/default/staticresources/beefree_sdk.js
+force-app/main/default/staticresources/styles/
+force-app/main/default/staticresources/*.png
+force-app/main/default/staticresources/*.svg
+.vscode
+.idea
+*.log
+.DS_Store
+coverage
