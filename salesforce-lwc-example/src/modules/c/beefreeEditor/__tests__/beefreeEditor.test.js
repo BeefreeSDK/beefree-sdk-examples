@@ -209,6 +209,54 @@ describe('c-beefree-editor', () => {
     errorSpy.mockRestore()
   })
 
+  it('should handle BeePlugin.create throwing an error', async () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation()
+    
+    // Make BeePlugin.create throw an error
+    window.BeePlugin.create = jest.fn(() => {
+      throw new Error('SDK creation failed')
+    })
+
+    createComponent({
+      tokenData: mockTokenData,
+      templateJson: mockTemplateJson,
+    })
+    await flushPromises()
+    
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[c-beefree-editor] SDK initialization failed',
+      expect.any(Error)
+    )
+    errorSpy.mockRestore()
+  })
+
+  it('should call onError callback when SDK reports error', async () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation()
+    
+    // Capture the config passed to BeePlugin.create
+    let capturedConfig
+    window.BeePlugin.create = jest.fn((token, config, callback) => {
+      capturedConfig = config
+      callback(mockSdkInstance)
+    })
+
+    createComponent({
+      tokenData: mockTokenData,
+      templateJson: mockTemplateJson,
+    })
+    await flushPromises()
+    
+    // Simulate SDK calling onError
+    expect(capturedConfig.onError).toBeDefined()
+    capturedConfig.onError({ message: 'SDK error occurred' })
+    
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[c-beefree-editor] SDK onError callback:',
+      { message: 'SDK error occurred' }
+    )
+    errorSpy.mockRestore()
+  })
+
   it('should unwrap proxy objects before passing to SDK', async () => {
     // Simulate LWC proxy behavior with nested objects
     const proxyTokenData = { token: 'proxy-token', nested: { value: 123 } }

@@ -10,7 +10,7 @@ export default class App extends LightningElement {
   templateJson = null
   error = null
   isLoading = true
-  exampleAppVersion = '1.0.2'
+  exampleAppVersion = '1.0.3'
 
   get isReady() {
     return !this.isLoading && !this.error && this.tokenData && this.templateJson
@@ -45,12 +45,12 @@ export default class App extends LightningElement {
 
   async fetchToken() {
     const result = await getAuthToken({ uid: DEFAULT_UID })
-    return typeof result === 'string' ? JSON.parse(result) : result
+    return result
   }
 
   async fetchTemplate() {
     const result = await getTemplate({ templateId: DEFAULT_TEMPLATE_ID })
-    return typeof result === 'string' ? JSON.parse(result) : result
+    return result
   }
 
   // ─────────────────────────────────────────────────────────────────────────

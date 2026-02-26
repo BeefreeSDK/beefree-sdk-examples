@@ -12,8 +12,15 @@ module.exports = {
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   collectCoverageFrom: [
-    'src/modules/**/*.js',
+    'src/modules/c/**/*.js',
+    '!src/modules/c/**/__tests__/**',
+    '!**/*.test.js',
     '!**/node_modules/**',
+  ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/__tests__/',
+    '/__mocks__/',
   ],
   testEnvironment: 'jsdom',
 }
