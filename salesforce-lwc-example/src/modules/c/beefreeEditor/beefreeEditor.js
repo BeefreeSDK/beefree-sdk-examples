@@ -11,10 +11,31 @@ function unwrap(obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
+/**
+ * Extract functions from an object (they can't survive JSON.stringify).
+ * Returns { data, functions } where data is the serializable part.
+ */
+function extractFunctions(obj) {
+  if (!obj || typeof obj !== 'object') {
+    return { data: obj, functions: {} }
+  }
+  const functions = {}
+  const data = {}
+  for (const key of Object.keys(obj)) {
+    if (typeof obj[key] === 'function') {
+      functions[key] = obj[key]
+    } else {
+      data[key] = obj[key]
+    }
+  }
+  return { data, functions }
+}
+
 export default class BeefreeEditor extends LightningElement {
   @api tokenData
   @api templateJson
   @api uid = 'salesforce-lwc-example'
+  @api config = {}
 
   _sdkInstance = null
   _initInProgress = false
@@ -72,7 +93,6 @@ export default class BeefreeEditor extends LightningElement {
       this._initInProgress = false
       return
     }
-    console.log('[c-beefree-editor] Container found:', container)
 
     // BeePlugin.js is loaded globally (CDN in local dev, Static Resource in Salesforce)
     const BeePlugin = window.BeePlugin
@@ -81,23 +101,20 @@ export default class BeefreeEditor extends LightningElement {
       this._initInProgress = false
       return
     }
-    console.log('[c-beefree-editor] BeePlugin found on window')
 
     const token = unwrap(this.tokenData)
     const template = unwrap(this.templateJson)
-    console.log('[c-beefree-editor] Token:', JSON.stringify(token))
-    console.log('[c-beefree-editor] Template:', JSON.stringify(template).substring(0, 500))
+    
+    // Extract functions (callbacks) before unwrapping to preserve them
+    const { data: configData, functions: configCallbacks } = extractFunctions(this.config || {})
+    const customConfig = configData ? unwrap(configData) : {}
 
     const beeConfig = {
       uid: this.uid,
       container,
       ...this._baseConfig,
-      onLoad: () => {
-        console.log('[c-beefree-editor] SDK onLoad callback - editor ready!')
-      },
-      onError: (error) => {
-        console.error('[c-beefree-editor] SDK onError callback:', error)
-      },
+      ...customConfig,
+      ...configCallbacks, // Merge callbacks back (onLoad, onSave, onError, etc.)
     }
 
     try {
@@ -173,20 +190,11 @@ export default class BeefreeEditor extends LightningElement {
   }
 
   /**
-   * Undo the last action.
+   * Load a template
    */
   @api
-  undo() {
+  load(templateJson) {
     if (!this._sdkInstance) return
-    this._sdkInstance.undo()
-  }
-
-  /**
-   * Redo the last undone action.
-   */
-  @api
-  redo() {
-    if (!this._sdkInstance) return
-    this._sdkInstance.redo()
+    this._sdkInstance.load(templateJson)
   }
 }
