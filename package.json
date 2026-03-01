@@ -17,7 +17,8 @@
     "start:pdf-export": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && cd .. && concurrently \"cd template-export-pdf-example && yarn server:dev\" \"cd template-export-pdf-example && yarn dev\" --names \"pdf-backend,pdf-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:secure-auth": "yarn install --check-files && cd secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd secure-auth-example && yarn server:dev\" \"cd secure-auth-example && yarn dev\" --names \"auth-backend,auth-frontend\" --prefix-colors \"yellow,cyan\"",
     "start:template-load": "yarn install --check-files && cd template-load-example && yarn install --check-files && cd .. && concurrently \"cd template-load-example && yarn server:dev\" \"cd template-load-example && yarn dev\" --names \"load-backend,load-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:web-components": "yarn install --check-files && cd web-components-example && yarn install --check-files && cd .. && concurrently \"cd web-components-example && yarn server:dev\" \"cd web-components-example && yarn dev\" --names \"web-components-backend,web-components-frontend\" --prefix-colors \"yellow,cyan\""
+    "start:web-components": "yarn install --check-files && cd web-components-example && yarn install --check-files && cd .. && concurrently \"cd web-components-example && yarn server:dev\" \"cd web-components-example && yarn dev\" --names \"web-components-backend,web-components-frontend\" --prefix-colors \"yellow,cyan\"",
+    "start:salesforce-lwc": "yarn install --check-files && cd salesforce-lwc-example && yarn install --check-files && cd .. && concurrently \"cd salesforce-lwc-example && yarn server\" \"cd salesforce-lwc-example && yarn exec vite\" --names \"salesforce-lwc-backend,salesforce-lwc-frontend\" --prefix-colors \"yellow,cyan\""
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs}": "eslint"

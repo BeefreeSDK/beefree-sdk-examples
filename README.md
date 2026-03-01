@@ -44,6 +44,7 @@ Before running any example, you need:
 | [🎨 Custom CSS](#-custom-css-example) | Dynamic theming and styling | 5 themes, CSS variables, theme switching | `yarn start:custom-css` |
 | [🏗️ Multi-Builder](#-multi-builder-switch-example) | Dynamic switching between builders | Email/Page/Popup switching, state management | `yarn start:multi-builder` |
 | [📄 PDF Export](#-template-export-pdf-example) | Export templates to PDF | PDF generation, multiple formats, progress tracking | `yarn start:pdf-export` |
+| [⚡ Salesforce LWC](#-salesforce-lwc-example) | Beefree SDK in Salesforce | LWC, local dev sandbox, deploy to Salesforce, Apex auth | `yarn start:salesforce-lwc` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 | [📂 Template Load](#-template-load-example) | Load saved templates from DB | Template management, Prisma ORM, CRUD operations | `yarn start:template-load` |
 | [🧩 Web Components](#-web-components-example) | Shadow DOM integration | Custom element, Shadow DOM, framework-agnostic | `yarn start:web-components` |
@@ -349,6 +350,43 @@ Then open http://localhost:8003 in your browser.
 
 ---
 
+## ⚡ Salesforce LWC Example
+
+Integrate the **Beefree SDK** into **Salesforce Lightning Web Components (LWC)**. Run and test locally without a Salesforce org, or deploy directly to your org.
+
+### Features
+
+- **Dual-mode**: Local development with Vite + Express, or deploy to Salesforce with Apex + Static Resources
+- **Standard LWC**: `c/app` and `c/beefreeEditor` with Shadow DOM, reactive properties, lifecycle hooks
+- **Secure auth**: Backend-only credentials (Express locally, Apex + Custom Metadata in Salesforce)
+- **SDK loading**: BeePlugin from CDN (local) or Static Resource (Salesforce)
+
+### How to Run (Local Development)
+
+**Before running**, configure your Beefree SDK credentials in `salesforce-lwc-example/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3031
+```
+
+From the root of the repository:
+
+```bash
+yarn start:salesforce-lwc
+```
+
+This starts the Express auth server (port 3031) and the Vite dev server (port 8031). Open http://localhost:8031 in your browser.
+
+For deploying to Salesforce, CSP/Remote Site Settings, and full setup, see `salesforce-lwc-example/README.md`.
+
+### Troubleshooting
+
+See `salesforce-lwc-example/README.md` for detailed troubleshooting (local vs Salesforce, Shadow DOM, build, and tests).
+
+---
+
 ## 🔐 Secure Auth Example
 
 This example demonstrates **secure, production-ready authentication** for the Beefree SDK using a modern **React + TypeScript** architecture. It showcases best practices for handling authentication tokens, automatic token refresh, and secure credential management.
@@ -547,6 +585,7 @@ beefree-sdk-examples/
 ├── conditional-rows-example/         # Display conditions & personalization
 ├── custom-css-example/               # Dynamic theming
 ├── multi-builder-switch-example/     # Multi-builder switching
+├── salesforce-lwc-example/           # Beefree SDK in Salesforce LWC
 ├── secure-auth-example/              # Simple client with secure auth server
 ├── template-export-pdf-example/      # PDF export functionality
 ├── template-load-example/            # Load/Save templates with DB
