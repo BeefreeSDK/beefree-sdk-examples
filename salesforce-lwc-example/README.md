@@ -1,6 +1,6 @@
 # ⚡ Salesforce LWC Example - Lightning Web Components
 
-This example demonstrates how to integrate the **Beefree SDK** into **Salesforce Lightning Web Components (LWC)**. It includes:
+Part of [beefree-sdk-examples](../README.md). This example demonstrates how to integrate the **Beefree SDK** into **Salesforce Lightning Web Components (LWC)**. It includes:
 
 - **Local Development Sandbox**: Run and test LWC components locally without a Salesforce org
 - **Salesforce-Ready Components**: Deploy directly to your Salesforce org
@@ -138,6 +138,14 @@ This copies components from `src/modules/c/` to `force-app/main/default/lwc/`, r
 - **Beefree SDK credentials** from [developers.beefree.io](https://developers.beefree.io)
 
 ### Setup
+
+**From the monorepo root** you can run:
+```bash
+yarn start:salesforce-lwc
+```
+This installs dependencies and starts both the auth server and the Vite dev server.
+
+**Or from this folder:**
 
 1. **Install dependencies**
    ```bash
