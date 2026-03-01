@@ -36,6 +36,7 @@ beefree-sdk-examples/
 ├── custom-css-example/            # Dynamic theming and CSS customization
 ├── secure-auth-example/           # Authentication server (shared by multiple examples)
 ├── template-export-pdf-example/   # PDF export with Beefree Content Services API
+├── salesforce-lwc-example/        # Beefree SDK in Salesforce LWC (local + deploy)
 └── [future examples...]
 ```
 
@@ -71,6 +72,7 @@ beefree-sdk-examples/
 28.     checker-example                     → Implementation of our SDK Checker API (SEO, accessibility).
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
 30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                       → 🔐
+31. ✅  salesforce-lwc-example              → Beefree SDK in Salesforce Lightning Web Components (local dev + deploy to Salesforce).
 
 Those examples with a → 🔐 in the list, can optionally use the `secure-auth-example` authentication server instead of their own.
 
@@ -206,6 +208,7 @@ example-name/
 - Explain key features and SDK configuration used
 - Provide troubleshooting tips
 - Link to relevant Beefree SDK documentation
+- **Root README.md**: When updating the root `README.md`, keep the list of examples in **alphabetical order** (table, detailed sections, and Repository Structure folder list).
 
 ## 📦 Dependencies Management
 
