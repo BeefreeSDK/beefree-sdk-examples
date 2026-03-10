@@ -20,11 +20,8 @@
         <div class="toolbar-brand">Beefree SDK (version: {appVersion})</div>
         <div class="toolbar-actions">
           <div class="toolbar-btn-group">
-            <button class="toolbar-btn" onclick={handleUndo} title="Undo">
-              ↶ Undo
-            </button>
-            <button class="toolbar-btn" onclick={handleRedo} title="Redo">
-              ↷ Redo
+            <button class="toolbar-btn" onclick={handleLoad} title="Load Template">
+              📂 Load Template
             </button>
           </div>
           <span class="toolbar-separator"></span>
@@ -53,6 +50,7 @@
         <c-beefree-editor
           token-data={tokenData}
           template-json={templateJson}
+          config={editorConfig}
           uid="salesforce-lwc-example"
         ></c-beefree-editor>
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "beefree-sdk-salesforce-lwc-example",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Salesforce Lightning Web Components (LWC) example for Beefree SDK — runnable locally without Salesforce",
   "main": "server.ts",
   "type": "module",
