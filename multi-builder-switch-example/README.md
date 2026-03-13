@@ -231,7 +231,11 @@ This form configuration is automatically added to the Page Builder's `IBeeConfig
 
 ### **Prerequisites**
 - Node.js 22+ ([download here](https://nodejs.org/))
-- Yarn package manager (`npm install -g yarn`)
+- Yarn via Corepack (uses pinned `yarn@4.13.0`)
+  ```bash
+  corepack enable
+  corepack prepare yarn@4.13.0 --activate
+  ```
 
 ### **Installation**
 

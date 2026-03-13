@@ -28,6 +28,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "baseline-browser-mapping": "^2.10.7",
     "concurrently": "^8.2.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.3",
@@ -42,5 +43,6 @@
     "typescript"
   ],
   "author": "dev@beefree.io",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.13.0"
 }

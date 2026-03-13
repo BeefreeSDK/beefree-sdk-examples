@@ -56,7 +56,8 @@ template-export-pdf-example/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 22+ and Yarn
+- Node.js 22+
+- Yarn via Corepack (pinned to `yarn@4.13.0` via `packageManager`; run `corepack enable`)
 - Beefree SDK credentials (Client ID & Secret)
 
 ### Option 1: Run from Repository Root (Recommended)

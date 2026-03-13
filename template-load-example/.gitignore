@@ -11,6 +11,7 @@ dist/
 
 # Database files
 apps/api/var/
+api/prisma/generated/
 
 # OS generated files
 .DS_Store
