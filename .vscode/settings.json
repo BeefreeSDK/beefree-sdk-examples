@@ -13,7 +13,4 @@
         "source.fixAll.eslint": "explicit"
     },
     "deno.enable": false,
-    "chat.tools.terminal.autoApprove": {
-        "yarn install": true
-    }
 }
