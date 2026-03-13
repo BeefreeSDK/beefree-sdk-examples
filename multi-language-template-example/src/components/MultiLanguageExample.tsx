@@ -5,8 +5,13 @@ import {
   type IToken,
 } from '@beefree.io/react-email-builder'
 import { authenticate } from '../services/beefree'
-import { type Plan, getPlanFromToken, getLanguageLimitForPlan } from '../utils/plan'
-import { getMltWarningReason, type MltWarningReason } from '../utils/tokenPayload'
+import {
+  type MltWarningReason,
+  type Plan,
+  getLanguageLimitForPlan,
+  getMltWarningReason,
+  getPlanFromToken,
+} from '../utils/plan'
 import i18nEnUS from '../i18n/en-US.json'
 import { BuilderPanel } from './BuilderPanel'
 import type { BuilderApiRef, LanguageOption } from '../types/types'

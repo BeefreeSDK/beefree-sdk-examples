@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('constants', () => {
   it('AUTH_PROXY_URL defaults to /auth/token when env is not set', async () => {

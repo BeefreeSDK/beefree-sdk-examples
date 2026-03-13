@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest'
 import {
   decodeTokenPayload,
   getLanguageLimitForPlan,
+  getMltWarningReason,
   getPlanFromToken,
   isPlanEqualOrAbove,
+  MLT_MINIMUM_PLAN,
+  type MltWarningReason,
   parsePlanFromRaw,
   type Plan,
 } from './plan'
@@ -199,5 +202,40 @@ describe('getLanguageLimitForPlan', () => {
     expect(getLanguageLimitForPlan('Essentials')).toBe(7)
     expect(getLanguageLimitForPlan('Core')).toBe(7)
     expect(getLanguageLimitForPlan('Unknown')).toBe(7)
+  })
+})
+
+describe('MLT warning helpers', () => {
+  it('MLT_MINIMUM_PLAN is Superpowers', () => {
+    expect(MLT_MINIMUM_PLAN).toBe('Superpowers')
+  })
+
+  it('returns null for Superpowers (minimum eligible plan)', () => {
+    expect(getMltWarningReason('Superpowers')).toBeNull()
+  })
+
+  it('returns null for Enterprise (above minimum)', () => {
+    expect(getMltWarningReason('Enterprise')).toBeNull()
+  })
+
+  it('returns "plan" for ineligible plans', () => {
+    expect(getMltWarningReason('Free')).toBe('plan')
+    expect(getMltWarningReason('Essentials')).toBe('plan')
+    expect(getMltWarningReason('Core')).toBe('plan')
+  })
+
+  it('returns "unknown" for Unknown', () => {
+    expect(getMltWarningReason('Unknown')).toBe('unknown')
+  })
+
+  it.each([
+    ['Superpowers', null],
+    ['Enterprise', null],
+    ['Free', 'plan'],
+    ['Essentials', 'plan'],
+    ['Core', 'plan'],
+    ['Unknown', 'unknown'],
+  ] as [Plan, MltWarningReason | null][])('getMltWarningReason(%s) -> %s', (plan, expected) => {
+    expect(getMltWarningReason(plan)).toBe(expected)
   })
 })

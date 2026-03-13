@@ -132,3 +132,28 @@ export function getLanguageLimitForPlan(plan: Plan): number {
   // Superpowers and all other recognised plans default to 7.
   return 7
 }
+
+/**
+ * Minimum plan required for Multi-language Template (MLT) features.
+ * Visit https://developers.beefree.io/pricing-plans for more details.
+ */
+export const MLT_MINIMUM_PLAN: Plan = 'Superpowers'
+
+/**
+ * Why the MLT warning banner is shown:
+ * - `'plan'`    — the detected plan is below the minimum required for MLT.
+ * - `'unknown'` — the plan could not be determined.
+ */
+export type MltWarningReason = 'plan' | 'unknown'
+
+/**
+ * Determines whether an MLT warning should be shown.
+ *
+ * Returns `null` when the plan is eligible (Superpowers or above) and
+ * a `MltWarningReason` string otherwise.
+ */
+export function getMltWarningReason(plan: Plan): MltWarningReason | null {
+  if (plan === 'Unknown') return 'unknown'
+  if (!isPlanEqualOrAbove(plan, MLT_MINIMUM_PLAN)) return 'plan'
+  return null
+}
