@@ -20,7 +20,8 @@ A focused example that demonstrates **multi-lingual email templates** with the B
 
 ### Prerequisites
 
-- Node.js 22+ and Yarn
+- Node.js 22+
+- Yarn via Corepack (pinned to `yarn@4.13.0` via `packageManager`; run `corepack enable`)
 - Beefree SDK credentials from the [Developer Console](https://developers.beefree.io)
 
 ### Before launch &nbsp; 🚀
