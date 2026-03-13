@@ -38,6 +38,7 @@ beefree-sdk-examples/
 ├── secure-auth-example/           # Authentication server (shared by multiple examples)
 ├── template-export-pdf-example/   # PDF export with Beefree Content Services API
 ├── salesforce-lwc-example/        # Beefree SDK in Salesforce LWC (local + deploy)
+├── vue-fastify-auth-example/      # Vue 3 + Fastify 5 secure auth example
 └── [future examples...]
 ```
 
@@ -76,6 +77,7 @@ Note: Those examples with a → 🔐 in the list, can optionally use the `secure
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
 30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                           → 🔐
 31. ✅  salesforce-lwc-example              → Beefree SDK in Salesforce Lightning Web Components (local dev + deploy to Salesforce).
+33. ✅  vue-fastify-auth-example            → Vue 3 + Fastify 5 secure auth with `@beefree.io/vue-email-builder`.                      → 🔐
 34. ✅  angular-nestjs-auth-example         → Angular 20 + NestJS 11 secure auth with `@beefree.io/angular-email-builder`.
 ## Key Principles
 

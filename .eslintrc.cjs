@@ -10,6 +10,11 @@ module.exports = {
     '.eslintrc.cjs',
     '*.config.js',
     '*.config.ts',
+    '**/*.d.ts',
+    '**/frontend/lib/**',
+    'salesforce-lwc-example/__mocks__/**',
+    'salesforce-lwc-example/src/modules/**',
+    'salesforce-lwc-example/stubs/**',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', '@typescript-eslint', 'react-hooks'],
@@ -45,8 +50,10 @@ module.exports = {
         sourceType: 'module',
         project: [
           './*/tsconfig.json',
+          './*/tsconfig.eslint.json',
           './*/tsconfig.app.json',
           './*/tsconfig.node.json',
+          './*/*/tsconfig.eslint.json',
           './*/*/tsconfig.json',       // For nested structures like template-load-example/api/
         ],
         tsconfigRootDir: __dirname,

@@ -152,7 +152,7 @@ export default class App extends LightningElement {
           this.editorComponent?.load(json)
         } catch (err) {
           console.error('[c-app] Failed to parse JSON file:', err)
-          // eslint-disable-next-line no-alert
+           
           alert('Invalid JSON file. Please select a valid Beefree template.')
         }
       }

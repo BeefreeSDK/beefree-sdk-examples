@@ -1,5 +1,5 @@
 import { IToken, BuilderType } from '../types'
-import { AUTH_PROXY_URL, BUILDER_CONFIGS } from '../config/constants'
+import { AUTH_PROXY_URL } from '../config/constants'
 
 export class AuthService {
   /**
