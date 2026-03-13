@@ -1080,6 +1080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "baseline-browser-mapping@npm:^2.10.7":
   version: 2.10.7
   resolution: "baseline-browser-mapping@npm:2.10.7"
@@ -1089,6 +1090,8 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+>>>>>>> 22faede (build: pin yarn version, use with corepack)
 "beefree-sdk-secure-auth-example@workspace:.":
   version: 0.0.0-use.local
   resolution: "beefree-sdk-secure-auth-example@workspace:."
@@ -1100,7 +1103,10 @@ __metadata:
     "@types/react": "npm:^19.2.0"
     "@types/react-dom": "npm:^19.2.0"
     "@vitejs/plugin-react": "npm:^4.2.1"
+<<<<<<< HEAD
     baseline-browser-mapping: "npm:^2.10.7"
+=======
+>>>>>>> 22faede (build: pin yarn version, use with corepack)
     concurrently: "npm:^8.2.2"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.3.1"
