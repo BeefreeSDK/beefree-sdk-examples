@@ -109,7 +109,6 @@ export function MultiLanguageExample() {
   }, [useRtl, languageLimit])
 
   const builderApiRef = useRef<BuilderApiRef | null>(null)
-  const previousTemplateUrlRef = useRef<string | null>(null)
   const builderReady = !!token && !credentialsError && !tokenError && !isLoadingToken && builderLoaded
   const i18nCredentials = i18nEnUS.credentials
   const i18nWarning = i18nEnUS.mltWarning
@@ -256,12 +255,10 @@ export function MultiLanguageExample() {
     void loadBeefreeToken()
   }, [loadBeefreeToken])
 
-  useEffect(() => {
-    if (builderLoaded && templateUrl && templateUrl !== previousTemplateUrlRef.current) {
-      previousTemplateUrlRef.current = templateUrl
-      builderApiRef.current?.switchTemplateLanguage({ language: contentLanguage })
-    }
-  }, [builderLoaded, templateUrl, contentLanguage])
+  const handleBuilderLoad = useCallback(() => {
+    setBuilderLoaded(true)
+    builderApiRef.current?.switchTemplateLanguage({ language: contentLanguage })
+  }, [contentLanguage])
 
   const handleError = useCallback((error: BeePluginError) => {
     console.error('Beefree error:', error)
@@ -384,7 +381,10 @@ export function MultiLanguageExample() {
           <button 
             type="button"
             disabled={!builderReady || hasMltRestriction}
-            onClick={() => setTemplateMode((prev) => (prev === 'blank' ? 'sample' : 'blank'))}
+            onClick={() => {
+              setBuilderLoaded(false)
+              setTemplateMode((prev) => (prev === 'blank' ? 'sample' : 'blank'))
+            }}
           >
             {templateToggleLabel}
           </button>
@@ -408,13 +408,13 @@ export function MultiLanguageExample() {
       <div className="builders-area" style={{ height: builderAreaHeight }}>
         <div className="builder-panel" style={{ width: '100%' }}>
           <BuilderPanel
-            key={useRtl ? 'rtl' : 'ltr'}
+            key={`${useRtl ? 'rtl' : 'ltr'}-${templateMode}`}
             token={token}
             useRtl={useRtl}
             languages={contentLanguages}
             templateUrl={templateUrl}
             builderApiRef={builderApiRef}
-            onLoad={() => setBuilderLoaded(true)}
+            onLoad={handleBuilderLoad}
             onError={handleError}
           />
         </div>

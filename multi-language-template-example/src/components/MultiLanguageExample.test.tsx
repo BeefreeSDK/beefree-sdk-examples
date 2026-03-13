@@ -273,6 +273,86 @@ describe('BeefreeExample', () => {
     })
   })
 
+  it('keeps selected content language when switching between blank and sample templates', async () => {
+    const ltrData = { page: { title: 'LTR' }, comments: {} }
+    const blankData = { page: { title: 'Blank' }, comments: {} }
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const urlStr = typeof url === 'string' ? url : url.toString()
+      if (urlStr.includes('blank-template')) {
+        return Promise.resolve(new Response(JSON.stringify(blankData), { status: 200 }))
+      }
+      return Promise.resolve(new Response(JSON.stringify(ltrData), { status: 200 }))
+    })
+    vi.mocked(authenticate).mockResolvedValueOnce({ access_token: VALID_TOKEN, expires: 0 } as never)
+    render(<MultiLanguageExample />)
+
+    await waitFor(() => expect(screen.getByLabelText(/content language/i)).not.toBeDisabled())
+
+    switchTemplateLanguageMock.mockClear()
+    const select = screen.getByLabelText(/content language/i)
+    await userEvent.selectOptions(select, 'bn-BD')
+    expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'bn-BD' })
+
+    await userEvent.click(screen.getByRole('button', { name: /load blank template/i }))
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /load sample template/i })).toBeInTheDocument()
+      expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'bn-BD' })
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: /load sample template/i }))
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /load blank template/i })).toBeInTheDocument()
+      expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'bn-BD' })
+    })
+  })
+
+  it('keeps selected RTL content language when switching between blank and sample templates', async () => {
+    const ltrData = { page: { title: 'LTR' }, comments: {} }
+    const rtlData = { page: { title: 'RTL' }, comments: {} }
+    const blankLtrData = { page: { title: 'Blank LTR' }, comments: {} }
+    const blankRtlData = { page: { title: 'Blank RTL' }, comments: {} }
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const urlStr = typeof url === 'string' ? url : url.toString()
+      if (urlStr.includes('blank-rtl-template')) {
+        return Promise.resolve(new Response(JSON.stringify(blankRtlData), { status: 200 }))
+      }
+      if (urlStr.includes('blank-template')) {
+        return Promise.resolve(new Response(JSON.stringify(blankLtrData), { status: 200 }))
+      }
+      if (urlStr.includes('multi-rtl-language-template')) {
+        return Promise.resolve(new Response(JSON.stringify(rtlData), { status: 200 }))
+      }
+      return Promise.resolve(new Response(JSON.stringify(ltrData), { status: 200 }))
+    })
+    vi.mocked(authenticate).mockResolvedValueOnce({ access_token: VALID_TOKEN, expires: 0 } as never)
+    render(<MultiLanguageExample />)
+
+    await waitFor(() => expect(screen.getByLabelText(/content language/i)).not.toBeDisabled())
+
+    await userEvent.click(screen.getByRole('button', { name: 'RTL' }))
+    await waitFor(() => {
+      const select = screen.getByLabelText(/content language/i) as HTMLSelectElement
+      expect(select.value).toBe('fa-IR')
+    })
+
+    switchTemplateLanguageMock.mockClear()
+    const select = screen.getByLabelText(/content language/i)
+    await userEvent.selectOptions(select, 'ur-PK')
+    expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'ur-PK' })
+
+    await userEvent.click(screen.getByRole('button', { name: /load blank template/i }))
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /load sample template/i })).toBeInTheDocument()
+      expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'ur-PK' })
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: /load sample template/i }))
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /load blank template/i })).toBeInTheDocument()
+      expect(switchTemplateLanguageMock).toHaveBeenLastCalledWith({ language: 'ur-PK' })
+    })
+  })
+
   it('shows MLT warning banner when token payload indicates plan without MLT', async () => {
     vi.mocked(authenticate).mockResolvedValueOnce({
       access_token: makeJwt({ plan: 'beeplugin_free' }),
