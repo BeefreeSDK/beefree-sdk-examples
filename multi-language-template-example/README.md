@@ -12,7 +12,7 @@ A focused example that demonstrates **multi-lingual email templates** with the B
 - **Contextual MLT banners** – The UI shows a warning banner when the detected plan does not satisfy MLT requirements, and an informational tip banner when the plan supports MLT but the feature may still need to be enabled at application level. Both banners include a Console link and a dismiss action.
 - **Hidden native menu bar** – While the builder may render its native menu bar, most customers prefer to implement their own (as in the present example). The native menu bar can be hidden through the server-side toolbar options (most common and flexible way to do so), or by setting `topBarEnabled: false` in the clientConfig (see BuilderPanel.tsx).
 - **Secure auth** – Credentials stay on the server; frontend receives a short-lived token.
-- **Template mode toggle + core actions** – The first button toggles between **Load Blank Template** and **Load Sample Template**, then the builder loads the matching LTR/RTL version. Blank mode includes an RTL-specific blank template with Noto Sans Arabic defaults. Save and Save as Template are available via `useBuilder()`.
+- **Template mode toggle + core actions** – The first button toggles between **Load Blank Template** and **Load Sample Template**, then the builder loads the matching LTR/RTL version. The selected language from the dropdown is preserved when switching templates. Blank mode includes an RTL-specific blank template with Noto Sans Arabic defaults. Save and Save as Template are available via `useBuilder()`.
 
 ---
 

@@ -109,6 +109,7 @@ export function MultiLanguageExample() {
   }, [useRtl, languageLimit])
 
   const builderApiRef = useRef<BuilderApiRef | null>(null)
+  const previousTemplateUrlRef = useRef<string | null>(null)
   const builderReady = !!token && !credentialsError && !tokenError && !isLoadingToken && builderLoaded
   const i18nCredentials = i18nEnUS.credentials
   const i18nWarning = i18nEnUS.mltWarning
@@ -254,6 +255,13 @@ export function MultiLanguageExample() {
   useEffect(() => {
     void loadBeefreeToken()
   }, [loadBeefreeToken])
+
+  useEffect(() => {
+    if (builderLoaded && templateUrl && templateUrl !== previousTemplateUrlRef.current) {
+      previousTemplateUrlRef.current = templateUrl
+      builderApiRef.current?.switchTemplateLanguage({ language: contentLanguage })
+    }
+  }, [builderLoaded, templateUrl, contentLanguage])
 
   const handleError = useCallback((error: BeePluginError) => {
     console.error('Beefree error:', error)
