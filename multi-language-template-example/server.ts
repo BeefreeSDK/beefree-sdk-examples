@@ -13,6 +13,7 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3021
+const VITE_PORT = process.env.VITE_PORT || 8921
 
 app.use(cors())
 app.use(express.json())
@@ -106,6 +107,6 @@ app.listen(PORT, () => {
   const hasCreds = !!(process.env.BEEFREE_CLIENT_ID && process.env.BEEFREE_CLIENT_SECRET)
   console.log(`\nBeefree SDK Multi-language Template Example Server`)
   console.log(`Server: http://localhost:${PORT}`)
-  console.log(`Credentials: ${hasCreds ? 'Configured' : 'Missing (set BEEFREE_CLIENT_ID/SECRET in .env)'}`)
-  console.log(`\nReady. Open http://localhost:8921 for the frontend.\n`)
+  console.log(`Credentials: ${hasCreds ? 'Configured ✅' : 'Missing (set BEEFREE_CLIENT_ID/SECRET in .env) ⚠️'}`)
+  console.log(`\nReady. Open http://localhost:${VITE_PORT} for the frontend.\n`)
 })

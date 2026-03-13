@@ -88,6 +88,7 @@ Frontend: http://localhost:8921
 | `PORT` | No | `3021` | Backend server port |
 | `VITE_PORT` | No | `8921` | Frontend dev server port (8921 used to avoid conflicts with 8021) |
 | `VITE_BEEFREE_AUTH_PROXY_URL` | No | `/auth/token` | Auth endpoint (e.g. use `http://localhost:3000/auth/token` for shared secure-auth-example) |
+| `VITE_BEEFREE_AUTHINFO_PROXY_URL` | No | - | Optional authinfo endpoint override. Only needed if you enable authinfo-based plan lookup; not required for the default flow or when using shared secure-auth for token-only auth. |
 
 ---
 
@@ -126,7 +127,6 @@ The Beefree SDK enforces a language limit internally, regardless of how many lan
 | RTL collection languages accessible | 7 of 10 | All 10 |
 | Restricted language indicator in dropdown | `--Name--` decoration | None (all labels clean) |
 | Selecting a restricted language | Shows upgrade prompt | Works normally |
-| Bidirectional language sync | Yes | Yes |
 
 ### Superpowers plan
 
@@ -159,7 +159,7 @@ To quickly confirm that the feature is enabled in your application:
 ## Troubleshooting
 
 - **Authentication fails** – Ensure the backend is running on 3021 and `.env` has valid `BEEFREE_CLIENT_ID` and `BEEFREE_CLIENT_SECRET`.
-- **Using shared auth** – Start `secure-auth-example` (port 3000), set `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` in `.env`, and run only `yarn dev` here.
+- **Using shared auth** – Start `secure-auth-example` (port 3000), set `VITE_BEEFREE_AUTH_PROXY_URL=http://localhost:3000/auth/token` in `.env`, and run only `yarn dev` here. `VITE_BEEFREE_AUTHINFO_PROXY_URL` is optional and only needed if you also use an authinfo endpoint.
 - **Builder not loading** – Check the browser console and that the token request returns 200.
 - **Port 8921 (or 3021) already in use** – The dev server is configured with `strictPort: true`, so it will exit if 8921 is taken. Stop any other process using that port (e.g. another instance of this example, or run `lsof -i :8921` / `lsof -i :3021` to find it) and try again.
 - **MLT is not working** – If you see "Multi-language Templates may not be enabled", either your plan is below Superpowers or the MLT capability is not enabled for your application in the SDK Console. Verify your plan and application capabilities in [Developer Console](https://developers.beefree.io/console).
