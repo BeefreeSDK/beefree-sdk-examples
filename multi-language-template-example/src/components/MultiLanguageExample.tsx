@@ -64,7 +64,7 @@ const RTL_LANGUAGES: LanguageOption[] = [
   { label: 'سۆرانی', value: 'ckb-IQ' },
 ]
 
-function renderSafeHtml(html: string): React.ReactNode {
+export function renderSafeHtml(html: string): React.ReactNode {
   const parts = html.split(/(<strong>.*?<\/strong>|<code>.*?<\/code>)/g)
   return parts.map((part, i) => {
     const strongMatch = part.match(/^<strong>(.*)<\/strong>$/)
@@ -73,6 +73,27 @@ function renderSafeHtml(html: string): React.ReactNode {
     if (codeMatch) return <code key={i}>{codeMatch[1]}</code>
     return part
   })
+}
+
+export function getVisibleLanguages(
+  all: LanguageOption[],
+  languageLimit: number,
+  hideExceedingLanguages = SHOULD_HIDE_EXCEEDING_LANGUAGES
+): LanguageOption[] {
+  return hideExceedingLanguages ? all.slice(0, languageLimit) : all
+}
+
+export function buildRestrictedLanguageAlert(
+  plan: Plan,
+  languageLabel: string,
+  languageLimit: number
+): string {
+  const limitMsg = `The Beefree SDK supports up to ${languageLimit} template languages ` +
+    `(1 main language + ${languageLimit - 1} translations) on your current plan.\n\n`
+  return (plan === 'Enterprise')
+    ? `A "${languageLabel}" translation would go beyond your current plan limits.\n` + limitMsg
+    : `The "${languageLabel}" translation would exceed your Superpowers plan.\n` + limitMsg +
+      `Upgrade to Enterprise to unlock additional languages.\n\n`
 }
 
 function isAuthError(error: unknown): boolean {
@@ -110,7 +131,7 @@ export function MultiLanguageExample() {
 
   const contentLanguages = useMemo(() => {
     const all = useRtl ? RTL_LANGUAGES : LTR_LANGUAGES
-    return SHOULD_HIDE_EXCEEDING_LANGUAGES ? all.slice(0, languageLimit) : all
+    return getVisibleLanguages(all, languageLimit)
   }, [useRtl, languageLimit])
 
   const builderApiRef = useRef<BuilderApiRef | null>(null)
@@ -239,13 +260,11 @@ export function MultiLanguageExample() {
     const value = event.target.value
     const idx = contentLanguages.findIndex((l) => l.value === value)
     if (idx >= languageLimit) {
-      const limitMsg = `The Beefree SDK supports up to ${languageLimit} template languages ` +
-        `(1 main language + ${languageLimit - 1} translations) on your current plan.\n\n`
-      const alertMsg = (plan === 'Enterprise') ? 
-        `A "${contentLanguages[idx]?.label}" translation would go beyond your current plan limits.\n` + limitMsg
-        :
-        `The "${contentLanguages[idx]?.label}" translation would exceed your Superpowers plan.\n` + limitMsg +
-        `Upgrade to Enterprise to unlock additional languages.\n\n`
+      const alertMsg = buildRestrictedLanguageAlert(
+        plan,
+        contentLanguages[idx].label,
+        languageLimit
+      )
       alert(
         alertMsg +
         `See: https://docs.beefree.io/beefree-sdk/other-customizations/multi-language-templates`
@@ -325,10 +344,8 @@ export function MultiLanguageExample() {
     )
   }
 
-  // token is always set if we reach this point (all null/error states are caught above),
-  // but the guard narrows the type from IToken | null to IToken for TypeScript.
-  /* istanbul ignore next */
-  if (!token) return null
+  // token is always set if we reach this point (all null/error states are caught above).
+  const activeToken = token as IToken
 
   return (
     <div className="beefree-example">
@@ -396,7 +413,7 @@ export function MultiLanguageExample() {
           <button
             type="button"
             disabled={!builderReady || hasMltRestriction}
-            onClick={() => builderApiRef.current?.save()}
+            onClick={() => builderApiRef.current?.save({ language: contentLanguage })}
           >
             Save
           </button>
@@ -414,7 +431,7 @@ export function MultiLanguageExample() {
         <div className="builder-panel" style={{ width: '100%' }}>
           <BuilderPanel
             key={`${useRtl ? 'rtl' : 'ltr'}-${templateMode}`}
-            token={token}
+            token={activeToken}
             useRtl={useRtl}
             languages={contentLanguages}
             templateUrl={templateUrl}

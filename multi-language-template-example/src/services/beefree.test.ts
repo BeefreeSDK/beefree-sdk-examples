@@ -77,6 +77,16 @@ describe('beefree service', () => {
     await expect(authenticate()).rejects.toThrow(/Authentication failed/)
   })
 
+  it('throws with status fallback when response json has no details or error', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: false,
+      status: 418,
+      json: () => Promise.resolve({}),
+    } as Response)
+
+    await expect(authenticate()).rejects.toThrow('Authentication failed: 418')
+  })
+
   it('throws when fetch fails (network error)', async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error('Network failure'))
 

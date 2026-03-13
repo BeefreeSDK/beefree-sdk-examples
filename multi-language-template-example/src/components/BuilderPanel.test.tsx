@@ -2,6 +2,11 @@ import { act, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { BuilderPanel } from './BuilderPanel'
 import type { BuilderApiRef } from '../types/types'
+import { downloadFile } from '../utils/download'
+
+vi.mock('../utils/download', () => ({
+  downloadFile: vi.fn(),
+}))
 
 const saveMock = vi.fn()
 const saveAsTemplateMock = vi.fn()
@@ -11,7 +16,7 @@ const switchTemplateLanguageMock = vi.fn()
 // Captures Builder callbacks so individual tests can trigger them
 const mockBuilderCallbacks: {
   onError?: (error: { message?: string }) => void
-  onSave?: (pageJson: string, pageHtml: string) => void
+  onSave?: (pageJson: string, pageHtml: string, ampHtml: string | null, templateVersion: number, language: string | null) => void
   onSaveAsTemplate?: (pageJson: string) => void
   onSend?: (htmlFile: string) => void
   onWarning?: (warning: { message?: string }) => void
@@ -61,6 +66,7 @@ describe('BuilderArea', () => {
     saveAsTemplateMock.mockClear()
     getTemplateJsonMock.mockClear()
     switchTemplateLanguageMock.mockClear()
+    vi.mocked(downloadFile).mockClear()
   })
 
   it('renders Builder component', () => {
@@ -138,14 +144,63 @@ describe('BuilderArea', () => {
     await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
 
     act(() => {
-      mockBuilderCallbacks.onSave?.('{"page":{}}', '<html></html>')
+      mockBuilderCallbacks.onSave?.('{"page":{}}', '<html></html>', null, 1, 'es-ES')
     })
 
-    expect(logSpy).toHaveBeenCalledWith('onSave called:', { pageJson: '{"page":{}}', pageHtml: '<html></html>' })
-    expect(alertSpy).toHaveBeenCalledWith('Template saved! Check console for details.')
+    expect(logSpy).toHaveBeenCalledWith('onSave called:', { pageJson: '{"page":{}}', pageHtml: '<html></html>', language: 'es-ES' })
+    expect(alertSpy).not.toHaveBeenCalled()
+    expect(vi.mocked(downloadFile)).toHaveBeenCalledTimes(1)
   })
 
-  it('onSaveAsTemplate callback logs and alerts', async () => {
+  it('onSave skips download when html is empty', async () => {
+    render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl={null}
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+
+    act(() => {
+      mockBuilderCallbacks.onSave?.('{"page":{}}', '', null, 1, 'es-ES')
+    })
+
+    expect(vi.mocked(downloadFile)).not.toHaveBeenCalled()
+  })
+
+  it('onSave stringifies non-string html and handles null language', async () => {
+    render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl={null}
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+
+    const htmlLike = { toString: () => '<html>fallback</html>' } as unknown as string
+    act(() => {
+      mockBuilderCallbacks.onSave?.('{"page":{}}', htmlLike, null, 1, null)
+    })
+
+    expect(vi.mocked(downloadFile)).toHaveBeenCalledWith(
+      '<html>fallback</html>',
+      expect.stringMatching(/^--beefree-export-.*\.html$/)
+    )
+  })
+
+  it('onSaveAsTemplate callback logs', async () => {
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
@@ -168,7 +223,34 @@ describe('BuilderArea', () => {
     })
 
     expect(logSpy).toHaveBeenCalledWith('onSaveAsTemplate called:', { pageJson: '{"page":{}}' })
-    expect(alertSpy).toHaveBeenCalledWith('Template saved as template! Check console for details.')
+    expect(alertSpy).not.toHaveBeenCalled()
+    expect(vi.mocked(downloadFile)).toHaveBeenCalledTimes(1)
+  })
+
+  it('onSaveAsTemplate supports pre-parsed json objects', async () => {
+    render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl={null}
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+
+    act(() => {
+      mockBuilderCallbacks.onSaveAsTemplate?.({ page: {} } as unknown as string)
+    })
+
+    expect(vi.mocked(downloadFile)).toHaveBeenCalledWith(
+      '{\n  "page": {}\n}',
+      expect.stringMatching(/^beefree-template-.*\.json$/),
+      'application/json'
+    )
   })
 
   it('onSend callback logs and alerts', async () => {
@@ -280,5 +362,98 @@ describe('BuilderArea', () => {
     await waitFor(() => expect(mockOnLoad).toHaveBeenCalled())
     expect(globalThis.fetch).toHaveBeenCalledWith('https://example.com/template.json')
     expect(capturedTemplate).toEqual(templateData)
+  })
+
+  it('falls back to BLANK template when fetch response is not ok', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response('nope', { status: 500 }))
+
+    render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl="/bad-template.json"
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+    expect(capturedTemplate).toEqual({ comments: {}, page: {} })
+  })
+
+  it('falls back to BLANK template when fetch returns null json', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(null),
+    } as unknown as Response)
+
+    render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl="/null-template.json"
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+    expect(capturedTemplate).toEqual({ comments: {}, page: {} })
+  })
+
+  it('ignores failed fetch resolution after unmount', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: () => new Promise((resolve) => setTimeout(() => resolve({ page: { late: true }, comments: {} }), 20)),
+    } as unknown as Response)
+
+    const { unmount } = render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl="/late-error-template.json"
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    unmount()
+    await vi.advanceTimersByTimeAsync(25)
+
+    expect(globalThis.fetch).toHaveBeenCalledWith('/late-error-template.json')
+    vi.useRealTimers()
+  })
+
+  it('does not set template in catch when fetch fails after unmount', async () => {
+    vi.useFakeTimers()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(globalThis, 'fetch').mockImplementation(
+      () => new Promise((_, reject) => setTimeout(() => reject(new Error('late failure')), 20)) as Promise<Response>
+    )
+
+    const { unmount } = render(
+      <BuilderPanel
+        token={mockToken}
+        useRtl={false}
+        languages={mockLanguages}
+        templateUrl="/late-catch-template.json"
+        builderApiRef={mockBuilderApiRef}
+        onLoad={mockOnLoad}
+        onError={mockOnError}
+      />
+    )
+
+    unmount()
+    await vi.advanceTimersByTimeAsync(25)
+
+    expect(globalThis.fetch).toHaveBeenCalledWith('/late-catch-template.json')
+    vi.useRealTimers()
   })
 })

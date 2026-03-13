@@ -1455,6 +1455,7 @@ __metadata:
     jsdom: "npm:^25.0.1"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
+    tinyexec: "npm:1.0.2"
     tsx: "npm:^4.19.2"
     typescript: "npm:^5.9.3"
     vite: "npm:^7.2.7"
@@ -3656,10 +3657,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyexec@npm:^1.0.2":
-  version: 1.0.3
-  resolution: "tinyexec@npm:1.0.3"
-  checksum: 10c0/0ef5ecc1d6809b0c7f3d5d9d4a25fb95d820b8f47f64a984bb5f5527d2a21dc7702130c106f9080489613b28edd3c67f3853113dc38e69537aef88a72ff2d4d6
+"tinyexec@npm:1.0.2":
+  version: 1.0.2
+  resolution: "tinyexec@npm:1.0.2"
+  checksum: 10c0/1261a8e34c9b539a9aae3b7f0bb5372045ff28ee1eba035a2a059e532198fe1a182ec61ac60fa0b4a4129f0c4c4b1d2d57355b5cb9aa2d17ac9454ecace502ee
   languageName: node
   linkType: hard
 

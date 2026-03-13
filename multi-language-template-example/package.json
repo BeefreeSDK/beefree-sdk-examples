@@ -28,6 +28,9 @@
   ],
   "author": "Beefree SDK Examples",
   "license": "MIT",
+  "resolutions": {
+    "tinyexec": "1.0.2"
+  },
   "dependencies": {
     "@beefree.io/react-email-builder": "^1.0.0",
     "cors": "^2.8.5",
@@ -50,6 +53,7 @@
     "@vitest/coverage-istanbul": "^4.0.18",
     "concurrently": "^8.2.2",
     "jsdom": "^25.0.1",
+    "tinyexec": "1.0.2",
     "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vite": "^7.2.7",

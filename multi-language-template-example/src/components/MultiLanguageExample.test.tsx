@@ -1,7 +1,12 @@
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { MultiLanguageExample } from './MultiLanguageExample'
+import {
+  buildRestrictedLanguageAlert,
+  getVisibleLanguages,
+  MultiLanguageExample,
+  renderSafeHtml,
+} from './MultiLanguageExample'
 
 const switchTemplateLanguageMock = vi.fn()
 const saveMock = vi.fn()
@@ -673,5 +678,66 @@ describe('BeefreeExample', () => {
 
     const wrapper = document.querySelector('.controls-left-wrapper.controls-left-disabled')
     expect(wrapper).toBeInTheDocument()
+  })
+
+  it('handleError falls back to JSON string when message is missing', async () => {
+    vi.mocked(authenticate).mockResolvedValueOnce({ access_token: VALID_TOKEN, expires: 0 } as never)
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
+    render(<MultiLanguageExample />)
+
+    await waitFor(() => expect(screen.getByTestId('builder-mock')).toBeInTheDocument())
+
+    act(() => {
+      mockBuilderCallbacks.onError?.({ code: 'E_LANG' } as never)
+    })
+
+    expect(alertSpy).toHaveBeenCalledWith('Error: {"code":"E_LANG"}')
+  })
+})
+
+describe('MultiLanguageExample helpers', () => {
+  it('renderSafeHtml renders strong and code fragments safely', () => {
+    const rendered = renderSafeHtml('before <strong>bold</strong> and <code>cmd</code> after')
+    const { container } = render(<>{rendered}</>)
+
+    expect(container.querySelector('strong')?.textContent).toBe('bold')
+    expect(container.querySelector('code')?.textContent).toBe('cmd')
+    expect(container.textContent).toContain('before')
+    expect(container.textContent).toContain('after')
+  })
+
+  it('getVisibleLanguages returns all languages when hide flag is false', () => {
+    const all = [
+      { label: 'A', value: 'a' },
+      { label: 'B', value: 'b' },
+      { label: 'C', value: 'c' },
+    ]
+
+    expect(getVisibleLanguages(all, 2, false)).toEqual(all)
+  })
+
+  it('getVisibleLanguages slices to language limit when hide flag is true', () => {
+    const all = [
+      { label: 'A', value: 'a' },
+      { label: 'B', value: 'b' },
+      { label: 'C', value: 'c' },
+    ]
+
+    expect(getVisibleLanguages(all, 2, true)).toEqual([
+      { label: 'A', value: 'a' },
+      { label: 'B', value: 'b' },
+    ])
+  })
+
+  it('buildRestrictedLanguageAlert formats enterprise branch', () => {
+    const msg = buildRestrictedLanguageAlert('Enterprise', 'Català', 3)
+    expect(msg).toContain('go beyond your current plan limits')
+    expect(msg).toContain('supports up to 3 template languages')
+  })
+
+  it('buildRestrictedLanguageAlert formats non-enterprise branch', () => {
+    const msg = buildRestrictedLanguageAlert('Superpowers', 'Català', 3)
+    expect(msg).toContain('would exceed your Superpowers plan')
+    expect(msg).toContain('Upgrade to Enterprise')
   })
 })

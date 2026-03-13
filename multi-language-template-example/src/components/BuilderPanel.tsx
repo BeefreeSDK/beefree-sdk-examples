@@ -10,6 +10,7 @@ import {
 } from '@beefree.io/react-email-builder'
 
 import type { BuilderApiRef, LanguageOption } from '../types/types'
+import { downloadFile } from '../utils/download'
 
 const BLANK_TEMPLATE: IEntityContentJson = {
   comments: {},
@@ -117,13 +118,18 @@ export function BuilderPanel({
       id={primaryId}
       template={template}
       token={token}
-      onSave={(pageJson: string, pageHtml: string) => {
-        console.log('onSave called:', { pageJson, pageHtml })
-        alert('Template saved! Check console for details.')
+      onSave={(json: string, html: string, _ampHtml: string | null, _templateVersion: number, language: string | null) => {
+        console.log('onSave called:', { pageJson: json, pageHtml: html, language })
+        if (!html) return
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+        downloadFile(typeof html === 'string' ? html : String(html), `${language ?? ''}--beefree-export-${timestamp}.html`)
       }}
-      onSaveAsTemplate={(pageJson: string) => {
-        console.log('onSaveAsTemplate called:', { pageJson })
-        alert('Template saved as template! Check console for details.')
+      onSaveAsTemplate={(json: string) => {
+        console.log('onSaveAsTemplate called:', { pageJson: json })
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+        const parsed = typeof json === 'string' ? JSON.parse(json) : json
+        const content = JSON.stringify(parsed, null, 2)
+        downloadFile(content, `beefree-template-${timestamp}.json`, 'application/json')
       }}
       onSend={(htmlFile: string) => {
         console.log('onSend called:', htmlFile)
