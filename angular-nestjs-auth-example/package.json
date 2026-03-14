@@ -1,0 +1,22 @@
+{
+  "name": "beefree-sdk-angular-nestjs-auth-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Angular Email Builder (Beefree SDK) + NestJS Secure Authentication Example",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n nest,vite -c red,cyan \"cd backend && npx nest start --watch\" \"cd frontend && npx vite\"",
+    "start": "concurrently -n nest,vite -c red,cyan \"cd backend && npx nest start --watch\" \"cd frontend && npx vite\"",
+    "build": "cd backend && npx nest build && cd ../frontend && npx vite build",
+    "type-check": "cd frontend && npx tsc -p tsconfig.app.json --noEmit && cd ../backend && npx tsc --project tsconfig.build.json --noEmit",
+    "test": "yarn workspace frontend test && yarn workspace backend test",
+    "test:coverage": "yarn workspace frontend test:coverage && yarn workspace backend test:coverage"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "packageManager": "yarn@4.13.0"
+}

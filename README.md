@@ -38,6 +38,7 @@ Before running any example, you need:
 | Example | Description | Features | Start Command |
 |---------|-------------|----------|---------------|
 | [🤖 AI Agent](https://github.com/BeefreeSDK/beefree-sdk-mcp-example-demo) | Natural language email design with AI | **BETA** - Click to visit its dedicated repo | - |
+| [🅰️ Angular + 🐈 NestJS Auth](#-angular--nestjs-auth-example) | Angular 20 + NestJS 11 secure authentication | `@beefree.io/angular-email-builder`, split layout, API monitor, full frontend/backend 100% test coverage | `cd angular-nestjs-auth-example && yarn start` |
 | [💾 Autosave](#-autosave-versioning-example) | Template versioning with auto-save | Version control, auto-save, history | `yarn start:autosave` |
 | [💬 Commenting](#-commenting-example) | Real-time collaborative commenting | Comments, toast notifications, real-time updates | `yarn start:commenting` |
 | [🔀 Conditional Rows](#-conditional-rows-example) | Personalized content with display conditions | 14 pre-configured conditions, custom builder, no-code personalization | `yarn start:conditional-rows` |
@@ -67,6 +68,33 @@ This new repository features:
 - **Secure Architecture**: Backend-only credentials.
 
 Please refer to the new repository for all setup and launch instructions.
+
+---
+
+## 🅰️ Angular + NestJS Auth Example
+
+Full-stack secure authentication example using Angular 20 (frontend) and NestJS 11 (backend), with the `@beefree.io/angular-email-builder` wrapper.
+
+### Features
+
+- Angular standalone components with signals and modern template control flow
+- NestJS backend with DTO validation and backend-only Beefree credentials
+- Keyboard-accessible draggable split divider
+- Real-time API monitor panel (request/response inspector)
+- Sample/blank template loader routes
+- Full unit-test coverage: 100% frontend + 100% backend
+
+### How to Run
+
+```bash
+cd angular-nestjs-auth-example
+yarn install
+yarn start
+```
+
+The app starts on:
+- Frontend: http://localhost:8034
+- Backend: http://localhost:3034
 
 ---
 
