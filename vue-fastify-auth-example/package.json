@@ -1,0 +1,22 @@
+{
+  "name": "beefree-sdk-vue-fastify-auth-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vue Email Builder (Beefree SDK) + Fastify Secure Authentication Example",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n fastify,vite -c red,cyan \"yarn workspace backend dev\" \"yarn workspace frontend dev\"",
+    "start": "concurrently -n fastify,vite -c red,cyan \"yarn workspace backend dev\" \"yarn workspace frontend dev\"",
+    "build": "yarn workspace frontend build && yarn workspace backend build",
+    "type-check": "yarn workspace frontend type-check && yarn workspace backend type-check",
+    "test": "yarn workspace frontend test && yarn workspace backend test",
+    "test:coverage": "yarn workspace frontend test:coverage"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "packageManager": "yarn@4.13.0"
+}

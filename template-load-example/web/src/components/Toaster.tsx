@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -39,6 +39,13 @@ const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleRemove = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      onRemove(toast.id);
+    }, 300); // Match CSS transition duration
+  }, [onRemove, toast.id]);
+
   useEffect(() => {
     // Auto-remove after duration
     const duration = toast.duration || 3000;
@@ -47,14 +54,7 @@ const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [toast.duration]);
-
-  const handleRemove = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      onRemove(toast.id);
-    }, 300); // Match CSS transition duration
-  };
+  }, [handleRemove, toast.duration]);
 
   const getToastIcon = () => {
     switch (toast.type) {

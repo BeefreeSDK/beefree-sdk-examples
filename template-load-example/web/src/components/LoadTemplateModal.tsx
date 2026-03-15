@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useCallback } from 'react';
 import { Template } from '../types';
 import { api, ApiError } from '../services/api';
 import { BaseModal } from './BaseModal';
@@ -19,14 +19,7 @@ export const LoadTemplateModal = ({
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Load templates when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      loadTemplates();
-    }
-  }, [isOpen]);
-
-  const loadTemplates = async () => {
+  const loadTemplates = useCallback(async () => {
     try {
       setLoading(true);
       const response = await api.listTemplates();
@@ -38,7 +31,14 @@ export const LoadTemplateModal = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [onError]);
+
+  // Load templates when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      loadTemplates();
+    }
+  }, [isOpen, loadTemplates]);
 
   const handleLoadTemplate = (template: Template) => {
     onLoadTemplate(template);
