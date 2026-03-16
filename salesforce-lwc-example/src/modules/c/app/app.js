@@ -40,7 +40,7 @@ export default class App extends LightningElement {
   templateJson = null
   error = null
   isLoading = true
-  exampleAppVersion = '1.0.5'
+  exampleAppVersion = '1.0.6'
   appConfig = {
     sidebarPosition: 'left',
     // Add any custom configuration for the editor here
@@ -62,7 +62,7 @@ export default class App extends LightningElement {
       console.log('[c-app] SDK onSaveAsTemplate callback:', json)
       if (json) {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
-        const content = JSON.stringify(json, null, 2)
+        const content = json
         downloadFile(content, `beefree-template-${timestamp}.json`, 'application/json')
       }
     }
