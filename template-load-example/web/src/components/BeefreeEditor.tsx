@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import BeefreeSDK from '@beefree.io/sdk';
 import { IBeeConfig, IToken } from '@beefree.io/sdk/dist/types/bee';
 import { SaveTemplateModal } from './SaveTemplateModal';
@@ -45,7 +45,35 @@ export const BeefreeEditor = ({
   const beeInstanceRef = useRef<any>(null);
   const lastLoadedTemplateRef = useRef<string | undefined>(undefined);
 
-  const initializeSDK = async () => {
+  // Handle direct save (from SAVE button in toolbar)
+  const handleDirectSave = useCallback(async (json: unknown) => {
+    try {
+      setSaving(true);
+      const result = await onDirectSave(json, existingTemplate);
+
+      // If it needs a modal (for new templates), show it
+      if (
+        result?.needsModal &&
+        result.templateData &&
+        result.templateJsonString
+      ) {
+        setCurrentTemplateData(result.templateData);
+        setCurrentTemplateJsonString(result.templateJsonString);
+        setShowSaveModal(true);
+      }
+    } catch (err) {
+      console.error('Error in direct save:', err);
+      const errorMessage =
+        err instanceof ApiError
+          ? err.message
+          : 'Error saving template. Please try again.';
+      onError(errorMessage);
+    } finally {
+      setSaving(false);
+    }
+  }, [existingTemplate, onDirectSave, onError]);
+
+  const initializeSDK = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -109,7 +137,7 @@ export const BeefreeEditor = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [handleDirectSave, onError, templateToLoad]);
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -125,7 +153,7 @@ export const BeefreeEditor = ({
         }
       }
     };
-  }, []);
+  }, [initializeSDK]);
 
   useEffect(() => {
     if (
@@ -147,34 +175,6 @@ export const BeefreeEditor = ({
       }
     }
   }, [templateToLoad, onError]);
-
-  // Handle direct save (from SAVE button in toolbar)
-  const handleDirectSave = async (json: unknown) => {
-    try {
-      setSaving(true);
-      const result = await onDirectSave(json, existingTemplate);
-
-      // If it needs a modal (for new templates), show it
-      if (
-        result?.needsModal &&
-        result.templateData &&
-        result.templateJsonString
-      ) {
-        setCurrentTemplateData(result.templateData);
-        setCurrentTemplateJsonString(result.templateJsonString);
-        setShowSaveModal(true);
-      }
-    } catch (err) {
-      console.error('Error in direct save:', err);
-      const errorMessage =
-        err instanceof ApiError
-          ? err.message
-          : 'Error saving template. Please try again.';
-      onError(errorMessage);
-    } finally {
-      setSaving(false);
-    }
-  };
 
   // Handle save template (from modal)
   const handleSaveTemplate = async (

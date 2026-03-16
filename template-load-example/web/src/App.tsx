@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Template } from './types';
 import { api, ApiError } from './services/api';
 import { TemplateList } from './components/TemplateList';
@@ -22,12 +22,7 @@ function App() {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const { toasts, removeToast, error: showError, success } = useToast();
 
-  // Load templates on component mount
-  useEffect(() => {
-    loadTemplates();
-  }, []);
-
-  const loadTemplates = async () => {
+  const loadTemplates = useCallback(async () => {
     try {
       setLoading(true);
       const response = await api.listTemplates();
@@ -39,7 +34,12 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showError]);
+  
+  // Load templates on component mount
+  useEffect(() => {
+    loadTemplates();
+  }, [loadTemplates]);
 
   const handleSelectTemplate = (template: Template) => {
     setSelectedTemplate(template);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 24" height="24">
+  <!-- Vue chevron mark (from vuejs.org) -->
+  <svg viewBox="0 0 128 128" width="24" height="24">
+    <path fill="#42b883" d="M78.8,10L64,35.4L49.2,10H0l64,110l64-110C128,10,78.8,10,78.8,10z"/>
+    <path fill="#35495e" d="M78.8,10L64,35.4L49.2,10H25.6L64,76l38.4-66H78.8z"/>
+  </svg>
+  <!-- "Vue.js" text matching vuejs.org styles -->
+  <text x="32" y="17.5" font-family="'Inter var experimental', 'Inter var', Inter, -apple-system, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif" font-size="16" font-weight="500" letter-spacing="0.2" fill="rgba(255, 255, 255, 0.87)">Vue.js</text>
+</svg>

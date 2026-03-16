@@ -49,6 +49,7 @@ Before running any example, you need:
 | [⚡ Salesforce LWC](#-salesforce-lwc-example) | Beefree SDK in Salesforce | LWC, local dev sandbox, deploy to Salesforce, Apex auth | `yarn start:salesforce-lwc` |
 | [🔐 Secure Auth](#-secure-auth-example) | Production-ready authentication | JWT tokens, refresh mechanism, secure credentials | `yarn start:secure-auth` |
 | [📂 Template Load](#-template-load-example) | Load saved templates from DB | Template management, Prisma ORM, CRUD operations | `yarn start:template-load` |
+| [💚 Vue + 🐆 Fastify Auth](#-vue--fastify-auth-example) | Vue 3 + Fastify 5 secure authentication | `@beefree.io/vue-email-builder`, split layout, API monitor, full frontend 100% test coverage | `cd vue-fastify-auth-example && yarn start` |
 | [🧩 Web Components](#-web-components-example) | Shadow DOM integration | Custom element, Shadow DOM, framework-agnostic | `yarn start:web-components` |
 
 ---
@@ -71,7 +72,7 @@ Please refer to the new repository for all setup and launch instructions.
 
 ---
 
-## 🅰️ Angular + NestJS Auth Example
+## 🅰️ Angular + 🐈 NestJS Auth Example
 
 Full-stack secure authentication example using Angular 20 (frontend) and NestJS 11 (backend), with the `@beefree.io/angular-email-builder` wrapper.
 
@@ -84,7 +85,26 @@ Full-stack secure authentication example using Angular 20 (frontend) and NestJS 
 - Sample/blank template loader routes
 - Full unit-test coverage: 100% frontend + 100% backend
 
-### How to Run
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Get your Beefree SDK credentials from the [Developer Console](https://developers.beefree.io).
+2. Configure your credentials in `angular-nestjs-auth-example/backend/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3034
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:angular-nestjs-auth
+```
+
+or from the example folder itself:
 
 ```bash
 cd angular-nestjs-auth-example
@@ -587,6 +607,52 @@ Then open http://localhost:8002 in your browser.
 
 ---
 
+## 💚 Vue + 🐆 Fastify Auth Example
+
+Full-stack secure authentication example using Vue 3 (frontend) and Fastify 5 (backend), with the `@beefree.io/vue-email-builder` wrapper.
+
+### Features
+
+- Vue 3 Composition API with `<script setup>`, composables, reactive refs
+- Fastify 5 backend with fp-wrapped plugins, env-schema + TypeBox configuration
+- Keyboard-accessible draggable split divider
+- Real-time API monitor panel (request/response inspector)
+- Sample/blank template loader routes
+- Full test coverage: 100% frontend (Vitest) + backend integration tests (node:test)
+
+### Setup and launch instructions
+
+**Before running**, make sure to:
+
+1. Get your Beefree SDK credentials from the [Developer Console](https://developers.beefree.io).
+2. Configure your credentials in `vue-fastify-auth-example/backend/.env`:
+
+```env
+BEEFREE_CLIENT_ID=your_client_id_here
+BEEFREE_CLIENT_SECRET=your_client_secret_here
+PORT=3033
+```
+
+To run the example, use the start command from the root of the repository:
+
+```bash
+yarn start:vue-fastify-auth
+```
+
+or from the example folder itself:
+
+```bash
+cd vue-fastify-auth-example
+yarn install
+yarn start
+```
+
+The app starts on:
+- Frontend: http://localhost:8033
+- Backend: http://localhost:3033
+
+---
+
 ## 🧩 Web Components Example
 
 Embed the Beefree SDK as a **custom HTML element** (`<beefree-component>`) using Web Components and Shadow DOM — no framework required.
@@ -658,6 +724,7 @@ beefree-sdk-examples/
 ├── secure-auth-example/              # Simple client with secure auth server
 ├── template-export-pdf-example/      # PDF export functionality
 ├── template-load-example/            # Load/Save templates with DB
+├── vue-fastify-auth-example/         # Vue 3 + Fastify 5 secure auth
 └── web-components-example/           # Web Component with Shadow DOM
 ```
 
