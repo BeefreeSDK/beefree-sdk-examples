@@ -5,7 +5,11 @@ A complete demo showcasing **Beefree SDK integration** with a full-stack templat
 ## 📋 Prerequisites
 
 - **Node.js 22+** ([download here](https://nodejs.org/))
-- **Yarn** package manager (`npm install -g yarn`)
+- **Yarn via Corepack** (uses pinned `yarn@4.13.0`)
+  ```bash
+  corepack enable
+  corepack prepare yarn@4.13.0 --activate
+  ```
 - **Beefree SDK credentials** from the [Developer Console](https://developers.beefree.io)
 
 ## 🚀 Quick Start

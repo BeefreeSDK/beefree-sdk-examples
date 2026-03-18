@@ -23,10 +23,10 @@ Beefree SDK is an embeddable no-code builder that gives your end users the freed
 Before running any example, you need:
 
 1. **Node.js 22+** installed on your machine ([download here](https://nodejs.org/))
-2. **Yarn** package manager ([install instructions](https://classic.yarnpkg.com/en/docs/install))
+2. **Yarn via Corepack** (uses pinned `yarn@4.13.0` from `packageManager`)
    ```bash
-   # After installing Node.js, install Yarn globally:
-   npm install -g yarn
+   corepack enable
+   corepack prepare yarn@4.13.0 --activate
    ```
 3. **Beefree SDK credentials** from the [Developer Console](https://developers.beefree.io)
    - Client ID

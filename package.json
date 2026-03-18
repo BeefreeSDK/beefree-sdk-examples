@@ -8,16 +8,17 @@
     "lint": "eslint . --ext ts,tsx,js --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx,js --fix",
     "prepare": "husky",
-    "start:ai-agent": "yarn install --check-files && cd ai-agent-example && yarn install --check-files && cd .. && concurrently \"cd ai-agent-example && yarn server:dev\" \"cd ai-agent-example && yarn dev\" --names \"ai-backend,ai-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:autosave": "yarn install --check-files && cd autosave-versioning-example && yarn install --check-files && cd .. && concurrently \"cd autosave-versioning-example && yarn server:dev\" \"cd autosave-versioning-example && yarn dev\" --names \"autosave-backend,autosave-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:commenting": "yarn install --check-files && cd commenting-example && yarn install --check-files && cd .. && concurrently \"cd commenting-example && yarn server:dev\" \"cd commenting-example && yarn dev\" --names \"commenting-backend,commenting-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:conditional-rows": "yarn install --check-files && cd conditional-rows-example && yarn install --check-files && cd .. && concurrently \"cd conditional-rows-example && yarn server:dev\" \"cd conditional-rows-example && yarn dev\" --names \"conditional-rows-backend,conditional-rows-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:custom-css": "yarn install --check-files && cd custom-css-example && yarn install --check-files && cd .. && concurrently \"cd custom-css-example && yarn server:dev\" \"cd custom-css-example && yarn dev\" --names \"custom-css-backend,custom-css-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:multi-builder": "yarn install --check-files && cd multi-builder-switch-example && yarn install --check-files && cd .. && concurrently \"cd multi-builder-switch-example && yarn server:dev\" \"cd multi-builder-switch-example && yarn dev\" --names \"multi-builder-backend,multi-builder-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:pdf-export": "yarn install --check-files && cd template-export-pdf-example && yarn install --check-files && cd .. && concurrently \"cd template-export-pdf-example && yarn server:dev\" \"cd template-export-pdf-example && yarn dev\" --names \"pdf-backend,pdf-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:secure-auth": "yarn install --check-files && cd secure-auth-example && yarn install --check-files && cd .. && concurrently \"cd secure-auth-example && yarn server:dev\" \"cd secure-auth-example && yarn dev\" --names \"auth-backend,auth-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:template-load": "yarn install --check-files && cd template-load-example && yarn install --check-files && cd .. && concurrently \"cd template-load-example && yarn server:dev\" \"cd template-load-example && yarn dev\" --names \"load-backend,load-frontend\" --prefix-colors \"yellow,cyan\"",
-    "start:web-components": "yarn install --check-files && cd web-components-example && yarn install --check-files && cd .. && concurrently \"cd web-components-example && yarn server:dev\" \"cd web-components-example && yarn dev\" --names \"web-components-backend,web-components-frontend\" --prefix-colors \"yellow,cyan\""
+    "start:ai-agent": "node -e \"console.log('AI Agent example moved to https://github.com/BeefreeSDK/beefree-sdk-mcp-example-demo')\"",
+    "start:autosave": "yarn install && yarn --cwd autosave-versioning-example install && yarn && yarn --cwd autosave-versioning-example start",
+    "start:commenting": "yarn install && yarn --cwd commenting-example install && yarn --cwd commenting-example start",
+    "start:conditional-rows": "yarn install && yarn --cwd conditional-rows-example install && yarn && yarn --cwd conditional-rows-example start",
+    "start:custom-css": "yarn install && yarn --cwd custom-css-example install && yarn --cwd custom-css-example start",
+    "start:multi-builder": "yarn install && yarn --cwd multi-builder-switch-example install && yarn --cwd multi-builder-switch-example start",
+    "start:pdf-export": "yarn install && yarn --cwd template-export-pdf-example install && yarn --cwd template-export-pdf-example start",
+    "start:salesforce-lwc": "yarn install && yarn --cwd salesforce-lwc-example install && yarn --cwd salesforce-lwc-example start",
+    "start:secure-auth": "yarn install && yarn --cwd secure-auth-example install && yarn --cwd secure-auth-example start",
+    "start:template-load": "yarn install && yarn --cwd template-load-example install && yarn --cwd template-load-example start",
+    "start:web-components": "yarn install && yarn --cwd web-components-example install && yarn --cwd web-components-example start"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,cjs}": "eslint"
@@ -41,6 +42,7 @@
     "@commitlint/config-conventional": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "baseline-browser-mapping": "^2.10.7",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -48,5 +50,6 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "yarn@4.13.0"
 }

@@ -76,7 +76,8 @@ The example demonstrates the advanced **Content Dialog** feature, allowing users
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 22+ and Yarn
+- Node.js 22+
+- Yarn via Corepack (pinned to `yarn@4.13.0` via `packageManager`; run `corepack enable`)
 - A Beefree SDK account on a **Core plan or above** (required for Display Conditions)
 - Display Conditions feature [enabled in your Beefree SDK Console](#1-enable-display-conditions-in-your-beefree-sdk-console)
 - Beefree SDK credentials

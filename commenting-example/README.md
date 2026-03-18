@@ -46,7 +46,8 @@ The demo handles all comment event types:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 22+ and Yarn
+- Node.js 22+
+- Yarn via Corepack (pinned to `yarn@4.13.0` via `packageManager`; run `corepack enable`)
 - A Beefree SDK account with [Commenting enabled](https://docs.beefree.io/beefree-sdk/other-customizations/advanced-options/commenting#how-to-activate-it)
 - Beefree SDK credentials
 

@@ -275,7 +275,11 @@ app.get('/health', (_req: Request, res: Response) => {
 
 ### **Prerequisites**
 - Node.js 22+ ([download here](https://nodejs.org/))
-- Yarn package manager (`npm install -g yarn`)
+- Yarn via Corepack (uses pinned `yarn@4.13.0`)
+  ```bash
+  corepack enable
+  corepack prepare yarn@4.13.0 --activate
+  ```
 - Beefree SDK credentials (Client ID + Secret)
 
 ### **Installation**
