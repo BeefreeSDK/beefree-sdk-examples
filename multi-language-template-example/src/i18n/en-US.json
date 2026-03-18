@@ -1,0 +1,26 @@
+{
+  "credentials": {
+    "title": "Invalid or missing credentials",
+    "description": "Authentication failed for the Email Builder. Please check <code>BEEFREE_CLIENT_ID</code> and <code>BEEFREE_CLIENT_SECRET</code> in <code>.env</code>.",
+    "step1": "Go to the Beefree Developer Console and create an application.",
+    "step2": "Copy the Client ID and Client Secret into your .env file.",
+    "step3": "Reload this page or click Retry.",
+    "docs": "See the",
+    "retry": "Retry"
+  },
+  "mltWarning": {
+    "title": "Multi-language Templates may not be enabled",
+    "plan": "Your current plan does not include Multi-language Templates. This feature requires a Superpowers or Enterprise plan.",
+    "unknown": "The plan could not be determined from the authentication token. This is unexpected — please inspect the JWT payload in the browser console and verify that the token contains a valid 'plan' field.",
+    "dismiss": "Dismiss",
+    "consoleLink": "Open Beefree SDK Console"
+  },
+  "mltTip": {
+    "title": "Your plan supports the Multi-language Templates feature...",
+    "tip1": "...but it won't show until enabled for your application in the Beefree SDK Console. Check the ",
+    "tip2": "README",
+    "tip3": " for more details.",
+    "dismiss": "Got it",
+    "consoleLink": "Open Beefree SDK Console"
+  }
+}

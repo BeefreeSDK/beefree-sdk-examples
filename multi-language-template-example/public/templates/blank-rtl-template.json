@@ -1,0 +1,56 @@
+{
+  "page": {
+    "body": {
+      "container": {
+        "style": {
+          "background-color": "#FFFFFF"
+        }
+      },
+      "content": {
+        "computedStyle": {
+          "align": "center",
+          "linkColor": "#0068A5",
+          "messageBackgroundColor": "transparent",
+          "messageWidth": "500px"
+        },
+        "style": {
+          "color": "#000000",
+          "direction": "rtl",
+          "font-family": "Noto Sans Arabic, Noto Nastaliq Urdu, Arial, Helvetica Neue, Helvetica, sans-serif"
+        }
+      },
+      "webFonts": [
+        {
+          "name": "Noto Sans Arabic",
+          "fontFamily": "'Noto Sans Arabic', sans-serif",
+          "url": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap",
+          "weights": [
+            { "label": "400", "value": "400" },
+            { "label": "700", "value": "700" }
+          ]
+        },
+        {
+          "name": "Noto Nastaliq Urdu",
+          "fontFamily": "'Noto Nastaliq Urdu', serif",
+          "url": "https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap",
+          "weights": [
+            { "label": "400", "value": "400" },
+            { "label": "700", "value": "700" }
+          ]
+        },
+        {
+          "name": "Noto Sans",
+          "fontFamily": "'Noto Sans', sans-serif",
+          "url": "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap",
+          "weights": [
+            { "label": "400", "value": "400" },
+            { "label": "700", "value": "700" }
+          ]
+        }
+      ]
+    },
+    "description": "",
+    "rows": []
+  },
+  "comments": {}
+}
