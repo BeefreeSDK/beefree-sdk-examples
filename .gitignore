@@ -43,6 +43,9 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# Yarn install state (machine-specific, regenerated on install)
+.yarn/install-state.gz
+
 # dotenv environment variables file
 .env
 
