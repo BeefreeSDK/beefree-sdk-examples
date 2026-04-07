@@ -1,0 +1,43 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-width: 900px;
+}
+
+:root {
+  --ultraviolet: #7638ff;
+  --gray-900: #242424;
+  --gray-700: #525252;
+  --gray-400: #a3a3a3;
+  --gray-200: #d9d9d9;
+
+  --white-to-vue-horizontal-gradient: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #42d392 65%,
+    #647eff 82%,
+    #7638ff 100%
+  );
+
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
