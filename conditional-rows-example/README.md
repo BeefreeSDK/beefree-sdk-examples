@@ -10,7 +10,7 @@ A practical, ready-to-run example demonstrating how to integrate the [**Beefree 
 
 > **📋 Plan Requirements**: Display Conditions is available on **Core**, **SuperPowers**, and **Enterprise** plans. It is **not available** on Free and Essentials plans. Check your plan in the [Beefree Developer Console](https://developers.beefree.io/pricing-plans).
 
-> **⚙️ Activation Required**: This feature is **disabled by default**. You must enable it in your [Beefree SDK Console](https://developers.beefree.io/) under Server-side configurations before using it. See [How to Activate](#1-enable-display-conditions-in-your-beefree-sdk-console) below.
+> **⚙️ Activation Required**: This feature is **disabled by default**. You must enable it in your [Beefree SDK Console](https://developers.beefree.io/) in the "Services" section of "Application" configuration before using it. See [How to Activate](#1-enable-display-conditions-in-your-beefree-sdk-console) below.
 
 ---
 
@@ -319,7 +319,7 @@ Before using this feature, you must enable it in your [Beefree SDK Console](http
 
 1. Log in to your Beefree developer account
 2. Navigate to your application
-3. Go to **Server-side configurations**
+3. Go to **Configure Applications**
 4. Find the **Display Conditions** option
 5. Toggle it to **ON**
 6. Save your changes
@@ -532,7 +532,7 @@ yarn type-check   # Check TypeScript types
 ### Display Conditions Not Appearing
 **Solution:** 
 1. ✅ Verify you're on a **Core plan or above** (check at [developers.beefree.io](https://developers.beefree.io/pricing-plans))
-2. ✅ Confirm Display Conditions are **enabled** in your [Beefree SDK Console](https://developers.beefree.io/) Server-side configurations
+2. ✅ Confirm Display Conditions are **enabled** in your [Beefree SDK Console](https://developers.beefree.io/) Application configurations
 3. ✅ Check that `rowDisplayConditions` array is passed in your config
 4. ✅ Verify user has permissions to view/use display conditions
 
@@ -660,7 +660,7 @@ This example is part of the Beefree SDK Examples repository.
 
 #### Phase 1: Basic Setup
 1. ✅ **Verify plan eligibility** - Ensure you're on Core plan or above
-2. ✅ **Enable the feature** in Beefree SDK Console Server-side configurations
+2. ✅ **Enable the feature** in Beefree SDK Console Application configurations
 3. ✅ **Define your conditions** - Map your data model to condition logic
 4. ✅ **Choose templating syntax** - Match your email sending platform
 
