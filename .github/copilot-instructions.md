@@ -32,6 +32,7 @@ This is a **monorepo** where each folder represents an **independent, self-conta
 beefree-sdk-examples/
 ├── .eslintrc.cjs                  # Shared ESLint config (root-level)
 ├── package.json                   # Root scripts (start:commenting, start:custom-css)
+├── angular-nestjs-auth-example/   # Angular 20 + NestJS 11 secure auth example
 ├── commenting-example/            # Real-time commenting system
 ├── custom-css-example/            # Dynamic theming and CSS customization
 ├── secure-auth-example/           # Authentication server (shared by multiple examples)
@@ -75,6 +76,7 @@ Note: Those examples with a → 🔐 in the list, can optionally use the `secure
 29. ✅  ai-agent-example                    → AI Agent integrated with Beefree MCP server interacting with the editor.
 30. ✅  web-components-example              → Web Component with Shadow DOM integration (framework-agnostic).                           → 🔐
 31. ✅  salesforce-lwc-example              → Beefree SDK in Salesforce Lightning Web Components (local dev + deploy to Salesforce).
+34. ✅  angular-nestjs-auth-example         → Angular 20 + NestJS 11 secure auth with `@beefree.io/angular-email-builder`.
 ## Key Principles
 
 ### Independence & Portability
@@ -89,7 +91,7 @@ Note: Those examples with a → 🔐 in the list, can optionally use the `secure
 - Handle the ability to use the shared server in src/config/constants.ts by using import.meta.env.VITE_BEEFREE_AUTH_PROXY_URL to set the absolute URL for the fetch call.
 
 ### Technology Stack
-All examples use a **consistent, modern full-stack TypeScript architecture**:
+All examples use a **consistent, modern full-stack TypeScript architecture**, with explicit framework variations when required by the example goal:
 
 **Package Manager:**
 - **Yarn** is the required package manager for this repository
@@ -97,13 +99,13 @@ All examples use a **consistent, modern full-stack TypeScript architecture**:
 - Do NOT use `npm` or `pnpm`
 
 **Frontend:**
-- React 19 with hooks
+- React 19 with hooks | Vue 3 | Angular 20 with standalone components 
 - TypeScript for type safety
 - Vite for fast development and optimized builds
 - Defaults to port 8000 + corresponding example number (e.g.: ai-agent-example runs on port 8029) except secure-auth-example (on port 8080) and multi-language-template-example (on port 8921 to avoid conflicts)
 
-**Backend:**
-- TypeScript + Express.js
+**Backend (default pattern):**
+- TypeScript + Express.js | Encore | Fastify v5 | NestJS 11
 - ES Modules
 - tsx for hot reloading during development
 - Shared auth module structure for consistency (but each example shall be able to run independently)
