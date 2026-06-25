@@ -137,11 +137,11 @@ app.post('/api/export/pdf', async (req: Request, res: Response) => {
 
     // Add export options according to API documentation (underscore format)
     if (exportOptions.pageSize) {
-      exportData.page_size = exportOptions.pageSize.toLowerCase(); // API expects page_size with underscore
+      exportData.page_size = exportOptions.pageSize; // API expects exact casing e.g. "A4", "Letter", "Full"
     }
-    if (exportOptions.orientation) {
-      exportData.page_orientation = exportOptions.orientation.toLowerCase(); // API expects page_orientation with underscore
-    }
+    exportData.page_orientation = (exportOptions.pageSize === 'Full')
+      ? 'portrait'
+      : (exportOptions.orientation || 'Portrait').toLowerCase();
     
     console.log('📋 Final export data structure:', {
       hasHtml: !!exportData.html,

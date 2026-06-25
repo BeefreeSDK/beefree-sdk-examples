@@ -6,7 +6,7 @@ export const DEFAULT_CONTAINER = 'bee-plugin-container'
 export const EXPORT_API_URL = '/api/export/pdf'
 
 export const DEFAULT_EXPORT_OPTIONS = {
-  pageSize: 'A4' as const,
+  pageSize: 'Full' as const,
   orientation: 'Portrait' as const,
   quality: 'High' as const,
   scale: 1
