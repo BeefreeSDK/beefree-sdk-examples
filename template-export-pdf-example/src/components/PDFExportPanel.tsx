@@ -66,17 +66,19 @@ export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
               value={exportOptions.pageSize}
               onChange={(e) => setExportOptions(prev => ({
                 ...prev,
-                pageSize: e.target.value as 'A4' | 'Letter'
+                pageSize: e.target.value as 'A4' | 'Letter' | 'Full'
               }))}
             >
+              <option value="Full">Full (single continuous page)</option>
               <option value="A4">A4</option>
               <option value="Letter">Letter</option>
             </select>
           </div>
 
+          {exportOptions.pageSize !== 'Full' && (
           <div className="control-group">
             <label htmlFor="orientation">Orientation:</label>
-            <select 
+            <select
               id="orientation"
               value={exportOptions.orientation}
               onChange={(e) => setExportOptions(prev => ({
@@ -88,6 +90,7 @@ export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
               <option value="Landscape">Landscape</option>
             </select>
           </div>
+          )}
 
           <div className="control-group">
             <label htmlFor="quality">Quality:</label>
@@ -162,7 +165,7 @@ export const PDFExportPanel = ({ pdfExport }: PDFExportPanelProps) => {
                   </div>
                   <div className="history-options">
                     <span className="options-text">
-                      {item.options.pageSize} • {item.options.orientation} • {item.options.quality}
+                      {item.options.pageSize}{item.options.pageSize !== 'Full' ? ` • ${item.options.orientation}` : ''} • {item.options.quality}
                     </span>
                     <div className="history-actions">
                       {item.success && item.pdfUrl ? (

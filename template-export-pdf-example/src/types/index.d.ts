@@ -3,7 +3,7 @@ export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dis
 
 // Our custom types for PDF export
 export interface ExportOptions {
-  pageSize?: 'A4' | 'Letter'
+  pageSize?: 'A4' | 'Letter' | 'Full'
   orientation?: 'Portrait' | 'Landscape'
   quality?: 'High' | 'Medium' | 'Low'
   scale?: number
