@@ -24,6 +24,7 @@ export const ThemeSelector = ({ currentTheme, onThemeChange }: ThemeSelectorProp
         <option value="dark">Dark</option>
         <option value="high-contrast">High Contrast</option>
         <option value="coral">Coral</option>
+        <option value="rtl">RTL (Right to left)</option>
       </select>
     </div>
   )

@@ -2,7 +2,7 @@
 export type { IBeeConfig, IToken, IEntityContentJson } from '@beefree.io/sdk/dist/types/bee'
 
 // Our custom types for the theming system
-export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | ''
+export type ThemeType = 'default' | 'dark' | 'high-contrast' | 'coral' | 'rtl' | ''
 
 // Beefree SDK instance interface for proper typing
 export interface BeefreeInstance {
