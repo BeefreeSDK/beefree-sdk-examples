@@ -1,0 +1,401 @@
+/* Set overall direction for elements that need RTL adjustments */
+header.header--cs, 
+div.filemanager-header--cs {
+  direction: rtl;
+}
+/* Reverse Header Align for RTL */
+header.header--cs .header-left--cs {
+  text-align: right;
+}
+
+header.header--cs .header-right--cs {
+  text-align: left;
+}
+
+header.header--cs .header-right--cs li:last-child {
+  border-right: 1px solid var(--header-divider);
+  border-left: none;
+}
+
+header.header--cs button svg {
+  margin-left: var(--system-space-1);
+}
+
+header.header--cs .top-bar-action-list button span {
+  padding: 0;
+}
+
+header.header--cs .top-bar-action-list button svg {
+  margin-right: var(--system-space-1);
+}
+
+/* Reverse margins and paddings for RTL */
+div.filemanager-header--cs span.filemanager-header-search-icon--cs {
+  right: auto !important;
+  left: .75rem;
+}
+
+ div.filemanager-header--cs input.filemanager-header-search-input--cs {
+  padding:.6rem 1rem .6rem 2rem;
+}
+
+ div.filemanager-header--cs div.filemanager-header-add-folder--cs {
+  margin-left: 0rem !important;
+  margin-right: 1rem;
+}
+
+.button--cs {
+  margin-left: 5px;
+  margin-right: 0px !important;
+}
+
+
+/* Maintain LTR for specific components */
+.tabs--cs span.wrapper-color-selector--cs,
+.tabs--cs .toggle-wrapper--cs,
+.tabs--cs input[type="range"],
+.tabs--cs .tabs__tablabels--cs .tabs__tablabel--cs,
+.text-align-container--cs .radiogroup-options--cs,
+.align-container--cs .radiogroup-options--cs,
+.divider-mode-container--cs .radiogroup-options--cs,
+header.header--cs .button--cs,
+.filemanager-sorting--cs,
+.filemanager-header--cs,
+.filemanager--cs .rc-scrollbars-container,
+.filemanager-body--cs {
+  direction: ltr;
+}
+
+/* Maintain text-align:left for specific components, mainly URLS that always need to come from left to right */
+.image-selector-url-input--cs input,
+.html-editor--cs div.CodeMirror-sizer,
+.social-input-container--cs .input-text--cs input,
+.icon-organizer__panel--cs .icons-fields--cs .icons-img-url-input--cs input,
+.dynamic-image-url--cs input,
+.href-container--cs input {
+  direction: ltr;
+  text-align: left;
+}
+
+/* ColorPicker */
+.color-picker-popover-wrapper--cs {
+  top: 100% !important;
+  left: 0% !important;
+  direction: ltr;
+}
+
+/* Fix DropDown Items  */
+.select__menu-portal,
+.select__menu-portal * {
+  text-align: right !important;
+  direction: rtl;
+}
+
+.actionmenu-dropdown--cs {
+  left: 5px;
+  right: inherit !important;
+}
+
+/*Reverse Hamburger Menu With RTL adjustments */
+.hamburger-container--cs .hamburger-menu-wrapper--cs .hamburger-menu-options--cs,
+.hamburger-container--cs .hamburger-menu-wrapper--cs .hamburger-menu-options--cs .hamburger-menu-color--cs {
+  padding-right: 10px;
+  padding-left:0px;
+}
+
+.hamburger-container--cs .hamburger-menu-wrapper--cs .hamburger-menu-iconpreview--cs {
+  text-align :left;
+}
+
+.hamburger-container--cs .hamburger-menu-wrapper--cs div.dropdown-custom--cs div.select__control div.select__value-container input {
+  left:0;
+  right: -100px;
+}
+
+/* Tabs */
+div.tabs--cs {
+  direction: rtl;
+}
+
+div.tabs--cs button.input-number-plus--cs {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left: 1px solid var(--inputs-border-color);
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+div.tabs--cs button.input-number-minus--cs {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-right: 1px solid var(--inputs-border-color);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+
+
+
+
+
+
+
+/* Content Styles Reversed with RTL Adjusments */
+#tab__content__content div.widgets-section,
+#tab__settings__content div.widgets-section,
+#tab__rows__content span.widgets-section__title-inner--cs {
+  text-align: right;
+}
+
+#tab__content__content div.properties-panel__title a.icon {
+  border-right: 1px solid var(--generic-border);
+  border-left: 0;
+}
+
+#tab__rows__content .row-layout-container--cs .row-layout-buttons--cs {
+  top: 5px;
+  left: 16px;
+  right: auto;
+}
+
+/* Changing the direction of the resizable columns breaks its behavior */
+#tab__rows__content .row-layout-container--cs .widget-bar-columns--cs {
+  direction: ltr;
+}
+
+#tab__rows__content .row-layout-container--cs .row-layout-bottom-buttons--cs {
+  left: var(--system-space-4);
+  right: auto;
+}
+
+#tab__content__content .checkbox-wrapper--cs label,
+#tab__rows__content .checkbox-wrapper--cs label,
+#tab__settings__content .checkbox-wrapper--cs label,
+.comments-panel-thread__filters--cs .checkbox-wrapper--cs label {
+  margin-left: 0px;
+  margin-right: .7rem;
+}
+
+div.widget-bar__scroll-container .tab-content--cs div.scrollable__panel--cs div.rc-scrollbars-view {
+  margin-left: -17px;
+  margin-right: 0px !important;
+}
+
+div.widget-bar__scroll-container .tab-content--cs div.scrollable__panel--cs div.rc-scrollbars-view .row-outer--cs {
+  -webkit-transform-origin: top right;
+  -ms-transform-origin: top right;
+  transform-origin: top right;
+}
+
+div.widget-bar__scroll-container .tab-content--cs div.rc-scrollbars-view .row-footer--cs.row-footer-left {
+  direction: rtl;
+}
+div.widget-bar__scroll-container .tab-content--cs div.rc-scrollbars-view .row-footer--cs.row-footer-left span {
+  text-align: right;
+}
+
+div.widget-bar__scroll-container .tab-content--cs div.rc-scrollbars-view div.panel--customrow--cs {
+  margin-left: 0px !important;
+  margin-right: 15px;
+}
+
+#tab__rows__content div.tab-content--cs {
+  text-align: right;
+}
+
+#tab__rows__content .sidebar__draggablewrapper_fullwidth--cs {
+  margin-right: 18px;
+  margin-left: 0px !important;
+}
+
+
+/* Reverse the direction of the Toggle in some cases */
+.tabs--cs .toggle-wrapper--cs,
+.column-padding-container--cs .toggle-wrapper--cs,
+.column-border-container--cs .toggle-wrapper--cs,
+.row-border-container--cs .toggle-wrapper--cs,
+.row-border-radius-container--cs .toggle-wrapper--cs,
+.columns-border-radius-container--cs .toggle-wrapper--cs {
+  direction: rtl;
+}
+
+.tabs--cs .toggle-wrapper--cs .toggle-slider--cs,
+.column-padding-container--cs .toggle-wrapper--cs .toggle-slider--cs,
+.column-border-container--cs .toggle-wrapper--cs .toggle-slider--cs,
+.row-border-container--cs .toggle-wrapper--cs .toggle-slider--cs,
+.row-border-radius-container--cs .toggle-wrapper--cs .toggle-slider--cs,
+.columns-border-radius-container--cs .toggle-wrapper--cs .toggle-slider--cs {
+  direction: ltr;
+}
+
+/* Slider */
+.slider-container--cs {
+  direction: ltr;
+}
+
+.widget__labelmin--cs {
+  text-align: left;
+}
+
+/* Reverse Border for RTL */
+.radiogroup-options--button--cs .radiogroup-button--cs:first-child:not(div.paragraph-container .radiogroup-options--button--cs .radiogroup-button--cs):not(#tab__content__content div.widget-BeeTextAlign .radiogroup-options--button--cs .radiogroup-button--cs):not(div.divider-mode-container .radiogroup-options--button--cs .radiogroup-button--cs)
+{
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.radiogroup-options--button--cs .radiogroup-button--cs:last-child:not(div.paragraph-container .radiogroup-options--button--cs .radiogroup-button--cs):not(#tab__content__content div.widget-BeeTextAlign .radiogroup-options--button--cs .radiogroup-button--cs):not(div.divider-mode-container .radiogroup-options--button--cs .radiogroup-button--cs)
+{
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.input-text-boxed--cs > input,
+div.carousel-inputs-container--cs div.input-text-boxed--cs input {
+  border-bottom-left-radius: 0 !important;
+  border-right: none !important;
+  border-radius: 4px 0px 0px 4px !important;
+}
+
+.input-text-boxed--cs .widget__label--cs,
+div.carousel-inputs-container--cs div.input-text-boxed--cs label.widget__label {
+   border-left: none;
+}
+
+.input-text-boxed--cs .widget__label--cs,
+div.carousel-inputs-container--cs div.input-text-boxed--cs label.widget__label,
+div.tab-content--cs div.widget .input-border-inputs--cs div.dropdown-toggle
+{
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+
+  border-right: 1px solid var(--inputs-border-color) !important;
+  border-radius: 0px 4px 4px 0px !important;
+}
+
+div.tab-content--cs .input-border-inputs--cs .wrapper-color-selector--cs input {
+  border-right: none;
+  border-radius: 4px 0 0 4px !important;
+}
+
+div.tab-content--cs div.widget .input-border-inputs--cs button.input-number-plus--cs,
+div.tab-content--cs div.widget .input-border-inputs--cs button.input-number-minus--cs {
+  border-radius: 0px;
+}
+
+
+
+
+
+/* Preview Fixes */
+div.page-preview-titlebar--cs {
+  direction: rtl;
+  text-align: right;
+}
+
+div.page-preview-titlebar--cs .toggle-slider--cs {
+  direction: ltr;
+}
+
+div.page-preview-titlebar--cs .preview-device-toggle--cs svg {
+  margin: 0 0px -8px 8px;
+}
+
+/* Commenting */
+.comments-panel--cs,
+.comments-panel-thread__header--cs,
+.comments-panel--cs footer .mentions-textarea--cs .mce-content-body,
+.comments-panel--cs .comment-body--cs .mentions-textarea--cs .mce-content-body,
+.comments-panel-thread__body--cs .commenting-comment--cs {
+  direction: rtl;
+}
+.comments-panel-thread__body--cs .commenting-comment--cs {
+  padding: 0 60px 0 10px;
+}
+
+.comments-panel--cs footer .mentions-textarea--cs .mce-content-body,
+.comments-panel--cs .comment-body--cs .mentions-textarea--cs .mce-content-body {
+  text-align: right;
+}
+
+/* Comment avatar */
+.comments-panel-thread__body--cs .commenting-comment--cs .comment-avatar--cs {
+  right: -50px;
+  left: auto;
+}
+
+/* Comment actions menu */
+.comments-panel-thread__body--cs .commenting-comment--cs .comment-menu--cs {
+  left: 0;
+  right: auto;
+}
+.comments-panel-thread__body--cs .commenting-comment--cs .comment-menu-dropdown--cs {
+  left: 10px;
+  right: auto;
+  position: absolute;
+}
+
+.comments-threadbutton--cs svg {
+  margin: 0 0 0 8px;
+  transform: rotate(180deg);
+}
+
+.comments-panel-thread__filters--cs {
+  margin-right: 0;
+  margin-left: var(--system-space-3);
+}
+
+.comments-threadsorting-button--cs,
+.comments-panel-thread__title--cs,
+.comments-panel--cs .scrollable__panel--cs,
+.comments-panel--cs footer .mentions-textarea--cs {
+  direction: ltr;
+}
+
+.comments-threadsorting-menu--cs {
+  left: 15px;
+  right: auto;
+}
+
+.comment-popover-content span {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Modal windows */
+.modal--cs,
+.modal--cs .scrollable__panel--cs > div * {
+  direction: rtl;
+}
+
+.modal--cs .button-medium--cs.button-primary--cs {
+  margin-left: var(--system-space-6);
+}
+
+.modal--cs .scrollable__panel--cs {
+  direction: ltr;
+}
+
+
+.pagination--cs {
+  direction: rtl;
+}
+
+.pagination-prev--cs,
+.pagination-next--cs {
+  display: inline-block !important;
+  transform: scaleX(-1);
+}
+
+#tab__rows__content .dropdown-menu--cs > div[role=menu] {
+  right: auto;
+  left: var(--system-space-2);
+}
